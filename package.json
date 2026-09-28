@@ -12,8 +12,11 @@
     "comments:check": "node scripts/check-no-comments.mjs",
     "rig:check": "python -m py_compile tools/rig/run_server.py tools/rig/launch.py tools/rig/console_helper.py tools/rig/iostore_peek.py tools/rig/spud_peek.py",
     "facts:build": "node scripts/dragonwilds-build.mjs",
-    "verify:quick": "npm run format:check && npm run comments:check",
-    "verify": "npm run verify:quick && npm run rig:check"
+    "savereader:build": "node scripts/go.mjs savereader build",
+    "savereader:test": "node scripts/go.mjs savereader test",
+    "savereader:vet": "node scripts/go.mjs savereader vet",
+    "verify:quick": "npm run format:check && npm run comments:check && npm run savereader:vet",
+    "verify": "npm run verify:quick && npm run rig:check && npm run savereader:test && npm run savereader:build"
   },
   "devDependencies": {
     "prettier": "3.9.9",

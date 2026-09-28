@@ -8,6 +8,7 @@ playwright-report/
 !.env.example
 collector/bin/
 collector/dist/
+savereader/dist/
 *.exe
 local/
 *.zip
