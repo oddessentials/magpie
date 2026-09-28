@@ -10,7 +10,7 @@
     "format": "prettier --no-config --single-quote --trailing-comma none --print-width 100 --write .",
     "format:check": "prettier --no-config --single-quote --trailing-comma none --print-width 100 --check .",
     "comments:check": "node scripts/check-no-comments.mjs",
-    "rig:check": "python -m py_compile tools/rig/run_server.py tools/rig/console_helper.py tools/rig/iostore_peek.py tools/rig/spud_peek.py",
+    "rig:check": "python -m py_compile tools/rig/run_server.py tools/rig/launch.py tools/rig/console_helper.py tools/rig/iostore_peek.py tools/rig/spud_peek.py",
     "facts:build": "node scripts/dragonwilds-build.mjs",
     "verify:quick": "npm run format:check && npm run comments:check",
     "verify": "npm run verify:quick && npm run rig:check"
