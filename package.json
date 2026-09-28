@@ -16,6 +16,7 @@
     "verify": "npm run verify:quick && npm run rig:check"
   },
   "devDependencies": {
-    "prettier": "3.9.9"
+    "prettier": "3.9.9",
+    "sharp": "0.34.5"
   }
 }
