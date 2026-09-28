@@ -296,7 +296,7 @@ end
 
 local warned = {}
 
-local function hook(path, kind, describe_self)
+local function hook(path, kind, describe_self, on_event)
     local ok, err = pcall(RegisterHook, path, function(context, ...)
         local done, failure = pcall(function(...)
             local self = try(function()
@@ -308,6 +308,9 @@ local function hook(path, kind, describe_self)
             end
             fields.self = full_name(self)
             emit(kind, fields)
+            if on_event then
+                on_event(fields)
+            end
         end, ...)
         if not done and not warned[path] then
             warned[path] = true
@@ -336,5 +339,78 @@ hook("/Script/Dominion.BuildModeComponent:Client_TelemetryOnBuildingPieceComplet
 hook("/Script/Dominion.InventoryController:Server_CraftRecipe", "craft")
 hook("/Script/Dominion.InventoryController:Client_OnCraftingResultHandler", "craft_result")
 hook("/Script/Dominion.BaseTeleportationComponent:Server_TryTeleport", "teleport")
+local STOP = os.getenv("MAGPIE_STOP_FILE")
+local stopping = false
+local last_save = nil
 
-emit("mod_loaded", { file = OUT })
+hook("/Script/Dominion.PersistenceSubsystem:PostSaveWorldState", "save_done", false, function(fields)
+    last_save = fields
+end)
+
+local function quit()
+    local helpers = require("UEHelpers")
+    local world = try(helpers.GetWorld)
+    local library = try(helpers.GetKismetSystemLibrary)
+    if not (valid(world) and valid(library)) then
+        emit("quit_failed", { reason = "no world" })
+        return
+    end
+    emit("quit", {})
+    local ok, err = pcall(function()
+        library:ExecuteConsoleCommand(world, "quit", nil)
+    end)
+    if not ok then
+        emit("quit_failed", { reason = tostring(err) })
+    end
+end
+
+local function save_and_quit()
+    local subsystem = try(FindFirstOf, "PersistenceSubsystem")
+    if not valid(subsystem) then
+        emit("save_failed", { reason = "no persistence subsystem" })
+        quit()
+        return
+    end
+    local slot = try(function()
+        return subsystem.WorldSaveSettings.WorldSlotName
+    end)
+    if type(slot) ~= "string" then
+        slot = to_string(slot)
+    end
+    last_save = nil
+    emit("save_requested", { slot = slot })
+    local ok, err = pcall(function()
+        subsystem:SaveGame(true)
+    end)
+    if not ok then
+        emit("save_failed", { reason = tostring(err) })
+    end
+    local waited = 0
+    LoopAsync(1000, function()
+        waited = waited + 1
+        if last_save == nil and waited < 30 then
+            return false
+        end
+        ExecuteInGameThread(quit)
+        return true
+    end)
+end
+
+if STOP then
+    LoopAsync(2000, function()
+        if stopping then
+            return true
+        end
+        local file = io.open(STOP, "r")
+        if not file then
+            return false
+        end
+        file:close()
+        stopping = true
+        emit("stop_requested", { file = STOP })
+        ExecuteInGameThread(save_and_quit)
+        return true
+    end)
+end
+
+emit("mod_loaded", { file = OUT, stop = STOP })

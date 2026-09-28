@@ -79,7 +79,7 @@ def main():
     parser.add_argument('--minutes', type=float, default=2)
     parser.add_argument('--name', default=None)
     parser.add_argument('--stop-wait', type=int, default=90)
-    parser.add_argument('--stop', default='ctrlc', choices=['ctrlc', 'ctrlbreak', 'close', 'kill'])
+    parser.add_argument('--stop', default='ctrlc', choices=['ctrlc', 'ctrlbreak', 'close', 'kill', 'save'])
     parser.add_argument('--ue4ss', default=None)
     parser.add_argument('args', nargs='*')
     opts = parser.parse_args()
@@ -89,11 +89,17 @@ def main():
     if os.path.exists(LOG):
         os.remove(LOG)
     ue4ss = os.path.abspath(opts.ue4ss) if opts.ue4ss else None
+    stop_file = None
     if ue4ss:
-        for name in ('UE4SS.log', 'magpie-probe.txt', 'magpie-events.jsonl'):
-            stale = os.path.join(os.path.dirname(ue4ss), name)
+        folder = os.path.dirname(ue4ss)
+        for name in ('UE4SS.log', 'magpie-probe.txt', 'magpie-events.jsonl', 'magpie-stop.txt'):
+            stale = os.path.join(folder, name)
             if os.path.exists(stale):
                 os.remove(stale)
+        stop_file = os.path.join(folder, 'magpie-stop.txt')
+        os.environ.setdefault('MAGPIE_PROBE_FILE', os.path.join(folder, 'magpie-probe.txt'))
+        os.environ.setdefault('MAGPIE_EVENTS_FILE', os.path.join(folder, 'magpie-events.jsonl'))
+        os.environ['MAGPIE_STOP_FILE'] = stop_file
     args = [EXE, '-log', '-unattended', '-ForceLogFlush'] + opts.args
     started = time.time()
     pid, handle = launch.start(subprocess.list2cmdline(args), SERVER, ue4ss)
@@ -127,6 +133,13 @@ def main():
             print('time limit reached, stopping with %s' % opts.stop, flush=True)
             if opts.stop == 'close':
                 print('close posted %s to window %d' % (bool(ctypes.windll.user32.PostMessageW(hwnd, 0x0010, 0, 0)), hwnd), flush=True)
+            elif opts.stop == 'save':
+                if stop_file:
+                    with open(stop_file, 'w') as f:
+                        f.write('stop\n')
+                    print('stop file written', flush=True)
+                else:
+                    print('save stop needs --ue4ss', flush=True)
             elif opts.stop != 'kill':
                 console(opts.stop, pid)
             if opts.stop == 'kill':
@@ -145,6 +158,8 @@ def main():
             print('  ' + line[:220], flush=True)
     print('%s after %.0f s, exit code %s, peak working set %.0f MB' % (stopped_by, time.time() - started, code, peak_mb), flush=True)
     launch.close(handle)
+    if stop_file and os.path.exists(stop_file):
+        os.remove(stop_file)
     snapshot(session, ue4ss)
     try:
         os.remove(os.path.join(session, 'pid'))
