@@ -59,9 +59,10 @@
     <text x="898" y="578" fill="#aab3c5">#5a6274</text>
   </g>
   <g font-size="16" fill="#eef1f6">
-    <text x="48" y="640">Display: Grenze (SIL Open Font License), for the wordmark and headings.</text>
-    <text x="48" y="668">Body and code: IBM Plex Mono (SIL Open Font License), shared with Muninn and Skylark.</text>
-    <text x="48" y="696">Notes: Kalam (SIL Open Font License), for the handwritten asides.</text>
+    <text x="48" y="628">Display: Grenze (SIL Open Font License), for the wordmark and headings.</text>
+    <text x="48" y="654">Body and interface: Atkinson Hyperlegible Next (SIL Open Font License), for reading at a glance.</text>
+    <text x="48" y="680">Identifiers and code: Atkinson Hyperlegible Mono (SIL Open Font License).</text>
+    <text x="48" y="706">Notes: Kalam (SIL Open Font License), for the handwritten asides.</text>
   </g>
   <g transform="translate(1080 600) scale(1.6)">
     <circle cx="32" cy="32" r="31" fill="#3fc9b0"/>
