@@ -1,0 +1,11 @@
+*
+!scripts/
+!scripts/**
+!.github/
+!.github/**
+!docker-compose.yml
+!package.json
+!tools/
+!tools/**
+!art/
+!art/**

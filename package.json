@@ -1,0 +1,21 @@
+{
+  "name": "magpie",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "postinstall": "node scripts/postinstall.mjs",
+    "format": "prettier --no-config --single-quote --trailing-comma none --print-width 100 --write .",
+    "format:check": "prettier --no-config --single-quote --trailing-comma none --print-width 100 --check .",
+    "comments:check": "node scripts/check-no-comments.mjs",
+    "rig:check": "python -m py_compile tools/rig/run_server.py tools/rig/console_helper.py tools/rig/iostore_peek.py tools/rig/spud_peek.py",
+    "facts:build": "node scripts/dragonwilds-build.mjs",
+    "verify:quick": "npm run format:check && npm run comments:check",
+    "verify": "npm run verify:quick && npm run rig:check"
+  },
+  "devDependencies": {
+    "prettier": "3.9.9"
+  }
+}
