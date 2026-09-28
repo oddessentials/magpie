@@ -26,5 +26,24 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: savereader/go.mod
+          cache: false
       - run: npm ci
       - run: npm run verify
+
+  savereader-windows:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: savereader
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: savereader/go.mod
+          cache: false
+      - run: go vet ./...
+      - run: go test -count=1 ./...
