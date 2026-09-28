@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" font-family="Georgia, 'Times New Roman', serif">
+  <rect width="1200" height="760" fill="#101522"/>
+  <text x="48" y="64" fill="#eef1f6" font-size="34">Magpie palette and type</text>
+  <text x="48" y="94" fill="#aab3c5" font-size="16">Night blue surfaces, silver ink, an iridescent teal accent, heather and dusk gold from the wilds.</text>
+  <g font-size="14">
+    <rect x="48" y="130" width="150" height="90" fill="#101522" stroke="#26304a"/>
+    <text x="48" y="240" fill="#eef1f6">surface</text>
+    <text x="48" y="258" fill="#aab3c5">#101522</text>
+    <rect x="218" y="130" width="150" height="90" fill="#182034" stroke="#26304a"/>
+    <text x="218" y="240" fill="#eef1f6">surface raised</text>
+    <text x="218" y="258" fill="#aab3c5">#182034</text>
+    <rect x="388" y="130" width="150" height="90" fill="#0b0f19" stroke="#26304a"/>
+    <text x="388" y="240" fill="#eef1f6">surface sunken</text>
+    <text x="388" y="258" fill="#aab3c5">#0b0f19</text>
+    <rect x="558" y="130" width="150" height="90" fill="#eef1f6"/>
+    <text x="558" y="240" fill="#eef1f6">ink</text>
+    <text x="558" y="258" fill="#aab3c5">#eef1f6</text>
+    <rect x="728" y="130" width="150" height="90" fill="#aab3c5"/>
+    <text x="728" y="240" fill="#eef1f6">ink muted</text>
+    <text x="728" y="258" fill="#aab3c5">#aab3c5</text>
+    <rect x="898" y="130" width="150" height="90" fill="#26304a"/>
+    <text x="898" y="240" fill="#eef1f6">line</text>
+    <text x="898" y="258" fill="#aab3c5">#26304a</text>
+    <rect x="48" y="290" width="150" height="90" fill="#3fc9b0"/>
+    <text x="48" y="400" fill="#eef1f6">accent</text>
+    <text x="48" y="418" fill="#aab3c5">#3fc9b0</text>
+    <rect x="218" y="290" width="150" height="90" fill="#7ee6d0"/>
+    <text x="218" y="400" fill="#eef1f6">accent bright</text>
+    <text x="218" y="418" fill="#aab3c5">#7ee6d0</text>
+    <rect x="388" y="290" width="150" height="90" fill="#1c8a78"/>
+    <text x="388" y="400" fill="#eef1f6">accent deep</text>
+    <text x="388" y="418" fill="#aab3c5">#1c8a78</text>
+    <rect x="558" y="290" width="150" height="90" fill="#a77bd8"/>
+    <text x="558" y="400" fill="#eef1f6">heather</text>
+    <text x="558" y="418" fill="#aab3c5">#a77bd8</text>
+    <rect x="728" y="290" width="150" height="90" fill="#e3b34c"/>
+    <text x="728" y="400" fill="#eef1f6">gold</text>
+    <text x="728" y="418" fill="#aab3c5">#e3b34c</text>
+    <rect x="898" y="290" width="150" height="90" fill="#e0653c"/>
+    <text x="898" y="400" fill="#eef1f6">ember</text>
+    <text x="898" y="418" fill="#aab3c5">#e0653c</text>
+    <rect x="48" y="450" width="150" height="90" fill="#56c271"/>
+    <text x="48" y="560" fill="#eef1f6">online</text>
+    <text x="48" y="578" fill="#aab3c5">#56c271</text>
+    <rect x="218" y="450" width="150" height="90" fill="#d84f4f"/>
+    <text x="218" y="560" fill="#eef1f6">offline</text>
+    <text x="218" y="578" fill="#aab3c5">#d84f4f</text>
+    <rect x="388" y="450" width="150" height="90" fill="#2b2757"/>
+    <text x="388" y="560" fill="#eef1f6">dusk</text>
+    <text x="388" y="578" fill="#aab3c5">#2b2757</text>
+    <rect x="558" y="450" width="150" height="90" fill="#d98a5c"/>
+    <text x="558" y="560" fill="#eef1f6">horizon</text>
+    <text x="558" y="578" fill="#aab3c5">#d98a5c</text>
+    <rect x="728" y="450" width="150" height="90" fill="#1c3527"/>
+    <text x="728" y="560" fill="#eef1f6">moor</text>
+    <text x="728" y="578" fill="#aab3c5">#1c3527</text>
+    <rect x="898" y="450" width="150" height="90" fill="#5a6274"/>
+    <text x="898" y="560" fill="#eef1f6">stone</text>
+    <text x="898" y="578" fill="#aab3c5">#5a6274</text>
+  </g>
+  <g font-size="16" fill="#eef1f6">
+    <text x="48" y="640">Display: Grenze (SIL Open Font License), for the wordmark and headings.</text>
+    <text x="48" y="668">Body and code: IBM Plex Mono (SIL Open Font License), shared with Muninn and Skylark.</text>
+    <text x="48" y="696">Notes: Kalam (SIL Open Font License), for the handwritten asides.</text>
+  </g>
+  <g transform="translate(1080 600) scale(1.6)">
+    <circle cx="32" cy="32" r="31" fill="#3fc9b0"/>
+    <g transform="translate(32 32) scale(0.74) translate(-32 -32)">
+      <g fill="#f4f7fb">
+        <path d="M26 38 C20 44 13 52 6 60 C12 57 18 53 22.5 48.5 C25 46 27.5 43 31.5 40 Z"/>
+        <ellipse cx="32.5" cy="33.5" rx="12.5" ry="8" transform="rotate(-22 32.5 33.5)"/>
+        <circle cx="43" cy="22" r="6.5"/>
+        <path d="M49 20.5 L58 23 L49 25.5 Z"/>
+      </g>
+      <path d="M27 29.5 C33 25.5 40 27 44 31 C40 34 34 36 27.5 35.5 Z" fill="#101522"/>
+      <circle cx="45.2" cy="21" r="1.4" fill="#101522"/>
+      <path d="M59 11 L60.2 14.2 L63.4 15.4 L60.2 16.6 L59 19.8 L57.8 16.6 L54.6 15.4 L57.8 14.2 Z" fill="#e3b34c"/>
+    </g>
+  </g>
+</svg>

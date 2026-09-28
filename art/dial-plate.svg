@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <radialGradient id="stone" cx="45%" cy="40%" r="62%">
+      <stop offset="0" stop-color="#8f98aa"/>
+      <stop offset="0.65" stop-color="#5b6376"/>
+      <stop offset="1" stop-color="#363c4b"/>
+    </radialGradient>
+    <radialGradient id="field" cx="50%" cy="50%" r="55%">
+      <stop offset="0" stop-color="#1a2338"/>
+      <stop offset="0.7" stop-color="#101522"/>
+      <stop offset="1" stop-color="#0b0f19"/>
+    </radialGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3fc9b0" stop-opacity="0.32"/>
+      <stop offset="0.5" stop-color="#a77bd8" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#3fc9b0" stop-opacity="0.26"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8edf5" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#0b0f19" stop-opacity="0.6"/>
+    </linearGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.14"/>
+      </feComponentTransfer>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+  <circle cx="500" cy="500" r="492" fill="#0b0f19"/>
+  <circle cx="500" cy="500" r="480" fill="url(#stone)"/>
+  <circle cx="500" cy="500" r="480" fill="#ffffff" filter="url(#grain)"/>
+  <circle cx="500" cy="500" r="480" fill="none" stroke="url(#rim)" stroke-width="5"/>
+  <circle cx="500" cy="500" r="372" fill="url(#field)"/>
+  <circle cx="500" cy="500" r="372" fill="url(#sheen)"/>
+  <circle cx="500" cy="500" r="372" fill="none" stroke="#3fc9b0" stroke-opacity="0.55" stroke-width="4"/>
+  <circle cx="500" cy="500" r="384" fill="none" stroke="#0b0f19" stroke-opacity="0.7" stroke-width="10"/>
+  <g stroke="#e8edf5" stroke-opacity="0.8" stroke-linecap="round">
+    <g stroke-width="5">
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(15 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(30 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(60 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(75 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(105 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(120 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(150 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(165 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(195 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(210 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(240 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(255 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(285 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(300 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(330 500 500)"/>
+      <line x1="500" y1="86" x2="500" y2="108" transform="rotate(345 500 500)"/>
+    </g>
+    <g stroke-width="8">
+      <line x1="500" y1="82" x2="500" y2="112"/>
+      <line x1="500" y1="82" x2="500" y2="112" transform="rotate(45 500 500)"/>
+      <line x1="500" y1="82" x2="500" y2="112" transform="rotate(90 500 500)"/>
+      <line x1="500" y1="82" x2="500" y2="112" transform="rotate(135 500 500)"/>
+      <line x1="500" y1="82" x2="500" y2="112" transform="rotate(180 500 500)"/>
+      <line x1="500" y1="82" x2="500" y2="112" transform="rotate(225 500 500)"/>
+      <line x1="500" y1="82" x2="500" y2="112" transform="rotate(270 500 500)"/>
+      <line x1="500" y1="82" x2="500" y2="112" transform="rotate(315 500 500)"/>
+    </g>
+  </g>
+  <g fill="none" stroke="#0b0f19" stroke-opacity="0.85" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="rotate(0 500 500) translate(500 62)">
+      <path d="M0 -18 L0 18 M-14 -4 L0 -18 L14 -4"/>
+    </g>
+    <g transform="rotate(45 500 500) translate(500 62)">
+      <path d="M-12 -16 L12 16 M-12 16 L12 -16"/>
+    </g>
+    <g transform="rotate(90 500 500) translate(500 62)">
+      <path d="M0 -18 L0 18 M0 -2 L14 -16 M0 -2 L-14 -16"/>
+    </g>
+    <g transform="rotate(135 500 500) translate(500 62)">
+      <path d="M-14 -16 L-14 16 M14 -16 L14 16 M-14 0 L14 0"/>
+    </g>
+    <g transform="rotate(180 500 500) translate(500 62)">
+      <path d="M0 -18 L0 18 M-14 18 L0 4 L14 18"/>
+    </g>
+    <g transform="rotate(225 500 500) translate(500 62)">
+      <path d="M-12 -18 L-12 18 L12 -18 L12 18"/>
+    </g>
+    <g transform="rotate(270 500 500) translate(500 62)">
+      <path d="M0 -18 L0 18 M-14 -18 L14 -18 M-14 18 L14 18"/>
+    </g>
+    <g transform="rotate(315 500 500) translate(500 62)">
+      <path d="M-14 -16 L0 -2 L14 -16 M0 -2 L0 18"/>
+    </g>
+  </g>
+</svg>
