@@ -58,7 +58,7 @@ def snapshot(session, ue4ss):
         f.write('\n'.join(sorted(listing, key=lambda l: l.split('  ', 2)[2])) + '\n')
     if ue4ss:
         folder = os.path.dirname(ue4ss)
-        for name in ('UE4SS.log', 'magpie-probe.txt'):
+        for name in ('UE4SS.log', 'magpie-probe.txt', 'magpie-events.jsonl'):
             source = os.path.join(folder, name)
             if os.path.exists(source):
                 shutil.copy2(source, os.path.join(session, name))
@@ -90,7 +90,7 @@ def main():
         os.remove(LOG)
     ue4ss = os.path.abspath(opts.ue4ss) if opts.ue4ss else None
     if ue4ss:
-        for name in ('UE4SS.log', 'magpie-probe.txt'):
+        for name in ('UE4SS.log', 'magpie-probe.txt', 'magpie-events.jsonl'):
             stale = os.path.join(os.path.dirname(ue4ss), name)
             if os.path.exists(stale):
                 os.remove(stale)
