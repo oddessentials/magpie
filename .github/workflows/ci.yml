@@ -16,7 +16,9 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
+    env:
+      PG_DUMP: docker exec -i magpie-dev-db-1 pg_dump
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -30,8 +32,22 @@ jobs:
         with:
           go-version-file: savereader/go.mod
           cache: false
+      - run: docker compose up --detach --wait db
       - run: npm ci
+      - uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - run: npx playwright install --with-deps chromium
+        working-directory: web
       - run: npm run verify
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright-results
+          path: web/test-results
+          retention-days: 7
+          if-no-files-found: ignore
 
   savereader-windows:
     runs-on: windows-latest
