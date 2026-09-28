@@ -1,0 +1,2775 @@
+{
+  "source": {
+    "app": 4019830,
+    "build": 25465077,
+    "version": "1.0.0.5",
+    "container": "RSDragonwilds-WindowsServer"
+  },
+  "setting": "[/Script/Dominion.SkillSettings] XPCurveRowHandle",
+  "table": "/Game/Gameplay/Character/Player/Skills/CT_XPByLevel.CT_XPByLevel",
+  "row": "XPByLevel_011",
+  "interpolation": "RCIM_Linear",
+  "xpForLevel": [
+    0,
+    33,
+    70,
+    111,
+    156,
+    206,
+    261,
+    322,
+    389,
+    463,
+    545,
+    636,
+    736,
+    847,
+    969,
+    1104,
+    1253,
+    1417,
+    1598,
+    1798,
+    2018,
+    2261,
+    2529,
+    2825,
+    3152,
+    3512,
+    3910,
+    4349,
+    4833,
+    5367,
+    5957,
+    6608,
+    7326,
+    8118,
+    8993,
+    9958,
+    11023,
+    12199,
+    13496,
+    14929,
+    16510,
+    18255,
+    20181,
+    22307,
+    24654,
+    27245,
+    30105,
+    33262,
+    36747,
+    40594,
+    44581,
+    48717,
+    52997,
+    57421,
+    61990,
+    66702,
+    71560,
+    76562,
+    81708,
+    86998,
+    92433,
+    98012,
+    103735,
+    109603,
+    115616,
+    121772,
+    128073,
+    134518,
+    141108,
+    147842,
+    154720,
+    161743,
+    168910,
+    176222,
+    183678,
+    191278,
+    199022,
+    206911,
+    214944,
+    223122,
+    231444,
+    239910,
+    248521,
+    257276,
+    266176,
+    275219,
+    284407,
+    293740,
+    303217,
+    312838,
+    322604,
+    332514,
+    342568,
+    395129,
+    447689,
+    543044,
+    666881,
+    819200,
+    1000000
+  ],
+  "events": [
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Foundation_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Foundation_Tier1_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Floor_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Floor_Tier1_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Floor_Tier1_Sma",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Foundation_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Foundation_Tier2_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 6.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Wall_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Wall_Tier1_med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Wall_Tier1_Sma",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Window_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Door_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Roof_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Roof_Tier1_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Roof_Tier1_Sma",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Beam_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Beam_Tier1_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Stairs_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Stairs_Tier1_Tri",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Enclose_Walls",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 120.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Finish_Shelter",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 300.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Wall_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 16.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Wall_Tier2_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Wall_Tier2_Sma",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Floor_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Floor_Tier2_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 6.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Floor_Tier2_Sma",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Window_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Door_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Roof_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 24.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Roof_Tier2_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 16.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Roof_Tier2_Sma",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Beam_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Beam_Tier2_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Stairs_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Stairs_Tier2_Tri",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Repair_Piece",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Decoration_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Decoration_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 40.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Decoration_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 60.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Decoration_Tier4",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 80.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Processing_Station",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Crafting_Station",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Improvement",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 15.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Bed_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 9.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Bed_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 24.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Torch",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Storage_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 26.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Storage_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 62.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Rune_Altar",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Wall_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Wall_Tier3_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Wall_Tier3_Sma",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 9.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Floor_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 16.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Floor_Tier3_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Floor_Tier3_Sma",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 9.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Window_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Door_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 14.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Roof_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 28.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Roof_Tier3_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Roof_Tier3_Sma",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Beam_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Beam_Tier3_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Stairs_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Stairs_Tier3_Tri",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Foundation_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 16.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_Foundation_Tier3_Med",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_Building",
+      "row": "Build_IncidentalXP",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 120.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Weak_Potion",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Lesser_Potion",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Redberries",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Peach",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Divine_Cabbage",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Tier1_Food",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Tier2_Food",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Tier3_Food",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Bird_Nest",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Recipe_Cooking",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 100.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Wardstone",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ConsumeItems",
+      "row": "Consume_Recipe_Farming",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Craft_Crafting_Table_Recipe_Tier1",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Craft_Crafting_Table_Recipe_Tier2",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 40.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Craft_Smithing_Forge_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 60.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Craft_Smithing_Forge_Tier4",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 100.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Craft_Herblore_Lab_Recipe",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Craft_Cooking_Range_Recipe",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Craft_Cooking_Range_Delicious_Recipe",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 30.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Craft_Rune_Altar_Recipe",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Process_Smelting_Tier3",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Process_Smelting_Tier4",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Process_Smelting_Tier5",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 15.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Process_Smelting_Tier6",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Crafting",
+      "row": "Process_Smelting_Tier7",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 25.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Agility",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Artisan",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Attack",
+      "skills": [
+        {
+          "skill": "SKILL_Attack",
+          "xp": 0.800000011920929
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Construction",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Cooking",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Defence",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Herblore",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Magic",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Mining",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Ranged",
+      "skills": [
+        {
+          "skill": "SKILL_Ranged",
+          "xp": 0.800000011920929
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Runecrafting",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Thieving",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Woodcutting",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Farming",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Deleted_1",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Damage",
+      "row": "SkillDamage_Fishing",
+      "skills": [
+        {
+          "skill": null,
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Defense",
+      "row": "Defense_DamageReceived",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "Tilling",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "Watering_Stage_1",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "Watering_Stage_2",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 15.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "Watering_Stage_3",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "CuringPlant_Stage_1",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "CuringPlant_Stage_2",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "CuringPlant_Stage_3",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "Planting",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "Composting_Tier_1",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "Composting_Tier_2",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 50.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "Composting_Tier_3",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 30.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "Harvesting",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "TreePlanting",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Farming",
+      "row": "CreatingCurePotion",
+      "skills": [
+        {
+          "skill": "SKILL_Farming",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_AnimaInfusedBark",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 7.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_AshBranch",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_BittercapMushroom",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Cabbage",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Clay",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Flax",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Harrlander",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Marrentil",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Mushroom",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_OakBranch",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 8.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Onion",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Potato",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Sapling_Base",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Snapdragon",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Stone",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_SwampTar",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_SwampWeedPlant",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Toadflax",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Harvestable_DwellberryBush",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Harvestable_RedberryBush",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "SentientResource_Lampenflora",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "SentientResource_LuminousSnaggler",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Interactions",
+      "row": "Gatherable_Avantoe",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_ItemBuffs",
+      "row": "ItemBuff_Delicious",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_MeleeDamage",
+      "row": "MeleeDamage_Base",
+      "skills": [
+        {
+          "skill": "SKILL_Attack",
+          "xp": 0.33000001311302185
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_MeleeDamage",
+      "row": "MeleeDamage_Special",
+      "skills": [
+        {
+          "skill": "SKILL_Attack",
+          "xp": 0.5
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_MeleeDamage",
+      "row": "MeleeDamage_ComboFinisher",
+      "skills": [
+        {
+          "skill": "SKILL_Attack",
+          "xp": 0.5
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_MeleeDamage",
+      "row": "MeleeDamage_Visceral",
+      "skills": [
+        {
+          "skill": "SKILL_Attack",
+          "xp": 0.800000011920929
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Ore_Base_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Rock_Base_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.10000000149011612
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Rock_Base_Destroy",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "RuneEssence_Floating_Hit",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 2.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "RuneEssence_Rock_Hit",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "RuneEssence_Rock_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Copper_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Copper_Node_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 7.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Tin_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Tin_Node_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 7.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Silver_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Silver_Node_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Iron_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Iron_Node_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 7.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Gold_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.25
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Gold_Node_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Sandstone_Rock_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Sandstone_Rock_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 7.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Clay_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Clay_Node_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 7.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Stone_Rock_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.10000000149011612
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Stone_Rock_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Granite_Rock_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.25
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Granite_Rock_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 7.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Coal_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.15000000596046448
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Coal_Node_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 30.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Soulstone_Rock_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.5
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Soulstone_Rock_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 100.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Gypsum_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.30000001192092896
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Gypsum_Node_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 100.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Adamant_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Adamant_Node_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 70.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "DargonTooth_Rock_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.30000001192092896
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "DargonTooth_Rock_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 100.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Mithril_Node_Damage",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 0.20000000298023224
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Mining",
+      "row": "Mithril_Node_Destroy",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 40.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Animal_Crafting_Resource",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 0.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Spinning_Wheel_Processed_Item",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 12.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Loom_Processed_Item",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 24.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Tanning_Rack_Processed_Item",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Campfire_Processed_Water",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 1.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Campfire_Processed_Item",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Cooking_Pot_Processed_Item",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 15.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Furnace_Processed_Item",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Grindstone_Processed_Item",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Brewing_Station_Processed_Item",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Pickup",
+      "row": "Pickup_Lumber_Mill_Processed_Item",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 15.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_PlayerActions",
+      "row": "Action_Block",
+      "skills": [
+        {
+          "skill": "SKILL_Attack",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_PlayerActions",
+      "row": "Action_Evade",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_PlayerActions",
+      "row": "Action_Jump",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_PlayerActions",
+      "row": "Action_Jump_Windstep",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_PlayerActions",
+      "row": "Action_Parry",
+      "skills": [
+        {
+          "skill": "SKILL_Attack",
+          "xp": 6.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_PlayerActions",
+      "row": "Action_Sprint",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_PlayerActions",
+      "row": "Action_Stealth",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RangedDamage",
+      "row": "RangedDamage_Base",
+      "skills": [
+        {
+          "skill": "SKILL_Ranged",
+          "xp": 0.25
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RangedDamage",
+      "row": "RangedDamage_Perfect",
+      "skills": [
+        {
+          "skill": "SKILL_Ranged",
+          "xp": 0.5
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "SiphonRune",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "SiphonRuneConcentrated",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "RunesToRuneEssenceSpell",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 0.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "DetectAnimaVent",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 0.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "HighRuneEssenceStoneDestroy",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 700.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "AirlRuneCrafting",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 2.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "NatureRuneCrafting",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "LawRuneCrafting",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "AstrallRuneCrafting",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "WaterRuneCrafting",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 4.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "EarthRuneCrafting",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 5.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_RuneCrafting",
+      "row": "FireRuneCrafting",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 7.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_SpellDamage",
+      "row": "SpellDamage_Base",
+      "skills": [
+        {
+          "skill": "SKILL_Magic",
+          "xp": 0.25
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_SpellDamage",
+      "row": "SpellDamage_Special",
+      "skills": [
+        {
+          "skill": "SKILL_Magic",
+          "xp": 0.4000000059604645
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_SpellDamage",
+      "row": "SpellDamage_ComboFinisher",
+      "skills": [
+        {
+          "skill": "SKILL_Magic",
+          "xp": 0.4000000059604645
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Transmute_Splinter_WholeLog",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 100.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Transmute_Splinter_HalfLog",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 50.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Transmute_Splinter_QuarterLog",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 25.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Transmute_Splinter_ThreeQuarterLog",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 75.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_Firespirit",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_SummonDigestive",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_Windstep",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_RapidGrowth",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_DetectOre",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_EnchantCampfire",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_FerociousFurnace",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_CabbageRain",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 25.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_BonesToPeaches",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 15.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_Splinter",
+      "skills": [],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_MagicalMending",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 15.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_EnchantChefsTools",
+      "skills": [
+        {
+          "skill": "SKILL_Cooking",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_Treequipment",
+      "skills": [
+        {
+          "skill": "SKILL_Artisan",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_Rocksplosion",
+      "skills": [
+        {
+          "skill": "SKILL_Mining",
+          "xp": 10.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_SummonShelter",
+      "skills": [
+        {
+          "skill": "SKILL_Construction",
+          "xp": 20.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Spells",
+      "row": "Spell_DetectAnimaVents",
+      "skills": [
+        {
+          "skill": "SKILL_Runecrafting",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Log_Base_VerticalChop",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.15000000596046448
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Log_Base_HorizontalChop",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.10000000149011612
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Log_Base_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Tree_Base_VerticalChop",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.009999999776482582
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Tree_Base_HorizontalChop",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.10000000149011612
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Tree_Base_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Tree_Oak_Destroyed",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Log_Base_VertialChop_PowerLevel_3_4",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.15000000596046448
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Log_Base_HorizontalChop_PowerLevel_3_4",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.019999999552965164
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Log_Base_Destroyed_PowerLevel_3_4",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Tree_Base_HorizontalChop_PowerLevel_3_4",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.10000000149011612
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Tree_Base_Destroyed_PowerLevel_3_4",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Log_Base_VertialChop_PowerLevel_5_6",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.029999999329447746
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Log_Base_HorizontalChop_PowerLevel_5_6",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.014999999664723873
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Log_Base_Destroyed_PowerLevel_5_6",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Tree_Base_HorizontalChop_PowerLevel_5_6",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 0.10000000149011612
+        }
+      ],
+      "debtSeconds": 0.0
+    },
+    {
+      "table": "DT_XPEvents_Woodcutting",
+      "row": "Tree_Base_Destroyed_PowerLevel_5_6",
+      "skills": [
+        {
+          "skill": "SKILL_Woodcutting",
+          "xp": 3.0
+        }
+      ],
+      "debtSeconds": 0.0
+    }
+  ]
+}

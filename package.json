@@ -10,13 +10,15 @@
     "format": "prettier --no-config --single-quote --trailing-comma none --print-width 100 --write .",
     "format:check": "prettier --no-config --single-quote --trailing-comma none --print-width 100 --check .",
     "comments:check": "node scripts/check-no-comments.mjs",
-    "rig:check": "python -m py_compile tools/rig/run_server.py tools/rig/launch.py tools/rig/console_helper.py tools/rig/iostore_peek.py tools/rig/spud_peek.py",
+    "rig:check": "python -m py_compile tools/rig/run_server.py tools/rig/launch.py tools/rig/console_helper.py tools/rig/iostore_peek.py tools/rig/spud_peek.py tools/rig/usmap_peek.py",
+    "facts:extract": "python tools/gamefacts/extract.py",
+    "facts:check": "python -m unittest discover -s tools/gamefacts -p \"test_*.py\"",
     "facts:build": "node scripts/dragonwilds-build.mjs",
     "savereader:build": "node scripts/go.mjs savereader build",
     "savereader:test": "node scripts/go.mjs savereader test",
     "savereader:vet": "node scripts/go.mjs savereader vet",
     "verify:quick": "npm run format:check && npm run comments:check && npm run savereader:vet",
-    "verify": "npm run verify:quick && npm run rig:check && npm run savereader:test && npm run savereader:build"
+    "verify": "npm run verify:quick && npm run rig:check && npm run facts:check && npm run savereader:test && npm run savereader:build"
   },
   "devDependencies": {
     "prettier": "3.9.9",
