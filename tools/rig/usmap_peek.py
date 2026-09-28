@@ -113,7 +113,7 @@ def main():
     print('usmap version %d, %d names, %d enums, %d structs and classes' % (version, len(names), len(enums), len(structs)))
     for name in wanted:
         if name in enums:
-            print('\nenum %s: %s' % (name, ', '.join(enums[name])))
+            print('\nenum %s: %s' % (name, ', '.join('%s=%d' % entry for entry in enums[name])))
             continue
         if name not in structs:
             matches = [n for n in order if name.lower() in n.lower()][:20]

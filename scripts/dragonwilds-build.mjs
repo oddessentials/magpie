@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
 const recorded = JSON.parse(
-  readFileSync(new URL('../tools/rig/build.json', import.meta.url), 'utf8')
+  readFileSync(new URL('../web/src/lib/world/build.json', import.meta.url), 'utf8')
 );
 
 async function publicBuild(app) {
@@ -53,7 +53,7 @@ const body = [
   '',
   '- [ ] Update the rig with SteamCMD, run `tools/rig/run_server.py` once, and diff the generated `DedicatedServer.ini`, the startup log and the log templates against the previous session.',
   '- [ ] Run `tools/rig/spud_peek.py` on a fresh world save and a player save; note any new chunk or header field.',
-  '- [ ] Run `tools/rig/iostore_peek.py` and check the package flags and container layout.',
-  '- [ ] Record the new builds in `tools/rig/build.json` and note what changed.'
+  '- [ ] Dump a new mappings file with the `MagpieUsmap` mod into `tools/rig/mappings` and remove the old one.',
+  '- [ ] Run `npm run facts:extract` with both installs present, review the diff under `web/src/lib/world` and note what changed.'
 ].join('\n');
 execFileSync('gh', ['issue', 'create', '--title', title, '--body', body], { stdio: 'inherit' });

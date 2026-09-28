@@ -1,0 +1,10 @@
+{
+  "server_app": 4019830,
+  "server_build": 25465077,
+  "client_app": 1374490,
+  "client_build": 25466454,
+  "version": "1.0.0.5",
+  "container": "RSDragonwilds-WindowsServer",
+  "mappings": "RSDragonwilds-5.6.1-244954+++dominion+hotfix-03dbd5c0.usmap",
+  "extracted": "2026-09-28"
+}
