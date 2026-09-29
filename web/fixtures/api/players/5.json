@@ -1,0 +1,174 @@
+{
+  "id": 5,
+  "name": "Wren",
+  "platform": "pc",
+  "online": true,
+  "first_seen": "2026-09-23T15:02:15.000Z",
+  "last_seen": "2026-09-28T20:30:05.000Z",
+  "playtime_s": 31645,
+  "sessions": 5,
+  "deaths": 2,
+  "current_session": { "id": 26, "joined_at": "2026-09-28T19:50:00.000Z" },
+  "chat_messages": 10,
+  "recent_sessions": [
+    {
+      "id": 26,
+      "joined_at": "2026-09-28T19:50:00.000Z",
+      "left_at": null,
+      "duration_s": null,
+      "end_reason": null,
+      "deaths": 0
+    },
+    {
+      "id": 18,
+      "joined_at": "2026-09-26T15:44:05.000Z",
+      "left_at": "2026-09-26T17:56:55.100Z",
+      "duration_s": 7970,
+      "end_reason": "left",
+      "deaths": 0
+    },
+    {
+      "id": 12,
+      "joined_at": "2026-09-25T15:02:37.000Z",
+      "left_at": "2026-09-25T16:16:35.100Z",
+      "duration_s": 4438,
+      "end_reason": "left",
+      "deaths": 2
+    },
+    {
+      "id": 8,
+      "joined_at": "2026-09-24T14:02:22.000Z",
+      "left_at": "2026-09-24T16:58:53.100Z",
+      "duration_s": 10591,
+      "end_reason": "left",
+      "deaths": 0
+    },
+    {
+      "id": 5,
+      "joined_at": "2026-09-23T15:02:15.000Z",
+      "left_at": "2026-09-23T16:46:16.100Z",
+      "duration_s": 6241,
+      "end_reason": "left",
+      "deaths": 0
+    }
+  ],
+  "recent_deaths": [
+    { "at": "2026-09-25T16:10:01.000Z", "cause": "combat", "killer": "a chicken", "source": "mod" },
+    { "at": "2026-09-25T15:36:01.000Z", "cause": "combat", "killer": "a kebbit", "source": "mod" }
+  ],
+  "character": {
+    "saved_at": "2026-09-28T20:29:00.000Z",
+    "playtime_s": 31440,
+    "health": { "current": 80, "max": 100 },
+    "skills": [
+      {
+        "id": "pJggvotwOkuoc98igUn7xA",
+        "name": "Agility",
+        "xp": 337,
+        "level": 8,
+        "level_xp": 322,
+        "next_level_xp": 389
+      },
+      {
+        "id": "Wf3i7Ha-B06DH719j1vtBw",
+        "name": "Artisan",
+        "xp": 747,
+        "level": 13,
+        "level_xp": 736,
+        "next_level_xp": 847
+      },
+      {
+        "id": "4pefO9k1lUqfA6mvHNi1SA",
+        "name": "Attack",
+        "xp": 721,
+        "level": 12,
+        "level_xp": 636,
+        "next_level_xp": 736
+      },
+      {
+        "id": "waK-8EyQFQ2xEjCGYmuTRQ",
+        "name": "Construction",
+        "xp": 2184,
+        "level": 21,
+        "level_xp": 2018,
+        "next_level_xp": 2261
+      },
+      {
+        "id": "Tn7t6DQyX0-Q0cM5K7B90A",
+        "name": "Cooking",
+        "xp": 2538,
+        "level": 23,
+        "level_xp": 2529,
+        "next_level_xp": 2825
+      },
+      {
+        "id": "0hreSMRVXUihq9qjDO2CFA",
+        "name": "Magic",
+        "xp": 1796,
+        "level": 19,
+        "level_xp": 1598,
+        "next_level_xp": 1798
+      },
+      {
+        "id": "jqX0Gh6QI0GFFPCDFK_CJQ",
+        "name": "Mining",
+        "xp": 1039,
+        "level": 15,
+        "level_xp": 969,
+        "next_level_xp": 1104
+      },
+      {
+        "id": "heq7u88Q2UuLXFqLGTVwQw",
+        "name": "Ranged",
+        "xp": 877,
+        "level": 14,
+        "level_xp": 847,
+        "next_level_xp": 969
+      },
+      {
+        "id": "NOqC-z-2ckqi0El22qMFlw",
+        "name": "Runecrafting",
+        "xp": 1167,
+        "level": 16,
+        "level_xp": 1104,
+        "next_level_xp": 1253
+      },
+      {
+        "id": "4zYUGF5u_0KbMLkWJmmBbQ",
+        "name": "Woodcutting",
+        "xp": 2263,
+        "level": 22,
+        "level_xp": 2261,
+        "next_level_xp": 2529
+      },
+      {
+        "id": "PyUi-0LU_riFY46AnnFiWg",
+        "name": "Farming",
+        "xp": 786,
+        "level": 13,
+        "level_xp": 736,
+        "next_level_xp": 847
+      },
+      {
+        "id": "vwY5IkQJJDwb2PKEfoc8MQ",
+        "name": "Fishing",
+        "xp": 1812,
+        "level": 20,
+        "level_xp": 1798,
+        "next_level_xp": 2018
+      }
+    ],
+    "total_level": 196,
+    "quests": { "active": 2, "completed": 1 },
+    "journal": { "unlocked": 43, "unread": 13 },
+    "spells": 7,
+    "regions_revealed": 9
+  },
+  "feats": {
+    "journal_entries": 43,
+    "level_ups": 23,
+    "quests_completed": 1,
+    "buildings": 32,
+    "crafts": 24
+  }
+}

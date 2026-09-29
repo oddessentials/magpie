@@ -132,7 +132,7 @@ describe('POST /api/ingest', () => {
       .from(deaths)
       .where(sql`${deaths.mergedEventId} is not null`);
     expect(merged.length).toBe(fromLog.length);
-    expect(merged.some((death) => death.killer !== null)).toBe(true);
+    expect(merged.every((death) => death.cause !== null)).toBe(true);
     const questsDone = typed('quest.updated').filter(
       (event) => (event.data as { state: string }).state === 'Completed'
     );
@@ -198,8 +198,9 @@ describe('POST /api/ingest', () => {
     const detail = await getPlayer(db, row!.id, defaultSettings.features);
     expect(detail.character).not.toBeNull();
     expect(detail.character!.skills).toHaveLength(12);
-    expect(detail.character!.skills.every((skill) => skill.level === null)).toBe(true);
-    expect(detail.character!.total_level).toBeNull();
+    expect(detail.character!.skills.every((skill) => skill.level !== null)).toBe(true);
+    expect(detail.character!.skills.map((skill) => skill.name)).toContain('Mining');
+    expect(detail.character!.total_level).toBeGreaterThan(11);
     expect(detail.character!.journal.unlocked).toBeGreaterThan(0);
     expect(detail.chat_messages).toBeNull();
     expect(detail.feats).not.toBeNull();

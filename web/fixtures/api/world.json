@@ -1,0 +1,31 @@
+{
+  "name": "Magpie Test Server",
+  "world_name": "magpie-test",
+  "version": "1.0.0.5",
+  "max_players": 6,
+  "save": {
+    "saved_at": "2026-09-28T20:29:00.000Z",
+    "day": 299,
+    "time_of_day": 23.5,
+    "weather": [
+      { "region": "base", "type": "Storm", "day_count": 299, "remaining_s": 803 },
+      { "region": "dowdun", "type": "Sunny", "day_count": 299, "remaining_s": 834 },
+      { "region": "sands", "type": "Cloudy", "day_count": 299, "remaining_s": 865 }
+    ],
+    "events": [],
+    "hardcore": false,
+    "friendly_fire": false,
+    "difficulty": "Normal",
+    "size_bytes": 732000
+  },
+  "totals": {
+    "players": 6,
+    "sessions": 26,
+    "playtime_s": 130779,
+    "deaths": 17,
+    "level_ups": 112,
+    "journal_entries": 228,
+    "quests_completed": 13
+  },
+  "tracking_since": "2026-09-21T20:30:00.000Z"
+}

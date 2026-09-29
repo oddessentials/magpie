@@ -1069,6 +1069,7 @@ export interface components {
     PlayerSkill: {
       id: string;
       level: number | null;
+      level_xp: number | null;
       name: string | null;
       next_level_xp: number | null;
       xp: number;

@@ -12,10 +12,13 @@
     const count = Math.max(12, skills.length);
     return Array.from({ length: count }, (_, index) => {
       const skill = skills[index];
+      const floor = skill?.level_xp ?? 0;
       const share =
-        skill && skill.next_level_xp !== null && skill.next_level_xp > 0
-          ? Math.max(0, Math.min(1, skill.xp / skill.next_level_xp))
-          : 0;
+        skill && skill.next_level_xp !== null && skill.next_level_xp > floor
+          ? Math.max(0, Math.min(1, (skill.xp - floor) / (skill.next_level_xp - floor)))
+          : skill && skill.level !== null
+            ? 1
+            : 0;
       return {
         key: skill?.id ?? `slot-${index}`,
         name: skill?.name ?? t.player.skillPlaceholder(index + 1),

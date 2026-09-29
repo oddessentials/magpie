@@ -1416,7 +1416,7 @@ components:
           type:
             - string
             - 'null'
-          description: The entry's name from the game facts, or null until they exist.
+          description: The entry's name from the game facts (journal.json), or null for an entry they do not list.
         skill:
           type: string
         skill_name:
@@ -1645,11 +1645,11 @@ components:
       additionalProperties: false
     PlayerSkill:
       type: object
-      description: One of the character's skills as the world save records it. The level comes from the experience through the game's experience table once the game facts supply it; until then it is null and the site shows experience only.
+      description: One of the character's skills as the world save records it. The twelve skills of the game facts (skills.json) come first in the game's order, with the level read off the experience curve (xp.json, level 2 at 33 experience, level 99 at 1,000,000); a skill the save names that the facts do not know follows with a null name and level.
       properties:
         id:
           type: string
-          description: The skill id as the save records it, opaque until the game facts name it.
+          description: The skill's persistence id, as the save and skills.json key it.
         name:
           type:
             - string
@@ -1662,16 +1662,24 @@ components:
             - integer
             - 'null'
           minimum: 1
+        level_xp:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+          description: The experience at which the current level begins.
         next_level_xp:
           type:
             - number
             - 'null'
           minimum: 0
+          description: The experience at which the next level begins, null at the maximum level.
       required:
         - id
         - name
         - xp
         - level
+        - level_xp
         - next_level_xp
       additionalProperties: false
     PlayerHealth:
@@ -1738,7 +1746,7 @@ components:
             - integer
             - 'null'
           minimum: 0
-          description: The sum of the skill levels, null until the levels are known.
+          description: The sum of the known skill levels.
         quests:
           $ref: '#/components/schemas/PlayerQuests'
         journal:

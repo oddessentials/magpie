@@ -4,6 +4,7 @@ import { deaths, events, players, sessions, type EventRow } from '../db/schema';
 import { badRequest, type KeysetPage } from '../http/respond';
 import type { Features } from '../settings';
 import { chatChannel, playerRef, playersById, type Schemas } from './common';
+import { journalNameOf, questNameOf, skillOf } from './facts';
 
 export type ActivityItem = Schemas['ActivityItem'];
 export type ActivityType = Schemas['ActivityType'];
@@ -97,16 +98,16 @@ export async function buildActivityItems(db: Database, rows: EventRow[]): Promis
       }
       case 'journal.unlocked':
         details.entry = stringOf(data.entry) ?? '';
-        details.entry_name = null;
+        details.entry_name = journalNameOf(details.entry);
         break;
       case 'skill.level_up':
         details.skill = stringOf(data.skill) ?? '';
-        details.skill_name = null;
+        details.skill_name = skillOf(details.skill)?.name ?? null;
         details.level = numberOf(data.level) ?? 0;
         break;
       case 'quest.updated':
         details.quest = stringOf(data.quest) ?? '';
-        details.quest_name = null;
+        details.quest_name = questNameOf(details.quest);
         details.state = stringOf(data.state) ?? '';
         details.objective = stringOf(data.objective);
         break;

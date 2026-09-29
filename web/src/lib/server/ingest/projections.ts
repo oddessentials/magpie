@@ -394,7 +394,7 @@ async function questUpdated(
   const data = event.data as unknown as Schemas['QuestUpdatedData'];
   const player = await identifyPlayer(ctx, data, ts);
   if (!player) return { playerId: null, quiet: true };
-  const completed = data.state.toLowerCase() === 'completed';
+  const completed = ['completed', 'complete'].includes(data.state.toLowerCase());
   if (completed) await recordFeat(ctx, event, ts, player, 'quest', data.quest, null);
   return { playerId: player.id, quiet: !completed };
 }

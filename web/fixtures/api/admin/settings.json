@@ -1,0 +1,6 @@
+{
+  "site_name": "Dragonwilds server",
+  "features": { "chat": true },
+  "retention": { "metrics_days": 30, "status_samples_days": 90, "world_saves_days": 30 },
+  "locked": []
+}

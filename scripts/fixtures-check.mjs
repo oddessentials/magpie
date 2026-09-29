@@ -195,13 +195,28 @@ const privatePatterns = [
   [/\b[0-9a-f]{32}\b/, 'an account id'],
   [/\b[0-9A-F]{32}\b/, 'a character or world guid'],
   [/\b(?:\d{1,3}\.){3}\d{1,3}\b/, 'an IP address'],
-  [/\b[A-Z0-9]{4}-[A-Z0-9]{4}\b/, 'a join code'],
+  [
+    /\b(?=[A-Z0-9]{4}-[A-Z0-9]{4}\b)(?:[0-9A-F]*[G-Z]|[0-9A-F]{4}-[0-9A-F]*[G-Z])[A-Z0-9-]*/,
+    'a join code'
+  ],
   [/\?p=/, 'a login password']
 ];
+const versionKeys = new Set(['version', 'server_version', 'site_version']);
+function withoutVersions(value) {
+  if (Array.isArray(value)) return value.map(withoutVersions);
+  if (value && typeof value === 'object') {
+    const out = {};
+    for (const [key, entry] of Object.entries(value)) {
+      if (!versionKeys.has(key)) out[key] = withoutVersions(entry);
+    }
+    return out;
+  }
+  return value;
+}
 const publicTexts = [...documents]
   .filter(([file]) => !file.startsWith('admin/'))
-  .map(([file, document]) => [file, JSON.stringify(document)]);
-publicTexts.push(['stream.json', JSON.stringify(frames)]);
+  .map(([file, document]) => [file, JSON.stringify(withoutVersions(document))]);
+publicTexts.push(['stream.json', JSON.stringify(withoutVersions(frames))]);
 for (const [file, text] of publicTexts) {
   for (const [pattern, what] of privatePatterns) {
     const match = pattern.exec(text);

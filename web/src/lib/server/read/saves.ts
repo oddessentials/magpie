@@ -2,17 +2,52 @@ import { desc, eq, isNull, and } from 'drizzle-orm';
 import type { Database } from '../db/client';
 import { characterSaves, worldSaves, type CharacterSaveRow, type WorldSaveRow } from '../db/schema';
 import type { Schemas } from './common';
+import { levelForXp, skillFacts, skillOf, xpToReach } from './facts';
 
 export type PlayerCharacter = Schemas['PlayerCharacter'];
+export type PlayerSkill = Schemas['PlayerSkill'];
 export type WorldSave = Schemas['WorldSave'];
 
-export function skillNameOf(id: string): string | null {
-  return id === '' ? null : null;
+const completedStates = new Set(['completed', 'complete']);
+
+export function skillsOf(saved: { id: string; xp: number }[]): PlayerSkill[] {
+  const byId = new Map(saved.map((skill) => [skill.id, skill.xp]));
+  const known = skillFacts.map((fact) => {
+    const xp = byId.get(fact.id) ?? 0;
+    const level = levelForXp(xp, fact.maxLevel);
+    return {
+      id: fact.id,
+      name: fact.name,
+      xp,
+      level,
+      level_xp: xpToReach(level),
+      next_level_xp: level >= fact.maxLevel ? null : xpToReach(level + 1)
+    };
+  });
+  const extra = saved
+    .filter((skill) => !skillOf(skill.id))
+    .map((skill) => ({
+      id: skill.id,
+      name: null,
+      xp: skill.xp,
+      level: null,
+      level_xp: null,
+      next_level_xp: null
+    }));
+  return [...known, ...extra];
+}
+
+export function totalLevelOf(skills: PlayerSkill[]): number | null {
+  const levels = skills.map((skill) => skill.level).filter((level) => level !== null);
+  return levels.length === 0 ? null : levels.reduce((sum, level) => sum + level, 0);
 }
 
 export function characterOf(row: CharacterSaveRow | null | undefined): PlayerCharacter | null {
   if (!row || row.goneAt) return null;
-  const completed = row.quests.filter((quest) => quest.state.toLowerCase() === 'completed').length;
+  const completed = row.quests.filter((quest) =>
+    completedStates.has(quest.state.toLowerCase())
+  ).length;
+  const skills = skillsOf(row.skills);
   return {
     saved_at: row.savedAt.toISOString(),
     playtime_s: row.playtimeS,
@@ -20,14 +55,8 @@ export function characterOf(row: CharacterSaveRow | null | undefined): PlayerCha
       row.health !== null && row.maxHealth !== null
         ? { current: row.health, max: row.maxHealth }
         : null,
-    skills: row.skills.map((skill) => ({
-      id: skill.id,
-      name: skillNameOf(skill.id),
-      xp: skill.xp,
-      level: null,
-      next_level_xp: null
-    })),
-    total_level: null,
+    skills,
+    total_level: totalLevelOf(skills),
     quests: { active: row.quests.length - completed, completed },
     journal: { unlocked: row.journalUnlocked ?? 0, unread: row.journalUnread ?? 0 },
     spells: row.spells,

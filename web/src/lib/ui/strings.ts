@@ -221,7 +221,7 @@ export const t = {
     },
     skillsTitle: 'Skills',
     skillsNote:
-      'twelve skills from the character save; levels appear once the experience table is known.',
+      'the twelve skills from the character save, levelled by the game’s experience curve.',
     skillsEmpty: 'The collector has not read this character from the world save yet.',
     skillPlaceholder: (n: number) => `Skill ${n}`,
     totalLevel: 'Total level',

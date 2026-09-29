@@ -1,5 +1,23 @@
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import type { CollectorEvent, IngestBatch, ServerInfo } from '../../src/lib/api/types.ts';
+
+function readWorld<T>(name: string): T {
+  return JSON.parse(
+    readFileSync(new URL(`../../src/lib/world/${name}.json`, import.meta.url), 'utf8')
+  ) as T;
+}
+
+const skillFacts = readWorld<{ skills: { id: string; enum: number; deleted: boolean }[] }>('skills')
+  .skills.filter((skill) => !skill.deleted)
+  .sort((a, b) => a.enum - b.enum);
+const xpCurve = readWorld<{ xpForLevel: number[] }>('xp').xpForLevel;
+const journalFacts = readWorld<{
+  entries: { asset: string; deleted: boolean; category: string }[];
+}>('journal').entries.filter((entry) => !entry.deleted);
+const questFacts = readWorld<{ quests: { asset: string; deleted: boolean; hidden: boolean }[] }>(
+  'quests'
+).quests.filter((quest) => !quest.deleted && !quest.hidden);
 
 export interface SimulatedPlayer {
   userId: string;
@@ -68,45 +86,25 @@ const cast: Omit<SimulatedPlayer, 'userId' | 'characterGuid' | 'platform'>[] = [
   { name: 'Bramble', appetite: 0.5, startHour: 16, minMinutes: 40, maxMinutes: 140 }
 ];
 
-export const skillIds = Array.from({ length: 12 }, (_, index) =>
-  hex(`skill-${index}`, 8).toUpperCase()
-);
+export const skillIds = skillFacts.map((skill) => skill.id);
 
-const journalPool = [
-  'JOURNAL_World_Fauna_Chicken',
-  'JOURNAL_World_Fauna_Kebbit',
-  'JOURNAL_World_Fauna_Goblin',
-  'JOURNAL_World_Flora_AshTree',
-  'JOURNAL_World_Flora_AshSapling',
-  'JOURNAL_World_Flora_Redberries',
-  'JOURNAL_World_Flora_Seeds_Redberry',
-  'JOURNAL_World_Materials_Stone',
-  'JOURNAL_World_Materials_Copper',
-  'JOURNAL_Recipes_Rune_Air',
-  'JOURNAL_Recipes_Food_Redberry',
-  'JOURNAL_Recipes_Food_Fillet_Bird',
-  'JOURNAL_Recipes_Drink_Water_Clean',
-  'JOURNAL_Recipes_Armour_Cape_Community',
-  'JOURNAL_Know_Place_BramblemeadValley',
-  'JOURNAL_Know_Place_TempleWoods',
-  'JOURNAL_Know_Place_WhisperingSwamp',
-  'JOURNAL_Know_People_Doric',
-  'JOURNAL_Know_People_Vannaka'
-];
+const journalPool = journalFacts
+  .filter((entry) => entry.category === 'World' || entry.asset.startsWith('JOURNAL_Recipes_'))
+  .map((entry) => entry.asset)
+  .sort()
+  .filter((_, index) => index % 23 === 0)
+  .slice(0, 40);
 
-const loginFlood = [
-  'JOURNAL_Know_Tutorials_Movement',
-  'JOURNAL_Know_Tutorials_Attack',
-  'JOURNAL_Know_Tutorials_Food'
-];
+const loginFlood = journalFacts
+  .filter((entry) => entry.asset.startsWith('JOURNAL_Know_Tutorials_'))
+  .map((entry) => entry.asset)
+  .sort()
+  .slice(0, 3);
 
-const questPool = [
-  'QUEST_Brynmoor_Arrival',
-  'QUEST_Brynmoor_Sanctuary',
-  'QUEST_Brynmoor_Anima',
-  'QUEST_Ghornfell_Ascent',
-  'QUEST_Fellhollow_Descent'
-];
+const questPool = questFacts
+  .map((quest) => quest.asset)
+  .sort()
+  .slice(0, 6);
 
 const buildingPool = [
   'BP_Building_Wall_Wood',
@@ -187,7 +185,7 @@ interface PlayerState {
 }
 
 function xpForLevel(level: number): number {
-  return Math.round(80 * level * level);
+  return xpCurve[Math.min(level, xpCurve.length) - 1] ?? xpCurve[xpCurve.length - 1]!;
 }
 
 export function generateHistory(options: GeneratorOptions = {}): SimulatedHistory {
@@ -254,11 +252,14 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
       if (last && session.from <= last.to + 5 * 60_000) last.to = Math.max(last.to, session.to);
       else merged.push({ ...session });
     }
-    const levels = skillIds.map(() => 1 + Math.floor(random() * 8));
+    const levels = skillIds.map(() => 3 + Math.floor(random() * 20));
     return {
       player,
       sessions: merged,
-      xp: levels.map((level) => xpForLevel(level) + Math.floor(random() * 200)),
+      xp: levels.map(
+        (level) =>
+          xpForLevel(level) + Math.floor(random() * (xpForLevel(level + 1) - xpForLevel(level)))
+      ),
       levels,
       journal: new Set(),
       quests: new Map(),
@@ -500,7 +501,7 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
         }
       }
       const skill = Math.floor(modRandom() * skillIds.length);
-      const gain = 20 + Math.floor(modRandom() * 60);
+      const gain = 3 + Math.floor(modRandom() * 12);
       state.xp[skill] = (state.xp[skill] ?? 0) + gain;
       if (modRandom() < 0.35) {
         pushMod(ms, 'player.xp', {
@@ -544,7 +545,7 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
           count: 1 + Math.floor(modRandom() * 5)
         });
       }
-      const deathChance = (dtS / 3600) * 0.3;
+      const deathChance = (dtS / 3600) * 0.7;
       if (!tail && random() < deathChance) {
         state.dead = true;
         state.respawnAt = ms + 20_000;

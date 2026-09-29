@@ -1,0 +1,71 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Orrin",
+      "platform": "pc",
+      "online": true,
+      "first_seen": "2026-09-22T15:25:33.000Z",
+      "last_seen": "2026-09-28T20:30:05.000Z",
+      "playtime_s": 23121,
+      "sessions": 5,
+      "deaths": 2
+    },
+    {
+      "id": 5,
+      "name": "Wren",
+      "platform": "pc",
+      "online": true,
+      "first_seen": "2026-09-23T15:02:15.000Z",
+      "last_seen": "2026-09-28T20:30:05.000Z",
+      "playtime_s": 31645,
+      "sessions": 5,
+      "deaths": 2
+    },
+    {
+      "id": 4,
+      "name": "Juniper",
+      "platform": "pc",
+      "online": true,
+      "first_seen": "2026-09-23T12:04:10.000Z",
+      "last_seen": "2026-09-28T20:30:05.000Z",
+      "playtime_s": 31800,
+      "sessions": 4,
+      "deaths": 5
+    },
+    {
+      "id": 2,
+      "name": "Tamsin",
+      "platform": "pc",
+      "online": true,
+      "first_seen": "2026-09-22T16:15:17.000Z",
+      "last_seen": "2026-09-28T20:30:05.000Z",
+      "playtime_s": 35216,
+      "sessions": 6,
+      "deaths": 5
+    },
+    {
+      "id": 6,
+      "name": "Kestrel",
+      "platform": "pc",
+      "online": false,
+      "first_seen": "2026-09-25T16:03:30.000Z",
+      "last_seen": "2026-09-28T20:12:52.100Z",
+      "playtime_s": 11513,
+      "sessions": 3,
+      "deaths": 1
+    },
+    {
+      "id": 3,
+      "name": "Bramble",
+      "platform": "pc",
+      "online": false,
+      "first_seen": "2026-09-23T11:02:50.000Z",
+      "last_seen": "2026-09-28T15:42:48.100Z",
+      "playtime_s": 13223,
+      "sessions": 3,
+      "deaths": 2
+    }
+  ],
+  "next_cursor": null
+}
