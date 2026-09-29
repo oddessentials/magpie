@@ -23,7 +23,7 @@ Nothing changes for players, who need no mods. The file stays on the server and 
 
 ## Install
 
-The mod needs UE4SS on the Windows dedicated server; it does not run on the Linux build. It was built against the RE-UE4SS experimental build of 2026-09-28 on server build 25465077 (game version 1.0.0.5). The server executable does not load proxy libraries, so UE4SS has to be injected when the server starts: create the process suspended, queue `LoadLibraryW` of `UE4SS.dll` on its main thread and resume it. The rig runner in `tools/rig` does exactly that for a test server.
+The mod needs UE4SS on the Windows dedicated server; it does not run on the Linux build. It is verified with the RE-UE4SS experimental build of 2026-09-28 on server build 25501739 (game version 1.0.0.6). The server executable does not load proxy libraries, so UE4SS has to be injected when the server starts: create the process suspended, queue `LoadLibraryW` of `UE4SS.dll` on its main thread and resume it. The rig runner in `tools/rig` does exactly that for a test server.
 
 Copy the `MagpieEvents` folder into the UE4SS `Mods` folder and restart the server. The folder carries `enabled.txt`, which switches it on. Set these in the server process's environment:
 
@@ -35,6 +35,8 @@ Copy the `MagpieEvents` folder into the UE4SS `Mods` folder and restart the serv
 ## How it works
 
 The hooks are the game's own remote procedure calls, the functions named `Server_`, `Client_` and `NetMulticast_` in the server's reflection data, because those are the ones that run through the engine's event path where a hook can see them. Each hook decodes what the game passes it by reflection: structs by their fields, GUIDs as hex, gameplay tags as names, three levels deep.
+
+Automated checks execute every production Lua callback against build-stamped engine schemas and compare representative output with transient engine userdata captured by the isolated rig. Enums retain their numeric values, inherited vectors retain their coordinates, and invalid numbers cannot corrupt JSON. The collector uses the updated quest state, the current XP total and victim coordinates; crafting requests and failures do not become completed crafts, and building requests wait for the completion hook. Synthetic fixtures continue through signed ingest and projection rebuilding in CI. They are labeled as synthetic, with unknown parameter shapes retained as fallback events.
 
 The stop calls `PersistenceSubsystem:SaveGame`, the same function the five-minute autosave and a menu leave use, waits for the game to report the save, and then runs `quit`, which is the engine's orderly shutdown.
 

@@ -1,0 +1,54 @@
+{
+  "records": [
+    {
+      "OldQuest": {
+        "CurrentObjective": "MagpieFixtureStep",
+        "Data": "QuestData /Game/MagpieFixture/QuestData.QuestData",
+        "QuestBools": "[0]",
+        "QuestInts": "[0]",
+        "State": 2
+      },
+      "UpdatedQuest": {
+        "CurrentObjective": "MagpieFixtureStep",
+        "Data": "QuestData /Game/MagpieFixture/QuestData.QuestData",
+        "QuestBools": "[0]",
+        "QuestInts": "[0]",
+        "State": 2
+      },
+      "bNewlyGiven": false,
+      "bSendNotification": false,
+      "hook": "/Script/Dominion.QuestProgressComponent:Client_OnQuestUpdated",
+      "type": "quest",
+      "v": 1
+    },
+    {
+      "CurrentXP": 250,
+      "PreviousXP": 175,
+      "SkillData": "SkillData /Game/MagpieFixture/SkillData.SkillData",
+      "hook": "/Script/Dominion.SkillComponent:BP_OnSkillXPChanged",
+      "type": "xp_changed",
+      "v": 1
+    },
+    {
+      "InBuildingPieceDataIndex": 42,
+      "bWasPReviouslyGhosted": true,
+      "hook": "/Script/Dominion.BuildModeComponent:Client_TelemetryOnBuildingPieceComplete",
+      "type": "build_complete",
+      "v": 1
+    },
+    {
+      "Count": 3,
+      "Recipe": "RecipeData /Game/MagpieFixture/RecipeData.RecipeData",
+      "Result": 0,
+      "hook": "/Script/Dominion.InventoryController:Client_OnCraftingResultHandler",
+      "type": "craft_result",
+      "v": 1
+    }
+  ],
+  "source": {
+    "method": "production Lua callbacks with transient engine userdata and synthetic values; no Unreal RPC bodies or player actions executed",
+    "mod_sha256": "e2856b2d3246b27f25da9ddb495cb8df934d897501c0baca0cca35bcc9d62958",
+    "server_build": 25501739,
+    "version": "1.0.0.6"
+  }
+}

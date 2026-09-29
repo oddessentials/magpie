@@ -1,0 +1,274 @@
+{
+  "source": {
+    "mappings_sha256": "c73590798e1253454d00ace05ab1a88695d44ea67ca505f63b704a896f9044fe",
+    "method": "production Lua callbacks with synthetic userdata and captured engine schemas; no gameplay calls",
+    "mod_sha256": "e2856b2d3246b27f25da9ddb495cb8df934d897501c0baca0cca35bcc9d62958",
+    "server_build": 25501739,
+    "version": "1.0.0.6",
+    "emitter_sha256": "e2856b2d3246b27f25da9ddb495cb8df934d897501c0baca0cca35bcc9d62958"
+  },
+  "records": [
+    {
+      "raw": {
+        "DamageEvent": {
+          "Amount": 2,
+          "AmountAbsorbedByShield": 2,
+          "AttackId": 2,
+          "AttackProperties": 2,
+          "CachedDamageShouldHitReact": false,
+          "DamageClass": 1,
+          "DamageProperties": 2,
+          "Directionality": 2,
+          "Force": 2,
+          "GEHandlesArray": {
+            "ArraySize": 2,
+            "Handles": "[2]"
+          },
+          "HitReaction": "DataAsset /Game/MagpieFixture/Fixture.Fixture",
+          "ID": 2,
+          "Instigator": "DataAsset /Game/MagpieFixture/FixtureBoar.FixtureBoar",
+          "InstigatorLocation": {
+            "X": 900,
+            "Y": 901,
+            "Z": 902
+          },
+          "ModifierMessageTags": "[2]",
+          "Seed": 2,
+          "Source": "DataAsset /Game/MagpieFixture/Fixture.Fixture",
+          "StaminaCostMultiplier": 2,
+          "TypeDamagesArray": {
+            "ArraySize": 2,
+            "TypeDamages": "[2]"
+          },
+          "TypeDamagesOutcome": "[2]",
+          "VictimForward": {
+            "X": 2,
+            "Y": 2,
+            "Z": 2
+          },
+          "VictimLocation": {
+            "X": 125.5,
+            "Y": -300,
+            "Z": 4
+          },
+          "bIsFatalHit": false
+        },
+        "hook": "/Script/Dominion.DominionPlayerCharacter:Client_SendDeathEventTelemetry",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "death",
+        "v": 1
+      },
+      "expected_type": "player.died"
+    },
+    {
+      "raw": {
+        "NewLevel": 12,
+        "Skill": "DataAsset /Game/MagpieFixture/UnknownSkill.UnknownSkill",
+        "hook": "/Script/Dominion.DominionPlayerCharacter:NetMulticast_OnPlayerSkillLevelIncreased",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "skill_level",
+        "v": 1
+      },
+      "expected_type": "skill.level_up"
+    },
+    {
+      "raw": {
+        "ContextString": "Magpie fixture",
+        "Multiplier": 2,
+        "XPEventRowHandle": {
+          "DataTable": "DataAsset /Game/MagpieFixture/Fixture.Fixture",
+          "RowName": "MagpieFixture"
+        },
+        "bIgnoreModifier": false,
+        "hook": "/Script/Dominion.SkillComponent:AddXpFromEvent",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "xp",
+        "v": 1
+      },
+      "expected_type": "mod.xp"
+    },
+    {
+      "raw": {
+        "CurrentXP": 250,
+        "PreviousXP": 175,
+        "SkillData": "DataAsset /Game/MagpieFixture/UnknownSkill.UnknownSkill",
+        "hook": "/Script/Dominion.SkillComponent:BP_OnSkillXPChanged",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "xp_changed",
+        "v": 1
+      },
+      "expected_type": "player.xp"
+    },
+    {
+      "raw": {
+        "OldQuest": {
+          "CurrentObjective": "OldObjective",
+          "Data": "DataAsset /Game/MagpieFixture/OldQuest.OldQuest",
+          "QuestBools": "[2]",
+          "QuestInts": "[2]",
+          "State": 1
+        },
+        "UpdatedQuest": {
+          "CurrentObjective": "FindTheTemple",
+          "Data": "DataAsset /Game/MagpieFixture/NewQuest.NewQuest",
+          "QuestBools": "[2]",
+          "QuestInts": "[2]",
+          "State": 2
+        },
+        "bNewlyGiven": false,
+        "bSendNotification": false,
+        "hook": "/Script/Dominion.QuestProgressComponent:Client_OnQuestUpdated",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "quest",
+        "v": 1
+      },
+      "expected_type": "quest.updated"
+    },
+    {
+      "raw": {
+        "QuestData": "DataAsset /Game/MagpieFixture/NewQuest.NewQuest",
+        "bSilent": false,
+        "hook": "/Script/Dominion.QuestProgressComponent:CompleteQuest",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "quest_complete",
+        "v": 1
+      },
+      "expected_type": "mod.quest_complete"
+    },
+    {
+      "raw": {
+        "AvailableInventories": {
+          "1": 1,
+          "2": 2
+        },
+        "InBuildingPieceDataIndex": 42,
+        "SpawnTransform": {
+          "Rotation": {
+            "W": 2,
+            "X": 2,
+            "Y": 2,
+            "Z": 2
+          },
+          "Scale3D": {
+            "X": 2,
+            "Y": 2,
+            "Z": 2
+          },
+          "Translation": {
+            "X": 2,
+            "Y": 2,
+            "Z": 2
+          }
+        },
+        "bSpawnGhost": true,
+        "hook": "/Script/Dominion.BuildModeComponent:Server_SpawnBuilding",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "build",
+        "v": 1
+      },
+      "expected_type": "mod.build"
+    },
+    {
+      "raw": {
+        "InBuildingPieceDataIndex": 42,
+        "bWasPReviouslyGhosted": true,
+        "hook": "/Script/Dominion.BuildModeComponent:Client_TelemetryOnBuildingPieceComplete",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "build_complete",
+        "v": 1
+      },
+      "expected_type": "building.placed"
+    },
+    {
+      "raw": {
+        "BonusCount": 2,
+        "BonusXPMultiplier": 2,
+        "Count": 3,
+        "CraftingStation": "DataAsset /Game/MagpieFixture/Fixture.Fixture",
+        "Inventories": {
+          "1": 1,
+          "2": 2
+        },
+        "Recipe": "DataAsset /Game/MagpieFixture/UnknownRecipe.UnknownRecipe",
+        "XPMultiplier": 2,
+        "hook": "/Script/Dominion.InventoryController:Server_CraftRecipe",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "craft",
+        "v": 1
+      },
+      "expected_type": "mod.craft"
+    },
+    {
+      "raw": {
+        "Count": 3,
+        "Recipe": "DataAsset /Game/MagpieFixture/UnknownRecipe.UnknownRecipe",
+        "Result": 1,
+        "hook": "/Script/Dominion.InventoryController:Client_OnCraftingResultHandler",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "craft_result",
+        "v": 1
+      },
+      "expected_type": "mod.craft_result"
+    },
+    {
+      "raw": {
+        "Count": 3,
+        "Recipe": "DataAsset /Game/MagpieFixture/UnknownRecipe.UnknownRecipe",
+        "Result": 0,
+        "hook": "/Script/Dominion.InventoryController:Client_OnCraftingResultHandler",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "craft_result",
+        "v": 1
+      },
+      "expected_type": "item.crafted"
+    },
+    {
+      "raw": {
+        "Count": 0,
+        "Recipe": "DataAsset /Game/MagpieFixture/UnknownRecipe.UnknownRecipe",
+        "Result": 0,
+        "hook": "/Script/Dominion.InventoryController:Client_OnCraftingResultHandler",
+        "player_name": "Magpie Fixture",
+        "self": "ActorComponent /Game/MagpieFixture.Component",
+        "session_id": 17,
+        "ts": "2026-09-29T12:00:00Z",
+        "type": "craft_result",
+        "v": 1
+      },
+      "expected_type": "mod.craft_result"
+    }
+  ]
+}

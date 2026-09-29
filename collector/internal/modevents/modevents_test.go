@@ -107,3 +107,24 @@ func TestFinders(t *testing.T) {
 		t.Fatal("asset names")
 	}
 }
+
+func TestModParamsUseTheLogRedactionRules(t *testing.T) {
+	record, err := Parse(`{"v":1,"type":"notice","Text":"192.0.2.1:7777 WXYZ-1234 ?p=secret ABCDEF0123456789ABCDEF0123456789","Nested":{"JoinCode":"private-code","Password":"private-value","PlayerId":17,"Name":"Public name"}}`, time.Now())
+	if err != nil {
+		t.Fatal(err)
+	}
+	raw, _ := json.Marshal(record.Params)
+	for _, forbidden := range []string{"192.0.2.1", "WXYZ-1234", "secret", "ABCDEF0123456789", "private-", "PlayerId"} {
+		if strings.Contains(string(raw), forbidden) {
+			t.Fatalf("private value survived: %s", raw)
+		}
+	}
+	if !strings.Contains(string(raw), "Public name") {
+		t.Fatal("public name was lost")
+	}
+	for _, suffix := range []string{" {}", " garbage", " null"} {
+		if _, err := Parse(`{"v":1,"type":"notice"}`+suffix, time.Now()); err == nil {
+			t.Fatal("trailing data accepted")
+		}
+	}
+}

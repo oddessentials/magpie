@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/oddessentials/magpie/collector/internal/dragonwilds"
 )
 
 const (
@@ -23,7 +26,9 @@ const (
 	TypeQuest         = "quest"
 	TypeQuestComplete = "quest_complete"
 	TypeBuild         = "build"
+	TypeBuildComplete = "build_complete"
 	TypeCraft         = "craft"
+	TypeCraftResult   = "craft_result"
 	TypeModLoaded     = "mod_loaded"
 	TypeStopRequested = "stop_requested"
 	TypeSaveRequested = "save_requested"
@@ -45,7 +50,6 @@ type Record struct {
 
 var (
 	ErrVersion = errors.New("unsupported mod event version")
-	hexID      = regexp.MustCompile(`\b[0-9a-fA-F]{32}\b`)
 	typeChars  = regexp.MustCompile(`[^a-z0-9_]+`)
 	countShape = regexp.MustCompile(`^\[(\d+)\]$`)
 )
@@ -55,7 +59,7 @@ var envelopeKeys = map[string]bool{
 	"session_id": true, "owner": true, "platform": true, "file": true, "stop": true,
 }
 
-var idKeys = []string{"netid", "replicationbytes", "guid", "uniqueid", "platformdata", "accountid", "ownerid", "userid", "sessionid", "playerid"}
+var idKeys = []string{"netid", "replicationbytes", "guid", "uniqueid", "platformdata", "accountid", "ownerid", "userid", "sessionid", "playerid", "password", "joincode", "address"}
 
 func isIDKey(key string) bool {
 	lower := strings.ToLower(key)
@@ -85,7 +89,7 @@ func Strip(value any) any {
 		}
 		return out
 	case string:
-		return hexID.ReplaceAllString(typed, "[id]")
+		return dragonwilds.Line(typed)
 	default:
 		return typed
 	}
@@ -97,6 +101,9 @@ func Parse(line string, received time.Time) (Record, error) {
 	decoder.UseNumber()
 	if err := decoder.Decode(&fields); err != nil {
 		return Record{}, fmt.Errorf("reading a mod event: %w", err)
+	}
+	if err := decoder.Decode(new(any)); err != io.EOF {
+		return Record{}, errors.New("a mod line must contain exactly one JSON object")
 	}
 	version, _ := fields["v"].(json.Number)
 	if version.String() != "1" {
@@ -209,6 +216,13 @@ func Number(params map[string]any, path ...string) (float64, bool) {
 	}
 	number, ok := value.(float64)
 	return number, ok
+}
+
+func Position(params map[string]any, path ...string) (x, y, z float64, ok bool) {
+	x, okX := Number(params, append(path, "X")...)
+	y, okY := Number(params, append(path, "Y")...)
+	z, okZ := Number(params, append(path, "Z")...)
+	return x, y, z, okX && okY && okZ
 }
 
 func Count(params map[string]any, path ...string) (int, bool) {
