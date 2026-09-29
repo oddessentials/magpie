@@ -1,0 +1,623 @@
+{
+  "layer": "teleporters",
+  "build": 25501739,
+  "version": "1.0.0.6",
+  "groups": [
+    {
+      "id": "teleporter-0",
+      "name": "Ominous Door",
+      "kind": "DRDoorTeleportTarget_Enter",
+      "ref": null,
+      "items": [],
+      "points": [[210908, -474]]
+    },
+    {
+      "id": "teleporter-1",
+      "name": "Ominous Door",
+      "kind": "DRDoorTeleportTarget_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[210898, -351]]
+    },
+    {
+      "id": "teleporter-2",
+      "name": "Nodestone",
+      "kind": "DR_Aquifer",
+      "ref": null,
+      "items": [],
+      "points": [[231321, 55021]]
+    },
+    {
+      "id": "teleporter-3",
+      "name": "Nodestone",
+      "kind": "DR_Bastion",
+      "ref": null,
+      "items": [],
+      "points": [[227998, 59235]]
+    },
+    {
+      "id": "teleporter-4",
+      "name": "Nodestone",
+      "kind": "DR_Courtyard",
+      "ref": null,
+      "items": [],
+      "points": [[227320, 54472]]
+    },
+    {
+      "id": "teleporter-5",
+      "name": "Nodestone",
+      "kind": "DR_Garrison",
+      "ref": null,
+      "items": [],
+      "points": [[228218, 53530]]
+    },
+    {
+      "id": "teleporter-6",
+      "name": "Nodestone",
+      "kind": "DR_Library",
+      "ref": null,
+      "items": [],
+      "points": [[227564, 53773]]
+    },
+    {
+      "id": "teleporter-7",
+      "name": "Nodestone",
+      "kind": "DR_Menagerie",
+      "ref": null,
+      "items": [],
+      "points": [[230474, 53669]]
+    },
+    {
+      "id": "teleporter-8",
+      "name": "Nodestone",
+      "kind": "DR_Mines",
+      "ref": null,
+      "items": [],
+      "points": [[231761, 54420]]
+    },
+    {
+      "id": "teleporter-9",
+      "name": "Nodestone",
+      "kind": "DR_Nexus_Aquifer",
+      "ref": null,
+      "items": [],
+      "points": [[218469, 40328]]
+    },
+    {
+      "id": "teleporter-10",
+      "name": "Nodestone",
+      "kind": "DR_Nexus_Bastion",
+      "ref": null,
+      "items": [],
+      "points": [[229100, 63730]]
+    },
+    {
+      "id": "teleporter-11",
+      "name": "Nodestone",
+      "kind": "DR_Nexus_Courtyard",
+      "ref": null,
+      "items": [],
+      "points": [[218771, 37325]]
+    },
+    {
+      "id": "teleporter-12",
+      "name": "Nodestone",
+      "kind": "DR_Nexus_Garrison",
+      "ref": null,
+      "items": [],
+      "points": [[230685, 21991]]
+    },
+    {
+      "id": "teleporter-13",
+      "name": "Nodestone",
+      "kind": "DR_Nexus_Library",
+      "ref": null,
+      "items": [],
+      "points": [[199160, 43571]]
+    },
+    {
+      "id": "teleporter-14",
+      "name": "Nodestone",
+      "kind": "DR_Nexus_Menagerie",
+      "ref": null,
+      "items": [],
+      "points": [[182630, 54270]]
+    },
+    {
+      "id": "teleporter-15",
+      "name": "Nodestone",
+      "kind": "DR_Nexus_Mines",
+      "ref": null,
+      "items": [],
+      "points": [[223315, 44735]]
+    },
+    {
+      "id": "teleporter-16",
+      "name": "Nodestone",
+      "kind": "DR_Nexus_Pastures",
+      "ref": null,
+      "items": [],
+      "points": [[253706, 45028]]
+    },
+    {
+      "id": "teleporter-17",
+      "name": "Nodestone",
+      "kind": "DR_Nexus_Temple",
+      "ref": null,
+      "items": [],
+      "points": [[213955, 50670]]
+    },
+    {
+      "id": "teleporter-18",
+      "name": "Nodestone",
+      "kind": "DR_Pastures",
+      "ref": null,
+      "items": [],
+      "points": [[228832, 53861]]
+    },
+    {
+      "id": "teleporter-19",
+      "name": "Teleporter",
+      "kind": "DR_TT_BastionBarrier_A",
+      "ref": null,
+      "items": [],
+      "points": [[226622, 57823]]
+    },
+    {
+      "id": "teleporter-20",
+      "name": "Teleporter",
+      "kind": "DR_TT_BastionBarrier_B",
+      "ref": null,
+      "items": [],
+      "points": [[226638, 57721]]
+    },
+    {
+      "id": "teleporter-21",
+      "name": "Barrier",
+      "kind": "DR_TT_Titan",
+      "ref": null,
+      "items": [],
+      "points": [[234169, 76638]]
+    },
+    {
+      "id": "teleporter-22",
+      "name": "Nodestone",
+      "kind": "DR_Temple",
+      "ref": null,
+      "items": [],
+      "points": [[226894, 53995]]
+    },
+    {
+      "id": "teleporter-23",
+      "name": "Ominous Door",
+      "kind": "DeathsTempleGF_Entrance",
+      "ref": null,
+      "items": [],
+      "points": [[132729, 51252]]
+    },
+    {
+      "id": "teleporter-24",
+      "name": "Ominous Door",
+      "kind": "DeathsTempleGF_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[134461, 50661]]
+    },
+    {
+      "id": "teleporter-25",
+      "name": "Velgar's Rise",
+      "kind": "Dragons Lair Arena",
+      "ref": null,
+      "items": [],
+      "points": [[98829, 100247]]
+    },
+    {
+      "id": "teleporter-26",
+      "name": "Velgar's Rise",
+      "kind": "Dragons Lair Entrance",
+      "ref": null,
+      "items": [],
+      "points": [[100702, 427554]]
+    },
+    {
+      "id": "teleporter-27",
+      "name": "Teleporter",
+      "kind": "EnterDeathsCave",
+      "ref": null,
+      "items": [],
+      "points": [[132925, 18568]]
+    },
+    {
+      "id": "teleporter-28",
+      "name": "Lair Exit",
+      "kind": "Imarus_Lair_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[428347, 446849]]
+    },
+    {
+      "id": "teleporter-29",
+      "name": "Dragon Gate",
+      "kind": "KuldraArena_Entrance",
+      "ref": null,
+      "items": [],
+      "points": [[-786895, 688682]]
+    },
+    {
+      "id": "teleporter-30",
+      "name": "Kuldra",
+      "kind": "KuldraInteriorEntrance",
+      "ref": null,
+      "items": [],
+      "points": [[-134068, 626451]]
+    },
+    {
+      "id": "teleporter-31",
+      "name": "Teleporter",
+      "kind": "KuldraInteriorExit",
+      "ref": null,
+      "items": [],
+      "points": [[-171973, 629719]]
+    },
+    {
+      "id": "teleporter-32",
+      "name": "Dragon Gate",
+      "kind": "SW_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-705426, 771337]]
+    },
+    {
+      "id": "teleporter-33",
+      "name": "Zilyana Teleporter",
+      "kind": "SW_Return_01",
+      "ref": null,
+      "items": [],
+      "points": [[-778200, 692701]]
+    },
+    {
+      "id": "teleporter-34",
+      "name": "Zilyana Teleporter",
+      "kind": "SW_Return_01",
+      "ref": null,
+      "items": [],
+      "points": [[-761522, 736680]]
+    },
+    {
+      "id": "teleporter-35",
+      "name": "Zilyana Teleporter",
+      "kind": "SW_Return_01",
+      "ref": null,
+      "items": [],
+      "points": [[-741183, 740943]]
+    },
+    {
+      "id": "teleporter-36",
+      "name": "Zilyana Teleporter",
+      "kind": "SW_Return_01",
+      "ref": null,
+      "items": [],
+      "points": [[-717698, 721005]]
+    },
+    {
+      "id": "teleporter-37",
+      "name": "Dragon Gate",
+      "kind": "ScornedWilderness_Entrance",
+      "ref": null,
+      "items": [],
+      "points": [[96508, 58961]]
+    },
+    {
+      "id": "teleporter-38",
+      "name": "Enter the Cave of Screams",
+      "kind": "UMS_Enter Cave of Screams",
+      "ref": null,
+      "items": [],
+      "points": [[276207, 187088]]
+    },
+    {
+      "id": "teleporter-39",
+      "name": "Exit Cave of Screams",
+      "kind": "UMS_Exit Cave of Screams",
+      "ref": null,
+      "items": [],
+      "points": [[276007, 187341]]
+    },
+    {
+      "id": "teleporter-40",
+      "name": "Magical Barrier",
+      "kind": "UmS_AviskCaveEntrance",
+      "ref": null,
+      "items": [],
+      "points": [[334881, 41753]]
+    },
+    {
+      "id": "teleporter-41",
+      "name": "Magical Barrier",
+      "kind": "UmS_Contact_Cave_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[334928, 41818]]
+    },
+    {
+      "id": "teleporter-42",
+      "name": "Door to Umbral Sands",
+      "kind": "UmS_EntryFromDR",
+      "ref": null,
+      "items": [],
+      "points": [[236376, 81233]]
+    },
+    {
+      "id": "teleporter-43",
+      "name": "Volcanic Gateway",
+      "kind": "UmS_FightCaveArena",
+      "ref": null,
+      "items": [],
+      "points": [[318767, 234765]]
+    },
+    {
+      "id": "teleporter-44",
+      "name": "Doorway",
+      "kind": "UmS_FightCaveEntrance",
+      "ref": null,
+      "items": [],
+      "points": [[-554901, 59806]]
+    },
+    {
+      "id": "teleporter-45",
+      "name": "Exit Fuzan's Lair",
+      "kind": "UmS_FightCaveEntrance",
+      "ref": null,
+      "items": [],
+      "points": [[276898, 533710]]
+    },
+    {
+      "id": "teleporter-46",
+      "name": "Fuzan's Lair",
+      "kind": "UmS_FuzanArena",
+      "ref": null,
+      "items": [],
+      "points": [[-545862, 59214]]
+    },
+    {
+      "id": "teleporter-47",
+      "name": "Door to Dowdun Reach",
+      "kind": "UmS_ReturnToDR",
+      "ref": null,
+      "items": [],
+      "points": [[238315, 82314]]
+    },
+    {
+      "id": "teleporter-48",
+      "name": "Vault Door",
+      "kind": "UmS_V_KalphiteQueen_Arena_1_Entry",
+      "ref": null,
+      "items": [],
+      "points": [[314435, 28644]]
+    },
+    {
+      "id": "teleporter-49",
+      "name": "Vault Door",
+      "kind": "UmS_V_KalphiteQueen_Arena_1_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-466810, 194404]]
+    },
+    {
+      "id": "teleporter-50",
+      "name": "Vault Door",
+      "kind": "UmS_V_KalphiteQueen_Arena_1_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-454999, 194501]]
+    },
+    {
+      "id": "teleporter-51",
+      "name": "Vault Door",
+      "kind": "UmS_V_KalphiteQueen_Arena_2_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-441521, 78683]]
+    },
+    {
+      "id": "teleporter-52",
+      "name": "Vault Door",
+      "kind": "UmS_V_Vault_01_Entry",
+      "ref": null,
+      "items": [],
+      "points": [[342637, 73108]]
+    },
+    {
+      "id": "teleporter-53",
+      "name": "Vault Door",
+      "kind": "UmS_V_Vault_01_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-467647, -137767]]
+    },
+    {
+      "id": "teleporter-54",
+      "name": "Vault Door",
+      "kind": "UmS_V_Vault_01_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-449600, -125254]]
+    },
+    {
+      "id": "teleporter-55",
+      "name": "Vault Door",
+      "kind": "UmS_V_Vault_03_Entry",
+      "ref": null,
+      "items": [],
+      "points": [[222274, 233060]]
+    },
+    {
+      "id": "teleporter-56",
+      "name": "Vault Door",
+      "kind": "UmS_V_Vault_03_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-470700, 51450]]
+    },
+    {
+      "id": "teleporter-57",
+      "name": "Chaktan Kara",
+      "kind": "V_Chaktan Kara (GF_V3)",
+      "ref": null,
+      "items": [],
+      "points": [[16385, 80494]]
+    },
+    {
+      "id": "teleporter-58",
+      "name": "Vault Door",
+      "kind": "V_Chaktan Kara_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-88042, 183804]]
+    },
+    {
+      "id": "teleporter-59",
+      "name": "Crasorak Kara",
+      "kind": "V_Crasorak Kara (BM_V1)",
+      "ref": null,
+      "items": [],
+      "points": [[37458, 191874]]
+    },
+    {
+      "id": "teleporter-60",
+      "name": "Vault Door",
+      "kind": "V_Crasorak Kara_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-163009, 101148]]
+    },
+    {
+      "id": "teleporter-61",
+      "name": "Kalistrakthen Kara",
+      "kind": "V_Kalistrakthen_Kara_Entrance(FH_V2)",
+      "ref": null,
+      "items": [],
+      "points": [[29450, -51423]]
+    },
+    {
+      "id": "teleporter-62",
+      "name": "Vault Door",
+      "kind": "V_Kalistrakthen_Kara_Exit(FH_V2)",
+      "ref": null,
+      "items": [],
+      "points": [[-450685, -322188]]
+    },
+    {
+      "id": "teleporter-63",
+      "name": "Kletterbuja Kara",
+      "kind": "V_Kletterbuja Kara (GF_V2)",
+      "ref": null,
+      "items": [],
+      "points": [[118972, 168454]]
+    },
+    {
+      "id": "teleporter-64",
+      "name": "Vault Door",
+      "kind": "V_Kletterbuja Kara_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-169070, -52803]]
+    },
+    {
+      "id": "teleporter-65",
+      "name": "Skeklac Kara",
+      "kind": "V_Skeklac Kara (GF_V4)",
+      "ref": null,
+      "items": [],
+      "points": [[138097, 77714]]
+    },
+    {
+      "id": "teleporter-66",
+      "name": "Vault Door",
+      "kind": "V_Skeklac Kara_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-95657, 31788]]
+    },
+    {
+      "id": "teleporter-67",
+      "name": "Skekven Kara",
+      "kind": "V_Skekven_Kara_Entrance(FH_V1)",
+      "ref": null,
+      "items": [],
+      "points": [[197781, -42354]]
+    },
+    {
+      "id": "teleporter-68",
+      "name": "Vault Door",
+      "kind": "V_Skekven_Kara_Exit(FH_V1)",
+      "ref": null,
+      "items": [],
+      "points": [[-480070, -470078]]
+    },
+    {
+      "id": "teleporter-69",
+      "name": "Takla Kara",
+      "kind": "V_Takla Kara (GF_V1)",
+      "ref": null,
+      "items": [],
+      "points": [[74800, 118288]]
+    },
+    {
+      "id": "teleporter-70",
+      "name": "Vault Door",
+      "kind": "V_Takla Kara_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-84876, -53861]]
+    },
+    {
+      "id": "teleporter-71",
+      "name": "Thishepen Kara",
+      "kind": "V_Thishepen Kara (BM_V3)",
+      "ref": null,
+      "items": [],
+      "points": [[26827, 150931]]
+    },
+    {
+      "id": "teleporter-72",
+      "name": "Vault Door",
+      "kind": "V_Thishepen Kara_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-168228, 188034]]
+    },
+    {
+      "id": "teleporter-73",
+      "name": "Vekchenven Kara",
+      "kind": "V_Vekchenven_Kara_Entrance(FH_V3)",
+      "ref": null,
+      "items": [],
+      "points": [[144171, -57709]]
+    },
+    {
+      "id": "teleporter-74",
+      "name": "Vault Door",
+      "kind": "V_Vekchenven_Kara_Exit(FH_V3)",
+      "ref": null,
+      "items": [],
+      "points": [[-332960, -471723]]
+    },
+    {
+      "id": "teleporter-75",
+      "name": "Vertentis Kara",
+      "kind": "V_Vertentis Kara (BM_V2)",
+      "ref": null,
+      "items": [],
+      "points": [[102752, 144813]]
+    },
+    {
+      "id": "teleporter-76",
+      "name": "Vault Door",
+      "kind": "V_Vertentis Kara_Exit",
+      "ref": null,
+      "items": [],
+      "points": [[-161372, 16877]]
+    }
+  ]
+}

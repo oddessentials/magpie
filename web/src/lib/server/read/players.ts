@@ -1,19 +1,29 @@
-import { and, asc, desc, eq, ilike, sql, type SQL } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, ilike, sql, type SQL } from 'drizzle-orm';
 import type { Database } from '../db/client';
 import {
+  characterSkillSamples,
   deaths,
   feats,
   journalEntries,
   levelUps,
   players,
   sessions,
+  type CharacterSaveRow,
   type PlayerRow,
   type SessionRow
 } from '../db/schema';
 import { notFound, type Page } from '../http/respond';
 import type { Features } from '../settings';
+import { unlocksOf } from './characters';
 import { displayName, platformName, secondsBetween, type Schemas } from './common';
-import { characterOf, characterSaveOf } from './saves';
+import { countedKinds, isKnownUnlock } from './lookup';
+import {
+  characterOf,
+  characterSaveOf,
+  skillsOf,
+  totalLevelOf,
+  type CharacterExtras
+} from './saves';
 
 export type PlayerSummary = Schemas['PlayerSummary'];
 export type Player = Schemas['Player'];
@@ -119,6 +129,51 @@ export function sessionOf(row: SessionRow): Session {
   };
 }
 
+async function extrasOf(
+  db: Database,
+  save: CharacterSaveRow | null,
+  now: Date
+): Promise<CharacterExtras> {
+  if (!save) return { unlocks: null, history: [] };
+  const since = new Date(now.getTime() - 30 * 86_400_000);
+  const [unlocked, samples] = await Promise.all([
+    unlocksOf(db, [save.characterGuid], countedKinds),
+    db
+      .select()
+      .from(characterSkillSamples)
+      .where(
+        and(
+          eq(characterSkillSamples.characterGuid, save.characterGuid),
+          gte(characterSkillSamples.savedAt, since)
+        )
+      )
+      .orderBy(asc(characterSkillSamples.savedAt))
+  ]);
+  const points = samples.flatMap((sample) => {
+    const total = totalLevelOf(skillsOf(sample.skills));
+    return total === null ? [] : [{ saved_at: sample.savedAt.toISOString(), total_level: total }];
+  });
+  const known = unlocked.filter(isKnownUnlock);
+  const count = (kind: string) => known.filter((row) => row.kind === kind).length;
+  return {
+    unlocks:
+      unlocked.length === 0
+        ? null
+        : {
+            recipes: count('recipe'),
+            buildings: count('building'),
+            journal: count('journal'),
+            creatures: count('creature')
+          },
+    history: points.filter(
+      (point, index) =>
+        index === 0 ||
+        index === points.length - 1 ||
+        point.total_level !== points[index - 1]!.total_level
+    )
+  };
+}
+
 export async function getPlayer(
   db: Database,
   id: number,
@@ -157,7 +212,7 @@ export async function getPlayer(
       killer: death.killer,
       source: death.source === 'mod' || death.mergedEventId ? 'mod' : 'log'
     })),
-    character: characterOf(save),
+    character: characterOf(save, await extrasOf(db, save, now)),
     feats: done
   };
 }

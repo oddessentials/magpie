@@ -1,9 +1,16 @@
 import { desc, eq, isNull, and } from 'drizzle-orm';
 import { isQuestComplete } from '$lib/quests';
 import type { Database } from '../db/client';
-import { characterSaves, worldSaves, type CharacterSaveRow, type WorldSaveRow } from '../db/schema';
+import {
+  characterSaves,
+  worldSaves,
+  type CharacterSaveRow,
+  type SavedSlot,
+  type WorldSaveRow
+} from '../db/schema';
 import type { Schemas } from './common';
 import { levelForXp, skillFacts, skillOf, xpToReach } from './facts';
+import { itemsById } from './lookup';
 
 export type PlayerCharacter = Schemas['PlayerCharacter'];
 export type PlayerSkill = Schemas['PlayerSkill'];
@@ -41,7 +48,27 @@ export function totalLevelOf(skills: PlayerSkill[]): number | null {
   return levels.length === 0 ? null : levels.reduce((sum, level) => sum + level, 0);
 }
 
-export function characterOf(row: CharacterSaveRow | null | undefined): PlayerCharacter | null {
+export interface CharacterExtras {
+  unlocks: Schemas['PlayerUnlocks'] | null;
+  history: PlayerCharacter['level_history'];
+}
+
+export function slotOf(slot: SavedSlot): Schemas['PlayerSlot'] {
+  const item = itemsById.get(slot.item);
+  return {
+    slot: slot.slot,
+    item: item?.asset ?? null,
+    name: item?.name ?? null,
+    count: slot.count ?? 1,
+    at_least: slot.count === null,
+    durability: slot.durability
+  };
+}
+
+export function characterOf(
+  row: CharacterSaveRow | null | undefined,
+  extras: CharacterExtras = { unlocks: null, history: [] }
+): PlayerCharacter | null {
   if (!row || row.goneAt) return null;
   const completed = row.quests.filter((quest) => isQuestComplete(quest.state)).length;
   const skills = skillsOf(row.skills);
@@ -57,7 +84,11 @@ export function characterOf(row: CharacterSaveRow | null | undefined): PlayerCha
     quests: { active: row.quests.length - completed, completed },
     journal: { unlocked: row.journalUnlocked ?? 0, unread: row.journalUnread ?? 0 },
     spells: row.spells,
-    regions_revealed: row.regionsRevealed
+    regions_revealed: row.regionsRevealed,
+    inventory: row.inventory ? row.inventory.map(slotOf) : null,
+    loadout: row.loadout ? row.loadout.map(slotOf) : null,
+    unlocks: extras.unlocks,
+    level_history: extras.history
   };
 }
 

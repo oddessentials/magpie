@@ -1,0 +1,943 @@
+{
+  "layer": "lore",
+  "build": 25501739,
+  "version": "1.0.0.6",
+  "groups": [
+    {
+      "id": "JOURNAL_Know_CathanJournal_Castle-0",
+      "name": "Cathan's Journal [Castle]",
+      "kind": null,
+      "ref": "JOURNAL_Know_CathanJournal_Castle",
+      "items": [],
+      "points": [[61409, 160992]]
+    },
+    {
+      "id": "JOURNAL_Know_CathanJournal_Vannaka-1",
+      "name": "Cathan's note",
+      "kind": null,
+      "ref": "JOURNAL_Know_CathanJournal_Vannaka",
+      "items": [],
+      "points": [[15512, 178838]]
+    },
+    {
+      "id": "JOURNAL_Know_CathanJournal_Velgarslair-2",
+      "name": "Cathan's Journal [Ghornfell]",
+      "kind": null,
+      "ref": "JOURNAL_Know_CathanJournal_Velgarslair",
+      "items": [],
+      "points": [[78184, 134320]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L1-3",
+      "name": "Badly Scrawled Note",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L1",
+      "items": [],
+      "points": [[219748, 9312]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L11-4",
+      "name": "Alric's Plan (Part 1)",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L11",
+      "items": [],
+      "points": [[199977, 42338]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L12-5",
+      "name": "Alric’s Plan (Part 2)",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L12",
+      "items": [],
+      "points": [[198570, 43253]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L13-6",
+      "name": "A New Pestilence",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L13",
+      "items": [],
+      "points": [[199142, 33929]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L14-7",
+      "name": "An Acolyte's Guide to Demon Handling",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L14",
+      "items": [],
+      "points": [[218408, 48112]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L15-8",
+      "name": "Goblins of da Reach Unite!",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L15",
+      "items": [],
+      "points": [[259891, 30555]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L16-9",
+      "name": "A Report on the Withering",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L16",
+      "items": [],
+      "points": [[210531, 46368]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L17-10",
+      "name": "Hall of Heroes",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L17",
+      "items": [],
+      "points": [[231130, 69536]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L2-11",
+      "name": "Archmage’s Note to Students",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L2",
+      "items": [],
+      "points": [[206611, 39508]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L3-12",
+      "name": "A Transport Network",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L3",
+      "items": [],
+      "points": [[229763, 53720]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L4-13",
+      "name": "Rasmodel’s Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L4",
+      "items": [],
+      "points": [[227666, 34596]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L5-14",
+      "name": "Alric's Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L5",
+      "items": [],
+      "points": [[203437, 49666]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L6-15",
+      "name": "Quartermaster's Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L6",
+      "items": [],
+      "points": [[243734, 25329]]
+    },
+    {
+      "id": "JOURNAL_Know_DRLoreScrap_L8-16",
+      "name": "The Gospel of Zamorak",
+      "kind": null,
+      "ref": "JOURNAL_Know_DRLoreScrap_L8",
+      "items": [],
+      "points": [[213887, 57694]]
+    },
+    {
+      "id": "JOURNAL_Know_DogDays-17",
+      "name": "Ritual Of Purification",
+      "kind": null,
+      "ref": "JOURNAL_Know_DogDays",
+      "items": [],
+      "points": [[25979, 99944]]
+    },
+    {
+      "id": "JOURNAL_Know_Dragonwolves_1-18",
+      "name": "Laboratory Note",
+      "kind": null,
+      "ref": "JOURNAL_Know_Dragonwolves_1",
+      "items": [],
+      "points": [[201421, -75646]]
+    },
+    {
+      "id": "JOURNAL_Know_Dragonwolves_2-19",
+      "name": "Experiment Log",
+      "kind": null,
+      "ref": "JOURNAL_Know_Dragonwolves_2",
+      "items": [],
+      "points": [[27817, -41442]]
+    },
+    {
+      "id": "JOURNAL_Know_Dragonwolves_3-20",
+      "name": "The Tale of the Ghost Wolves",
+      "kind": null,
+      "ref": "JOURNAL_Know_Dragonwolves_3",
+      "items": [],
+      "points": [[86217, -62654]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_A1-21",
+      "name": "Dust-covered Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_A1",
+      "items": [],
+      "points": [[5159, 190522]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_A2-22",
+      "name": "Bloodstained Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_A2",
+      "items": [],
+      "points": [[19774, 173386]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_A3-23",
+      "name": "Priest's Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_A3",
+      "items": [],
+      "points": [[13010, 192183]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_A4-24",
+      "name": "Scrawled Diary Page",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_A4",
+      "items": [],
+      "points": [[52153, 172031]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_A5-25",
+      "name": "Tear-stained journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_A5",
+      "items": [],
+      "points": [[73772, 186936]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_B1-26",
+      "name": "Grimey Parchment",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_B1",
+      "items": [],
+      "points": [[81423, 173926]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_B2-27",
+      "name": "Grubby Note",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_B2",
+      "items": [],
+      "points": [[68969, 178598]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_B3-28",
+      "name": "Weathered Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_B3",
+      "items": [],
+      "points": [[85904, 162733]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_B4-29",
+      "name": "Pungent Scribble",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_B4",
+      "items": [],
+      "points": [[48282, 177693]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_B5-30",
+      "name": "Muddy Scrawl",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_B5",
+      "items": [],
+      "points": [[79929, 153565]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_C1-31",
+      "name": "Preserved Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_C1",
+      "items": [],
+      "points": [[24322, 146327]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_C2-32",
+      "name": "Druid's Memoirs",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_C2",
+      "items": [],
+      "points": [[62614, 172179]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_C3-33",
+      "name": "Soot-stained Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_C3",
+      "items": [],
+      "points": [[31204, 163832]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_C4-34",
+      "name": "Ancient Journal Page",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_C4",
+      "items": [],
+      "points": [[29119, 156991]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_C5-35",
+      "name": "Forgotten Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_C5",
+      "items": [],
+      "points": [[50467, 153659]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_CastleExtra1-36",
+      "name": "Servant's Secret Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_CastleExtra1",
+      "items": [],
+      "points": [[61445, 159035]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_CastleExtra2-37",
+      "name": "Duke's Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_CastleExtra2",
+      "items": [],
+      "points": [[63040, 160405]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_D1-38",
+      "name": "Torn Journal Page",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_D1",
+      "items": [],
+      "points": [[68009, 135975]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_D2-39",
+      "name": "Garou Writings",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_D2",
+      "items": [],
+      "points": [[55319, 126504]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_D3-40",
+      "name": "Scorched Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_D3",
+      "items": [],
+      "points": [[71521, 124449]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_D4-41",
+      "name": "Leathery Parchment",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_D4",
+      "items": [],
+      "points": [[33582, 99722]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_D5-42",
+      "name": "Elder's Storybook Page",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_D5",
+      "items": [],
+      "points": [[87043, 133041]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_E1-43",
+      "name": "Dragonkin Journal Page",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_E1",
+      "items": [],
+      "points": [[94588, 127363]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_E2-44",
+      "name": "Dragonkin Diary Page",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_E2",
+      "items": [],
+      "points": [[19145, 72491]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_E3-45",
+      "name": "Infused Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_E3",
+      "items": [],
+      "points": [[138422, 76161]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_E4-46",
+      "name": "Dragonkin Notebook Page",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_E4",
+      "items": [],
+      "points": [[140830, 123527]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_F1-47",
+      "name": "Bloodstained Page",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_F1",
+      "items": [],
+      "points": [[124886, 136677]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_F2-48",
+      "name": "Leaf-scented Page",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_F2",
+      "items": [],
+      "points": [[105591, 130746]]
+    },
+    {
+      "id": "JOURNAL_Know_LoreScrap_HltP-49",
+      "name": "Vault Hunter's Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_LoreScrap_HltP",
+      "items": [],
+      "points": [[19694, 145874]]
+    },
+    {
+      "id": "JOURNAL_Know_Necromancer_And_The_Wolf_1-50",
+      "name": "Ravanna's First Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Necromancer_And_The_Wolf_1",
+      "items": [],
+      "points": [[132249, 30611]]
+    },
+    {
+      "id": "JOURNAL_Know_Necromancer_And_The_Wolf_2-51",
+      "name": "Ravanna's Second Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Necromancer_And_The_Wolf_2",
+      "items": [],
+      "points": [[52872, -47314]]
+    },
+    {
+      "id": "JOURNAL_Know_Necromancer_And_The_Wolf_3-52",
+      "name": "Ravanna's Third Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Necromancer_And_The_Wolf_3",
+      "items": [],
+      "points": [[136003, 5286]]
+    },
+    {
+      "id": "JOURNAL_Know_Necromancer_And_The_Wolf_4-53",
+      "name": "Ravanna's Fourth Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Necromancer_And_The_Wolf_4",
+      "items": [],
+      "points": [[165793, -50609]]
+    },
+    {
+      "id": "JOURNAL_Know_Necromancer_And_The_Wolf_5-54",
+      "name": "Ravanna's Fifth Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Necromancer_And_The_Wolf_5",
+      "items": [],
+      "points": [[139717, -56388]]
+    },
+    {
+      "id": "JOURNAL_Know_Necromancer_And_The_Wolf_6-55",
+      "name": "Ravanna's Sixth Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Necromancer_And_The_Wolf_6",
+      "items": [],
+      "points": [[58460, -46300]]
+    },
+    {
+      "id": "JOURNAL_Know_Necromancer_And_The_Wolf_7-56",
+      "name": "Ravanna's Seventh Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Necromancer_And_The_Wolf_7",
+      "items": [],
+      "points": [[129160, -64599]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book1-57",
+      "name": "Anima-infused Tome",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book1",
+      "items": [],
+      "points": [[-696253, 713705]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book2-58",
+      "name": "Lavish Dragonkin Tome",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book2",
+      "items": [],
+      "points": [[-699613, 724113]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book3-59",
+      "name": "Flame-licked Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book3",
+      "items": [],
+      "points": [[-723468, 730474]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book4-60",
+      "name": "Rasthin’s Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book4",
+      "items": [],
+      "points": [[-727871, 714394]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book5-61",
+      "name": "Scorched Tome",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book5",
+      "items": [],
+      "points": [[-744269, 749685]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book6-62",
+      "name": "Hate-filled Tome",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_CriticalPath_Book6",
+      "items": [],
+      "points": [[-781270, 692770]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_Optional_Book1-63",
+      "name": "Confusing Notebook",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_Optional_Book1",
+      "items": [],
+      "points": [[-710197, 756179]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_Optional_Book2-64",
+      "name": "Aviansie Tome",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_Optional_Book2",
+      "items": [],
+      "points": [[-741105, 729332]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_Optional_Book3-65",
+      "name": "Damaged Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_Optional_Book3",
+      "items": [],
+      "points": [[-773495, 728399]]
+    },
+    {
+      "id": "JOURNAL_Know_SW_LoreScrap_PuzzleText-66",
+      "name": "Rasthin's Riddle of Faith",
+      "kind": null,
+      "ref": "JOURNAL_Know_SW_LoreScrap_PuzzleText",
+      "items": [],
+      "points": [[-781599, 703679]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Dragonkin_1-67",
+      "name": "Lacrussa's Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Dragonkin_1",
+      "items": [],
+      "points": [[183590, -71402]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Dragonkin_2-68",
+      "name": "Lacrussa's Notes",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Dragonkin_2",
+      "items": [],
+      "points": [[-468571, -310196]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Dragonkin_3-69",
+      "name": "Lacrussa's Ravings",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Dragonkin_3",
+      "items": [],
+      "points": [[-321151, -463400]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Dragonkin_4-70",
+      "name": "Lacrussa's Writings",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Dragonkin_4",
+      "items": [],
+      "points": [[-479342, -462497]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Dragonkin_5-71",
+      "name": "Lacrussa's Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Dragonkin_5",
+      "items": [],
+      "points": [[-454559, -313087]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Rising_Dead_1-72",
+      "name": "Mould-covered Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Rising_Dead_1",
+      "items": [],
+      "points": [[129347, -20227]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Rising_Dead_2-73",
+      "name": "Withered Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Rising_Dead_2",
+      "items": [],
+      "points": [[157080, -57242]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Rising_Dead_3-74",
+      "name": "Soot-stained Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Rising_Dead_3",
+      "items": [],
+      "points": [[238732, -32222]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Rising_Dead_4-75",
+      "name": "Red-stained Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Rising_Dead_4",
+      "items": [],
+      "points": [[235252, -32350]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Rising_Dead_5-76",
+      "name": "Priestly Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Rising_Dead_5",
+      "items": [],
+      "points": [[70231, -54332]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Withering_1-77",
+      "name": "Weathered Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Withering_1",
+      "items": [],
+      "points": [[133234, 25635]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Withering_2-78",
+      "name": "Lazilly-penned Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Withering_2",
+      "items": [],
+      "points": [[59376, -48012]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Withering_3-79",
+      "name": "Dragon-embossed Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Withering_3",
+      "items": [],
+      "points": [[98010, -29909]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Withering_4-80",
+      "name": "Battered Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Withering_4",
+      "items": [],
+      "points": [[141003, -44138]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Withering_5-81",
+      "name": "Weathered Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Withering_5",
+      "items": [],
+      "points": [[112897, -36565]]
+    },
+    {
+      "id": "JOURNAL_Know_The_Withering_6-82",
+      "name": "Withered Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_The_Withering_6",
+      "items": [],
+      "points": [[151792, -29480]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_FirstPeople_1-83",
+      "name": "Sand-worn Leather Tome",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_FirstPeople_1",
+      "items": [],
+      "points": [[245026, 98128]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_FirstPeople_2-84",
+      "name": "Sun-scorched Recipe Book",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_FirstPeople_2",
+      "items": [],
+      "points": [[252613, 108178]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_FirstPeople_3-85",
+      "name": "Chewed Doodle-Covered Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_FirstPeople_3",
+      "items": [],
+      "points": [[369656, 75033]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_FirstPeople_4-86",
+      "name": "Gold-plated Tome",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_FirstPeople_4",
+      "items": [],
+      "points": [[226980, 198282]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_FirstPeople_5-87",
+      "name": "Ancient Text",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_FirstPeople_5",
+      "items": [],
+      "points": [[326273, 203742]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_Kalphite_1-88",
+      "name": "Dragonkin Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_Kalphite_1",
+      "items": [],
+      "points": [[216411, 132836]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_Kalphite_1-89",
+      "name": "Dragonkin Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_Kalphite_1",
+      "items": [],
+      "points": [[359759, 93670]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_Kalphite_3-90",
+      "name": "Entomologist’s Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_Kalphite_3",
+      "items": [],
+      "points": [[283005, 242751]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_Kalphite_4-91",
+      "name": "Avisk’s Experiment Log",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_Kalphite_4",
+      "items": [],
+      "points": [[316466, 30407]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_Kalphite_5-92",
+      "name": "Bug Catcher’s Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_Kalphite_5",
+      "items": [],
+      "points": [[348675, 161575]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_KotHaar_1-93",
+      "name": "Dusty Tome",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_KotHaar_1",
+      "items": [],
+      "points": [[291609, 172913]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_KotHaar_2-94",
+      "name": "Obsidian- carved Book",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_KotHaar_2",
+      "items": [],
+      "points": [[294453, 186955]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_KotHaar_3-95",
+      "name": "Soot-stained Ledger",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_KotHaar_3",
+      "items": [],
+      "points": [[294155, 202922]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_KotHaar_4-96",
+      "name": "Partially-melted Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_KotHaar_4",
+      "items": [],
+      "points": [[244383, 194600]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_KotHaar_5-97",
+      "name": "Sand-scoured Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_KotHaar_5",
+      "items": [],
+      "points": [[310290, 122739]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_QoA_1-98",
+      "name": "Black-plated Tome",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_QoA_1",
+      "items": [],
+      "points": [[290762, 225519]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_QoA_2-99",
+      "name": "Child’s Storybook",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_QoA_2",
+      "items": [],
+      "points": [[270420, 109350]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_QoA_3-100",
+      "name": "Dragonscorched Ledger",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_QoA_3",
+      "items": [],
+      "points": [[297095, 179343]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_QoA_4-101",
+      "name": "Everburning Book",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_QoA_4",
+      "items": [],
+      "points": [[244065, 233558]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_WolfandGoddess-102",
+      "name": "The Wolf and the Goddess",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_WolfandGoddess",
+      "items": [],
+      "points": [[206286, 229492]]
+    },
+    {
+      "id": "JOURNAL_Know_UmS_WolfandGoddess-103",
+      "name": "The Wolf and the Goddess",
+      "kind": null,
+      "ref": "JOURNAL_Know_UmS_WolfandGoddess",
+      "items": [],
+      "points": [[231716, 246434]]
+    },
+    {
+      "id": "JOURNAL_Know_Vault_Puzzle_1-104",
+      "name": "Lacrussa's Memoir",
+      "kind": null,
+      "ref": "JOURNAL_Know_Vault_Puzzle_1",
+      "items": [],
+      "points": [[-455930, -325534]]
+    },
+    {
+      "id": "JOURNAL_Know_Vault_Puzzle_2-105",
+      "name": "Rot-covered Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Vault_Puzzle_2",
+      "items": [],
+      "points": [[-322000, -469377]]
+    },
+    {
+      "id": "JOURNAL_Know_Zogres_1-106",
+      "name": "Farmer Fred's Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Zogres_1",
+      "items": [],
+      "points": [[60838, -69820]]
+    },
+    {
+      "id": "JOURNAL_Know_Zogres_2-107",
+      "name": "Ulgo's Diary",
+      "kind": null,
+      "ref": "JOURNAL_Know_Zogres_2",
+      "items": [],
+      "points": [[185934, -31740]]
+    },
+    {
+      "id": "JOURNAL_Know_Zogres_3-108",
+      "name": "Captain Rainer's Journal",
+      "kind": null,
+      "ref": "JOURNAL_Know_Zogres_3",
+      "items": [],
+      "points": [[237084, -42755]]
+    },
+    {
+      "id": "JOURNAL_Scarecrow_1-109",
+      "name": "Scarecrow's Scribbles #1",
+      "kind": null,
+      "ref": "JOURNAL_Scarecrow_1",
+      "items": [],
+      "points": [[55164, 97881]]
+    },
+    {
+      "id": "JOURNAL_Scarecrow_2-110",
+      "name": "Scarecrow's Scribbles #2",
+      "kind": null,
+      "ref": "JOURNAL_Scarecrow_2",
+      "items": [],
+      "points": [[30453, 73106]]
+    },
+    {
+      "id": "JOURNAL_Scarecrow_3-111",
+      "name": "Scarecrow's Scribbles #3",
+      "kind": null,
+      "ref": "JOURNAL_Scarecrow_3",
+      "items": [],
+      "points": [[119030, 158755]]
+    },
+    {
+      "id": "JOURNAL_Scarecrow_4-112",
+      "name": "Scarecrow's Scribbles #4",
+      "kind": null,
+      "ref": "JOURNAL_Scarecrow_4",
+      "items": [],
+      "points": [[79956, 113722]]
+    },
+    {
+      "id": "JOURNAL_XMarksTheSpot_1-113",
+      "name": "Nolan Scathe's Journal",
+      "kind": null,
+      "ref": "JOURNAL_XMarksTheSpot_1",
+      "items": [],
+      "points": [[193128, -80320]]
+    },
+    {
+      "id": "JOURNAL_XMarksTheSpot_2-114",
+      "name": "Eleanor Scathe's Diary",
+      "kind": null,
+      "ref": "JOURNAL_XMarksTheSpot_2",
+      "items": [],
+      "points": [[152876, -5319]]
+    },
+    {
+      "id": "JOURNAL_XMarksTheSpot_3-115",
+      "name": "Samuel Malcifer's Journal",
+      "kind": null,
+      "ref": "JOURNAL_XMarksTheSpot_3",
+      "items": [],
+      "points": [[134877, -83203]]
+    },
+    {
+      "id": "JOURNAL_XMarksTheSpot_4-116",
+      "name": "Winston Henning's Diary",
+      "kind": null,
+      "ref": "JOURNAL_XMarksTheSpot_4",
+      "items": [],
+      "points": [[95320, -41087]]
+    }
+  ]
+}

@@ -167,7 +167,102 @@
     "quests": { "active": 1, "completed": 5 },
     "journal": { "unlocked": 43, "unread": 13 },
     "spells": 7,
-    "regions_revealed": 9
+    "regions_revealed": 9,
+    "inventory": [
+      {
+        "slot": 0,
+        "item": "ITEM_Resources_Leather_Hard",
+        "name": "Hard Leather",
+        "count": 14,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 1,
+        "item": "ITEM_Resources_Monstrous_Fang",
+        "name": "Monstrous Fang",
+        "count": 8,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Resources_Ruby",
+        "name": "Ruby",
+        "count": 12,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 3,
+        "item": "ITEM_Resources_SealBreakKey_Fall",
+        "name": "Curse Fragment (Rage)",
+        "count": 51,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 4,
+        "item": "ITEM_Resources_SteelBar",
+        "name": "Steel Bar",
+        "count": 22,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 5,
+        "item": "ITEM_Resources_Tea_Leaves",
+        "name": "Tea Leaves",
+        "count": 1,
+        "at_least": true,
+        "durability": null
+      }
+    ],
+    "loadout": [
+      {
+        "slot": 1,
+        "item": "ITEM_Armour_T6_Body_BlackRanger",
+        "name": "Shadow Body",
+        "count": 1,
+        "at_least": true,
+        "durability": 267
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Armour_T6_Head_Zamorak",
+        "name": "Zamorak Hood",
+        "count": 1,
+        "at_least": true,
+        "durability": 375
+      }
+    ],
+    "unlocks": { "recipes": 90, "buildings": 46, "journal": 43, "creatures": 17 },
+    "level_history": [
+      { "saved_at": "2026-09-23T12:19:01.005Z", "total_level": 137 },
+      { "saved_at": "2026-09-23T12:55:01.005Z", "total_level": 138 },
+      { "saved_at": "2026-09-23T13:07:01.005Z", "total_level": 140 },
+      { "saved_at": "2026-09-23T13:31:01.005Z", "total_level": 141 },
+      { "saved_at": "2026-09-23T13:43:01.005Z", "total_level": 142 },
+      { "saved_at": "2026-09-23T14:13:01.005Z", "total_level": 143 },
+      { "saved_at": "2026-09-23T14:43:01.005Z", "total_level": 144 },
+      { "saved_at": "2026-09-23T15:01:01.005Z", "total_level": 145 },
+      { "saved_at": "2026-09-25T14:00:01.005Z", "total_level": 146 },
+      { "saved_at": "2026-09-25T14:06:01.005Z", "total_level": 147 },
+      { "saved_at": "2026-09-25T14:12:01.005Z", "total_level": 148 },
+      { "saved_at": "2026-09-25T14:24:01.005Z", "total_level": 149 },
+      { "saved_at": "2026-09-25T14:30:01.005Z", "total_level": 150 },
+      { "saved_at": "2026-09-25T15:06:01.005Z", "total_level": 152 },
+      { "saved_at": "2026-09-26T15:28:01.005Z", "total_level": 153 },
+      { "saved_at": "2026-09-26T16:04:01.005Z", "total_level": 154 },
+      { "saved_at": "2026-09-26T16:10:01.005Z", "total_level": 155 },
+      { "saved_at": "2026-09-26T16:22:01.005Z", "total_level": 157 },
+      { "saved_at": "2026-09-26T16:28:01.005Z", "total_level": 158 },
+      { "saved_at": "2026-09-26T17:16:01.005Z", "total_level": 159 },
+      { "saved_at": "2026-09-26T17:34:01.005Z", "total_level": 161 },
+      { "saved_at": "2026-09-28T20:04:01.005Z", "total_level": 162 },
+      { "saved_at": "2026-09-28T20:10:01.005Z", "total_level": 163 },
+      { "saved_at": "2026-09-28T20:29:00.000Z", "total_level": 164 }
+    ]
   },
   "feats": {
     "journal_entries": 43,

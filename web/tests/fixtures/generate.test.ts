@@ -25,7 +25,12 @@ import { listChat } from '../../src/lib/server/read/chat';
 import { statusHistory } from '../../src/lib/server/read/history';
 import { getPlayer, listPlayers, listSessions } from '../../src/lib/server/read/players';
 import { computeOnline, computeStatus } from '../../src/lib/server/read/status';
-import { worldMap } from '../../src/lib/server/read/map';
+import { catalog } from '../../src/lib/server/read/catalog';
+import { getJournal } from '../../src/lib/server/read/journal';
+import { layerNames, mapLayer } from '../../src/lib/server/read/layers';
+import { getLedger } from '../../src/lib/server/read/ledger';
+import { mapLive, worldMap } from '../../src/lib/server/read/map';
+import { getProgression } from '../../src/lib/server/read/progression';
 import { getWorld } from '../../src/lib/server/read/world';
 import { defaultSettings } from '../../src/lib/server/settings';
 import { generateHistory, toBatches } from '../../scripts/simulator/generator';
@@ -36,7 +41,7 @@ vi.setConfig({ testTimeout: 600_000, hookTimeout: 600_000 });
 const root = fileURLToPath(new URL('../../fixtures/api/', import.meta.url));
 const endAt = new Date('2026-09-28T20:30:00Z');
 const now = new Date(endAt.getTime() + 5_000);
-const features = { chat: true };
+const features = { chat: true, positions: true };
 
 async function write(name: string, document: unknown): Promise<void> {
   const file = join(root, `${name}.json`);
@@ -148,6 +153,13 @@ describe('API fixtures', () => {
     const chat = await listChat(db, { limit: 200, after: null });
     await write('chat', paged(chat, 200, 'bW9yZQ'));
     await write('world', await getWorld(db));
+    await write('catalog', catalog);
+    await write('ledger', await getLedger(db));
+    await write('journal', await getJournal(db));
+    await write('progression', await getProgression(db));
+    await write('map/live', await mapLive(db, now));
+    for (const layer of layerNames) await write(`map/layers/${layer}`, mapLayer(layer));
+    await write('map/layers/{layer}', mapLayer('dungeons'));
     await write('site', { name: defaultSettings.site_name, version: __APP_VERSION__, features });
 
     await write('admin/session', {

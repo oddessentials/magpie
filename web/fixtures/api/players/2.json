@@ -170,7 +170,99 @@
     "quests": { "active": 4, "completed": 1 },
     "journal": { "unlocked": 43, "unread": 13 },
     "spells": 7,
-    "regions_revealed": 9
+    "regions_revealed": 9,
+    "inventory": [
+      {
+        "slot": 0,
+        "item": "ITEM_Resources_Cloth_Wool",
+        "name": "Wool Cloth",
+        "count": 13,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 1,
+        "item": "ITEM_Resources_Ectoplasm",
+        "name": "Ectoplasm",
+        "count": 51,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Resources_Fish_Raw_Lobster",
+        "name": "Raw Lobster",
+        "count": 3,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 3,
+        "item": "ITEM_Resources_Fish_Raw_Salmon",
+        "name": "Raw Salmon",
+        "count": 51,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 4,
+        "item": "ITEM_Resources_Ground_Clay",
+        "name": "Ground Clay",
+        "count": 16,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 5,
+        "item": "ITEM_Resources_IronBar",
+        "name": "Iron Bar",
+        "count": 1,
+        "at_least": true,
+        "durability": null
+      }
+    ],
+    "loadout": [
+      {
+        "slot": 1,
+        "item": "ITEM_Armour_T3_Legs_Wizard",
+        "name": "Wizard Robe Legs",
+        "count": 1,
+        "at_least": true,
+        "durability": 443
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Armour_T4_Head_Paladin",
+        "name": "Paladin's Helm",
+        "count": 1,
+        "at_least": true,
+        "durability": 470
+      }
+    ],
+    "unlocks": { "recipes": 90, "buildings": 46, "journal": 43, "creatures": 16 },
+    "level_history": [
+      { "saved_at": "2026-09-22T16:18:01.005Z", "total_level": 162 },
+      { "saved_at": "2026-09-22T16:30:01.005Z", "total_level": 163 },
+      { "saved_at": "2026-09-22T17:00:01.005Z", "total_level": 164 },
+      { "saved_at": "2026-09-22T17:06:01.005Z", "total_level": 165 },
+      { "saved_at": "2026-09-22T17:12:01.005Z", "total_level": 166 },
+      { "saved_at": "2026-09-23T15:49:01.005Z", "total_level": 167 },
+      { "saved_at": "2026-09-23T15:55:01.005Z", "total_level": 168 },
+      { "saved_at": "2026-09-23T17:01:01.005Z", "total_level": 169 },
+      { "saved_at": "2026-09-24T16:00:01.005Z", "total_level": 170 },
+      { "saved_at": "2026-09-24T16:18:01.005Z", "total_level": 172 },
+      { "saved_at": "2026-09-24T16:42:01.005Z", "total_level": 173 },
+      { "saved_at": "2026-09-24T16:54:01.005Z", "total_level": 174 },
+      { "saved_at": "2026-09-24T17:18:01.005Z", "total_level": 176 },
+      { "saved_at": "2026-09-25T16:48:01.005Z", "total_level": 177 },
+      { "saved_at": "2026-09-25T17:24:01.005Z", "total_level": 178 },
+      { "saved_at": "2026-09-27T16:25:01.005Z", "total_level": 179 },
+      { "saved_at": "2026-09-27T16:37:01.005Z", "total_level": 180 },
+      { "saved_at": "2026-09-27T16:43:01.005Z", "total_level": 181 },
+      { "saved_at": "2026-09-27T16:49:01.005Z", "total_level": 182 },
+      { "saved_at": "2026-09-28T19:52:01.005Z", "total_level": 183 },
+      { "saved_at": "2026-09-28T20:29:00.000Z", "total_level": 189 }
+    ]
   },
   "feats": {
     "journal_entries": 43,

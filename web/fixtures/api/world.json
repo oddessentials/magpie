@@ -11,7 +11,10 @@
     },
     "buildings": {
       "total": 38,
-      "types": [{ "id": "sample-timber-wall", "count": 38 }],
+      "types": [
+        { "id": "M7QLdUuke_0ck_yQC_8nFQ", "count": 36 },
+        { "id": "M7QLdUuke_0ck_yQC_8nFQ", "count": 2 }
+      ],
       "unfinished": 2
     },
     "discoveries": [{ "id": "C29B965F4A6FE5855746CDB2FB61F658", "characters": 2 }],

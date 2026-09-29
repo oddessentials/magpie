@@ -504,6 +504,11 @@ export const t = {
           label: 'Chat',
           description:
             'Chat lines in the feed, on the chat page and in the stream. Off by default: chat reaches the site through a server mod that players may not expect.'
+        },
+        positions: {
+          label: 'Player positions',
+          description:
+            "Each character's last saved position, the bases and the day's deaths on the map. Off by default: they show where players and their bases are."
         }
       },
       featuresNote: 'The site keeps recording everything; a switch only decides what visitors see.',

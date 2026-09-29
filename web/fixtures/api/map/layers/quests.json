@@ -1,0 +1,1391 @@
+{
+  "layer": "quests",
+  "build": 25501739,
+  "version": "1.0.0.6",
+  "groups": [
+    {
+      "id": "quest-0",
+      "name": "WOM_NPC_Fish_NPC",
+      "kind": "Npc",
+      "ref": null,
+      "items": [],
+      "points": [[48496, 177596]]
+    },
+    {
+      "id": "Quest_AMelodyRemebered-1",
+      "name": "A Melody Remembered",
+      "kind": "Npc",
+      "ref": "Quest_AMelodyRemebered",
+      "items": [],
+      "points": [[15024, 83060]]
+    },
+    {
+      "id": "Quest_AnimalMagnetism-2",
+      "name": "Animal Magnetism",
+      "kind": "Npc",
+      "ref": "Quest_AnimalMagnetism",
+      "items": [],
+      "points": [[43707, 120868]]
+    },
+    {
+      "id": "Quest_BrinkOfExtinction-3",
+      "name": "Brink of Extinction",
+      "kind": "Npc",
+      "ref": "Quest_BrinkOfExtinction",
+      "items": [],
+      "points": [[276573, 187254]]
+    },
+    {
+      "id": "Quest_BrinkOfExtinction-4",
+      "name": "Brink of Extinction",
+      "kind": null,
+      "ref": "Quest_BrinkOfExtinction",
+      "items": [],
+      "points": [[276201, 186862]]
+    },
+    {
+      "id": "Quest_BrinkOfExtinction-5",
+      "name": "Brink of Extinction",
+      "kind": "Area",
+      "ref": "Quest_BrinkOfExtinction",
+      "items": [],
+      "points": [[298257, 189424]]
+    },
+    {
+      "id": "Quest_BrinkOfExtinction-6",
+      "name": "Brink of Extinction",
+      "kind": "Npc",
+      "ref": "Quest_BrinkOfExtinction",
+      "items": [],
+      "points": [[305913, 194326]]
+    },
+    {
+      "id": "Quest_Contact-7",
+      "name": "Contact!",
+      "kind": "Area",
+      "ref": "Quest_Contact",
+      "items": [],
+      "points": [[335734, 43223]]
+    },
+    {
+      "id": "Quest_Contact-8",
+      "name": "Contact!",
+      "kind": "Area",
+      "ref": "Quest_Contact",
+      "items": [],
+      "points": [[324620, 37726]]
+    },
+    {
+      "id": "Quest_Contact-9",
+      "name": "Contact!",
+      "kind": "Npc",
+      "ref": "Quest_Contact",
+      "items": [],
+      "points": [[334281, 40817]]
+    },
+    {
+      "id": "Quest_Contact-10",
+      "name": "Contact!",
+      "kind": "Area",
+      "ref": "Quest_Contact",
+      "items": [],
+      "points": [[333806, 39472]]
+    },
+    {
+      "id": "Quest_CooksAssistant-11",
+      "name": "Cook's Assistant",
+      "kind": "Npc",
+      "ref": "Quest_CooksAssistant",
+      "items": [],
+      "points": [[43067, 120849]]
+    },
+    {
+      "id": "Quest_DR_FTUE_Fishing-12",
+      "name": "Shrimp Catcher",
+      "kind": null,
+      "ref": "Quest_DR_FTUE_Fishing",
+      "items": [],
+      "points": [[48496, 177596]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-13",
+      "name": "Black Knight's Fortress",
+      "kind": null,
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[235239, 78943]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-14",
+      "name": "Black Knight's Fortress",
+      "kind": null,
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[210753, -2935]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-15",
+      "name": "Black Knight's Fortress",
+      "kind": null,
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[127610, 35470]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-16",
+      "name": "Black Knight's Fortress",
+      "kind": null,
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[228059, 54537]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-17",
+      "name": "Black Knight's Fortress",
+      "kind": null,
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[228451, 54490]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-18",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[250885, 16791]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-19",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[260628, 37152]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-20",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[203033, 50615]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-21",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[201050, 70057]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-22",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[230850, 22400]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-23",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[237138, 21631]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-24",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[200935, 41714]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-25",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[211296, 60400]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-26",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[220039, 39934]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-27",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[225258, 36215]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-28",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[204445, 68939]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-29",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[215311, 45025]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-30",
+      "name": "Black Knight's Fortress",
+      "kind": "Area",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[250690, 51510]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-31",
+      "name": "Black Knight's Fortress",
+      "kind": "Npc",
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[222410, 32940]]
+    },
+    {
+      "id": "Quest_DR_MainQuest-32",
+      "name": "Black Knight's Fortress",
+      "kind": null,
+      "ref": "Quest_DR_MainQuest",
+      "items": [],
+      "points": [[222410, 32940]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-33",
+      "name": "Withering Heights",
+      "kind": null,
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[129726, -8754]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-34",
+      "name": "Withering Heights",
+      "kind": null,
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[127177, 35182]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-35",
+      "name": "Withering Heights",
+      "kind": "Area",
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[129197, 36367]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-36",
+      "name": "Withering Heights",
+      "kind": null,
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[132751, 51231]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-37",
+      "name": "Withering Heights",
+      "kind": "Area",
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[131072, 7717]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-38",
+      "name": "Withering Heights",
+      "kind": "Area",
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[162640, -55525]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-39",
+      "name": "Withering Heights",
+      "kind": "Area",
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[225412, -36611]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-40",
+      "name": "Withering Heights",
+      "kind": "Npc",
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[127228, 35247]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-41",
+      "name": "Withering Heights",
+      "kind": null,
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[132706, 24791]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-42",
+      "name": "Withering Heights",
+      "kind": null,
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[131780, -57961]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-43",
+      "name": "Withering Heights",
+      "kind": null,
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[140478, -19032]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-44",
+      "name": "Withering Heights",
+      "kind": null,
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[137842, -19658]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-45",
+      "name": "Withering Heights",
+      "kind": null,
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[139336, -19946]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-46",
+      "name": "Withering Heights",
+      "kind": "Area",
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[138893, -18277]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-47",
+      "name": "Withering Heights",
+      "kind": "Area",
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[60335, -55671]]
+    },
+    {
+      "id": "Quest_DeathQuestMain-48",
+      "name": "Withering Heights",
+      "kind": null,
+      "ref": "Quest_DeathQuestMain",
+      "items": [],
+      "points": [[124347, 59364]]
+    },
+    {
+      "id": "Quest_DogDays-49",
+      "name": "Dog Days",
+      "kind": "Npc",
+      "ref": "Quest_DogDays",
+      "items": [],
+      "points": [[44081, 92795]]
+    },
+    {
+      "id": "Quest_DragonSlayer-50",
+      "name": "Dragon Slayer",
+      "kind": "Area",
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[61113, 159740]]
+    },
+    {
+      "id": "Quest_DragonSlayer-51",
+      "name": "Dragon Slayer",
+      "kind": "Area",
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[98273, 148281]]
+    },
+    {
+      "id": "Quest_DragonSlayer-52",
+      "name": "Dragon Slayer",
+      "kind": "Area",
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[120965, 164080]]
+    },
+    {
+      "id": "Quest_DragonSlayer-53",
+      "name": "Dragon Slayer",
+      "kind": "Area",
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[98849, 99717]]
+    },
+    {
+      "id": "Quest_DragonSlayer-54",
+      "name": "Dragon Slayer",
+      "kind": null,
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[98850, 98207]]
+    },
+    {
+      "id": "Quest_DragonSlayer-55",
+      "name": "Dragon Slayer",
+      "kind": "Area",
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[80966, 107833]]
+    },
+    {
+      "id": "Quest_DragonSlayer-56",
+      "name": "Dragon Slayer",
+      "kind": "Area",
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[30512, 86114]]
+    },
+    {
+      "id": "Quest_DragonSlayer-57",
+      "name": "Dragon Slayer",
+      "kind": "Npc",
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[48528, 177636]]
+    },
+    {
+      "id": "Quest_DragonSlayer-58",
+      "name": "Dragon Slayer",
+      "kind": null,
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[48532, 177638]]
+    },
+    {
+      "id": "Quest_DragonSlayer-59",
+      "name": "Dragon Slayer",
+      "kind": null,
+      "ref": "Quest_DragonSlayer",
+      "items": [],
+      "points": [[99290, 106010]]
+    },
+    {
+      "id": "Quest_ElderGarou-60",
+      "name": "A Room with a Garou",
+      "kind": "Npc",
+      "ref": "Quest_ElderGarou",
+      "items": [],
+      "points": [[61375, 89610]]
+    },
+    {
+      "id": "Quest_FH_CollectorsCalling-61",
+      "name": "Doric's Quest",
+      "kind": "Npc",
+      "ref": "Quest_FH_CollectorsCalling",
+      "items": [],
+      "points": [[194050, -42360]]
+    },
+    {
+      "id": "Quest_FH_GhostQuest-62",
+      "name": "Even More Restless Ghosts",
+      "kind": "Npc",
+      "ref": "Quest_FH_GhostQuest",
+      "items": [],
+      "points": [[153384, -21248]]
+    },
+    {
+      "id": "Quest_FH_MirrorMirror-63",
+      "name": "Mirror Mirror",
+      "kind": "Area",
+      "ref": "Quest_FH_MirrorMirror",
+      "items": [],
+      "points": [[117476, 150294]]
+    },
+    {
+      "id": "Quest_FH_MirrorMirror-64",
+      "name": "Mirror Mirror",
+      "kind": "Area",
+      "ref": "Quest_FH_MirrorMirror",
+      "items": [],
+      "points": [[35353, 191170]]
+    },
+    {
+      "id": "Quest_FH_MirrorMirror-65",
+      "name": "Mirror Mirror",
+      "kind": null,
+      "ref": "Quest_FH_MirrorMirror",
+      "items": [],
+      "points": [[27808, -40832]]
+    },
+    {
+      "id": "Quest_FH_MirrorMirror-66",
+      "name": "Mirror Mirror",
+      "kind": "Area",
+      "ref": "Quest_FH_MirrorMirror",
+      "items": [],
+      "points": [[112661, 117756]]
+    },
+    {
+      "id": "Quest_FH_MirrorMirror-67",
+      "name": "Mirror Mirror",
+      "kind": "Npc",
+      "ref": "Quest_FH_MirrorMirror",
+      "items": [],
+      "points": [[27883, -40976]]
+    },
+    {
+      "id": "Quest_FH_MirrorMirror-68",
+      "name": "Mirror Mirror",
+      "kind": "Area",
+      "ref": "Quest_FH_MirrorMirror",
+      "items": [],
+      "points": [[42513, 73341]]
+    },
+    {
+      "id": "Quest_FH_MirrorMirror-69",
+      "name": "Mirror Mirror",
+      "kind": "Area",
+      "ref": "Quest_FH_MirrorMirror",
+      "items": [],
+      "points": [[81778, 144562]]
+    },
+    {
+      "id": "Quest_FH_WhatRemainsIsWritten-70",
+      "name": "What Remains is Written",
+      "kind": "Npc",
+      "ref": "Quest_FH_WhatRemainsIsWritten",
+      "items": [],
+      "points": [[200519, -74597]]
+    },
+    {
+      "id": "Quest_FH_WitherBeast-71",
+      "name": "The Wild Hunt",
+      "kind": "Npc",
+      "ref": "Quest_FH_WitherBeast",
+      "items": [],
+      "points": [[126484, -30184]]
+    },
+    {
+      "id": "Quest_FH_WitherWard-72",
+      "name": "Seeking Salvation",
+      "kind": "Npc",
+      "ref": "Quest_FH_WitherWard",
+      "items": [],
+      "points": [[194044, -42342]]
+    },
+    {
+      "id": "Quest_FTUE_FS-73",
+      "name": "First Steps",
+      "kind": null,
+      "ref": "Quest_FTUE_FS",
+      "items": [],
+      "points": [[48538, 177641]]
+    },
+    {
+      "id": "Quest_FTUE_Farming-74",
+      "name": "Growing Pains",
+      "kind": "Npc",
+      "ref": "Quest_FTUE_Farming",
+      "items": [],
+      "points": [[48499, 177603]]
+    },
+    {
+      "id": "Quest_FTUE_Farming-75",
+      "name": "Growing Pains",
+      "kind": null,
+      "ref": "Quest_FTUE_Farming",
+      "items": [],
+      "points": [[48499, 177603]]
+    },
+    {
+      "id": "Quest_FTUE_GS-76",
+      "name": "First Steps",
+      "kind": null,
+      "ref": "Quest_FTUE_GS",
+      "items": [],
+      "points": [[10914, 184818]]
+    },
+    {
+      "id": "Quest_FTUE_GS-77",
+      "name": "First Steps",
+      "kind": null,
+      "ref": "Quest_FTUE_GS",
+      "items": [],
+      "points": [[6109, 187423]]
+    },
+    {
+      "id": "Quest_FTUE_LO-78",
+      "name": "Rune Mysteries",
+      "kind": "Npc",
+      "ref": "Quest_FTUE_LO",
+      "items": [],
+      "points": [[26693, 182392]]
+    },
+    {
+      "id": "Quest_FTUE_LO-79",
+      "name": "Rune Mysteries",
+      "kind": null,
+      "ref": "Quest_FTUE_LO",
+      "items": [],
+      "points": [[26694, 182393]]
+    },
+    {
+      "id": "Quest_FTUE_RC-80",
+      "name": "Ratcatcher",
+      "kind": "Npc",
+      "ref": "Quest_FTUE_RC",
+      "items": [],
+      "points": [[15246, 178710]]
+    },
+    {
+      "id": "Quest_FTUE_RC-81",
+      "name": "Ratcatcher",
+      "kind": null,
+      "ref": "Quest_FTUE_RC",
+      "items": [],
+      "points": [[15246, 178710]]
+    },
+    {
+      "id": "Quest_FTUE_RC-82",
+      "name": "Ratcatcher",
+      "kind": "Area",
+      "ref": "Quest_FTUE_RC",
+      "items": [],
+      "points": [[15612, 171341]]
+    },
+    {
+      "id": "Quest_FTUE_RM-83",
+      "name": "Rune Mysteries",
+      "kind": null,
+      "ref": "Quest_FTUE_RM",
+      "items": [],
+      "points": [[25550, 179733]]
+    },
+    {
+      "id": "Quest_FTUE_RM-84",
+      "name": "Rune Mysteries",
+      "kind": null,
+      "ref": "Quest_FTUE_RM",
+      "items": [],
+      "points": [[24644, 184992]]
+    },
+    {
+      "id": "Quest_FTUE_RM-85",
+      "name": "Rune Mysteries",
+      "kind": "Npc",
+      "ref": "Quest_FTUE_RM",
+      "items": [],
+      "points": [[26693, 182392]]
+    },
+    {
+      "id": "Quest_FTUE_RM-86",
+      "name": "Rune Mysteries",
+      "kind": null,
+      "ref": "Quest_FTUE_RM",
+      "items": [],
+      "points": [[26693, 182392]]
+    },
+    {
+      "id": "Quest_FTUE_RtftJ-87",
+      "name": "Getting Started",
+      "kind": "Npc",
+      "ref": "Quest_FTUE_RtftJ",
+      "items": [],
+      "points": [[10914, 184820]]
+    },
+    {
+      "id": "Quest_FTUE_RtftJ-88",
+      "name": "Getting Started",
+      "kind": null,
+      "ref": "Quest_FTUE_RtftJ",
+      "items": [],
+      "points": [[10914, 184820]]
+    },
+    {
+      "id": "Quest_FTUE_RtftJ-89",
+      "name": "Getting Started",
+      "kind": "Area",
+      "ref": "Quest_FTUE_RtftJ",
+      "items": [],
+      "points": [[4592, 179212]]
+    },
+    {
+      "id": "Quest_FTUE_RtftJ-90",
+      "name": "Getting Started",
+      "kind": "Area",
+      "ref": "Quest_FTUE_RtftJ",
+      "items": [],
+      "points": [[15645, 192657]]
+    },
+    {
+      "id": "Quest_FTUE_WardStones-91",
+      "name": "Warding Off Danger",
+      "kind": "Npc",
+      "ref": "Quest_FTUE_WardStones",
+      "items": [],
+      "points": [[48529, 177634]]
+    },
+    {
+      "id": "Quest_FTUE_WardStones-92",
+      "name": "Warding Off Danger",
+      "kind": null,
+      "ref": "Quest_FTUE_WardStones",
+      "items": [],
+      "points": [[48529, 177634]]
+    },
+    {
+      "id": "Quest_GoblinDiplomacy-93",
+      "name": "Goblin Diplomacy",
+      "kind": "Npc",
+      "ref": "Quest_GoblinDiplomacy",
+      "items": [],
+      "points": [[74273, 157973]]
+    },
+    {
+      "id": "Quest_GraniteMauled-94",
+      "name": "Granite Mauled",
+      "kind": "Npc",
+      "ref": "Quest_GraniteMauled",
+      "items": [],
+      "points": [[142222, 92602]]
+    },
+    {
+      "id": "Quest_GreatBodyRobbery-95",
+      "name": "The Great Body Robbery",
+      "kind": "Npc",
+      "ref": "Quest_GreatBodyRobbery",
+      "items": [],
+      "points": [[125148, 157086]]
+    },
+    {
+      "id": "Quest_Heartstrings-96",
+      "name": "Heartstrings",
+      "kind": null,
+      "ref": "Quest_Heartstrings",
+      "items": [],
+      "points": [[80781, 113508]]
+    },
+    {
+      "id": "Quest_HighlightingTheProblem-97",
+      "name": "Highlighting the Problem",
+      "kind": "Area",
+      "ref": "Quest_HighlightingTheProblem",
+      "items": [],
+      "points": [[21332, 147703]]
+    },
+    {
+      "id": "Quest_RestlessGhosts-98",
+      "name": "Restless Ghosts",
+      "kind": null,
+      "ref": "Quest_RestlessGhosts",
+      "items": [],
+      "points": [[41284, 169682]]
+    },
+    {
+      "id": "Quest_SQ1_ThinkingWithPortals-99",
+      "name": "What's Theirs is Mine",
+      "kind": "Npc",
+      "ref": "Quest_SQ1_ThinkingWithPortals",
+      "items": [],
+      "points": [[228062, 54540]]
+    },
+    {
+      "id": "Quest_SQ2_AnimalLover-100",
+      "name": "Wanted!",
+      "kind": "Area",
+      "ref": "Quest_SQ2_AnimalLover",
+      "items": [],
+      "points": [[231405, 27425]]
+    },
+    {
+      "id": "Quest_SQ2_AnimalLover-101",
+      "name": "Wanted!",
+      "kind": "Area",
+      "ref": "Quest_SQ2_AnimalLover",
+      "items": [],
+      "points": [[201970, 66345]]
+    },
+    {
+      "id": "Quest_SQ2_AnimalLover-102",
+      "name": "Wanted!",
+      "kind": "Npc",
+      "ref": "Quest_SQ2_AnimalLover",
+      "items": [],
+      "points": [[210306, 34195]]
+    },
+    {
+      "id": "Quest_SQ3_Nevermore-103",
+      "name": "Biohazard",
+      "kind": null,
+      "ref": "Quest_SQ3_Nevermore",
+      "items": [],
+      "points": [[221260, 42445]]
+    },
+    {
+      "id": "Quest_SQ3_Nevermore-104",
+      "name": "Biohazard",
+      "kind": null,
+      "ref": "Quest_SQ3_Nevermore",
+      "items": [],
+      "points": [[208520, 60500]]
+    },
+    {
+      "id": "Quest_SQ3_Nevermore-105",
+      "name": "Biohazard",
+      "kind": "Npc",
+      "ref": "Quest_SQ3_Nevermore",
+      "items": [],
+      "points": [[220463, 27594]]
+    },
+    {
+      "id": "Quest_SW_MainQuest-106",
+      "name": "Regicide",
+      "kind": null,
+      "ref": "Quest_SW_MainQuest",
+      "items": [],
+      "points": [[95445, 59806]]
+    },
+    {
+      "id": "Quest_SW_MainQuest-107",
+      "name": "Regicide",
+      "kind": "Npc",
+      "ref": "Quest_SW_MainQuest",
+      "items": [],
+      "points": [[-703253, 762445]]
+    },
+    {
+      "id": "Quest_UMS_MappingTheSands-108",
+      "name": "Mapping the Sands I",
+      "kind": "Npc",
+      "ref": "Quest_UMS_MappingTheSands",
+      "items": [],
+      "points": [[258708, 109917]]
+    },
+    {
+      "id": "Quest_UMS_MappingTheSands-109",
+      "name": "Mapping the Sands I",
+      "kind": null,
+      "ref": "Quest_UMS_MappingTheSands",
+      "items": [],
+      "points": [[258708, 109917]]
+    },
+    {
+      "id": "Quest_UMS_MappingTheSands2-110",
+      "name": "Mapping the Sands II",
+      "kind": "Npc",
+      "ref": "Quest_UMS_MappingTheSands2",
+      "items": [],
+      "points": [[258708, 109917]]
+    },
+    {
+      "id": "Quest_UMS_MappingTheSands2-111",
+      "name": "Mapping the Sands II",
+      "kind": null,
+      "ref": "Quest_UMS_MappingTheSands2",
+      "items": [],
+      "points": [[258708, 109917]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-112",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[236365, 81271]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-113",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[252449, 112144]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-114",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[356640, 118474]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-115",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[211253, 181108]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-116",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[332650, 254835]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-117",
+      "name": "Icthlarin's Little Helper",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[252449, 112144]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-118",
+      "name": "Icthlarin's Little Helper",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[250908, 113871]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-119",
+      "name": "Icthlarin's Little Helper",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[252057, 112086]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-120",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[252057, 112086]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-121",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[244802, 116143]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-122",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[248289, 112443]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-123",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[251957, 116550]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-124",
+      "name": "Icthlarin's Little Helper",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[340070, 109666]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-125",
+      "name": "Icthlarin's Little Helper",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[356640, 118474]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-126",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[356674, 115916]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-127",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[358827, 119446]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-128",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[357323, 120898]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-129",
+      "name": "Icthlarin's Little Helper",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[215806, 201366]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-130",
+      "name": "Icthlarin's Little Helper",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[211253, 181108]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-131",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[212690, 183074]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-132",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[211478, 183538]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-133",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[209465, 181855]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-134",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[252165, 112617]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-135",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[252586, 112615]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest-136",
+      "name": "Icthlarin's Little Helper",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest",
+      "items": [],
+      "points": [[251952, 112981]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeA_Task1-137",
+      "name": "Rag and Bone Garou",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeA_Task1",
+      "items": [],
+      "points": [[277289, 144090]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeA_Task1-138",
+      "name": "Rag and Bone Garou",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest1_TribeA_Task1",
+      "items": [],
+      "points": [[244802, 116143]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeA_Task2-139",
+      "name": "Rogue Trader",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeA_Task2",
+      "items": [],
+      "points": [[221574, 108361]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeA_Task2-140",
+      "name": "Rogue Trader",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeA_Task2",
+      "items": [],
+      "points": [[216125, 134537]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeA_Task2-141",
+      "name": "Rogue Trader",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeA_Task2",
+      "items": [],
+      "points": [[201923, 150836]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeA_Task2-142",
+      "name": "Rogue Trader",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest1_TribeA_Task2",
+      "items": [],
+      "points": [[248289, 112443]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeA_Task2-143",
+      "name": "Rogue Trader",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest1_TribeA_Task2",
+      "items": [],
+      "points": [[248289, 112443]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeA_Task3-144",
+      "name": "The Mirror Crack'd",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeA_Task3",
+      "items": [],
+      "points": [[255939, 143949]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeA_Task3-145",
+      "name": "The Mirror Crack'd",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest1_TribeA_Task3",
+      "items": [],
+      "points": [[251957, 116550]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task1-146",
+      "name": "Saga of the Adventurer",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task1",
+      "items": [],
+      "points": [[369436, 41309]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task1-147",
+      "name": "Saga of the Adventurer",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task1",
+      "items": [],
+      "points": [[346080, 69943]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task1-148",
+      "name": "Saga of the Adventurer",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task1",
+      "items": [],
+      "points": [[368097, 43133]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task1-149",
+      "name": "Saga of the Adventurer",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task1",
+      "items": [],
+      "points": [[356674, 115916]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task1-150",
+      "name": "Saga of the Adventurer",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task1",
+      "items": [],
+      "points": [[356674, 115916]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task2-151",
+      "name": "The Dig Site",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task2",
+      "items": [],
+      "points": [[372191, 176773]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task2-152",
+      "name": "The Dig Site",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task2",
+      "items": [],
+      "points": [[358827, 119446]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task2-153",
+      "name": "The Dig Site",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task2",
+      "items": [],
+      "points": [[358827, 119446]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task3-154",
+      "name": "Mark Day",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task3",
+      "items": [],
+      "points": [[326753, 51848]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task3-155",
+      "name": "Mark Day",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task3",
+      "items": [],
+      "points": [[326327, 190383]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task3-156",
+      "name": "Mark Day",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task3",
+      "items": [],
+      "points": [[340400, 75088]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task3-157",
+      "name": "Mark Day",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task3",
+      "items": [],
+      "points": [[350213, 152988]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task3-158",
+      "name": "Mark Day",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task3",
+      "items": [],
+      "points": [[357323, 120898]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeB_Task3-159",
+      "name": "Mark Day",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest1_TribeB_Task3",
+      "items": [],
+      "points": [[357323, 120898]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task1-160",
+      "name": "Beast in the Sand",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task1",
+      "items": [],
+      "points": [[202837, 225744]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task1-161",
+      "name": "Beast in the Sand",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task1",
+      "items": [],
+      "points": [[205755, 244316]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task1-162",
+      "name": "Beast in the Sand",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task1",
+      "items": [],
+      "points": [[224149, 244227]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task1-163",
+      "name": "Beast in the Sand",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task1",
+      "items": [],
+      "points": [[235003, 248550]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task1-164",
+      "name": "Beast in the Sand",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task1",
+      "items": [],
+      "points": [[212690, 183074]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task2-165",
+      "name": "Scaling Difficulties",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task2",
+      "items": [],
+      "points": [[269866, 205534]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task2-166",
+      "name": "Scaling Difficulties",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task2",
+      "items": [],
+      "points": [[248867, 201643]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task2-167",
+      "name": "Scaling Difficulties",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task2",
+      "items": [],
+      "points": [[252831, 199536]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task2-168",
+      "name": "Scaling Difficulties",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task2",
+      "items": [],
+      "points": [[211456, 183538]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task2-169",
+      "name": "Scaling Difficulties",
+      "kind": null,
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task2",
+      "items": [],
+      "points": [[211466, 183548]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task3-170",
+      "name": "Song of the Ancients",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task3",
+      "items": [],
+      "points": [[245464, 200196]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task3-171",
+      "name": "Song of the Ancients",
+      "kind": "Area",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task3",
+      "items": [],
+      "points": [[221127, 237149]]
+    },
+    {
+      "id": "Quest_UmS_MainQuest1_TribeC_Task3-172",
+      "name": "Song of the Ancients",
+      "kind": "Npc",
+      "ref": "Quest_UmS_MainQuest1_TribeC_Task3",
+      "items": [],
+      "points": [[209465, 181855]]
+    }
+  ]
+}

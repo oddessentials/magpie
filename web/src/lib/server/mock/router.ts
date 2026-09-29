@@ -14,6 +14,7 @@ interface MockRoute {
   listFixture: string | null;
   idField: string | null;
   detail: boolean;
+  paged: boolean;
 }
 
 interface ListDocument {
@@ -26,6 +27,13 @@ const sessionPath = '/api/v1/admin/session';
 
 function idFieldFor(param: string): string | null {
   return param === 'id' ? 'id' : null;
+}
+
+function parameterName(parameter: unknown): string | undefined {
+  if (!parameter || typeof parameter !== 'object') return undefined;
+  const record = parameter as { $ref?: unknown; name?: unknown };
+  if (typeof record.$ref === 'string') return record.$ref.split('/').pop();
+  return typeof record.name === 'string' ? record.name : undefined;
 }
 
 let routes: MockRoute[] | null = null;
@@ -45,6 +53,7 @@ function getRoutes(): MockRoute[] {
         return '([^/]+)';
       })
       .join('/');
+    const query = (item.get.parameters ?? []).map(parameterName);
     const firstParam = template.indexOf('/{');
     const listFixture = firstParam === -1 ? null : template.slice('/api/v1/'.length, firstParam);
     const lastSegment = template.slice(template.lastIndexOf('/') + 1);
@@ -55,7 +64,8 @@ function getRoutes(): MockRoute[] {
       fixture: template.slice('/api/v1/'.length),
       listFixture,
       idField: params.length > 0 ? idFieldFor(params[0] as string) : null,
-      detail: /^\{\w+\}$/.test(lastSegment)
+      detail: /^\{\w+\}$/.test(lastSegment),
+      paged: query.includes('Limit') || query.includes('limit')
     });
   }
   return routes;
@@ -204,7 +214,8 @@ function answerGet(route: MockRoute, match: RegExpExecArray, url: URL): Response
   const own = id === null ? null : route.fixture.replace(/\{\w+\}/, id);
   if (own !== null && hasFixture(own)) {
     const concrete = cloneFixture<Record<string, unknown>>(own)!;
-    const paged = paginate(filterItems(route, concrete, url), url, 50, 200);
+    const filtered = filterItems(route, concrete, url);
+    const paged = route.paged ? paginate(filtered, url, 50, 200) : filtered;
     if (paged instanceof Response) return paged;
     return jsonResponse(paged, !route.template.startsWith('/api/v1/admin/'));
   }
@@ -215,7 +226,7 @@ function answerGet(route: MockRoute, match: RegExpExecArray, url: URL): Response
     if (item) document = mergeScalars(document, item);
   }
   document = filterItems(route, document, url);
-  const paged = paginate(document, url, 50, 200);
+  const paged = route.paged ? paginate(document, url, 50, 200) : document;
   if (paged instanceof Response) return paged;
   return jsonResponse(paged, !route.template.startsWith('/api/v1/admin/'));
 }

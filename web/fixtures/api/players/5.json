@@ -162,7 +162,96 @@
     "quests": { "active": 2, "completed": 1 },
     "journal": { "unlocked": 43, "unread": 13 },
     "spells": 7,
-    "regions_revealed": 9
+    "regions_revealed": 9,
+    "inventory": [
+      {
+        "slot": 0,
+        "item": "ITEM_Resources_Abyssal_Ashes",
+        "name": "Abyssal Ashes",
+        "count": 25,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 1,
+        "item": "ITEM_Resources_Animal_Horn",
+        "name": "Antler",
+        "count": 36,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Resources_Cabbage",
+        "name": "Cabbage",
+        "count": 21,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 3,
+        "item": "ITEM_Resources_Cloth_Wool",
+        "name": "Wool Cloth",
+        "count": 34,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 4,
+        "item": "ITEM_Resources_Ectoplasm",
+        "name": "Ectoplasm",
+        "count": 27,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 5,
+        "item": "ITEM_Resources_Fish_Raw_Lobster",
+        "name": "Raw Lobster",
+        "count": 1,
+        "at_least": true,
+        "durability": null
+      }
+    ],
+    "loadout": [
+      {
+        "slot": 1,
+        "item": "ITEM_Armour_T1_Legs_Lightness",
+        "name": "Leggings Of Lightness",
+        "count": 1,
+        "at_least": true,
+        "durability": 417
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Armour_T3_Body_Bronze",
+        "name": "Bronze Platebody",
+        "count": 1,
+        "at_least": true,
+        "durability": 419
+      }
+    ],
+    "unlocks": { "recipes": 90, "buildings": 46, "journal": 43, "creatures": 17 },
+    "level_history": [
+      { "saved_at": "2026-09-23T15:07:01.005Z", "total_level": 173 },
+      { "saved_at": "2026-09-23T15:25:01.005Z", "total_level": 174 },
+      { "saved_at": "2026-09-23T15:49:01.005Z", "total_level": 175 },
+      { "saved_at": "2026-09-23T16:25:01.005Z", "total_level": 176 },
+      { "saved_at": "2026-09-24T14:12:01.005Z", "total_level": 177 },
+      { "saved_at": "2026-09-24T14:18:01.005Z", "total_level": 178 },
+      { "saved_at": "2026-09-24T14:42:01.005Z", "total_level": 179 },
+      { "saved_at": "2026-09-24T15:30:01.005Z", "total_level": 180 },
+      { "saved_at": "2026-09-24T15:36:01.005Z", "total_level": 182 },
+      { "saved_at": "2026-09-24T16:00:01.005Z", "total_level": 183 },
+      { "saved_at": "2026-09-25T15:06:01.005Z", "total_level": 184 },
+      { "saved_at": "2026-09-26T16:34:01.005Z", "total_level": 185 },
+      { "saved_at": "2026-09-26T16:46:01.005Z", "total_level": 187 },
+      { "saved_at": "2026-09-26T16:52:01.005Z", "total_level": 188 },
+      { "saved_at": "2026-09-26T16:58:01.005Z", "total_level": 189 },
+      { "saved_at": "2026-09-26T17:28:01.005Z", "total_level": 190 },
+      { "saved_at": "2026-09-26T17:34:01.005Z", "total_level": 191 },
+      { "saved_at": "2026-09-28T20:29:00.000Z", "total_level": 196 }
+    ]
   },
   "feats": {
     "journal_entries": 43,
