@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/oddessentials/magpie/collector/internal/config"
 	"github.com/oddessentials/magpie/collector/internal/event"
 	"github.com/oddessentials/magpie/collector/internal/modevents"
 	"github.com/oddessentials/magpie/collector/internal/serverlog"
@@ -43,6 +44,9 @@ func (c *Collector) onModState(state sourceState) {
 }
 
 func (c *Collector) onModLine(line serverlog.Line) {
+	if line.Reset {
+		return
+	}
 	record, err := modevents.Parse(line.Text, line.ReceivedAt)
 	if err != nil {
 		if !c.modWarned {
@@ -95,6 +99,9 @@ func (c *Collector) modEmissions(record modevents.Record) []emission {
 	userID, guid := optional(id.UserID), optional(id.CharacterGUID)
 	switch record.Type {
 	case modevents.TypeStopRequested:
+		if c.cfg.Logs.Source == config.SourceFile && !c.serverUp {
+			return nil
+		}
 		stopping, by := c.stopState()
 		c.stopMu.Lock()
 		announced := c.stopSignaled

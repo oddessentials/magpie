@@ -77,7 +77,6 @@ func (s *FileSource) Run(ctx context.Context, sink Sink) error {
 	var info os.FileInfo
 	var pending []byte
 	lastSaved := offset
-	lastCheck := time.Time{}
 	connected := false
 	closeFile := func() {
 		if file != nil {
@@ -116,6 +115,10 @@ func (s *FileSource) Run(ctx context.Context, sink Sink) error {
 				}
 				continue
 			}
+			reset := info != nil && (!os.SameFile(info, stat) || offset+int64(len(pending)) > stat.Size())
+			if reset {
+				offset = 0
+			}
 			if !resumed || offset > stat.Size() {
 				if resumed || created || s.FromStart {
 					offset = 0
@@ -134,6 +137,14 @@ func (s *FileSource) Run(ctx context.Context, sink Sink) error {
 			}
 			connected = true
 			sink.State(StateConnected, nil)
+			if reset {
+				sink.Line(Line{Reset: true, ReceivedAt: time.Now()})
+			}
+		}
+		current, err := os.Stat(s.Path)
+		if err != nil || !os.SameFile(info, current) || current.Size() < offset+int64(len(pending)) {
+			closeFile()
+			continue
 		}
 		buffer := make([]byte, 64*1024)
 		for {
@@ -153,6 +164,11 @@ func (s *FileSource) Run(ctx context.Context, sink Sink) error {
 					}
 				}
 			}
+			if err != nil && !errors.Is(err, io.EOF) {
+				closeFile()
+				sink.State(StateDown, err)
+				connected = false
+			}
 			if err != nil || n == 0 {
 				break
 			}
@@ -160,20 +176,6 @@ func (s *FileSource) Run(ctx context.Context, sink Sink) error {
 		if offset != lastSaved {
 			s.saveCursor(offset)
 			lastSaved = offset
-		}
-		if time.Since(lastCheck) > 2*time.Second {
-			lastCheck = time.Now()
-			current, err := os.Stat(s.Path)
-			switch {
-			case err != nil:
-				closeFile()
-			case !os.SameFile(info, current):
-				closeFile()
-				offset = 0
-			case current.Size() < offset:
-				closeFile()
-				offset = 0
-			}
 		}
 		if !sleepContext(ctx, poll) {
 			return nil
