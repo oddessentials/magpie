@@ -1,0 +1,1445 @@
+{
+  "enums": {
+    "/Script/Dominion.ECraftingResult": {
+      "ECraftingResult::ECraftingResult_MAX": 8,
+      "ECraftingResult::FailureCarryingTooMuchWeightForCreatedItems": 3,
+      "ECraftingResult::FailureInvalidCount": 5,
+      "ECraftingResult::FailureInvalidRecipe": 4,
+      "ECraftingResult::FailureMissingConsumedItems": 1,
+      "ECraftingResult::FailureNotEnoughSpaceForCreatedItems": 2,
+      "ECraftingResult::FailureNotEnoughVendorReputation": 7,
+      "ECraftingResult::FailureRecipeNotUnlocked": 6,
+      "ECraftingResult::Success": 0
+    },
+    "/Script/Dominion.EDamageClass": {
+      "EDamageClass::EDamageClass_MAX": 4,
+      "EDamageClass::Magical": 2,
+      "EDamageClass::Melee": 1,
+      "EDamageClass::None": 0,
+      "EDamageClass::Ranged": 3
+    },
+    "/Script/Dominion.EQuestState": {
+      "EQuestState::Complete": 2,
+      "EQuestState::EQuestState_MAX": 3,
+      "EQuestState::Given": 1,
+      "EQuestState::Ungiven": 0
+    }
+  },
+  "hooks": {
+    "/Script/Dominion.AgilityCourseManager:Client_ValidatedTime": {
+      "fields": [
+        {
+          "kind": "FloatProperty",
+          "name": "ValidatedTime",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "Rewards",
+          "struct": "/Script/Dominion.AgilityCourseReward"
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bHasEarnedAnyMedal",
+          "struct": null
+        }
+      ],
+      "kind": "agility_validated"
+    },
+    "/Script/Dominion.BaseTeleportationComponent:Server_TryTeleport": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "FromId",
+          "struct": "/Script/CoreUObject.Guid"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "ToID",
+          "struct": "/Script/CoreUObject.Guid"
+        }
+      ],
+      "kind": "teleport"
+    },
+    "/Script/Dominion.BossAltar:Multicast_OnBossSpawn": {
+      "fields": [],
+      "kind": "boss_spawn"
+    },
+    "/Script/Dominion.BossAltar:Multicast_OnBossSummon": {
+      "fields": [],
+      "kind": "boss_summon"
+    },
+    "/Script/Dominion.BuildModeComponent:Client_TelemetryOnBuildingPieceComplete": {
+      "fields": [
+        {
+          "kind": "BoolProperty",
+          "name": "bWasPReviouslyGhosted",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "InBuildingPieceDataIndex",
+          "struct": null
+        }
+      ],
+      "kind": "build_complete"
+    },
+    "/Script/Dominion.BuildModeComponent:Server_SpawnBuilding": {
+      "fields": [
+        {
+          "kind": "IntProperty",
+          "name": "InBuildingPieceDataIndex",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "SpawnTransform",
+          "struct": "/Script/CoreUObject.Transform"
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bSpawnGhost",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "AvailableInventories",
+          "struct": null
+        }
+      ],
+      "kind": "build"
+    },
+    "/Script/Dominion.DisplayNameComponent:Server_RegisterCharacter": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "OwnerGuid",
+          "struct": "/Script/Dominion.DomOwnerGuid"
+        },
+        {
+          "kind": "StrProperty",
+          "name": "CharacterName",
+          "struct": null
+        }
+      ],
+      "kind": "character_registered"
+    },
+    "/Script/Dominion.DominionPlayerCharacter:Client_SendDeathEventTelemetry": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "DamageEvent",
+          "struct": "/Script/Dominion.DominionDamageEvent"
+        }
+      ],
+      "kind": "death"
+    },
+    "/Script/Dominion.DominionPlayerCharacter:NetMulticast_OnPlayerSkillLevelIncreased": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "Skill",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "NewLevel",
+          "struct": null
+        }
+      ],
+      "kind": "skill_level"
+    },
+    "/Script/Dominion.DominionPlayerController:Client_DisplayFixedTextNotification": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "NotificationTag",
+          "struct": "/Script/GameplayTags.GameplayTag"
+        }
+      ],
+      "kind": "notice_fixed"
+    },
+    "/Script/Dominion.DominionPlayerController:Client_DisplayRestingNotification": {
+      "fields": [
+        {
+          "kind": "StrProperty",
+          "name": "InstigatorName",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bIsInstigator",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "NumPlayersInBeds",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "NumTotalPlayers",
+          "struct": null
+        }
+      ],
+      "kind": "resting"
+    },
+    "/Script/Dominion.DominionPlayerController:Client_DisplayTextNotification": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "NotificationTag",
+          "struct": "/Script/GameplayTags.GameplayTag"
+        },
+        {
+          "kind": "TextProperty",
+          "name": "Text",
+          "struct": null
+        }
+      ],
+      "kind": "notice_text"
+    },
+    "/Script/Dominion.DominionPlayerController:Client_SetIsBeingHunted": {
+      "fields": [
+        {
+          "kind": "BoolProperty",
+          "name": "bIsBeingHunted",
+          "struct": null
+        }
+      ],
+      "kind": "hunted"
+    },
+    "/Script/Dominion.DominionPlayerController:Client_SetIsInBaseRaid": {
+      "fields": [
+        {
+          "kind": "BoolProperty",
+          "name": "bIsInBaseRaid",
+          "struct": null
+        }
+      ],
+      "kind": "base_raid"
+    },
+    "/Script/Dominion.DominionPlayerController:Client_SetIsInDragonEvent": {
+      "fields": [
+        {
+          "kind": "BoolProperty",
+          "name": "bIsInDragonEvent",
+          "struct": null
+        }
+      ],
+      "kind": "dragon_event"
+    },
+    "/Script/Dominion.DominionPlayerController:Client_SetServerConnectionComplete": {
+      "fields": [
+        {
+          "kind": "BoolProperty",
+          "name": "bSuccess",
+          "struct": null
+        },
+        {
+          "kind": "StrProperty",
+          "name": "Description",
+          "struct": null
+        }
+      ],
+      "kind": "connected"
+    },
+    "/Script/Dominion.DominionPlayerController:Client_ShowJournalItemPopup": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "JournalItemData",
+          "struct": null
+        }
+      ],
+      "kind": "journal"
+    },
+    "/Script/Dominion.DominionPlayerController:Server_DisconnectMe": {
+      "fields": [],
+      "kind": "leaving"
+    },
+    "/Script/Dominion.DominionPlayerController:Server_GetAdminInfo": {
+      "fields": [],
+      "kind": "admin_info"
+    },
+    "/Script/Dominion.DominionPlayerController:Server_GrantPrivileges": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "TargetNedId",
+          "struct": "/Script/Engine.UniqueNetIdRepl"
+        },
+        {
+          "kind": "EnumProperty",
+          "name": "Privileges",
+          "struct": null
+        }
+      ],
+      "kind": "privileges_granted"
+    },
+    "/Script/Dominion.DominionPlayerController:Server_RequestAdminAction": {
+      "fields": [
+        {
+          "kind": "EnumProperty",
+          "name": "Action",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "UserId",
+          "struct": "/Script/Engine.UniqueNetIdRepl"
+        }
+      ],
+      "kind": "admin_action"
+    },
+    "/Script/Dominion.DominionPlayerController:Server_RevokePrivileges": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "TargetNedId",
+          "struct": "/Script/Engine.UniqueNetIdRepl"
+        },
+        {
+          "kind": "EnumProperty",
+          "name": "Privileges",
+          "struct": null
+        }
+      ],
+      "kind": "privileges_revoked"
+    },
+    "/Script/Dominion.DominionPlayerController:Server_SetObjectCustomName": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "RenameableObject",
+          "struct": null
+        },
+        {
+          "kind": "TextProperty",
+          "name": "NewName",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "SetterUserId",
+          "struct": "/Script/Engine.UniqueNetIdRepl"
+        }
+      ],
+      "kind": "named_object"
+    },
+    "/Script/Dominion.DominionPlayerController:Server_SetSignProperties": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "InSignComponent",
+          "struct": null
+        },
+        {
+          "kind": "TextProperty",
+          "name": "SignText",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "IconIndex",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bSurrenderLock",
+          "struct": null
+        }
+      ],
+      "kind": "sign"
+    },
+    "/Script/Dominion.DominionPlayerControllerBase:Client_DisconnectWithReason": {
+      "fields": [
+        {
+          "kind": "EnumProperty",
+          "name": "ReasonCode",
+          "struct": null
+        }
+      ],
+      "kind": "disconnect"
+    },
+    "/Script/Dominion.DominionPlayerControllerBase:Client_WorldOwnershipGranted": {
+      "fields": [
+        {
+          "kind": "BoolProperty",
+          "name": "bWasGranted",
+          "struct": null
+        }
+      ],
+      "kind": "ownership"
+    },
+    "/Script/Dominion.DominionPlayerControllerBase:Server_SetPlayerCharacterInfo": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "InCharacterSaveSlot",
+          "struct": "/Script/Dominion.PlayerCharacterInfo"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "OwnerGuid",
+          "struct": "/Script/Dominion.DomOwnerGuid"
+        }
+      ],
+      "kind": "character_info"
+    },
+    "/Script/Dominion.FarmCommandComponent:Server_TryHarvestPlot": {
+      "fields": [
+        {
+          "kind": "UInt64Property",
+          "name": "PlotID",
+          "struct": null
+        },
+        {
+          "kind": "FloatProperty",
+          "name": "YieldMultiplier",
+          "struct": null
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "Instigator",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bIsManual",
+          "struct": null
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "Tool",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bCondenseYieldToOneItem",
+          "struct": null
+        }
+      ],
+      "kind": "farm_harvest"
+    },
+    "/Script/Dominion.FarmCommandComponent:Server_TryPlantSeed": {
+      "fields": [
+        {
+          "kind": "UInt64Property",
+          "name": "PlotID",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "NetId",
+          "struct": "/Script/Dominion.DominionDataAssetNetId"
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bIsPreferredPlotTier",
+          "struct": null
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "Instigator",
+          "struct": null
+        }
+      ],
+      "kind": "farm_plant"
+    },
+    "/Script/Dominion.InventoryController:Client_OnCraftingResultHandler": {
+      "fields": [
+        {
+          "kind": "EnumProperty",
+          "name": "Result",
+          "struct": null
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "Recipe",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "Count",
+          "struct": null
+        }
+      ],
+      "kind": "craft_result"
+    },
+    "/Script/Dominion.InventoryController:Server_CraftRecipe": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "CraftingStation",
+          "struct": null
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "Recipe",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "Count",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "BonusCount",
+          "struct": null
+        },
+        {
+          "kind": "FloatProperty",
+          "name": "XPMultiplier",
+          "struct": null
+        },
+        {
+          "kind": "FloatProperty",
+          "name": "BonusXPMultiplier",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "Inventories",
+          "struct": null
+        }
+      ],
+      "kind": "craft"
+    },
+    "/Script/Dominion.JournalComponent:Server_MarkJournalEntryRead": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "InJournalEntry",
+          "struct": null
+        }
+      ],
+      "kind": "journal_read"
+    },
+    "/Script/Dominion.MapCustomizationComponent:Server_NotifyPinPlaced": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "PinInfo",
+          "struct": "/Script/Dominion.PinInfo"
+        }
+      ],
+      "kind": "map_pin"
+    },
+    "/Script/Dominion.MapCustomizationComponent:Server_NotifyWaypointPlaced": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "Location",
+          "struct": "/Script/Engine.Vector_NetQuantize"
+        }
+      ],
+      "kind": "waypoint"
+    },
+    "/Script/Dominion.NotificationsRouter:Client_DispatchFixedTextNotification": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "Tag",
+          "struct": "/Script/GameplayTags.GameplayTag"
+        }
+      ],
+      "kind": "notice"
+    },
+    "/Script/Dominion.PersistenceSubsystem:PostSaveWorldState": {
+      "fields": [
+        {
+          "kind": "StrProperty",
+          "name": "SlotName",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bSuccess",
+          "struct": null
+        }
+      ],
+      "kind": "save_done"
+    },
+    "/Script/Dominion.PlayerConversationComponent:Server_StartConversation": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "ConversationEntryTag",
+          "struct": "/Script/GameplayTags.GameplayTag"
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "Instigator",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "InstigatorTag",
+          "struct": "/Script/GameplayTags.GameplayTag"
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "Target",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "TargetTag",
+          "struct": "/Script/GameplayTags.GameplayTag"
+        }
+      ],
+      "kind": "conversation"
+    },
+    "/Script/Dominion.PlayerHealthComponent:Multicast_Revive": {
+      "fields": [],
+      "kind": "revive"
+    },
+    "/Script/Dominion.PlayerRespawnComponent:Multicast_Respawn": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "RespawnLocation",
+          "struct": "/Script/CoreUObject.Vector"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "RespawnRotation",
+          "struct": "/Script/CoreUObject.Rotator"
+        }
+      ],
+      "kind": "respawn"
+    },
+    "/Script/Dominion.ProgressComponent:Client_OnActorFirstInteractedWith": {
+      "fields": [
+        {
+          "kind": "ClassProperty",
+          "name": "Actor",
+          "struct": null
+        }
+      ],
+      "kind": "first_interaction"
+    },
+    "/Script/Dominion.ProgressComponent:Client_OnItemFirstPickup": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "ItemData",
+          "struct": null
+        }
+      ],
+      "kind": "first_pickup"
+    },
+    "/Script/Dominion.ProgressComponent:Client_UpdateAgilityCourseHighScore": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "CompletionData",
+          "struct": "/Script/Dominion.AgilityCourseCompletionData"
+        }
+      ],
+      "kind": "agility_time"
+    },
+    "/Script/Dominion.QuestProgressComponent:Client_OnQuestUpdated": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "OldQuest",
+          "struct": "/Script/Dominion.QuestProgress"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "UpdatedQuest",
+          "struct": "/Script/Dominion.QuestProgress"
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bSendNotification",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bNewlyGiven",
+          "struct": null
+        }
+      ],
+      "kind": "quest"
+    },
+    "/Script/Dominion.QuestProgressComponent:CompleteQuest": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "QuestData",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bSilent",
+          "struct": null
+        }
+      ],
+      "kind": "quest_complete"
+    },
+    "/Script/Dominion.RevealedMapIconsComponent:Server_RevealLandmark": {
+      "fields": [
+        {
+          "kind": "NameProperty",
+          "name": "LandmarkName",
+          "struct": null
+        }
+      ],
+      "kind": "landmark"
+    },
+    "/Script/Dominion.SkillComponent:AddXpFromEvent": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "XPEventRowHandle",
+          "struct": "/Script/Engine.DataTableRowHandle"
+        },
+        {
+          "kind": "StrProperty",
+          "name": "ContextString",
+          "struct": null
+        },
+        {
+          "kind": "FloatProperty",
+          "name": "Multiplier",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bIgnoreModifier",
+          "struct": null
+        }
+      ],
+      "kind": "xp"
+    },
+    "/Script/Dominion.SkillComponent:BP_OnSkillXPChanged": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "SkillData",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "CurrentXP",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "PreviousXP",
+          "struct": null
+        }
+      ],
+      "kind": "xp_changed"
+    },
+    "/Script/Dominion.WorldSettingsBeaconClient:Server_EditWorld": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "WorldSettings",
+          "struct": "/Script/Dominion.DomGameWorldSettingsRepl"
+        }
+      ],
+      "kind": "world_edited"
+    },
+    "/Script/Engine.PlayerController:ClientWasKicked": {
+      "fields": [
+        {
+          "kind": "TextProperty",
+          "name": "KickReason",
+          "struct": null
+        }
+      ],
+      "kind": "kicked"
+    },
+    "/Script/JagexChatBackend.PlayerChatComponent:Server_SendChatMessage": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "ChatMessageData",
+          "struct": "/Script/JagexChatBackend.ChatMessageData"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "ChatPlayerFilterData",
+          "struct": "/Script/JagexChatBackend.ChatPlayerFilterData"
+        }
+      ],
+      "kind": "chat"
+    },
+    "/Script/JagexChatBackend.PlayerChatComponent:Server_SendPlayerEvent": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "ChatPlayerEventData",
+          "struct": "/Script/JagexChatBackend.ChatPlayerEventData"
+        }
+      ],
+      "kind": "player_event"
+    }
+  },
+  "source": {
+    "mappings_sha256": "c73590798e1253454d00ace05ab1a88695d44ea67ca505f63b704a896f9044fe",
+    "method": "read-only engine reflection and verified USMAP inheritance",
+    "mod_sha256": "e2856b2d3246b27f25da9ddb495cb8df934d897501c0baca0cca35bcc9d62958",
+    "server_build": 25501739,
+    "version": "1.0.0.6"
+  },
+  "structs": {
+    "/Script/CoreOnline.UniqueNetIdWrapper": {
+      "fields": [],
+      "parent": null
+    },
+    "/Script/CoreUObject.Color": {
+      "fields": [
+        {
+          "kind": "ByteProperty",
+          "name": "B",
+          "struct": null
+        },
+        {
+          "kind": "ByteProperty",
+          "name": "G",
+          "struct": null
+        },
+        {
+          "kind": "ByteProperty",
+          "name": "R",
+          "struct": null
+        },
+        {
+          "kind": "ByteProperty",
+          "name": "A",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/CoreUObject.Guid": {
+      "fields": [
+        {
+          "kind": "IntProperty",
+          "name": "A",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "B",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "C",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "D",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/CoreUObject.Quat": {
+      "fields": [
+        {
+          "kind": "DoubleProperty",
+          "name": "X",
+          "struct": null
+        },
+        {
+          "kind": "DoubleProperty",
+          "name": "Y",
+          "struct": null
+        },
+        {
+          "kind": "DoubleProperty",
+          "name": "Z",
+          "struct": null
+        },
+        {
+          "kind": "DoubleProperty",
+          "name": "W",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/CoreUObject.Rotator": {
+      "fields": [
+        {
+          "kind": "DoubleProperty",
+          "name": "Pitch",
+          "struct": null
+        },
+        {
+          "kind": "DoubleProperty",
+          "name": "Yaw",
+          "struct": null
+        },
+        {
+          "kind": "DoubleProperty",
+          "name": "Roll",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/CoreUObject.Transform": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "Rotation",
+          "struct": "/Script/CoreUObject.Quat"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "Translation",
+          "struct": "/Script/CoreUObject.Vector"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "Scale3D",
+          "struct": "/Script/CoreUObject.Vector"
+        }
+      ],
+      "parent": null
+    },
+    "/Script/CoreUObject.Vector": {
+      "fields": [
+        {
+          "kind": "DoubleProperty",
+          "name": "X",
+          "struct": null
+        },
+        {
+          "kind": "DoubleProperty",
+          "name": "Y",
+          "struct": null
+        },
+        {
+          "kind": "DoubleProperty",
+          "name": "Z",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/CoreUObject.Vector2f": {
+      "fields": [
+        {
+          "kind": "FloatProperty",
+          "name": "X",
+          "struct": null
+        },
+        {
+          "kind": "FloatProperty",
+          "name": "Y",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.AgilityCourseCompletionData": {
+      "fields": [
+        {
+          "kind": "StrProperty",
+          "name": "CourseID",
+          "struct": null
+        },
+        {
+          "kind": "EnumProperty",
+          "name": "HighestUnlockedMedal",
+          "struct": null
+        },
+        {
+          "kind": "FloatProperty",
+          "name": "PersonalBestCompletionTime",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.AgilityCourseReward": {
+      "fields": [
+        {
+          "kind": "IntProperty",
+          "name": "XPAmount",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "ItemRewards",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "RecipeUnlocks",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "BuildingPieceUnlocks",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.DomCharacterGuid": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "InnerGuid",
+          "struct": "/Script/CoreUObject.Guid"
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.DomGameWorldSettingsRepl": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "WorldSaveGuid",
+          "struct": "/Script/CoreUObject.Guid"
+        },
+        {
+          "kind": "StrProperty",
+          "name": "WorldName",
+          "struct": null
+        },
+        {
+          "kind": "StrProperty",
+          "name": "WorldSlotName",
+          "struct": null
+        },
+        {
+          "kind": "StrProperty",
+          "name": "WorldMapName",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "PlayerOwnerGuid",
+          "struct": "/Script/Dominion.DomOwnerPlayerGuid"
+        },
+        {
+          "kind": "StrProperty",
+          "name": "OwnerName",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bFriendlyFire",
+          "struct": null
+        },
+        {
+          "kind": "EnumProperty",
+          "name": "SurvivalDifficulty",
+          "struct": null
+        },
+        {
+          "kind": "EnumProperty",
+          "name": "HardcoreState",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "CustomDifficultySettings",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "SaveFileRevision",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.DomOfflineAccountGuid": {
+      "fields": [],
+      "parent": null
+    },
+    "/Script/Dominion.DomOnlineCapableAccountGuid": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "NetIdPrimary",
+          "struct": "/Script/Engine.UniqueNetIdRepl"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "NetIdSecondary",
+          "struct": "/Script/Engine.UniqueNetIdRepl"
+        }
+      ],
+      "parent": "/Script/Dominion.DomOfflineAccountGuid"
+    },
+    "/Script/Dominion.DomOwnerGuid": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "CharacterGuid",
+          "struct": "/Script/Dominion.DomCharacterGuid"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "AccountGuid",
+          "struct": "/Script/Dominion.DomOnlineCapableAccountGuid"
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.DomOwnerPlayerGuid": {
+      "fields": [
+        {
+          "kind": "StrProperty",
+          "name": "GuidData",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.DominionDamageEvent": {
+      "fields": [
+        {
+          "kind": "FloatProperty",
+          "name": "Amount",
+          "struct": null
+        },
+        {
+          "kind": "FloatProperty",
+          "name": "AmountAbsorbedByShield",
+          "struct": null
+        },
+        {
+          "kind": "EnumProperty",
+          "name": "DamageClass",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "TypeDamagesArray",
+          "struct": "/Script/Dominion.TypeDamageArray"
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "TypeDamagesOutcome",
+          "struct": null
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "Instigator",
+          "struct": null
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "Source",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "InstigatorLocation",
+          "struct": "/Script/Engine.Vector_NetQuantize"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "VictimForward",
+          "struct": "/Script/Engine.Vector_NetQuantizeNormal"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "VictimLocation",
+          "struct": "/Script/Engine.Vector_NetQuantize"
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "ModifierMessageTags",
+          "struct": null
+        },
+        {
+          "kind": "EnumProperty",
+          "name": "Directionality",
+          "struct": null
+        },
+        {
+          "kind": "FloatProperty",
+          "name": "Force",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "AttackProperties",
+          "struct": null
+        },
+        {
+          "kind": "FloatProperty",
+          "name": "StaminaCostMultiplier",
+          "struct": null
+        },
+        {
+          "kind": "ObjectProperty",
+          "name": "HitReaction",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "GEHandlesArray",
+          "struct": "/Script/Dominion.DominionGameplayEffectHandlesArray"
+        },
+        {
+          "kind": "IntProperty",
+          "name": "DamageProperties",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "AttackId",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "bIsFatalHit",
+          "struct": null
+        },
+        {
+          "kind": "Int8Property",
+          "name": "Seed",
+          "struct": null
+        },
+        {
+          "kind": "BoolProperty",
+          "name": "CachedDamageShouldHitReact",
+          "struct": null
+        },
+        {
+          "kind": "IntProperty",
+          "name": "ID",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.DominionDataAssetNetId": {
+      "fields": [
+        {
+          "kind": "UInt16Property",
+          "name": "NetId",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.DominionGameplayEffectHandlesArray": {
+      "fields": [
+        {
+          "kind": "ByteProperty",
+          "name": "ArraySize",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "Handles",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.PinInfo": {
+      "fields": [
+        {
+          "kind": "UInt16Property",
+          "name": "Handle",
+          "struct": null
+        },
+        {
+          "kind": "ByteProperty",
+          "name": "PinType",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "Location",
+          "struct": "/Script/CoreUObject.Vector2f"
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.PlayerCharacterInfo": {
+      "fields": [
+        {
+          "kind": "StrProperty",
+          "name": "DisplaySlotName",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.QuestProgress": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "Data",
+          "struct": null
+        },
+        {
+          "kind": "EnumProperty",
+          "name": "State",
+          "struct": null
+        },
+        {
+          "kind": "NameProperty",
+          "name": "CurrentObjective",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "QuestInts",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "QuestBools",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Dominion.TypeDamageArray": {
+      "fields": [
+        {
+          "kind": "ByteProperty",
+          "name": "ArraySize",
+          "struct": null
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "TypeDamages",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Engine.DataTableRowHandle": {
+      "fields": [
+        {
+          "kind": "ObjectProperty",
+          "name": "DataTable",
+          "struct": null
+        },
+        {
+          "kind": "NameProperty",
+          "name": "RowName",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/Engine.UniqueNetIdRepl": {
+      "fields": [
+        {
+          "kind": "ArrayProperty",
+          "name": "ReplicationBytes",
+          "struct": null
+        }
+      ],
+      "parent": "/Script/CoreOnline.UniqueNetIdWrapper"
+    },
+    "/Script/Engine.Vector_NetQuantize": {
+      "fields": [],
+      "parent": "/Script/CoreUObject.Vector"
+    },
+    "/Script/Engine.Vector_NetQuantizeNormal": {
+      "fields": [],
+      "parent": "/Script/CoreUObject.Vector"
+    },
+    "/Script/GameplayTags.GameplayTag": {
+      "fields": [
+        {
+          "kind": "NameProperty",
+          "name": "TagName",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/JagexChatBackend.ChatMessageData": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "SenderData",
+          "struct": "/Script/JagexChatBackend.ChatPlayerSenderData"
+        },
+        {
+          "kind": "StrProperty",
+          "name": "MessageBody",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/JagexChatBackend.ChatPlayerEventData": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "SenderData",
+          "struct": "/Script/JagexChatBackend.ChatPlayerSenderData"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "Tag",
+          "struct": "/Script/GameplayTags.GameplayTag"
+        }
+      ],
+      "parent": null
+    },
+    "/Script/JagexChatBackend.ChatPlayerFilterData": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "SenderId",
+          "struct": "/Script/Engine.UniqueNetIdRepl"
+        },
+        {
+          "kind": "ArrayProperty",
+          "name": "ReceiverIds",
+          "struct": null
+        }
+      ],
+      "parent": null
+    },
+    "/Script/JagexChatBackend.ChatPlayerSenderData": {
+      "fields": [
+        {
+          "kind": "StructProperty",
+          "name": "PrimaryNetId",
+          "struct": "/Script/Engine.UniqueNetIdRepl"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "SecondaryNetId",
+          "struct": "/Script/Engine.UniqueNetIdRepl"
+        },
+        {
+          "kind": "StructProperty",
+          "name": "CharacterGuid",
+          "struct": "/Script/CoreUObject.Guid"
+        },
+        {
+          "kind": "IntProperty",
+          "name": "PlayerId",
+          "struct": null
+        },
+        {
+          "kind": "StructProperty",
+          "name": "Color",
+          "struct": "/Script/CoreUObject.Color"
+        }
+      ],
+      "parent": null
+    }
+  }
+}

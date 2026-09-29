@@ -95,6 +95,9 @@ func (c *Collector) stopState() (bool, string) {
 
 func (c *Collector) modEmissions(record modevents.Record) []emission {
 	id := c.modIdentity(record)
+	if item, handled := c.structuredModEvent(record, id); handled {
+		return []emission{item}
+	}
 	params := record.Params
 	userID, guid := optional(id.UserID), optional(id.CharacterGUID)
 	switch record.Type {

@@ -1,0 +1,287 @@
+[
+  {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "seq": 1,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "player.died",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "user_id": "00000000000000000000000000000017",
+      "character_guid": "00000000000000000000000000000018",
+      "name": "Magpie Fixture",
+      "x": 125.5,
+      "y": -300,
+      "z": 4,
+      "source": "mod",
+      "cause": "Melee",
+      "killer": "FixtureBoar",
+      "params": {
+        "DamageEvent": {
+          "Amount": 2,
+          "AmountAbsorbedByShield": 2,
+          "AttackId": 2,
+          "AttackProperties": 2,
+          "CachedDamageShouldHitReact": false,
+          "DamageClass": 1,
+          "DamageProperties": 2,
+          "Directionality": 2,
+          "Force": 2,
+          "GEHandlesArray": {
+            "ArraySize": 2,
+            "Handles": "[2]"
+          },
+          "HitReaction": "DataAsset /Game/MagpieFixture/Fixture.Fixture",
+          "ID": 2,
+          "Instigator": "DataAsset /Game/MagpieFixture/FixtureBoar.FixtureBoar",
+          "InstigatorLocation": {
+            "X": 900,
+            "Y": 901,
+            "Z": 902
+          },
+          "ModifierMessageTags": "[2]",
+          "Seed": 2,
+          "Source": "DataAsset /Game/MagpieFixture/Fixture.Fixture",
+          "StaminaCostMultiplier": 2,
+          "TypeDamagesArray": {
+            "ArraySize": 2,
+            "TypeDamages": "[2]"
+          },
+          "TypeDamagesOutcome": "[2]",
+          "VictimForward": {
+            "X": 2,
+            "Y": 2,
+            "Z": 2
+          },
+          "VictimLocation": {
+            "X": 125.5,
+            "Y": -300,
+            "Z": 4
+          },
+          "bIsFatalHit": false
+        }
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000002",
+    "seq": 2,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "skill.level_up",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "user_id": "00000000000000000000000000000017",
+      "character_guid": "00000000000000000000000000000018",
+      "name": "Magpie Fixture",
+      "skill": "UnknownSkill",
+      "level": 12
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000003",
+    "seq": 3,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "mod.xp",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "ContextString": "Magpie fixture",
+      "Multiplier": 2,
+      "XPEventRowHandle": {
+        "DataTable": "DataAsset /Game/MagpieFixture/Fixture.Fixture",
+        "RowName": "MagpieFixture"
+      },
+      "bIgnoreModifier": false
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000004",
+    "seq": 4,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "player.xp",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "user_id": "00000000000000000000000000000017",
+      "character_guid": "00000000000000000000000000000018",
+      "name": "Magpie Fixture",
+      "skill": "UnknownSkill",
+      "xp": 250,
+      "delta": 75
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000005",
+    "seq": 5,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "quest.updated",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "user_id": "00000000000000000000000000000017",
+      "character_guid": "00000000000000000000000000000018",
+      "name": "Magpie Fixture",
+      "quest": "NewQuest",
+      "state": "completed",
+      "objective": "FindTheTemple"
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000006",
+    "seq": 6,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "mod.quest_complete",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "QuestData": "DataAsset /Game/MagpieFixture/NewQuest.NewQuest",
+      "bSilent": false
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000007",
+    "seq": 7,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "mod.build",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "AvailableInventories": {
+        "1": 1,
+        "2": 2
+      },
+      "InBuildingPieceDataIndex": 42,
+      "SpawnTransform": {
+        "Rotation": {
+          "W": 2,
+          "X": 2,
+          "Y": 2,
+          "Z": 2
+        },
+        "Scale3D": {
+          "X": 2,
+          "Y": 2,
+          "Z": 2
+        },
+        "Translation": {
+          "X": 2,
+          "Y": 2,
+          "Z": 2
+        }
+      },
+      "bSpawnGhost": true
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000008",
+    "seq": 8,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "building.placed",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "user_id": "00000000000000000000000000000017",
+      "character_guid": "00000000000000000000000000000018",
+      "name": "Magpie Fixture",
+      "building": "piece:42"
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000009",
+    "seq": 9,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "mod.craft",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "BonusCount": 2,
+      "BonusXPMultiplier": 2,
+      "Count": 3,
+      "CraftingStation": "DataAsset /Game/MagpieFixture/Fixture.Fixture",
+      "Inventories": {
+        "1": 1,
+        "2": 2
+      },
+      "Recipe": "DataAsset /Game/MagpieFixture/UnknownRecipe.UnknownRecipe",
+      "XPMultiplier": 2
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000010",
+    "seq": 10,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "mod.craft_result",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "Count": 3,
+      "Recipe": "DataAsset /Game/MagpieFixture/UnknownRecipe.UnknownRecipe",
+      "Result": 1
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000011",
+    "seq": 11,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "item.crafted",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "user_id": "00000000000000000000000000000017",
+      "character_guid": "00000000000000000000000000000018",
+      "name": "Magpie Fixture",
+      "recipe": "UnknownRecipe",
+      "count": 3
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000012",
+    "seq": 12,
+    "run_id": "00000000-0000-4000-8000-000000000099",
+    "ts": "2026-09-29T12:00:00.000Z",
+    "type": "mod.craft_result",
+    "player": {
+      "name": "Magpie Fixture",
+      "platform": null
+    },
+    "data": {
+      "Count": 0,
+      "Recipe": "DataAsset /Game/MagpieFixture/UnknownRecipe.UnknownRecipe",
+      "Result": 0
+    }
+  }
+]

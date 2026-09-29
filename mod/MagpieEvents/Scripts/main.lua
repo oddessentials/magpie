@@ -26,6 +26,9 @@ local function encode(value)
     elseif kind == "string" then
         return '"' .. escape(value) .. '"'
     elseif kind == "number" then
+        if value ~= value or value == math.huge or value == -math.huge then
+            return "null"
+        end
         if value == math.floor(value) and math.abs(value) < 2 ^ 53 then
             return string.format("%d", value)
         end
@@ -62,6 +65,9 @@ end
 
 local function full_name(value)
     return try(function()
+        if value:IsValid() == false then
+            return nil
+        end
         return value:GetFullName()
     end)
 end
@@ -114,7 +120,7 @@ local function decode_field(value, property, depth)
             return value
         end
         return to_string(value)
-    elseif class:find("Int") or class:find("Float") or class:find("Double") or class == "ByteProperty" then
+    elseif class:find("Int") or class:find("Float") or class:find("Double") or class == "ByteProperty" or class == "EnumProperty" then
         if type(value) == "number" then
             return value
         end
@@ -149,6 +155,9 @@ decode = function(value, depth)
     if kind ~= "userdata" then
         return value
     end
+    if try(function() return value:IsValid() end) == false then
+        return nil
+    end
     if depth > MAX_DEPTH then
         return "..."
     end
@@ -170,22 +179,27 @@ decode = function(value, depth)
     end
     local out = {}
     local count = 0
+    local visited = {}
     try(function()
-        struct:ForEachProperty(function(property)
-            local name = try(function()
-                return property:GetFName():ToString()
-            end)
-            if name and count < 24 then
-                count = count + 1
-                local field = try(function()
-                    return value[name]
+        while valid(struct) and not visited[full_name(struct)] and count < 24 do
+            visited[full_name(struct)] = true
+            struct:ForEachProperty(function(property)
+                local name = try(function()
+                    return property:GetFName():ToString()
                 end)
-                local decoded = decode_field(field, property, depth)
-                if decoded ~= nil then
-                    out[name] = decoded
+                if name and out[name] == nil and count < 24 then
+                    count = count + 1
+                    local field = try(function()
+                        return value[name]
+                    end)
+                    local decoded = decode_field(field, property, depth)
+                    if decoded ~= nil then
+                        out[name] = decoded
+                    end
                 end
-            end
-        end)
+            end)
+            struct = struct:GetSuperStruct()
+        end
     end)
     if count == 0 then
         return path
