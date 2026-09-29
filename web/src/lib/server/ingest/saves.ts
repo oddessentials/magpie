@@ -40,6 +40,8 @@ export async function applySaveWorld(
       savedAt,
       worldGuid: data.world_guid,
       worldName: text(data.world_name),
+      progress: data.progress ?? null,
+      buildings: data.buildings ?? null,
       day: integer(data.day),
       timeOfDay: data.time_of_day ?? null,
       weather: (data.weather ?? []).map((entry) => ({

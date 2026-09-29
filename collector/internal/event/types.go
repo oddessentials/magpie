@@ -236,20 +236,44 @@ type SaveWorldTrigger struct {
 }
 
 type SaveWorldData struct {
-	SavedAt            time.Time          `json:"saved_at"`
-	WorldGUID          string             `json:"world_guid"`
-	WorldName          *string            `json:"world_name"`
-	Day                *int               `json:"day"`
-	TimeOfDay          *float64           `json:"time_of_day"`
-	Weather            []SaveWeather      `json:"weather"`
-	Events             []SaveWorldTrigger `json:"events"`
-	Hardcore           *bool              `json:"hardcore"`
-	FriendlyFire       *bool              `json:"friendly_fire"`
-	Difficulty         *string            `json:"difficulty"`
-	SizeBytes          *int64             `json:"size_bytes"`
-	LastSavedBy        *string            `json:"last_saved_by"`
-	HardcoreState      *int               `json:"hardcore_state,omitempty"`
-	SurvivalDifficulty *int               `json:"survival_difficulty,omitempty"`
+	Progress           *SavedWorldProgress `json:"progress"`
+	Buildings          *SavedBuildings     `json:"buildings"`
+	SavedAt            time.Time           `json:"saved_at"`
+	WorldGUID          string              `json:"world_guid"`
+	WorldName          *string             `json:"world_name"`
+	Day                *int                `json:"day"`
+	TimeOfDay          *float64            `json:"time_of_day"`
+	Weather            []SaveWeather       `json:"weather"`
+	Events             []SaveWorldTrigger  `json:"events"`
+	Hardcore           *bool               `json:"hardcore"`
+	FriendlyFire       *bool               `json:"friendly_fire"`
+	Difficulty         *string             `json:"difficulty"`
+	SizeBytes          *int64              `json:"size_bytes"`
+	LastSavedBy        *string             `json:"last_saved_by"`
+	HardcoreState      *int                `json:"hardcore_state,omitempty"`
+	SurvivalDifficulty *int                `json:"survival_difficulty,omitempty"`
+}
+
+type SavedWorldProgress struct {
+	WorldHooks     []string             `json:"world_hooks"`
+	DefeatedBosses []string             `json:"defeated_bosses"`
+	Values         []SavedProgressValue `json:"values"`
+}
+
+type SavedProgressValue struct {
+	Tag   string  `json:"tag"`
+	Value float64 `json:"value"`
+}
+
+type SavedBuildings struct {
+	Total      int                  `json:"total"`
+	Unfinished int                  `json:"unfinished"`
+	Types      []SavedBuildingCount `json:"types"`
+}
+
+type SavedBuildingCount struct {
+	ID    string `json:"id"`
+	Count int    `json:"count"`
 }
 
 type LogOtherData struct {

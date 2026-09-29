@@ -114,6 +114,37 @@
           <dt>{t.world.saveSize}</dt>
           <dd>{save.size_bytes === null ? '—' : formatBytes(save.size_bytes)}</dd>
         </dl>
+        {#if save.buildings}
+          <h3 class="rail mt-5 text-[0.9rem]">Buildings</h3>
+          <p class="mt-2 text-sm">
+            {formatNumber(save.buildings.total)} saved pieces · {formatNumber(
+              save.buildings.unfinished
+            )} unfinished
+          </p>
+        {/if}
+        {#if save.progress}
+          <h3 class="rail mt-5 text-[0.9rem]">World progress</h3>
+          <p class="mt-2 text-sm">
+            World hooks triggered: {formatNumber(save.progress.world_hooks.length)} · Bosses defeated:
+            {formatNumber(save.progress.defeated_bosses.length)}
+          </p>
+          {#if data.defeatedBosses.length}
+            <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+              {#each data.defeatedBosses as boss (boss.id)}<li>{boss.name}</li>{/each}
+            </ul>
+          {/if}
+          {#if save.progress.values.length}
+            <details class="mt-2 text-sm">
+              <summary class="cursor-pointer py-2 text-accent">Saved progress values</summary>
+              <dl class="mt-2 grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-2">
+                {#each save.progress.values as entry (entry.tag)}<dt class="break-words">
+                    {entry.tag}
+                  </dt>
+                  <dd>{formatNumber(entry.value)}</dd>{/each}
+              </dl>
+            </details>
+          {/if}
+        {/if}
         <h3 class="rail mt-5 text-[0.9rem]">{t.world.weatherTitle}</h3>
         {#if save.weather.length === 0}
           <p class="note mt-2">{t.world.weatherEmpty}</p>

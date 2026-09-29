@@ -92,6 +92,8 @@ export async function characterSaveOf(
 export function worldSaveOf(row: WorldSaveRow | null | undefined): WorldSave | null {
   if (!row) return null;
   return {
+    progress: row.progress,
+    buildings: row.buildings,
     saved_at: row.savedAt.toISOString(),
     day: row.day,
     time_of_day: row.timeOfDay,

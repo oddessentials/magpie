@@ -369,6 +369,12 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
       saved_at: savedAt,
       world_guid: serverInfo.world_guid,
       world_name: serverInfo.world_name,
+      progress: {
+        world_hooks: ['WH_TempleFlyover'],
+        defeated_bosses: ['ai_boss_velgar'],
+        values: []
+      },
+      buildings: { total: 38, unfinished: 2, types: [{ id: 'sample-timber-wall', count: 38 }] },
       day: dayOf(ms),
       time_of_day: hourOf(ms),
       weather: regions.map((region, index) => ({

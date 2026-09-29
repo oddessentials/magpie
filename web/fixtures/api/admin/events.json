@@ -427,7 +427,17 @@
           { "type": "Cloudy", "region": "sands", "day_count": 299, "remaining_s": 865 }
         ],
         "hardcore": false,
+        "progress": {
+          "values": [],
+          "world_hooks": ["WH_TempleFlyover"],
+          "defeated_bosses": ["ai_boss_velgar"]
+        },
         "saved_at": "2026-09-28T20:29:00.000Z",
+        "buildings": {
+          "total": 38,
+          "types": [{ "id": "sample-timber-wall", "count": 38 }],
+          "unfinished": 2
+        },
         "difficulty": "Normal",
         "size_bytes": 732000,
         "world_guid": "5BB85C85B8CF9C1EDB1D9E06A97C32A0",

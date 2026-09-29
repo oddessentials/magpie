@@ -14,12 +14,14 @@ import (
 )
 
 type World struct {
-	SavedAt       time.Time   `json:"saved_at"`
-	SystemVersion int         `json:"system_version"`
-	World         Header      `json:"world"`
-	Weather       []Weather   `json:"weather"`
-	Events        []Event     `json:"events"`
-	Characters    []Character `json:"characters"`
+	SavedAt       time.Time      `json:"saved_at"`
+	SystemVersion int            `json:"system_version"`
+	World         Header         `json:"world"`
+	Weather       []Weather      `json:"weather"`
+	Events        []Event        `json:"events"`
+	Characters    []Character    `json:"characters"`
+	Progress      *WorldProgress `json:"progress"`
+	Buildings     []Building     `json:"buildings"`
 }
 
 type Header struct {
@@ -153,6 +155,16 @@ func Decode(data []byte) (*World, error) {
 		world.Events = append(world.Events, events...)
 	}
 	positions := map[string]*Position{}
+	for _, object := range objects(save, "WorldProgressManager") {
+		if world.Progress, err = decodeProgress(object); err != nil {
+			return nil, fmt.Errorf("world progress: %w", err)
+		}
+	}
+	for _, object := range objects(save, "GlobalBuildingManager") {
+		if world.Buildings, err = decodeBuildings(object); err != nil {
+			return nil, fmt.Errorf("buildings: %w", err)
+		}
+	}
 	for _, object := range objects(save, classTransforms) {
 		if err := decodePositions(object, positions); err != nil {
 			return nil, fmt.Errorf("%s: %w", object.Name, err)

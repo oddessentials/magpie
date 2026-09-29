@@ -1118,6 +1118,22 @@ export interface components {
       status_samples_days: number;
       world_saves_days: number;
     };
+    SavedBuildings: {
+      total: number;
+      types: {
+        count: number;
+        id: string;
+      }[];
+      unfinished: number;
+    };
+    SavedWorldProgress: {
+      defeated_bosses: string[];
+      values: {
+        tag: string;
+        value: number;
+      }[];
+      world_hooks: string[];
+    };
     SavePlayerData: {
       character_guid: string;
       health?: components['schemas']['PlayerHealth'] | null;
@@ -1171,12 +1187,14 @@ export interface components {
       [key: string]: unknown;
     };
     SaveWorldData: {
+      buildings?: components['schemas']['SavedBuildings'] | null;
       day?: number | null;
       difficulty?: string | null;
       events?: components['schemas']['SaveWorldTrigger'][];
       friendly_fire?: boolean | null;
       hardcore?: boolean | null;
       last_saved_by?: string | null;
+      progress?: components['schemas']['SavedWorldProgress'] | null;
       saved_at: string;
       size_bytes?: number | null;
       time_of_day?: number | null;
@@ -1375,11 +1393,13 @@ export interface components {
       state: string | null;
     };
     WorldSave: {
+      buildings?: components['schemas']['SavedBuildings'] | null;
       day: number | null;
       difficulty: string | null;
       events: components['schemas']['WorldEvent'][];
       friendly_fire: boolean | null;
       hardcore: boolean | null;
+      progress?: components['schemas']['SavedWorldProgress'] | null;
       saved_at: string;
       size_bytes: number | null;
       time_of_day: number | null;
@@ -1567,6 +1587,8 @@ export type PlayerXpEvent = components['schemas']['PlayerXpEvent'];
 export type QuestUpdatedData = components['schemas']['QuestUpdatedData'];
 export type QuestUpdatedEvent = components['schemas']['QuestUpdatedEvent'];
 export type Retention = components['schemas']['Retention'];
+export type SavedBuildings = components['schemas']['SavedBuildings'];
+export type SavedWorldProgress = components['schemas']['SavedWorldProgress'];
 export type SavePlayerData = components['schemas']['SavePlayerData'];
 export type SavePlayerEvent = components['schemas']['SavePlayerEvent'];
 export type SaveQuest = components['schemas']['SaveQuest'];

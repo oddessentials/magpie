@@ -34,6 +34,11 @@ type Result struct {
 }
 
 type output struct {
+	Progress  *event.SavedWorldProgress `json:"progress"`
+	Buildings []struct {
+		DataID     string `json:"data_id"`
+		Unfinished bool   `json:"unfinished"`
+	} `json:"buildings"`
 	Format  int       `json:"format"`
 	SavedAt time.Time `json:"saved_at"`
 	World   struct {
@@ -190,6 +195,22 @@ func Decode(raw []byte, size int64) (*Result, error) {
 		result.World.SizeBytes = &size
 	}
 	result.World.HardcoreState = out.World.HardcoreState
+	result.World.Progress = out.Progress
+	if out.Buildings != nil {
+		buildings := &event.SavedBuildings{Total: len(out.Buildings), Types: []event.SavedBuildingCount{}}
+		counts := map[string]int{}
+		for _, piece := range out.Buildings {
+			counts[piece.DataID]++
+			if piece.Unfinished {
+				buildings.Unfinished++
+			}
+		}
+		for id, count := range counts {
+			buildings.Types = append(buildings.Types, event.SavedBuildingCount{ID: id, Count: count})
+		}
+		sort.Slice(buildings.Types, func(i, j int) bool { return buildings.Types[i].ID < buildings.Types[j].ID })
+		result.World.Buildings = buildings
+	}
 	result.World.SurvivalDifficulty = out.World.SurvivalDifficulty
 	for _, weather := range out.Weather {
 		result.World.Weather = append(result.World.Weather, event.SaveWeather{
