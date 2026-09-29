@@ -75,16 +75,29 @@
       <section id="today" class="tour-panel" aria-labelledby="today-title">
         <div class="panel-heading">
           <h2 id="today-title">A day in the wilds</h2>
-          <a href="assets/today.jpg">Open full-size image <span aria-hidden="true">↗</span></a>
+          <a class="desktop-image" href="assets/today.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/today-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
         </div>
         <figure class="screenshot">
-          <img
-            src="assets/today.jpg"
-            width="1440"
-            height="1080"
-            fetchpriority="high"
-            alt="Magpie Today page with a woodland hero, online adventurers, recent activity and last save"
-          />
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/today-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/today.jpg"
+              width="1440"
+              height="1080"
+              fetchpriority="high"
+              alt="Magpie Today page with a woodland hero, online adventurers, recent activity and last save"
+            />
+          </picture>
           <figcaption>
             Four sample adventurers, recent events, the last save and a player-count history. The
             scenery can be switched off in the running app.
@@ -94,16 +107,29 @@
       <section id="player" class="tour-panel" aria-labelledby="player-title">
         <div class="panel-heading">
           <h2 id="player-title">Every level tells a story</h2>
-          <a href="assets/player.jpg">Open full-size image <span aria-hidden="true">↗</span></a>
+          <a class="desktop-image" href="assets/player.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/player-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
         </div>
         <figure class="screenshot">
-          <img
-            src="assets/player.jpg"
-            width="1440"
-            height="1080"
-            loading="lazy"
-            alt="Magpie player profile with twelve skills, experience rings and session statistics"
-          />
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/player-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/player.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="Magpie player profile with twelve skills, experience rings and session statistics"
+            />
+          </picture>
           <figcaption>
             A character's twelve skills and experience, sessions, deaths, quests and journal
             entries. Save-derived progress is labelled with the time it was read.
@@ -113,16 +139,29 @@
       <section id="activity" class="tour-panel" aria-labelledby="activity-title">
         <div class="panel-heading">
           <h2 id="activity-title">The story as it happens</h2>
-          <a href="assets/activity.jpg">Open full-size image <span aria-hidden="true">↗</span></a>
+          <a class="desktop-image" href="assets/activity.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/activity-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
         </div>
         <figure class="screenshot">
-          <img
-            src="assets/activity.jpg"
-            width="1440"
-            height="1080"
-            loading="lazy"
-            alt="Magpie activity page with event filters and a chronological sample journal"
-          />
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/activity-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/activity.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="Magpie activity page with event filters and a chronological sample journal"
+            />
+          </picture>
           <figcaption>
             A filterable journal of arrivals, departures, discoveries and other observed events. The
             optional server mod supplies the events the server log does not report.
@@ -132,16 +171,29 @@
       <section id="world" class="tour-panel" aria-labelledby="world-title">
         <div class="panel-heading">
           <h2 id="world-title">The world you share</h2>
-          <a href="assets/world.jpg">Open full-size image <span aria-hidden="true">↗</span></a>
+          <a class="desktop-image" href="assets/world.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/world-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
         </div>
         <figure class="screenshot">
-          <img
-            src="assets/world.jpg"
-            width="1440"
-            height="1080"
-            loading="lazy"
-            alt="Magpie World page with weather, saved world settings and community statistics"
-          />
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/world-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/world.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="Magpie World page with weather, saved world settings and community statistics"
+            />
+          </picture>
           <figcaption>
             The day and conditions from the last save, weather by region, historical totals and the
             sources available to the collector.

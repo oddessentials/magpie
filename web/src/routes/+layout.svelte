@@ -1,6 +1,6 @@
 <script lang="ts">
   import '../app.css';
-  import { onMount } from 'svelte';
+  import { untrack } from 'svelte';
   import { page } from '$app/state';
   import Backdrop from '$lib/ui/Backdrop.svelte';
   import { clock } from '$lib/ui/clock.svelte';
@@ -13,20 +13,12 @@
   import Wordmark from '$lib/ui/Wordmark.svelte';
 
   let { data, children } = $props();
-  let scenery = $state(true);
-
-  onMount(() => {
-    try {
-      scenery = localStorage.getItem('magpie-scenery') !== 'off';
-    } catch {
-      scenery = true;
-    }
-  });
+  let scenery = $state(untrack(() => data.scenery));
 
   function toggleScenery() {
     scenery = !scenery;
     try {
-      localStorage.setItem('magpie-scenery', scenery ? 'on' : 'off');
+      document.cookie = `magpie-scenery=${scenery ? 'on' : 'off'}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`;
     } catch {
       return;
     }

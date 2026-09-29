@@ -122,10 +122,33 @@ test('demo scenery preference survives reloads and navigation', async ({ page })
   expect(problems).toEqual([]);
 });
 
-test('scenery still switches when browser storage is unavailable', async ({ page }) => {
+test('saved scenery is applied before JavaScript runs', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    await context.addCookies([
+      { name: 'magpie-scenery', value: 'off', url: 'http://localhost:5190' }
+    ]);
+    const page = await context.newPage();
+    await page.goto('http://localhost:5190');
+    await expect(page.locator('main h1')).toHaveText('4 adventurers in the wilds');
+    await expect(page.locator('.today-art')).toBeHidden();
+    await expect(page.locator('.backdrop')).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Scenery off' })).toHaveAttribute(
+      'aria-pressed',
+      'false'
+    );
+  } finally {
+    await context.close();
+  }
+});
+
+test('scenery still switches when preference storage is unavailable', async ({ page }) => {
   await page.addInitScript(() => {
-    Object.defineProperty(window, 'localStorage', {
+    Object.defineProperty(document, 'cookie', {
       get() {
+        return '';
+      },
+      set() {
         throw new DOMException('Unavailable', 'SecurityError');
       }
     });

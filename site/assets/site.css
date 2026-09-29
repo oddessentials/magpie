@@ -470,6 +470,9 @@ footer p {
 .tour-panel .panel-heading a {
   font-size: 0.85rem;
 }
+.mobile-image {
+  display: none;
+}
 .try-local {
   margin-block: 3rem;
   padding: 2rem;
@@ -532,6 +535,12 @@ code {
   }
 }
 @media (max-width: 600px) {
+  .mobile-image {
+    display: inline;
+  }
+  .desktop-image {
+    display: none;
+  }
   .wrap {
     width: calc(100% - 2rem);
   }
