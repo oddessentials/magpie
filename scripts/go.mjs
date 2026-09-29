@@ -7,6 +7,11 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 const { version } = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 
 const modules = {
+  collector: {
+    binary: 'magpie-collector',
+    main: './cmd/magpie-collector',
+    versionVariable: 'github.com/oddessentials/magpie/collector/internal/buildinfo.Version'
+  },
   savereader: {
     binary: 'magpie-savereader',
     main: './cmd/magpie-savereader',

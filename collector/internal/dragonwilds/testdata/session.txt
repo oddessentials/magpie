@@ -1,0 +1,39 @@
+LogInit: Build: ++dominion+hotfix-CL-244954
+LogInit: Engine Version: 5.6.1-244954+++dominion+hotfix
+[2026.09.28-21.50.19:809][  0]LogDomServerConfig: Dedicated Server WorldPassword: hunter2
+[2026.09.28-21.50.20:303][  0]LogNet: Name:GameNetDriver Def:GameNetDriver RedpointEOSNetDriver_2147481884 IpNetDriver listening on port 7777
+[2026.09.28-21.50.20:576][  0]LogDomServerGameMode: Loading configured world [Test World] from save slot [Test World]
+[2026.09.28-21.50.20:582][  0]LogNetworkMatchmaker: Session privacy set to [3].  CreateSession[1]  AdvertiseSession[1] Password[hunter2]
+[2026.09.28-21.50.25:911][119]LogDomMatcherSession: Maximum allowed player number by this build is 6.
+[2026.09.28-21.50.26:140][119]LogNetSessionSettings: Setting ["JoinCode"] written with key[xz] value[ABCD-EF12]
+[2026.09.28-21.50.27:037][132]LogNetSessionSettings: Setting ["OwnerId"] written with key[oi] value[0123456789abcdef0123456789abcdef]
+[2026.09.28-21.50.26:306][119]LogPersistence: [DedicatedServer] PostLoadWorldState() : World load SUCCEEDED (slot: Test World) (Guid[1234567890ABCDEF1234567890ABCDEF] WorldName[Test World] SlotName[Test World] MapName[L_World] - OwnerGuid[] OwnerName[])
+[2026.09.28-21.55.26:010][144]LogPersistence: [DedicatedServer] SaveGame() : Starting save (Guid[1234567890ABCDEF1234567890ABCDEF] WorldName[Test World] SlotName[Test World] MapName[L_World] - OwnerGuid[] OwnerName[])
+[2026.09.28-21.55.26:019][144]LogSpudSubsystem: Save to slot Test World: Success
+[2026.09.28-21.55.26:026][144]LogPersistence: [DedicatedServer] operator ()() : Save completed SUCCESSFULLY (slot: Test World)
+[2026.09.28-21.57.45:613][393]LogNet: Server accepting post-challenge connection from: 192.0.2.10:63822
+[2026.09.28-21.57.46:054][400]LogNet: Login request: ?p=aHVudGVyMg==?pf=PC?cpx=1?c?Name=Wanderer userId: RedpointEOS:00000000000000000000000000000abc platform: RedpointEOS
+[2026.09.28-21.57.50:997][549]LogDomMatcherSession: Player ADDED to session [00000000000000000000000000000abc]-[Wanderer]
+[2026.09.28-21.57.51:008][549]LogNet: Join succeeded: Wanderer
+[2026.09.28-21.57.53:701][629]LogDominionPlayerControllerBase: PlayerChar entered world [Account[XP:00000000000000000000000000000abc] Character Name[Wanderer] Guid[DCG:ABCDEF0123456789ABCDEF0123456789] Type[0]]
+[2026.09.28-21.57.53:839][631]LogJournal: Verbose: [DedicatedServer] UnlockJournalEntriesByPredicate() : Unlocking Journal Entry "JOURNAL_Know_People_Doric"
+[2026.09.28-21.58.14:394][239]LogDominionPlayerCharacter: Character [BP_PlayerCharacter_C_2147481276] possessed by controller [BP_PlayerController_C_2147481309]
+[2026.09.28-22.03.13:156][246]LogDominionPlayerCharacter: [DedicatedServer] TeleportTo() : [BP_PlayerCharacter_C_2147481276] Teleporting to V(X=5067.26, Y=189023.58, Z=-3485.15)! Rot: R(Y=-44.25)  bIsATest=false  bNoCheck=false
+[2026.09.28-22.03.13:163][246]LogDominionPlayerCharacter: [DedicatedServer] TeleportSucceeded() : [BP_PlayerCharacter_C_2147481276] Teleport Succeeded! bIsATest=false
+[2026.09.28-22.03.13:176][246]LogSpawn: Warning: SpawnActor failed to find teleport spot [X=8233.643 Y=170681.779 Z=-1276.647] for [BP_PlayerGravestone_C]
+[2026.09.28-22.03.20:156][246]LogDominionPlayerCharacter: [DedicatedServer] TeleportTo() : [BP_PlayerCharacter_C_2147481276] Teleporting to V(X=100.5, Y=200.5, Z=300.5)! Rot: R(Y=0)  bIsATest=false  bNoCheck=false
+[2026.09.28-22.03.20:163][246]LogDominionPlayerCharacter: [DedicatedServer] TeleportSucceeded() : [BP_PlayerCharacter_C_2147481276] Teleport Succeeded! bIsATest=false
+[2026.09.28-22.05.00:000][300]LogDomMatcherSession: Error: Something went wrong for 192.0.2.10:63822 with account 00000000000000000000000000000abc and code ABCD-EF12
+[2026.09.28-22.06.00:000][300]LogHoudiniEngineRuntime: Error: FUnrealObjectInputManager not initialized correctly!!!!!!!!!!!!!!!!!!!!
+[2026.09.28-22.14.27:816][558]LogDominionPlayerController: ClientRequestDisconnect : DisconnectMe : PlayerStateSave result[true] - state saved for Account[XP:00000000000000000000000000000abc] Character Name[Wanderer] Guid[DCG:ABCDEF0123456789ABCDEF0123456789] Type[0]
+[2026.09.28-22.14.27:891][560]LogNet: UNetConnection::Close: [UNetConnection] RemoteAddr: 192.0.2.10:63822, Name: RedpointEOSIpNetConnection_2147481314, Driver: Name:GameNetDriver Def:GameNetDriver RedpointEOSNetDriver_2147481620, IsServer: YES
+[2026.09.28-22.14.27:943][560]LogDomMatcherSession: Player Removed from session [00000000000000000000000000000abc]-[Wanderer]
+[2026.09.28-22.18.19:985][623]LogNet: Login request: ?p=d3Jvbmc=?pf=PC?cpx=1?c?Name=Wanderer userId: RedpointEOS:00000000000000000000000000000abc platform: RedpointEOS
+[2026.09.28-22.18.20:006][623]LogNet: PreLogin failure: PLogPassword
+[2026.09.28-22.20.00:000][700]LogNet: Login request: ?p=aHVudGVyMg==?pf=XSX?cpx=1?c?Name=Rover userId: RedpointEOS:00000000000000000000000000000def platform: RedpointEOS
+[2026.09.28-22.20.05:000][720]LogDominionPlayerControllerBase: PlayerChar entered world [Account[XP:00000000000000000000000000000def] Character Name[Rover] Guid[DCG:0123456789ABCDEF0123456789ABCDEF] Type[0]]
+[2026.09.28-22.21.00:000][800]LogDomMatcherSession: Attempting to Kick player [Rover]
+[2026.09.28-22.21.00:100][800]LogDomMatcherSession: AUTH: Successfully kicked player Rover
+[2026.09.28-22.21.01:000][801]LogDomMatcherSession: Player Removed from session [00000000000000000000000000000def]-[Rover]
+[2026.09.28-22.30.00:000][900]LogCore: Engine exit requested (reason: EngineExit() was called)
+[2026.09.28-22.30.01:000][900]LogExit: Exiting.
