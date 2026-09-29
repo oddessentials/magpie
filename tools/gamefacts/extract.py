@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import locres
 import usmap
+from geography import build_geography
 from iostore import Store
 from pak import Pak
 from properties import Decoder, Text, Unreadable
@@ -24,7 +25,7 @@ GAME_INI = 'RSDragonwilds/Config/DefaultGame.ini'
 SCAN_ROOTS = ('/Content/Gameplay/', '/Content/UI/')
 CLASS_DEFAULT = 0x10
 ROOT_CLASSES = ('SkillData', 'QuestData', 'JournalEntryData', 'ItemData', 'RecipeData')
-FILES = ('build.json', 'skills.json', 'xp.json', 'quests.json', 'journal.json', 'items.json', 'recipes.json', 'progression.json')
+FILES = ('build.json', 'skills.json', 'xp.json', 'quests.json', 'journal.json', 'items.json', 'recipes.json', 'progression.json', 'geography.json')
 JOURNAL_CATEGORIES = {'JournalEntryRecipeData': 'Recipes', 'JournalEntryWorldData': 'World', 'JournalEntryKnowLoreData': 'Knowledge', 'JournalEntryKnowPeopleData': 'Knowledge', 'JournalEntryKnowPlaceData': 'Knowledge', 'JournalEntryKnowTreasureData': 'Knowledge'}
 
 
@@ -478,6 +479,7 @@ def main():
     outputs['items.json'] = build_items(game, found)
     outputs['recipes.json'] = build_recipes(game, found)
     outputs['progression.json'] = build_progression(game, found)
+    outputs['geography.json'] = build_geography(game)
     client = None
     client_build = None
     if args.client_paks:
