@@ -57,7 +57,7 @@ type death struct {
 }
 
 var (
-	loginLine    = regexp.MustCompile(`^Login request: (\S*)\s+userId: (\S+) platform: (\S+)$`)
+	loginLine    = regexp.MustCompile(`^Login request: (.*?)\s+userId: (\S+) platform: (\S+)$`)
 	enteredLine  = regexp.MustCompile(`^PlayerChar entered world \[Account\[XP:([^\]]*)\] Character Name\[([^\]]*)\] Guid\[DCG:([0-9A-Fa-f]{32})\]`)
 	leaveLine    = regexp.MustCompile(`^ClientRequestDisconnect : DisconnectMe : PlayerStateSave result\[(true|false)\] - state saved for Account\[XP:([^\]]*)\] Character Name\[([^\]]*)\] Guid\[DCG:([0-9A-Fa-f]{32})\]`)
 	removedLine  = regexp.MustCompile(`^Player Removed from session \[([^\]]*)\]-\[([^\]]*)\]$`)

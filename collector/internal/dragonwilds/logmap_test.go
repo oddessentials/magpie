@@ -164,6 +164,20 @@ func TestDeathsNeedOnePlayerOnline(t *testing.T) {
 	}
 }
 
+func TestLoginNamesWithSpacesKeepTheirPlatform(t *testing.T) {
+	mapper := NewMapper()
+	at := time.Date(2026, 9, 28, 22, 0, 0, 0, time.UTC)
+	mapper.Map(serverlog.Record{Category: "LogNet", Message: "Login request: ?p=x?pf=PC?cpx=1?c?Name=Magpie Fixture userId: RedpointEOS:00000000000000000000000000000017 platform: RedpointEOS"}, at)
+	items := mapper.Map(serverlog.Record{Category: "LogDominionPlayerControllerBase", Message: "PlayerChar entered world [Account[XP:00000000000000000000000000000017] Character Name[Magpie Fixture] Guid[DCG:0123456789ABCDEF0123456789ABCDEF] Type[0]]"}, at)
+	if len(items) != 1 {
+		t.Fatalf("items %s", types(items))
+	}
+	joined := items[0].Data.(event.PlayerJoinedData)
+	if joined.Name != "Magpie Fixture" || joined.Platform == nil || *joined.Platform != "pc" {
+		t.Fatalf("joined %+v", joined)
+	}
+}
+
 func TestErrorsAreRateLimited(t *testing.T) {
 	mapper := NewMapper()
 	at := time.Date(2026, 9, 28, 22, 0, 0, 0, time.UTC)

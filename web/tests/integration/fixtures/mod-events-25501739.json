@@ -7,7 +7,7 @@
     "type": "player.died",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "user_id": "00000000000000000000000000000017",
@@ -74,7 +74,7 @@
     "type": "skill.level_up",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "user_id": "00000000000000000000000000000017",
@@ -92,7 +92,7 @@
     "type": "mod.xp",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "ContextString": "Magpie fixture",
@@ -112,7 +112,7 @@
     "type": "player.xp",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "user_id": "00000000000000000000000000000017",
@@ -131,7 +131,7 @@
     "type": "quest.updated",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "user_id": "00000000000000000000000000000017",
@@ -150,7 +150,7 @@
     "type": "mod.quest_complete",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "QuestData": "DataAsset /Game/MagpieFixture/NewQuest.NewQuest",
@@ -165,7 +165,7 @@
     "type": "mod.build",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "AvailableInventories": {
@@ -202,7 +202,7 @@
     "type": "building.placed",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "user_id": "00000000000000000000000000000017",
@@ -219,7 +219,7 @@
     "type": "mod.craft",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "BonusCount": 2,
@@ -242,7 +242,7 @@
     "type": "mod.craft_result",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "Count": 3,
@@ -258,7 +258,7 @@
     "type": "item.crafted",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "user_id": "00000000000000000000000000000017",
@@ -276,7 +276,7 @@
     "type": "mod.craft_result",
     "player": {
       "name": "Magpie Fixture",
-      "platform": null
+      "platform": "pc"
     },
     "data": {
       "Count": 0,

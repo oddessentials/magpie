@@ -338,6 +338,10 @@ func (p *Pipeline) sendOnce(ctx context.Context) bool {
 						p.skew = observed
 						p.logger.Warn("the local clock differs from the site clock; compensating", "offset", observed.Round(time.Second).String())
 						delay = time.Second
+					} else if p.skew != 0 {
+						p.skew = 0
+						p.logger.Info("the local clock agrees with the site clock again; no longer compensating")
+						delay = time.Second
 					}
 				}
 			}
