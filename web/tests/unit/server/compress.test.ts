@@ -2,7 +2,7 @@ import type { RequestEvent } from '@sveltejs/kit';
 import { gunzipSync } from 'node:zlib';
 import { describe, expect, it } from 'vitest';
 import { acceptsGzip, compress } from '../../../src/lib/server/hooks/compress';
-import { matchesEtag, publicJson } from '../../../src/lib/server/http/respond';
+import { factsJson, matchesEtag, publicJson } from '../../../src/lib/server/http/respond';
 
 async function run(
   response: Response,
@@ -72,5 +72,23 @@ describe('response compression', () => {
     expect(matchesEtag(asking('"other", W/"abc"'), etag)).toBe(true);
     expect(matchesEtag(asking('"other"'), etag)).toBe(false);
     expect(matchesEtag(undefined, etag)).toBe(false);
+  });
+});
+
+describe('game facts responses', () => {
+  it('serialize a fact document once and let browsers keep it for an hour', async () => {
+    const facts = { build: 1, items: ['Ash Logs'] };
+    const first = factsJson(facts);
+    expect(first.headers.get('cache-control')).toBe('public, max-age=3600');
+    facts.items.push('Oak Logs');
+    const second = factsJson(facts);
+    expect(second.headers.get('etag')).toBe(first.headers.get('etag'));
+    expect(await second.json()).toEqual({ build: 1, items: ['Ash Logs'] });
+    const again = factsJson(
+      facts,
+      new Request('http://test/', { headers: { 'if-none-match': first.headers.get('etag')! } })
+    );
+    expect(again.status).toBe(304);
+    expect(publicJson({ live: true }).headers.get('cache-control')).toBe('public, max-age=15');
   });
 });

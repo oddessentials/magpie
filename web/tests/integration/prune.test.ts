@@ -1,7 +1,12 @@
 import { sql } from 'drizzle-orm';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { getDb } from '../../src/lib/server/db/client';
-import { serverMetrics, statusSamples, worldSaves } from '../../src/lib/server/db/schema';
+import {
+  characterSkillSamples,
+  serverMetrics,
+  statusSamples,
+  worldSaves
+} from '../../src/lib/server/db/schema';
 import { runPrune } from '../../src/lib/server/jobs/prune';
 import { defaultSettings, siteSettings } from '../../src/lib/server/settings';
 import { resetDatabase, useTestDatabase } from './setup';
@@ -35,6 +40,14 @@ beforeAll(async () => {
       events: []
     }))
   );
+  await db.insert(characterSkillSamples).values([
+    ...[200, 120, 100, 10].map((days) => ({
+      characterGuid: 'A'.repeat(32),
+      savedAt: daysAgo(days),
+      skills: [{ id: 'skill', xp: 1000 - days }]
+    })),
+    { characterGuid: 'B'.repeat(32), savedAt: daysAgo(150), skills: [{ id: 'skill', xp: 5 }] }
+  ]);
 });
 
 const count = async (table: typeof serverMetrics | typeof statusSamples | typeof worldSaves) =>
@@ -53,6 +66,17 @@ describe('retention', () => {
     expect(await count(statusSamples)).toBe(1);
     expect(result.worldSaves).toBe(2);
     expect(await count(worldSaves)).toBe(1);
+    expect(result.skillSamples).toBe(2);
+    const kept = await getDb()
+      .select({ guid: characterSkillSamples.characterGuid, at: characterSkillSamples.savedAt })
+      .from(characterSkillSamples);
+    expect(
+      kept
+        .map(
+          (row) => `${row.guid[0]}:${Math.round((now.getTime() - row.at.getTime()) / 86_400_000)}`
+        )
+        .sort()
+    ).toEqual(['A:10', 'A:100', 'B:150']);
   });
 
   it('follows the periods the admin sets', async () => {

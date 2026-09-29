@@ -44,23 +44,33 @@ export function matchesEtag(request: Request | undefined, etag: string): boolean
     .some((tag) => tag === '*' || tag.replace(/^W\//, '') === bare);
 }
 
-export function publicJson(document: unknown, request?: Request): Response {
-  const body = JSON.stringify(document);
-  const etag = etagOf(body);
+function cachedJson(body: string, etag: string, maxAge: number, request?: Request): Response {
+  const cacheControl = `public, max-age=${maxAge}`;
   if (matchesEtag(request, etag)) {
-    return new Response(null, {
-      status: 304,
-      headers: { etag, 'cache-control': 'public, max-age=15' }
-    });
+    return new Response(null, { status: 304, headers: { etag, 'cache-control': cacheControl } });
   }
   return new Response(body, {
     status: 200,
-    headers: {
-      'content-type': 'application/json',
-      'cache-control': 'public, max-age=15',
-      etag
-    }
+    headers: { 'content-type': 'application/json', 'cache-control': cacheControl, etag }
   });
+}
+
+export function publicJson(document: unknown, request?: Request): Response {
+  const body = JSON.stringify(document);
+  return cachedJson(body, etagOf(body), 15, request);
+}
+
+export const buildFactsMaxAge = 3600;
+const serialized = new WeakMap<object, { body: string; etag: string }>();
+
+export function factsJson(document: object, request?: Request): Response {
+  let entry = serialized.get(document);
+  if (!entry) {
+    const body = JSON.stringify(document);
+    entry = { body, etag: etagOf(body) };
+    serialized.set(document, entry);
+  }
+  return cachedJson(entry.body, entry.etag, buildFactsMaxAge, request);
 }
 
 export function privateJson(document: unknown, status = 200): Response {

@@ -1,6 +1,6 @@
 import type { Database } from '../db/client';
-import { savedCharacters, unlocksOf } from './characters';
-import { playerRef, type Schemas } from './common';
+import { journalCounts, journalFinds, savedCharacters } from './characters';
+import { displayName, playerRef, playersById, type Schemas } from './common';
 import { unlockFor } from './catalog';
 import { findable } from './layers';
 import { creaturesById, itemName, liveJournal } from './lookup';
@@ -19,27 +19,17 @@ function findOf(entry: (typeof liveJournal)[number]): string | null {
 
 export async function getJournal(db: Database): Promise<Journal> {
   const characters = await savedCharacters(db);
-  const owners = new Map(characters.map(({ player, save }) => [save.characterGuid, player.id]));
-  const rows = await unlocksOf(db, [...owners.keys()], ['journal']);
-  const found = new Map<
-    string,
-    { players: Set<number>; first: { player: number; at: Date } | null }
-  >();
-  const counts = new Map<number, number>();
-  for (const row of rows) {
-    const player = owners.get(row.characterGuid);
-    if (player === undefined) continue;
-    const entry = found.get(row.id) ?? { players: new Set<number>(), first: null };
-    entry.players.add(player);
-    if (!entry.first || row.firstSeenAt < entry.first.at)
-      entry.first = { player, at: row.firstSeenAt };
-    found.set(row.id, entry);
-  }
-  const known = new Set(liveJournal.map((entry) => entry.id));
-  for (const [id, entry] of found) {
-    if (!known.has(id)) continue;
-    for (const player of entry.players) counts.set(player, (counts.get(player) ?? 0) + 1);
-  }
+  const finds = await journalFinds(db, characters);
+  const counts = journalCounts(finds);
+  const saved = new Set(characters.map(({ player }) => player.id));
+  const others = await playersById(
+    db,
+    [...counts.keys()].filter((id) => !saved.has(id))
+  );
+  const people = [
+    ...characters.map(({ player }) => player),
+    ...[...others.values()].filter((player) => !player.hidden)
+  ].sort((a, b) => displayName(a).localeCompare(displayName(b)) || a.id - b.id);
   const newest = characters.reduce<Date | null>(
     (latest, { save }) => (!latest || save.savedAt > latest ? save.savedAt : latest),
     null
@@ -57,7 +47,9 @@ export async function getJournal(db: Database): Promise<Journal> {
     return index;
   };
   const entries = liveJournal.map((entry) => {
-    const seen = entry.id ? found.get(entry.id) : undefined;
+    const seen = [...(finds.get(entry.asset) ?? new Map<number, Date>()).entries()].sort(
+      ([a, first], [b, second]) => first.getTime() - second.getTime() || a - b
+    );
     return {
       id: entry.id,
       asset: entry.asset,
@@ -72,17 +64,15 @@ export async function getJournal(db: Database): Promise<Journal> {
       recipe_unlock: unlockIndex(entry.recipe),
       find: findOf(entry),
       regions: entry.locations,
-      found_by: seen ? [...seen.players].sort((a, b) => a - b) : [],
-      first_found: seen?.first
-        ? { player: seen.first.player, at: seen.first.at.toISOString() }
-        : null
+      found_by: seen.map(([player]) => player).sort((a, b) => a - b),
+      first_found: seen[0] ? { player: seen[0][0], at: seen[0][1].toISOString() } : null
     };
   });
   return {
     saved_at: newest ? newest.toISOString() : null,
     unlocks,
     entries,
-    players: characters.map(({ player }) => ({
+    players: people.map((player) => ({
       player: playerRef(player),
       found: counts.get(player.id) ?? 0
     }))
