@@ -1,0 +1,326 @@
+package main
+
+import (
+	"context"
+	"errors"
+	"flag"
+	"fmt"
+	"io"
+	"log/slog"
+	"os"
+	"os/signal"
+	"path/filepath"
+	"strconv"
+	"strings"
+	"syscall"
+	"time"
+
+	"github.com/oddessentials/magpie/collector/internal/buildinfo"
+	"github.com/oddessentials/magpie/collector/internal/collector"
+	"github.com/oddessentials/magpie/collector/internal/config"
+	"github.com/oddessentials/magpie/collector/internal/logfile"
+	"github.com/oddessentials/magpie/collector/internal/serverlog"
+	"github.com/oddessentials/magpie/collector/internal/winservice"
+)
+
+const usage = `magpie-collector %s
+
+Usage:
+  magpie-collector [run] [--config FILE] [--dry-run] [--verbose]
+  magpie-collector check [--config FILE]
+  magpie-collector stop [--config FILE] [--wait DURATION]
+  magpie-collector service install [--config FILE] [--name NAME]
+  magpie-collector service start|stop|remove [--name NAME]
+  magpie-collector version
+
+Reads magpie-collector.toml beside the binary unless --config is given; MAGPIE_* environment variables override the file.
+On Windows, service install registers the collector as a service that starts with Windows and restarts after a failure. Stopping it asks the server mod to save the world and quit.
+stop asks a server the collector launched to save the world and quit through the events mod, waits for it, and terminates it after the wait.
+`
+
+const (
+	collectorLogName = "magpie-collector.log"
+	serverLogName    = "dragonwilds-server.log"
+	logLimit         = 10 << 20
+)
+
+func main() {
+	os.Exit(run(os.Args[1:]))
+}
+
+func executableDir() string {
+	executable, err := os.Executable()
+	if err != nil {
+		return ""
+	}
+	if resolved, err := filepath.EvalSymlinks(executable); err == nil {
+		executable = resolved
+	}
+	return filepath.Dir(executable)
+}
+
+func run(args []string) int {
+	command := "run"
+	if len(args) > 0 {
+		switch args[0] {
+		case "run", "check", "stop", "version", "help", "service":
+			command = args[0]
+			args = args[1:]
+		}
+	}
+	switch command {
+	case "version":
+		fmt.Println(buildinfo.Version)
+		return 0
+	case "help":
+		fmt.Printf(usage, buildinfo.Version)
+		return 0
+	case "service":
+		return service(args)
+	case "stop":
+		return stopServer(args)
+	}
+	flags := flag.NewFlagSet("magpie-collector", flag.ContinueOnError)
+	flags.SetOutput(os.Stderr)
+	flags.Usage = func() { fmt.Fprintf(os.Stderr, usage, buildinfo.Version) }
+	configPath := flags.String("config", "", "configuration file")
+	dryRun := flags.Bool("dry-run", false, "print batches to stdout instead of sending them")
+	verbose := flags.Bool("verbose", false, "log debug details")
+	if err := flags.Parse(args); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return 0
+		}
+		return 2
+	}
+	level := slog.LevelInfo
+	if *verbose {
+		level = slog.LevelDebug
+	}
+	exeDir := executableDir()
+	asService := command == "run" && winservice.IsService()
+	logOutput := io.Writer(os.Stderr)
+	stdout := io.Writer(os.Stdout)
+	if asService {
+		logDir := exeDir
+		if *configPath != "" {
+			if absolute, err := filepath.Abs(*configPath); err == nil {
+				logDir = filepath.Dir(absolute)
+			}
+		}
+		collectorLog, err := logfile.Open(filepath.Join(logDir, collectorLogName), logLimit)
+		if err != nil {
+			return 1
+		}
+		defer collectorLog.Close()
+		serverLog, err := logfile.Open(filepath.Join(logDir, serverLogName), logLimit)
+		if err != nil {
+			return 1
+		}
+		defer serverLog.Close()
+		logOutput = collectorLog
+		stdout = serverLog
+	}
+	logger := slog.New(slog.NewTextHandler(logOutput, &slog.HandlerOptions{Level: level}))
+	cfg, err := config.Load(config.Options{Path: *configPath, ExeDir: exeDir, DryRun: *dryRun})
+	if err != nil {
+		logger.Error("configuration", "error", err)
+		return 2
+	}
+	if cfg.Path != "" {
+		logger.Info("configuration loaded", "file", cfg.Path)
+	} else {
+		logger.Info("no configuration file; using environment variables only")
+	}
+	for _, warning := range cfg.Warnings {
+		logger.Warn(warning)
+	}
+	if command == "check" {
+		return collector.Check(context.Background(), cfg, os.Stdout)
+	}
+	var dryRunOut io.Writer
+	if *dryRun && !asService {
+		dryRunOut = os.Stdout
+		stdout = os.Stderr
+	}
+	instance, err := collector.New(collector.Options{
+		Config: cfg,
+		Logger: logger,
+		Stdout: stdout,
+		Stdin:  os.Stdin,
+		DryRun: dryRunOut,
+	})
+	if err != nil {
+		logger.Error("starting", "error", err)
+		return 1
+	}
+	if asService {
+		logger.Info("running as a Windows service")
+		if err := winservice.Run(winservice.DefaultName, instance.Run); err != nil {
+			logger.Error("stopped", "error", err)
+			return 1
+		}
+		logger.Info("stopped")
+		return 0
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	force := make(chan struct{}, 1)
+	signals := make(chan os.Signal, 2)
+	signal.Notify(signals, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-signals
+		logger.Info("stop requested; press Ctrl+C again to stop at once")
+		cancel()
+		<-signals
+		force <- struct{}{}
+	}()
+	if err := instance.Run(ctx, force); err != nil {
+		logger.Error("stopped", "error", err)
+		return 1
+	}
+	logger.Info("stopped")
+	return 0
+}
+
+func service(args []string) int {
+	if len(args) == 0 {
+		fmt.Fprintf(os.Stderr, usage, buildinfo.Version)
+		return 2
+	}
+	action := args[0]
+	flags := flag.NewFlagSet("magpie-collector service "+action, flag.ContinueOnError)
+	flags.SetOutput(os.Stderr)
+	name := flags.String("name", winservice.DefaultName, "service name, to run more than one collector")
+	configPath := flags.String("config", "", "configuration file (install only)")
+	if err := flags.Parse(args[1:]); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return 0
+		}
+		return 2
+	}
+	progress := func(message string) { fmt.Println(message) }
+	switch action {
+	case "install":
+		return installService(*name, *configPath)
+	case "start":
+		if err := winservice.Start(*name); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return 1
+		}
+		fmt.Printf("started %s\n", *name)
+	case "stop":
+		if err := winservice.Stop(*name, progress); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return 1
+		}
+		fmt.Printf("stopped %s\n", *name)
+	case "remove":
+		if err := winservice.Remove(*name, progress); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return 1
+		}
+		fmt.Printf("removed %s\n", *name)
+	default:
+		fmt.Fprintf(os.Stderr, "unknown service command %q\n", action)
+		fmt.Fprintf(os.Stderr, usage, buildinfo.Version)
+		return 2
+	}
+	return 0
+}
+
+func installService(name, configPath string) int {
+	exeDir := executableDir()
+	executable, err := os.Executable()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return 1
+	}
+	if resolved, err := filepath.EvalSymlinks(executable); err == nil {
+		executable = resolved
+	}
+	if configPath == "" {
+		configPath = filepath.Join(exeDir, config.DefaultFileName)
+	}
+	absolute, err := filepath.Abs(configPath)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return 1
+	}
+	cfg, err := config.Load(config.Options{Path: absolute, ExeDir: exeDir, Getenv: func(string) string { return "" }})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "the service reads only its configuration file, and it is not ready: %v\n", err)
+		return 2
+	}
+	for _, warning := range cfg.Warnings {
+		fmt.Fprintf(os.Stderr, "warning: %s\n", warning)
+	}
+	if err := winservice.Install(winservice.InstallOptions{Name: name, Executable: executable, ConfigPath: absolute}); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return 1
+	}
+	logDir := filepath.Dir(absolute)
+	fmt.Printf("installed %s (%s) with %s\n", name, winservice.DisplayName(name), absolute)
+	fmt.Printf("it starts with Windows and restarts after a failure; start it now with: magpie-collector service start --name %s\n", name)
+	fmt.Printf("logs: %s and %s\n", filepath.Join(logDir, collectorLogName), filepath.Join(logDir, serverLogName))
+	return 0
+}
+
+func stopServer(args []string) int {
+	flags := flag.NewFlagSet("magpie-collector stop", flag.ContinueOnError)
+	flags.SetOutput(os.Stderr)
+	configPath := flags.String("config", "", "configuration file")
+	wait := flags.Duration("wait", 0, "how long to wait for the save and exit before terminating the server (default launch.stop_wait)")
+	if err := flags.Parse(args); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return 0
+		}
+		return 2
+	}
+	cfg, err := config.Load(config.Options{Path: *configPath, ExeDir: executableDir(), DryRun: true})
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return 2
+	}
+	if cfg.Mod.Stop == "" {
+		fmt.Fprintln(os.Stderr, "mod.stop is not set, so there is no way to ask the server to save and quit; load the events mod and set mod.stop")
+		return 2
+	}
+	if *wait <= 0 {
+		*wait = cfg.Launch.StopWait
+	}
+	pid := 0
+	if data, err := os.ReadFile(collector.PidFile(cfg.JournalDir)); err == nil {
+		pid, _ = strconv.Atoi(strings.TrimSpace(string(data)))
+	}
+	if err := collector.WriteStopFile(cfg.Mod.Stop, "admin"); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return 1
+	}
+	fmt.Println("asked the server to save the world and quit:", cfg.Mod.Stop)
+	if pid == 0 || !serverlog.Alive(pid) {
+		fmt.Println("no running server was launched by the collector here, so this does not wait for it")
+		return 0
+	}
+	deadline := time.Now().Add(*wait)
+	for serverlog.Alive(pid) && time.Now().Before(deadline) {
+		time.Sleep(time.Second)
+	}
+	if !serverlog.Alive(pid) {
+		fmt.Println("the server saved and exited")
+		return 0
+	}
+	fmt.Printf("the server did not exit within %s; terminating it without a save\n", wait.String())
+	if err := serverlog.Terminate(pid); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return 1
+	}
+	for i := 0; i < 15 && serverlog.Alive(pid); i++ {
+		time.Sleep(time.Second)
+	}
+	if serverlog.Alive(pid) {
+		fmt.Fprintln(os.Stderr, "the server process is still running")
+		return 1
+	}
+	fmt.Println("the server was terminated")
+	return 0
+}
