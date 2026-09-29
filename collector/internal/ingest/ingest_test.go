@@ -356,6 +356,45 @@ func TestPipelineBacksOffOnABadSecret(t *testing.T) {
 	}
 }
 
+func TestClockCompensationFollowsTheSiteClock(t *testing.T) {
+	local := time.Date(2026, 9, 29, 12, 0, 0, 0, time.UTC)
+	siteTime := local
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Date", siteTime.Format(http.TimeFormat))
+		w.WriteHeader(http.StatusUnauthorized)
+	}))
+	defer server.Close()
+	journal, _, err := OpenJournal(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { journal.Close() })
+	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
+	pipeline := NewPipeline(Options{URL: server.URL, Secret: "s3cret", Now: func() time.Time { return local }}, journal, nil, func() (CollectorInfo, any) {
+		return CollectorInfo{Name: "c", Version: "v", RunID: "r"}, nil
+	}, logger)
+	pipeline.Enqueue(testItem(1, "chat.message", 1).Raw)
+
+	siteTime = local.Add(10 * time.Minute)
+	pipeline.sendOnce(context.Background())
+	if pipeline.skew != 10*time.Minute || pipeline.nextAttempt.Sub(local) != time.Second {
+		t.Fatalf("a site clock 10 minutes ahead is compensated: skew %s retry %s", pipeline.skew, pipeline.nextAttempt.Sub(local))
+	}
+
+	siteTime = local
+	pipeline.nextAttempt = time.Time{}
+	pipeline.sendOnce(context.Background())
+	if pipeline.skew != 0 || pipeline.nextAttempt.Sub(local) != time.Second {
+		t.Fatalf("compensation ends once the clocks agree: skew %s retry %s", pipeline.skew, pipeline.nextAttempt.Sub(local))
+	}
+
+	pipeline.nextAttempt = time.Time{}
+	pipeline.sendOnce(context.Background())
+	if pipeline.skew != 0 || pipeline.nextAttempt.Sub(local) < 20*time.Second {
+		t.Fatalf("with agreeing clocks a refusal is a bad secret and backs off: skew %s retry %s", pipeline.skew, pipeline.nextAttempt.Sub(local))
+	}
+}
+
 func TestPipelineShedsSnapshotsFirst(t *testing.T) {
 	journal, _, err := OpenJournal(t.TempDir())
 	if err != nil {

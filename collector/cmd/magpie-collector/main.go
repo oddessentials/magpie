@@ -59,6 +59,15 @@ func executableDir() string {
 	return filepath.Dir(executable)
 }
 
+func isolateDryRun(cfg *config.Config) (func(), error) {
+	dir, err := os.MkdirTemp("", "magpie-dry-run-")
+	if err != nil {
+		return nil, err
+	}
+	cfg.JournalDir = dir
+	return func() { os.RemoveAll(dir) }, nil
+}
+
 func run(args []string) int {
 	command := "run"
 	if len(args) > 0 {
@@ -141,6 +150,13 @@ func run(args []string) int {
 	if *dryRun && !asService {
 		dryRunOut = os.Stdout
 		stdout = os.Stderr
+		cleanup, err := isolateDryRun(cfg)
+		if err != nil {
+			logger.Error("dry run", "error", err)
+			return 1
+		}
+		defer cleanup()
+		logger.Info("dry run: the journal and cursors live in a temporary folder", "journal", cfg.JournalDir)
 	}
 	instance, err := collector.New(collector.Options{
 		Config: cfg,
