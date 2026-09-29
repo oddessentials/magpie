@@ -1,6 +1,7 @@
 package collector
 
 import (
+	"path/filepath"
 	"time"
 
 	"github.com/oddessentials/magpie/collector/internal/event"
@@ -8,15 +9,17 @@ import (
 )
 
 type saveOutcome struct {
-	result   *saves.Result
-	err      error
-	modified time.Time
-	size     int64
-	path     string
+	unchanged bool
+	checkedAt time.Time
+	result    *saves.Result
+	err       error
+	modified  time.Time
+	size      int64
+	path      string
 }
 
 func (c *Collector) savesEnabled() bool {
-	return c.cfg.Saves.Reader != "" && (c.cfg.SaveDir != "" || c.cfg.Saves.Path != "")
+	return c.cfg.Saves.Reader != "" && (c.cfg.SaveDir != "" || c.cfg.Saves.Path != "" || c.cfg.Saves.Remote != "")
 }
 
 func (c *Collector) savePathNow() (string, bool) {
@@ -32,6 +35,10 @@ func (c *Collector) savePathNow() (string, bool) {
 
 func (c *Collector) checkSaves() {
 	if !c.savesEnabled() || c.saveRunning {
+		return
+	}
+	if c.remoteSave != nil {
+		c.checkRemoteSave()
 		return
 	}
 	path, ok := c.savePathNow()
@@ -67,7 +74,7 @@ func (c *Collector) checkSaves() {
 	c.saveRunning = true
 	reader := c.cfg.Saves.Reader
 	go func() {
-		result, err := saves.Read(c.loopCtx, reader, path)
+		result, err := c.readSave(reader, path)
 		select {
 		case c.saveResults <- saveOutcome{result: result, err: err, modified: modified, size: size, path: path}:
 		case <-c.loopCtx.Done():
@@ -86,6 +93,18 @@ func (c *Collector) onSaveResult(outcome saveOutcome) {
 		}
 		return
 	}
+	if !outcome.checkedAt.IsZero() {
+		c.remoteSaveChecked = outcome.checkedAt
+	}
+	if outcome.unchanged {
+		c.saveState = stateOK
+		c.saveProblem = ""
+		return
+	}
+	if c.remoteSave != nil {
+		c.saveModified = outcome.modified
+		c.saveSize = outcome.size
+	}
 	if c.saveState != stateOK {
 		c.log.Info("reading the world save", "file", outcome.path, "characters", len(outcome.result.Characters))
 	}
@@ -102,4 +121,68 @@ func (c *Collector) onSaveResult(outcome saveOutcome) {
 		}
 		c.emit(item.Type, outcome.result.SavedAt, player, data)
 	}
+}
+
+func (c *Collector) checkRemoteSave() {
+	if time.Since(c.remoteSaveAttempt) < c.cfg.Saves.Interval {
+		return
+	}
+	c.remoteSaveAttempt = time.Now()
+	c.saveRunning = true
+	previous, size := c.saveModified, c.saveSize
+	path := filepath.Join(c.journal.Dir(), "remote-world.sav")
+	go func() {
+		outcome := saveOutcome{path: path}
+		entry, err := c.remoteSave.Stat(c.loopCtx)
+		if err == nil && !previous.IsZero() && entry.Modified.Equal(previous) && entry.Size == size {
+			outcome.unchanged = true
+		} else if err == nil {
+			entry, err = c.remoteSave.Save(c.loopCtx, path, func(file string) error {
+				var readErr error
+				outcome.result, readErr = c.readSave(c.cfg.Saves.Reader, file)
+				return readErr
+			})
+			outcome.modified, outcome.size = entry.Modified, entry.Size
+		}
+		outcome.err = err
+		if err == nil {
+			outcome.checkedAt = time.Now()
+		}
+		select {
+		case c.saveResults <- outcome:
+		case <-c.loopCtx.Done():
+		}
+	}()
+}
+
+func (c *Collector) readSave(reader, path string) (*saves.Result, error) {
+	if c.options.ReadSave != nil {
+		return c.options.ReadSave(c.loopCtx, reader, path)
+	}
+	return saves.Read(c.loopCtx, reader, path)
+}
+
+func (c *Collector) remoteObservation() *event.RemoteObservation {
+	remoteSaves := c.cfg.Saves.Remote != "" && c.savesEnabled()
+	if c.cfg.Logs.Source != "remote" && !remoteSaves {
+		return nil
+	}
+	out := &event.RemoteObservation{}
+	if c.cfg.Logs.Source == "remote" {
+		seconds := c.cfg.Logs.Interval.Seconds()
+		out.LogsPollS = &seconds
+	}
+	if remoteSaves {
+		seconds := c.cfg.Saves.Interval.Seconds()
+		out.SavesPollS = &seconds
+	}
+	if !c.remoteLogChecked.IsZero() {
+		at := c.remoteLogChecked
+		out.LogsCheckedAt = &at
+	}
+	if !c.remoteSaveChecked.IsZero() {
+		at := c.remoteSaveChecked
+		out.SavesCheckedAt = &at
+	}
+	return out
 }

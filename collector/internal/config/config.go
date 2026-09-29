@@ -15,6 +15,7 @@ import (
 	_ "time/tzdata"
 
 	"github.com/BurntSushi/toml"
+	"github.com/oddessentials/magpie/collector/internal/remote"
 )
 
 const DefaultFileName = "magpie-collector.toml"
@@ -23,6 +24,7 @@ const (
 	SourceLaunch = "launch"
 	SourceDocker = "docker"
 	SourceFile   = "file"
+	SourceRemote = "remote"
 	SourceStdin  = "stdin"
 	SourceNone   = "none"
 )
@@ -43,8 +45,14 @@ type Dragonwilds struct {
 }
 
 type Logs struct {
-	Source string `toml:"source"`
-	Path   string `toml:"path"`
+	Source   string        `toml:"source"`
+	Path     string        `toml:"path"`
+	Remote   string        `toml:"remote"`
+	Password string        `toml:"password"`
+	Key      string        `toml:"key"`
+	HostKey  string        `toml:"host_key"`
+	Interval time.Duration `toml:"interval"`
+	Timeout  time.Duration `toml:"timeout"`
 }
 
 type Launch struct {
@@ -64,6 +72,11 @@ type File struct {
 }
 
 type Saves struct {
+	Remote   string        `toml:"remote"`
+	Password string        `toml:"password"`
+	Key      string        `toml:"key"`
+	HostKey  string        `toml:"host_key"`
+	Timeout  time.Duration `toml:"timeout"`
 	Reader   string        `toml:"reader"`
 	Path     string        `toml:"path"`
 	Interval time.Duration `toml:"interval"`
@@ -164,6 +177,8 @@ func applyDefaults(cfg *Config, options Options) {
 			cfg.Logs.Source = SourceLaunch
 		case cfg.Docker.Container != "":
 			cfg.Logs.Source = SourceDocker
+		case cfg.Logs.Remote != "":
+			cfg.Logs.Source = SourceRemote
 		case cfg.File.Path != "" || cfg.Logs.Path != "" || cfg.Dragonwilds.ServerDir != "":
 			cfg.Logs.Source = SourceFile
 		default:
@@ -180,6 +195,9 @@ func applyDefaults(cfg *Config, options Options) {
 		{&cfg.Intervals.Actions, 5 * time.Second},
 		{&cfg.Launch.StopWait, 90 * time.Second},
 		{&cfg.Saves.Interval, 30 * time.Second},
+		{&cfg.Logs.Interval, 5 * time.Second},
+		{&cfg.Logs.Timeout, 30 * time.Second},
+		{&cfg.Saves.Timeout, 30 * time.Second},
 	}
 	for _, entry := range defaults {
 		if *entry.target == 0 {
@@ -268,7 +286,7 @@ func derive(cfg *Config, platform string) {
 		if _, err := os.Stat(cfg.Saves.Reader); err != nil {
 			cfg.Warnings = append(cfg.Warnings, fmt.Sprintf("saves.reader %s: %v; the world save is not read", cfg.Saves.Reader, err))
 			cfg.Saves.Reader = ""
-		} else if cfg.SaveDir == "" {
+		} else if cfg.SaveDir == "" && cfg.Saves.Remote == "" {
 			cfg.Warnings = append(cfg.Warnings, "the save reader is here but the world save folder is unknown; set dragonwilds.server_dir or saves.path so the collector can read it")
 		}
 	}
@@ -314,9 +332,13 @@ func validate(cfg *Config, dryRun bool) error {
 		if cfg.LogPath == "" {
 			problems = append(problems, "logs.source is file but no log path is known; set file.path, logs.path or dragonwilds.server_dir")
 		}
+	case SourceRemote:
+		if cfg.Logs.Remote == "" {
+			problems = append(problems, "logs.source is remote but logs.remote is empty")
+		}
 	case SourceStdin, SourceNone:
 	default:
-		problems = append(problems, fmt.Sprintf("logs.source %q must be launch, docker, file, stdin or none", cfg.Logs.Source))
+		problems = append(problems, fmt.Sprintf("logs.source %q must be launch, docker, file, remote, stdin or none", cfg.Logs.Source))
 	}
 	if cfg.Logs.Source == SourceNone && cfg.Saves.Reader == "" && cfg.Mod.Events == "" {
 		problems = append(problems, "the collector has nothing to read; set a log source, a save reader or mod.events")
@@ -331,6 +353,9 @@ func validate(cfg *Config, dryRun bool) error {
 		{"intervals.actions", cfg.Intervals.Actions},
 		{"launch.stop_wait", cfg.Launch.StopWait},
 		{"saves.interval", cfg.Saves.Interval},
+		{"logs.interval", cfg.Logs.Interval},
+		{"logs.timeout", cfg.Logs.Timeout},
+		{"saves.timeout", cfg.Saves.Timeout},
 	}
 	for _, interval := range intervals {
 		if interval.value < time.Second {
@@ -343,10 +368,33 @@ func validate(cfg *Config, dryRun bool) error {
 	if cfg.Intervals.Heartbeat > 150*time.Second {
 		problems = append(problems, "intervals.heartbeat must be at most 150s; the site declares a collector lost after 180s without a batch")
 	}
+	if cfg.Logs.Interval > 60*time.Second {
+		problems = append(problems, "logs.interval must be at most 60s")
+	}
+	if cfg.Logs.Remote != "" && cfg.Logs.Source != SourceRemote {
+		problems = append(problems, "logs.remote requires logs.source remote")
+	}
+	if cfg.Saves.Remote != "" && cfg.Saves.Path != "" {
+		problems = append(problems, "choose either saves.remote or saves.path")
+	}
+	for label, options := range map[string]remote.Options{"logs": cfg.LogRemote(), "saves": cfg.SaveRemote()} {
+		if options.URL != "" {
+			if _, err := remote.New(options); err != nil {
+				problems = append(problems, label+": "+err.Error())
+			}
+		}
+	}
 	if len(problems) > 0 {
 		return errors.New(strings.Join(problems, "; "))
 	}
 	return nil
+}
+
+func (cfg *Config) LogRemote() remote.Options {
+	return remote.Options{URL: cfg.Logs.Remote, Password: cfg.Logs.Password, KeyFile: cfg.Logs.Key, HostKey: cfg.Logs.HostKey, Timeout: cfg.Logs.Timeout}
+}
+func (cfg *Config) SaveRemote() remote.Options {
+	return remote.Options{URL: cfg.Saves.Remote, Password: cfg.Saves.Password, KeyFile: cfg.Saves.Key, HostKey: cfg.Saves.HostKey, Timeout: cfg.Saves.Timeout}
 }
 
 func (cfg *Config) IngestURL() string {
@@ -395,6 +443,17 @@ func durationSetter(name string, target func(cfg *Config) *time.Duration) envSet
 }
 
 var envSetters = []envSetter{
+	stringSetter("MAGPIE_LOGS_REMOTE", func(c *Config) *string { return &c.Logs.Remote }),
+	stringSetter("MAGPIE_LOGS_PASSWORD", func(c *Config) *string { return &c.Logs.Password }),
+	stringSetter("MAGPIE_LOGS_KEY", func(c *Config) *string { return &c.Logs.Key }),
+	stringSetter("MAGPIE_LOGS_HOST_KEY", func(c *Config) *string { return &c.Logs.HostKey }),
+	durationSetter("MAGPIE_LOGS_INTERVAL", func(c *Config) *time.Duration { return &c.Logs.Interval }),
+	durationSetter("MAGPIE_LOGS_TIMEOUT", func(c *Config) *time.Duration { return &c.Logs.Timeout }),
+	stringSetter("MAGPIE_SAVES_REMOTE", func(c *Config) *string { return &c.Saves.Remote }),
+	stringSetter("MAGPIE_SAVES_PASSWORD", func(c *Config) *string { return &c.Saves.Password }),
+	stringSetter("MAGPIE_SAVES_KEY", func(c *Config) *string { return &c.Saves.Key }),
+	stringSetter("MAGPIE_SAVES_HOST_KEY", func(c *Config) *string { return &c.Saves.HostKey }),
+	durationSetter("MAGPIE_SAVES_TIMEOUT", func(c *Config) *time.Duration { return &c.Saves.Timeout }),
 	stringSetter("MAGPIE_SITE_URL", func(c *Config) *string { return &c.Site.URL }),
 	stringSetter("MAGPIE_SITE_SECRET", func(c *Config) *string { return &c.Site.Secret }),
 	stringSetter("MAGPIE_SERVER_DIR", func(c *Config) *string { return &c.Dragonwilds.ServerDir }),

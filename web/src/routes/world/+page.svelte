@@ -235,6 +235,20 @@
       </Card>
 
       <Card title={t.world.seesTitle}>
+        {#if status?.collector.remote}
+          {@const remote = status.collector.remote}
+          <div class="mb-4 flex flex-col gap-2 text-sm text-ink-muted">
+            {#if remote.logs_poll_s !== null}<p>
+                Remote logs: checked every {formatNumber(remote.logs_poll_s)} seconds{#if remote.logs_checked_at},
+                  last checked <Time at={remote.logs_checked_at} mode="relative" />{/if}.
+              </p>{/if}
+            {#if remote.saves_poll_s !== null}<p>
+                Remote saves: checked every {formatNumber(remote.saves_poll_s)} seconds{#if remote.saves_checked_at},
+                  last checked <Time at={remote.saves_checked_at} mode="relative" />{/if}.
+              </p>{/if}
+            <p>These observations arrive by polling. Saved progress keeps the time of the save.</p>
+          </div>
+        {/if}
         {#if capabilities.length === 0}
           <p class="note">{t.world.seesEmpty}</p>
         {:else}

@@ -19,6 +19,7 @@ import (
 	"github.com/oddessentials/magpie/collector/internal/dragonwilds"
 	"github.com/oddessentials/magpie/collector/internal/event"
 	"github.com/oddessentials/magpie/collector/internal/ingest"
+	"github.com/oddessentials/magpie/collector/internal/remote"
 	"github.com/oddessentials/magpie/collector/internal/saves"
 	"github.com/oddessentials/magpie/collector/internal/serverlog"
 )
@@ -41,6 +42,7 @@ const (
 )
 
 type Options struct {
+	ReadSave     func(context.Context, string, string) (*saves.Result, error)
 	Config       *config.Config
 	Logger       *slog.Logger
 	Stdout       io.Writer
@@ -132,16 +134,20 @@ type Collector struct {
 	modState  serverlog.State
 	modWarned bool
 
-	saveTracker   *saves.Tracker
-	saveRunning   bool
-	saveState     string
-	saveProblem   string
-	savePath      string
-	saveModified  time.Time
-	saveSize      int64
-	saveChangedAt time.Time
-	saveReadAt    time.Time
-	saveDirWarned bool
+	saveTracker       *saves.Tracker
+	saveRunning       bool
+	saveState         string
+	saveProblem       string
+	savePath          string
+	saveModified      time.Time
+	saveSize          int64
+	saveChangedAt     time.Time
+	saveReadAt        time.Time
+	saveDirWarned     bool
+	remoteSave        *remote.Client
+	remoteSaveAttempt time.Time
+	remoteSaveChecked time.Time
+	remoteLogChecked  time.Time
 
 	processState string
 	stopMu       sync.Mutex
@@ -260,6 +266,13 @@ func (c *Collector) modEnv() []string {
 }
 
 func (c *Collector) setupSource() error {
+	if c.cfg.Saves.Remote != "" {
+		client, err := remote.New(c.cfg.SaveRemote())
+		if err != nil {
+			return err
+		}
+		c.remoteSave = client
+	}
 	switch {
 	case c.options.Source != nil:
 		c.source = c.options.Source
@@ -298,6 +311,12 @@ func (c *Collector) setupSource() error {
 		}
 	case c.cfg.Logs.Source == config.SourceFile:
 		c.source = &serverlog.FileSource{Path: c.cfg.LogPath, CursorPath: filepath.Join(c.journal.Dir(), "file.cursor")}
+	case c.cfg.Logs.Source == config.SourceRemote:
+		client, err := remote.New(c.cfg.LogRemote())
+		if err != nil {
+			return err
+		}
+		c.source = &serverlog.RemoteSource{File: client, CursorPath: filepath.Join(c.journal.Dir(), "remote.cursor"), Poll: c.cfg.Logs.Interval}
 	case c.cfg.Logs.Source == config.SourceStdin:
 		c.source = &serverlog.StdinSource{Reader: c.options.Stdin, Mirror: c.options.Stdout}
 	}
@@ -400,7 +419,11 @@ func (c *Collector) loop(ctx context.Context, force <-chan struct{}) {
 	metrics := time.NewTicker(intervals.Metrics)
 	heartbeat := time.NewTicker(intervals.Heartbeat)
 	housekeeping := time.NewTicker(500 * time.Millisecond)
-	saveTicker := time.NewTicker(saveCheckEvery)
+	savePoll := saveCheckEvery
+	if c.remoteSave != nil {
+		savePoll = c.cfg.Saves.Interval
+	}
+	saveTicker := time.NewTicker(savePoll)
 	defer metrics.Stop()
 	defer heartbeat.Stop()
 	defer housekeeping.Stop()
@@ -504,6 +527,7 @@ func (c *Collector) ensureStarted() {
 		OS:               runtime.GOOS,
 		Arch:             runtime.GOARCH,
 		Layers: event.CollectorLayers{
+			Remote:     c.remoteObservation(),
 			Logs:       c.cfg.Logs.Source != config.SourceNone,
 			LogsSource: source,
 			Saves:      c.savesEnabled(),
@@ -664,6 +688,7 @@ func (c *Collector) emitHeartbeat() {
 	}
 	c.ensureStarted()
 	c.emit(event.TypeCollectorHeartbeat, time.Now(), nil, event.CollectorHeartbeatData{
+		Remote:        c.remoteObservation(),
 		UptimeS:       time.Since(c.startedAt).Round(time.Millisecond).Seconds(),
 		QueueDepth:    stats.Depth,
 		DroppedEvents: stats.Dropped,

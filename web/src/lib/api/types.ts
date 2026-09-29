@@ -709,6 +709,7 @@ export interface components {
       mod: 'ok' | 'waiting' | 'off';
       process: 'ok' | 'off' | 'unavailable';
       queue_depth: number;
+      remote?: components['schemas']['RemoteObservation'] | null;
       saves: 'ok' | 'waiting' | 'off' | 'error';
       uptime_s: number;
     } & {
@@ -729,9 +730,10 @@ export interface components {
     };
     CollectorLayers: {
       logs: boolean;
-      logs_source: 'launch' | 'file' | 'stdin' | 'docker' | null;
+      logs_source: 'launch' | 'file' | 'stdin' | 'docker' | 'remote' | null;
       mod: boolean;
       process: boolean;
+      remote?: components['schemas']['RemoteObservation'] | null;
       saves: boolean;
     } & {
       [key: string]: unknown;
@@ -1113,6 +1115,12 @@ export interface components {
       data: components['schemas']['QuestUpdatedData'];
       type: 'quest.updated';
     };
+    RemoteObservation: {
+      logs_checked_at: string | null;
+      logs_poll_s: number | null;
+      saves_checked_at: string | null;
+      saves_poll_s: number | null;
+    };
     Retention: {
       metrics_days: number;
       status_samples_days: number;
@@ -1332,6 +1340,7 @@ export interface components {
     StatusCollector: {
       last_seen_at: string | null;
       layers: components['schemas']['CollectorLayersSummary'] | null;
+      remote?: components['schemas']['RemoteObservation'] | null;
       state: 'active' | 'stopped' | 'lost' | 'none';
       version: string | null;
     };
@@ -1586,6 +1595,7 @@ export type PlayerXpData = components['schemas']['PlayerXpData'];
 export type PlayerXpEvent = components['schemas']['PlayerXpEvent'];
 export type QuestUpdatedData = components['schemas']['QuestUpdatedData'];
 export type QuestUpdatedEvent = components['schemas']['QuestUpdatedEvent'];
+export type RemoteObservation = components['schemas']['RemoteObservation'];
 export type Retention = components['schemas']['Retention'];
 export type SavedBuildings = components['schemas']['SavedBuildings'];
 export type SavedWorldProgress = components['schemas']['SavedWorldProgress'];

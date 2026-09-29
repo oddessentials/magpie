@@ -311,6 +311,42 @@ describe('POST /api/ingest', () => {
   });
 });
 
+describe('remote observation ingest', () => {
+  it('projects only polling metadata and preserves the last successful check on an outage', async () => {
+    const checked = '2026-09-28T12:00:00.000Z';
+    const remote = {
+      logs_poll_s: 5,
+      saves_poll_s: 30,
+      logs_checked_at: checked,
+      saves_checked_at: checked
+    };
+    const data = {
+      uptime_s: 30,
+      queue_depth: 0,
+      dropped_events: 0,
+      logs: 'ok',
+      saves: 'ok',
+      process: 'off',
+      mod: 'off',
+      remote
+    };
+    expect(
+      (await send(envelope(history, 'collector.heartbeat', data, new Date(), 901_000))).invalid
+    ).toBe(0);
+    expect((await computeStatus(getDb())).collector.remote).toEqual(remote);
+    await send(
+      envelope(
+        history,
+        'collector.heartbeat',
+        { ...data, logs: 'error', saves: 'error' },
+        new Date(),
+        901_001
+      )
+    );
+    expect((await computeStatus(getDb())).collector.remote).toEqual(remote);
+  });
+});
+
 describe('rebuilding from the event log', () => {
   it('reproduces sessions, deaths, discoveries, chat and player totals', async () => {
     const db = getDb();
