@@ -106,6 +106,44 @@ func TestSavedQuestStatesUseTheGameNames(t *testing.T) {
 	}
 }
 
+func TestProgressIsSentOnlyWhenItChanges(t *testing.T) {
+	withProgress := strings.Replace(readerOutput, `"spells_selected":1,"position":{"x":1,"y":2,"z":3}}`, `"spells_selected":1,"position":{"x":1,"y":2,"z":3},"inventory":[{"slot":0,"item":"item-a","count":3,"durability":null}],"loadout":[],"unlocks":{"recipes":["r1"],"buildings":null,"items_picked_up":["item-a"],"actors_interacted":[],"creatures_killed":[]},"journal_entries":["j1"],"quest_locations":[{"id":"WOM_Objective_FTUE_GS","state":false}]}`, 1)
+	result, err := Decode([]byte(withProgress), 1)
+	if err != nil {
+		t.Fatal(err)
+	}
+	player := result.Characters[0]
+	if len(player.Inventory) != 1 || *player.Inventory[0].Count != 3 || player.Loadout == nil || len(player.Loadout) != 0 || player.Position == nil || player.Position.Z != 3 {
+		t.Fatalf("player %+v", player)
+	}
+	if len(result.Progress) != 1 {
+		t.Fatalf("progress %+v", result.Progress)
+	}
+	progress := result.Progress[0]
+	if progress.CharacterGUID != "ABCDEF0123456789ABCDEF0123456789" || progress.Buildings != nil || len(progress.Recipes) != 1 || len(progress.Journal) != 1 || progress.QuestLocations[0].ID != "WOM_Objective_FTUE_GS" {
+		t.Fatalf("progress %+v", progress)
+	}
+	tracker := NewTracker()
+	if got := kinds(tracker.Changes(result)); got != "save.world save.player save.progress save.read" {
+		t.Fatalf("first read: %s", got)
+	}
+	if got := kinds(tracker.Changes(result)); got != "save.world save.read" {
+		t.Fatalf("unchanged progress is not resent: %s", got)
+	}
+	learned, _ := Decode([]byte(strings.Replace(withProgress, `"journal_entries":["j1"]`, `"journal_entries":["j1","j2"]`, 1)), 1)
+	if got := kinds(tracker.Changes(learned)); got != "save.world save.progress save.read" {
+		t.Fatalf("a new journal entry resends progress only: %s", got)
+	}
+	old, _ := Decode([]byte(readerOutput), 1)
+	if len(old.Progress) != 0 || old.Characters[0].Inventory != nil {
+		t.Fatal("an older save reader sends no progress")
+	}
+	encoded, _ := json.Marshal(old.Characters[0])
+	if !strings.Contains(string(encoded), `"inventory":null`) {
+		t.Fatalf("unknown inventory stays null: %s", encoded)
+	}
+}
+
 func kinds(items []Emission) string {
 	names := make([]string, 0, len(items))
 	for _, item := range items {

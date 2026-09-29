@@ -157,6 +157,7 @@ var eventSchemas = map[string]string{
 	"journal.unlocked":    "JournalUnlockedEvent",
 	"save.world":          "SaveWorldEvent",
 	"save.player":         "SavePlayerEvent",
+	"save.progress":       "SaveProgressEvent",
 	"save.read":           "SaveReadEvent",
 	"log.other":           "LogOtherEvent",
 	"chat.message":        "ChatMessageEvent",

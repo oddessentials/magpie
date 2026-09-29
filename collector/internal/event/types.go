@@ -17,6 +17,7 @@ const (
 	TypeJournalUnlocked    = "journal.unlocked"
 	TypeSaveWorld          = "save.world"
 	TypeSavePlayer         = "save.player"
+	TypeSaveProgress       = "save.progress"
 	TypeSaveRead           = "save.read"
 	TypeLogOther           = "log.other"
 	TypeChatMessage        = "chat.message"
@@ -235,6 +236,41 @@ type SavePlayerData struct {
 	RegionsRevealed *int          `json:"regions_revealed"`
 	HealthCurrent   *float64      `json:"health_current,omitempty"`
 	StaminaCurrent  *float64      `json:"stamina_current,omitempty"`
+	Inventory       []SaveSlot    `json:"inventory"`
+	Loadout         []SaveSlot    `json:"loadout"`
+	Position        *SavePosition `json:"position"`
+}
+
+type SaveSlot struct {
+	Slot       int      `json:"slot"`
+	Item       string   `json:"item"`
+	Count      *int     `json:"count"`
+	Durability *float64 `json:"durability"`
+}
+
+type SavePosition struct {
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
+	Z float64 `json:"z"`
+}
+
+type SaveQuestLocation struct {
+	ID    string `json:"id"`
+	State bool   `json:"state"`
+}
+
+type SaveProgressData struct {
+	SavedAt          time.Time           `json:"saved_at"`
+	CharacterGUID    string              `json:"character_guid"`
+	UserID           *string             `json:"user_id"`
+	Name             string              `json:"name"`
+	Recipes          []string            `json:"recipes"`
+	Buildings        []string            `json:"buildings"`
+	ItemsPickedUp    []string            `json:"items_picked_up"`
+	ActorsInteracted []string            `json:"actors_interacted"`
+	CreaturesKilled  []string            `json:"creatures_killed"`
+	Journal          []string            `json:"journal"`
+	QuestLocations   []SaveQuestLocation `json:"quest_locations"`
 }
 
 type SaveReadData struct {
