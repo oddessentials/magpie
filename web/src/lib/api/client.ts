@@ -114,6 +114,7 @@ export function createApi(options: ApiOptions = {}) {
       ),
     listChat: (page: Pagination = {}) =>
       unwrap(client.GET('/api/v1/chat', { params: { query: page } })),
+    getWorldMap: () => unwrap(client.GET('/api/v1/map')),
     getWorld: () => unwrap(client.GET('/api/v1/world')),
     getHealth: () => unwrap(client.GET('/api/v1/health')),
     getSite: () => unwrap(client.GET('/api/v1/site')),

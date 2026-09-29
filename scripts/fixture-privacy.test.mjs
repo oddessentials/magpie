@@ -32,3 +32,9 @@ test('POI ids still reject private values and accept unknown game ids', () => {
     []
   );
 });
+
+test('static map landmark ids have the same narrow exception', () => {
+  assert.deepEqual(privacyProblems('map.json', { landmarks: [{ id }] }), []);
+  assert.notEqual(privacyProblems('map.json', { landmarks: [{ id, owner: id }] }).length, 0);
+  assert.notEqual(privacyProblems('map.json', { landmarks: [{ id: '192.0.2.1' }] }).length, 0);
+});

@@ -11,6 +11,7 @@ export const endpoints = {
   playerSessions: `${API_BASE}/players/{id}/sessions`,
   chat: `${API_BASE}/chat`,
   world: `${API_BASE}/world`,
+  map: `${API_BASE}/map`,
   stream: `${API_BASE}/stream`,
   health: `${API_BASE}/health`,
   site: `${API_BASE}/site`,

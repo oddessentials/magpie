@@ -173,7 +173,8 @@ try {
     ['today', '/'],
     ['player', player],
     ['activity', '/activity'],
-    ['world', '/world']
+    ['world', '/world'],
+    ['map', '/map']
   ];
   for (const [name, path] of views) {
     await open(desktop, `${appUrl}${path}`, true);
@@ -199,6 +200,31 @@ try {
       2880
     );
   }
+  for (const [page, suffix] of [
+    [desktop, 'map.jpg'],
+    [mobile, 'map-mobile.jpg']
+  ]) {
+    await open(page, `${siteUrl}/demo.html#map`);
+    await page.locator('#map:not([hidden])').waitFor();
+    assert.equal(await page.locator('.tour-panel:not([hidden])').count(), 1);
+    const selected = await page.locator('#map img').evaluate(async (img) => {
+      await img.decode();
+      return img.currentSrc;
+    });
+    assert.ok(selected.endsWith(suffix));
+    assert.equal(
+      await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+      false
+    );
+  }
+  const noScript = await browser.newPage({
+    javaScriptEnabled: false,
+    viewport: { width: 390, height: 844 }
+  });
+  await open(noScript, `${siteUrl}/demo.html`);
+  assert.equal(await noScript.locator('.tour-panel:not([hidden])').count(), 5);
+  assert.equal(await noScript.locator('#map').isVisible(), true);
+  await noScript.close();
   await desktop.setViewportSize({ width: 1600, height: 800 });
   await open(desktop, siteUrl);
   await desktop.addStyleTag({
@@ -227,7 +253,7 @@ try {
   app.assertRunning();
   site.assertRunning();
   assert.deepEqual(errors, [], 'Capture pages must have no browser or asset errors.');
-  assert.equal(captures.length, 10);
+  assert.equal(captures.length, 12);
   for (const name of previewNames) {
     for (const variant of await previewVariants(join(staging, `${name}.jpg`), name)) {
       await stage(variant.name, variant.data, variant.width, variant.height);

@@ -30,12 +30,24 @@ Magpie gives a RuneScape: Dragonwilds dedicated server its own website: who is o
 
 **The world beyond your last visit.** See regional weather, world events and the day from the last save, alongside server history and the sources the collector can read.
 
+<img src="site/assets/map.jpg" alt="Magpie's original interactive world map with named regions, fixed lodestones, boss spawn markers and a saved discovery highlighted in gold" width="100%">
+
+**Find your way back.** Explore 31 regions, focus a named area, and zoom or pan between the main world and outer regions. Fixed landmarks come from the verified game build; gold rings show discoveries recorded in the last save. The map is original vector cartography, with no extracted game artwork.
+
+<details>
+<summary>Explore the map on a phone</summary>
+
+<img src="site/assets/map-mobile.jpg" alt="The world map on a phone, with touch navigation, region selection, map layers and saved-discovery freshness" width="390">
+
+</details>
+
 ## What the site shows
 
 - **Today.** The server's state, who is in the wilds and since when, the last save, the latest events, and the last day as a chart of players over time. Every live figure says where it came from and how old it is.
 - **Players.** Everyone who has joined since the site began keeping the log, with playtime, sessions and deaths. A player's page carries the twelve skills from the cached character state in the world save, levelled by the game's own experience curve, with total level, sessions, deaths, quests, journal entries and what the log has counted.
 - **Activity.** Deaths, discoveries, level-ups, quests, crafts, builds, boss summons, base raids and dragon events, filtered by kind.
 - **Chat.** The server's chat, when the admin turns it on and the server mod is installed. Off by default.
+- **Map.** An interactive atlas with region boundaries and names, fixed lodestones and boss spawn locations, keyboard and touch navigation, and discoveries from the last save. Distant regions and spawns remain reachable through the view selector.
 - **World.** The world as the server last saved it: day and time, difficulty, hardcore and friendly fire, regional weather, world events, building counts, discovered places, triggered world hooks and defeated bosses. A separate guide lists build-stamped region, lodestone and boss names. Discoveries show how many saved characters found each place; missing save fields stay unknown.
 - **Admin.** Settings, the collector's secret and health, the raw event stream, backups, jobs. No server actions in this version.
 

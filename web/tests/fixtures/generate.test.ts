@@ -25,6 +25,7 @@ import { listChat } from '../../src/lib/server/read/chat';
 import { statusHistory } from '../../src/lib/server/read/history';
 import { getPlayer, listPlayers, listSessions } from '../../src/lib/server/read/players';
 import { computeOnline, computeStatus } from '../../src/lib/server/read/status';
+import { worldMap } from '../../src/lib/server/read/map';
 import { getWorld } from '../../src/lib/server/read/world';
 import { defaultSettings } from '../../src/lib/server/settings';
 import { generateHistory, toBatches } from '../../scripts/simulator/generator';
@@ -124,6 +125,7 @@ describe('API fixtures', () => {
     });
     const activity = await buildActivityItems(db, activityRows.rows);
     expect(activity.length).toBeGreaterThan(40);
+    await write('map', worldMap);
     await write('status', status);
     await write('status/history', await statusHistory(db, '24h', now));
     await write('online', online);

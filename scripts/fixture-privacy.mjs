@@ -13,12 +13,17 @@ const versionKeys = new Set(['version', 'server_version', 'site_version']);
 export function privacyProblems(file, document) {
   function publicValues(value, path = []) {
     if (
-      file === 'world.json' &&
-      path.length === 4 &&
-      path[0] === 'save' &&
-      path[1] === 'discoveries' &&
-      Number.isInteger(path[2]) &&
-      path[3] === 'id' &&
+      ((file === 'world.json' &&
+        path.length === 4 &&
+        path[0] === 'save' &&
+        path[1] === 'discoveries' &&
+        Number.isInteger(path[2]) &&
+        path[3] === 'id') ||
+        (file === 'map.json' &&
+          path.length === 3 &&
+          path[0] === 'landmarks' &&
+          Number.isInteger(path[1]) &&
+          path[2] === 'id')) &&
       typeof value === 'string' &&
       /^[0-9A-F]{32}$/.test(value)
     )

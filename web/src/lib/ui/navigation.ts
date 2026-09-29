@@ -13,6 +13,7 @@ export const navigation: NavigationEntry[] = [
   { label: t.nav.players, href: '/players', group: 'site' },
   { label: t.nav.activity, href: '/activity', group: 'site' },
   { label: t.nav.chat, href: '/chat', group: 'site', needs: (features) => features.chat },
+  { label: 'Map', href: '/map', group: 'site' },
   { label: t.nav.world, href: '/world', group: 'site' },
   { label: t.nav.admin, href: '/admin', group: 'admin' }
 ];

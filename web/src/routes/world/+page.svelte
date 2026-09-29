@@ -217,6 +217,7 @@
       </Card>
 
       <Card title="A guide to the wilds" description="Names and places from the game build.">
+        <a href="/map" class="btn mb-4">Explore the world map ↗</a>
         <p class="mb-4 text-sm text-ink-muted">
           Dragonwilds {data.mapGuide.version} · build {data.mapGuide.build}
         </p>

@@ -62,7 +62,7 @@
         <p class="eyebrow">Inside the journal / In development</p>
         <h1>A glimpse into the wilds.</h1>
         <p class="lead">
-          Tour the working app through four views. These are screenshots from the demo with sample
+          Tour the working app through five views. These are screenshots from the demo with sample
           data; run it locally to explore the live interface.
         </p>
       </header>
@@ -71,6 +71,7 @@
         <a href="#player" data-view="player">Player</a>
         <a href="#activity" data-view="activity">Activity</a>
         <a href="#world" data-view="world">World</a>
+        <a href="#map" data-view="map">Map</a>
       </nav>
       <section id="today" class="tour-panel" aria-labelledby="today-title">
         <div class="panel-heading">
@@ -197,6 +198,36 @@
           <figcaption>
             The day and conditions from the last save, weather by region, historical totals and the
             sources available to the collector.
+          </figcaption>
+        </figure>
+      </section>
+      <section class="tour-panel" id="map" aria-labelledby="map-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">The wilds, charted</p>
+            <h2 id="map-title">World map</h2>
+          </div>
+          <a href="assets/map.jpg">Open full-size map ↗</a>
+        </div>
+        <figure class="screenshot">
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/map-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/map.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="An original map of Dragonwilds regions, lodestones and boss locations, with saved discoveries highlighted in gold"
+            />
+          </picture>
+          <figcaption>
+            Explore region boundaries and fixed landmarks. Saved discoveries keep the timestamp of
+            the save. Run the interactive demo to zoom, pan and select regions.
           </figcaption>
         </figure>
       </section>
