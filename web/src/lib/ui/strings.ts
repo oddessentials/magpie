@@ -5,7 +5,7 @@ export const t = {
     description: (name: string) => `Who is on ${name}, what they are up to, and what happened.`,
     footerNote: 'the magpie keeps what it finds.',
     disclaimer:
-      'Magpie is an unofficial fan project, not affiliated with or endorsed by Jagex Ltd. RuneScape is a trademark of Jagex Ltd.',
+      "Created using intellectual property belonging to Jagex Limited under the terms of Jagex's Fan Content Policy. This content is not endorsed by or affiliated with Jagex.",
     provenance:
       'Everything here comes from the server log, its world save and its process; players install nothing. Times are stored in UTC and shown in your time zone.',
     statusJson: 'Status JSON',
