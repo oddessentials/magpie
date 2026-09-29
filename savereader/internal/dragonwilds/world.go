@@ -14,6 +14,8 @@ import (
 )
 
 type World struct {
+	ClockSeconds  *float64       `json:"clock_seconds"`
+	Discoveries   []Discovery    `json:"discoveries"`
 	SavedAt       time.Time      `json:"saved_at"`
 	SystemVersion int            `json:"system_version"`
 	World         Header         `json:"world"`
@@ -155,6 +157,16 @@ func Decode(data []byte) (*World, error) {
 		world.Events = append(world.Events, events...)
 	}
 	positions := map[string]*Position{}
+	for _, object := range objects(save, "BP_InGameTimeActor_C") {
+		if world.ClockSeconds, err = decodeClock(object); err != nil {
+			return nil, fmt.Errorf("clock: %w", err)
+		}
+	}
+	for _, object := range objects(save, "PoiDiscoverySystemActor") {
+		if world.Discoveries, err = decodeDiscoveries(object); err != nil {
+			return nil, fmt.Errorf("discoveries: %w", err)
+		}
+	}
 	for _, object := range objects(save, "WorldProgressManager") {
 		if world.Progress, err = decodeProgress(object); err != nil {
 			return nil, fmt.Errorf("world progress: %w", err)

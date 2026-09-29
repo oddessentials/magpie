@@ -2009,10 +2009,26 @@ components:
             additionalProperties: false
       required: [total, unfinished, types]
       additionalProperties: false
+    SavedDiscovery:
+      type: object
+      description: A POI recorded as discovered by one or more saved characters.
+      properties:
+        id:
+          type: string
+          minLength: 1
+        characters:
+          type: integer
+          minimum: 1
+      required: [id, characters]
+      additionalProperties: false
     WorldSave:
       type: object
       description: The last world save the collector read; nothing here is live.
       properties:
+        discoveries:
+          type: [array, 'null']
+          items:
+            $ref: '#/components/schemas/SavedDiscovery'
         progress:
           anyOf:
             - $ref: '#/components/schemas/SavedWorldProgress'
@@ -2033,7 +2049,9 @@ components:
           type:
             - number
             - 'null'
-          description: The in-game hour, 0 to 24, when the save records it.
+          minimum: 0
+          exclusiveMaximum: 24
+          description: The saved in-game hour derived from the verified clock and day length.
         weather:
           type: array
           items:
@@ -3393,6 +3411,14 @@ components:
       type: object
       description: The world as the save records it, sent after each save the collector reads (every 5 minutes on a default server, and at once when a player leaves).
       properties:
+        clock_seconds:
+          type: [number, 'null']
+          minimum: 0
+          description: StoredTime from the game's clock actor, in elapsed real-time seconds scaled by its configured day length. The site derives the saved hour using build-stamped clock facts.
+        discoveries:
+          type: [array, 'null']
+          items:
+            $ref: '#/components/schemas/SavedDiscovery'
         progress:
           anyOf:
             - $ref: '#/components/schemas/SavedWorldProgress'

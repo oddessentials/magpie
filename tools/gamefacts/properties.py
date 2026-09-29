@@ -308,7 +308,7 @@ class Decoder:
 
     def struct(self, r, name, end):
         if name == 'Guid':
-            return r.raw(16).hex()
+            return ''.join('%08X' % part for part in r.scalar('<4I'))
         if name in ('SoftObjectPath', 'SoftClassPath'):
             return self.soft(r)
         if name == 'GameplayTagContainer':

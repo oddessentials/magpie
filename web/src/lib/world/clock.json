@@ -1,0 +1,15 @@
+{
+  "source": {
+    "app": 4019830,
+    "build": 25501739,
+    "version": "1.0.0.6",
+    "container": "RSDragonwilds-WindowsServer"
+  },
+  "package": "RSDragonwilds/Content/Gameplay/World/Time/BP_InGameTimeActor.uasset",
+  "actorClass": "/Game/Gameplay/World/Time/BP_InGameTimeActor.BP_InGameTimeActor_C",
+  "realMinutesPerGameDay": 24,
+  "storedTimeUnit": "real_seconds",
+  "initialTicks": 396000000000,
+  "dawnHour": 4.5,
+  "duskHour": 22.0
+}

@@ -12,6 +12,10 @@ const skillFacts = readWorld<{ skills: { id: string; enum: number; deleted: bool
   .skills.filter((skill) => !skill.deleted)
   .sort((a, b) => a.enum - b.enum);
 const xpCurve = readWorld<{ xpForLevel: number[] }>('xp').xpForLevel;
+const clockFacts = readWorld<{ realMinutesPerGameDay: number }>('clock');
+const buildFacts = readWorld<{ version: string; mappings: string }>('build');
+const changelist = buildFacts.mappings.match(/-(\d+)\+\+\+/)?.[1];
+const mapFacts = readWorld<{ lodestones: { id: string }[] }>('geography');
 const journalFacts = readWorld<{
   entries: { asset: string; deleted: boolean; category: string }[];
 }>('journal').entries.filter((entry) => !entry.deleted);
@@ -60,8 +64,8 @@ function hex(text: string, length: number): string {
 
 export const serverInfo: ServerInfo = {
   name: 'Magpie Test Server',
-  version: '1.0.0.5',
-  build: '++dominion+hotfix-CL-244954',
+  version: buildFacts.version,
+  build: changelist ? `++dominion+hotfix-CL-${changelist}` : null,
   world_name: 'magpie-test',
   world_guid: hex('world-magpie-test', 32).toUpperCase(),
   max_players: 6
@@ -75,7 +79,7 @@ export const serverSettings = {
 
 export const collectorName = 'magpie-collector';
 export const collectorVersion = '0.1.0';
-export const realMinutesPerDay = 48;
+export const realMinutesPerDay = clockFacts.realMinutesPerGameDay;
 
 const cast: Omit<SimulatedPlayer, 'userId' | 'characterGuid' | 'platform'>[] = [
   { name: 'Wren', appetite: 0.9, startHour: 18, minMinutes: 60, maxMinutes: 180 },
@@ -375,6 +379,8 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
         values: []
       },
       buildings: { total: 38, unfinished: 2, types: [{ id: 'sample-timber-wall', count: 38 }] },
+      clock_seconds: (ms - worldStartMs) / 1000,
+      discoveries: [{ id: mapFacts.lodestones[0]!.id, characters: 2 }],
       day: dayOf(ms),
       time_of_day: hourOf(ms),
       weather: regions.map((region, index) => ({
@@ -388,7 +394,7 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
       friendly_fire: false,
       difficulty: 'Normal',
       size_bytes: 480_000 + states.filter((state) => state.everPlayed).length * 42_000,
-      last_saved_by: '++dominion+hotfix:244954'
+      last_saved_by: changelist ? `++dominion+hotfix:${changelist}` : null
     });
     const guids: string[] = [];
     for (const state of states) {

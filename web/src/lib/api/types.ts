@@ -1134,6 +1134,10 @@ export interface components {
       }[];
       unfinished: number;
     };
+    SavedDiscovery: {
+      characters: number;
+      id: string;
+    };
     SavedWorldProgress: {
       defeated_bosses: string[];
       values: {
@@ -1196,8 +1200,10 @@ export interface components {
     };
     SaveWorldData: {
       buildings?: components['schemas']['SavedBuildings'] | null;
+      clock_seconds?: number | null;
       day?: number | null;
       difficulty?: string | null;
+      discoveries?: components['schemas']['SavedDiscovery'][] | null;
       events?: components['schemas']['SaveWorldTrigger'][];
       friendly_fire?: boolean | null;
       hardcore?: boolean | null;
@@ -1405,6 +1411,7 @@ export interface components {
       buildings?: components['schemas']['SavedBuildings'] | null;
       day: number | null;
       difficulty: string | null;
+      discoveries?: components['schemas']['SavedDiscovery'][] | null;
       events: components['schemas']['WorldEvent'][];
       friendly_fire: boolean | null;
       hardcore: boolean | null;
@@ -1598,6 +1605,7 @@ export type QuestUpdatedEvent = components['schemas']['QuestUpdatedEvent'];
 export type RemoteObservation = components['schemas']['RemoteObservation'];
 export type Retention = components['schemas']['Retention'];
 export type SavedBuildings = components['schemas']['SavedBuildings'];
+export type SavedDiscovery = components['schemas']['SavedDiscovery'];
 export type SavedWorldProgress = components['schemas']['SavedWorldProgress'];
 export type SavePlayerData = components['schemas']['SavePlayerData'];
 export type SavePlayerEvent = components['schemas']['SavePlayerEvent'];

@@ -1,6 +1,7 @@
 package saves
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
@@ -9,6 +10,33 @@ import (
 
 	"github.com/oddessentials/magpie/collector/internal/event"
 )
+
+func TestSavedDiscoveriesAggregateWithoutCharacterIdentifiers(t *testing.T) {
+	base := strings.TrimSuffix(readerOutput, "}")
+	raw := base + `,"clock_seconds":1800,"discoveries":[{"character_guid":"private-character-a","pois":["unknown-place","known-place","known-place"]},{"character_guid":"private-character-b","pois":["known-place"]}]}`
+	result, err := Decode([]byte(raw), 1)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.World.ClockSeconds == nil || *result.World.ClockSeconds != 1800 || len(result.World.Discoveries) != 2 || result.World.Discoveries[0].ID != "known-place" || result.World.Discoveries[0].Characters != 2 || result.World.Discoveries[1].Characters != 1 {
+		t.Fatalf("world %+v", result.World)
+	}
+	encoded, _ := json.Marshal(result.World)
+	if strings.Contains(string(encoded), "private-character") {
+		t.Fatal("character identifiers leaked into world discoveries")
+	}
+	old, err := Decode([]byte(readerOutput), 1)
+	if err != nil || old.World.ClockSeconds != nil || old.World.Discoveries != nil {
+		t.Fatal("missing fields must stay unknown")
+	}
+	empty, err := Decode([]byte(base+`,"clock_seconds":0,"discoveries":[]}`), 1)
+	if err != nil || empty.World.ClockSeconds == nil || *empty.World.ClockSeconds != 0 || empty.World.Discoveries == nil || len(empty.World.Discoveries) != 0 {
+		t.Fatal("midnight and empty discoveries must stay known")
+	}
+	if _, err := Decode([]byte(base+`,"clock_seconds":-1}`), 1); err == nil {
+		t.Fatal("negative clock accepted")
+	}
+}
 
 const readerOutput = `{"format":1,"saved_at":"2026-09-28T19:41:02.294Z","system_version":8,"world":{"version":9,"guid":"1234567890abcdef1234567890abcdef","name":"Test World","map":"L_World","friendly_fire":false,"survival_difficulty":0,"hardcore_state":1,"session_privacy":3,"crossplay":true,"owner_id":"","owner_name":"","last_saved_by":"++dominion+hotfix:244954","revision":13},"weather":[{"region":"base","type":"EWeatherType::Cloudy","alt_profile":false,"day_count":2,"remaining_time":769.166}],"events":[{"name":"base_raid_bm_1","triggers":[{"name":"delay_at_start","value":false,"time":"+9.15:29:59.998"},{"name":"cooldown","value":true,"time":"+4.03:29:59.998"}]}],"characters":[{"guid":"ABCDEF0123456789ABCDEF0123456789","intact":true,"name":"Wanderer","type":0,"version":3,"save_count":5,"hardcore":false,"worlds_playtime":{"1234567890ABCDEF1234567890ABCDEF":3600.5},"playtime_sim":3500,"playtime_wall":3600.5,"health":80,"stamina":100,"skills":[{"id":"4pefO9k1lUqfA6mvHNi1SA","xp":150}],"quests":[{"id":"quest-1","state":2,"objective":"talk"}],"journal":{"unlocked":40,"unread":3},"spells_selected":1,"position":{"x":1,"y":2,"z":3}},{"guid":"0123456789ABCDEF0123456789ABCDEF","intact":false,"name":"","type":0,"version":0,"save_count":0,"hardcore":false,"worlds_playtime":null,"playtime_sim":0,"playtime_wall":0,"health":0,"stamina":0,"skills":null,"quests":null,"journal":{"unlocked":0,"unread":0},"spells_selected":0,"position":null}]}`
 

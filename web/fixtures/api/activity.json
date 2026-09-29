@@ -610,7 +610,7 @@
       "type": "server.online",
       "ts": "2026-09-28T01:33:00.000Z",
       "player": null,
-      "details": { "version": "1.0.0.5" }
+      "details": { "version": "1.0.0.6" }
     },
     {
       "id": "8fb31db2-e3e7-4185-9d31-853cf90d234f",

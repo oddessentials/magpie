@@ -12,7 +12,7 @@ import locres
 import usmap
 from iostore import Container, Store
 from pak import Pak
-from properties import Decoder, Text
+from properties import Decoder, Reader, Text
 from zen import Package, ScriptObjects
 
 WORLD = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'web', 'src', 'lib', 'world')
@@ -304,6 +304,11 @@ class MappingsTest(unittest.TestCase):
 
 
 class PropertiesTest(unittest.TestCase):
+    def test_guid_uses_unreal_words_matching_saved_discoveries(self):
+        decoder = Decoder(None, None)
+        raw = bytes.fromhex('78563412f0debc9adf9b5713e0ac6824')
+        self.assertEqual(decoder.struct(Reader(raw), 'Guid', None), '123456789ABCDEF013579BDF2468ACE0')
+
     def check(self, props):
         self.assertEqual(props['Id'], 'abc')
         self.assertIs(props['Flag'], True)

@@ -1,7 +1,6 @@
 package dragonwilds_test
 
 import (
-	"encoding/json"
 	"math"
 	"strings"
 	"testing"
@@ -46,10 +45,6 @@ func TestWorldProgressAndBuildings(t *testing.T) {
 	}
 	if r := world.Buildings[1].Requirements; len(r) != 2 || r[1].Needed != 2 || r[1].Supplied != 1 {
 		t.Fatalf("requirements %+v", r)
-	}
-	raw, _ := json.Marshal(world)
-	if strings.Contains(string(raw), "time_of_day") {
-		t.Fatal("StoredTime has not been verified as an hour")
 	}
 }
 

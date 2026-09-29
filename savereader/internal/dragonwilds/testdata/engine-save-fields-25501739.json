@@ -1,0 +1,99 @@
+{
+  "source": {
+    "server_app": 4019830,
+    "server_build": 25501739,
+    "client_build": 25492068,
+    "version": "1.0.0.6",
+    "method": "Engine-written synthetic fields in an isolated world, with POI reload verified"
+  },
+  "clock_samples": [
+    {
+      "ticks": 0,
+      "stored_seconds": 0,
+      "returned_ticks": 0
+    },
+    {
+      "ticks": 432000000000,
+      "stored_seconds": 720,
+      "returned_ticks": 432000008192
+    },
+    {
+      "ticks": 1080000000000,
+      "stored_seconds": 1800,
+      "returned_ticks": 1079999987712
+    }
+  ],
+  "real_minutes_per_game_day": 24,
+  "samples": [
+    [
+      {
+        "class": "/Script/Dominion.WorldProgressManager",
+        "custom": null,
+        "properties": {
+          "DefeatedBossesInternalNames": {
+            "data": "AAAAAAIAAAASAAAATWFncGllRml4dHVyZUJvc3MADgAAAEdlbmVyYWxWZWxnYXIA",
+            "type": 64
+          },
+          "TaggedWorldProgressValues": {
+            "data": "AAAAAAIAAAAIAAAAVGFnTmFtZQANAAAATmFtZVByb3BlcnR5AAAAAAAdAAAAABkAAABMb2NhdGlvbi5SZWdpb24uQnJ5bm1vb3IABQAAAE5vbmUAAADoQAgAAABUYWdOYW1lAA0AAABOYW1lUHJvcGVydHkAAAAAAB8AAAAAGwAAAExvY2F0aW9uLlJlZ2lvbi5GZWxsaG9sbG93AAUAAABOb25lAAAAIMA=",
+            "type": 64
+          },
+          "WorldHooksTriggered": {
+            "data": "AAAAAAEAAABQAAAAL0dhbWUvR2FtZXBsYXkvV29ybGQvV29ybGRIb29rcy9WZWxnYXJGbHlvdmVyL1dIX1RlbXBsZUZseW92ZXIuV0hfVGVtcGxlRmx5b3ZlcgA=",
+            "type": 64
+          }
+        }
+      },
+      {
+        "class": "/Game/Gameplay/World/Time/BP_InGameTimeActor.BP_InGameTimeActor_C",
+        "custom": null,
+        "properties": {
+          "StoredTime": {
+            "data": "AADhRA==",
+            "type": 8
+          }
+        }
+      },
+      {
+        "class": "/Script/Dominion.PoiDiscoverySystemActor",
+        "custom": "UGxheRAAAAARERERIiIiIjMzMzNEREREUGxheSAAAABVVVVVZmZmZnd3d3eIiIiIeFY0EvDevJrfm1cT4KxoJA==",
+        "properties": {}
+      }
+    ],
+    [
+      {
+        "class": "/Script/Dominion.WorldProgressManager",
+        "custom": null,
+        "properties": {
+          "DefeatedBossesInternalNames": {
+            "data": "AAAAAAIAAAASAAAATWFncGllRml4dHVyZUJvc3MADgAAAEdlbmVyYWxWZWxnYXIA",
+            "type": 64
+          },
+          "TaggedWorldProgressValues": {
+            "data": "AAAAAAIAAAAIAAAAVGFnTmFtZQANAAAATmFtZVByb3BlcnR5AAAAAAAdAAAAABkAAABMb2NhdGlvbi5SZWdpb24uQnJ5bm1vb3IABQAAAE5vbmUAAADoQAgAAABUYWdOYW1lAA0AAABOYW1lUHJvcGVydHkAAAAAAB8AAAAAGwAAAExvY2F0aW9uLlJlZ2lvbi5GZWxsaG9sbG93AAUAAABOb25lAAAAIMA=",
+            "type": 64
+          },
+          "WorldHooksTriggered": {
+            "data": "AAAAAAEAAABQAAAAL0dhbWUvR2FtZXBsYXkvV29ybGQvV29ybGRIb29rcy9WZWxnYXJGbHlvdmVyL1dIX1RlbXBsZUZseW92ZXIuV0hfVGVtcGxlRmx5b3ZlcgA=",
+            "type": 64
+          }
+        }
+      },
+      {
+        "class": "/Game/Gameplay/World/Time/BP_InGameTimeActor.BP_InGameTimeActor_C",
+        "custom": null,
+        "properties": {
+          "StoredTime": {
+            "data": "AADhRA==",
+            "type": 8
+          }
+        }
+      },
+      {
+        "class": "/Script/Dominion.PoiDiscoverySystemActor",
+        "custom": "UGxheSAAAAARERERIiIiIjMzMzNEREREAQAAAAIAAAADAAAABAAAAFBsYXkgAAAAVVVVVWZmZmZ3d3d3iIiIiHhWNBLw3rya35tXE+CsaCRQbGF5EAAAAAUAAAAGAAAABwAAAAgAAAA=",
+        "properties": {}
+      }
+    ]
+  ]
+}

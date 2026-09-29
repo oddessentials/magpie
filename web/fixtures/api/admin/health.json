@@ -19,7 +19,7 @@
         "process": true,
         "logs_source": "launch"
       },
-      "server_version": "1.0.0.5",
+      "server_version": "1.0.0.6",
       "world_guid": "5BB85C85B8CF9C1EDB1D9E06A97C32A0",
       "heartbeat": {
         "mod": "ok",

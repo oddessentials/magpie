@@ -245,6 +245,8 @@ type SaveWorldTrigger struct {
 }
 
 type SaveWorldData struct {
+	ClockSeconds       *float64            `json:"clock_seconds"`
+	Discoveries        []SavedDiscovery    `json:"discoveries"`
 	Progress           *SavedWorldProgress `json:"progress"`
 	Buildings          *SavedBuildings     `json:"buildings"`
 	SavedAt            time.Time           `json:"saved_at"`
@@ -261,6 +263,11 @@ type SaveWorldData struct {
 	LastSavedBy        *string             `json:"last_saved_by"`
 	HardcoreState      *int                `json:"hardcore_state,omitempty"`
 	SurvivalDifficulty *int                `json:"survival_difficulty,omitempty"`
+}
+
+type SavedDiscovery struct {
+	ID         string `json:"id"`
+	Characters int    `json:"characters"`
 }
 
 type SavedWorldProgress struct {

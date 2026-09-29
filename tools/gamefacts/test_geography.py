@@ -65,7 +65,7 @@ class GeographyTest(unittest.TestCase):
         for bounds in facts['mapBounds']:
             self.assertTrue(all(a < b for a, b in zip(bounds['min'], bounds['max'])))
         for stone in facts['lodestones']:
-            self.assertRegex(stone['id'], r'^[0-9a-f]{32}$')
+            self.assertRegex(stone['id'], r'^[0-9A-F]{32}$')
             self.assertTrue(all(region in ids for region in stone['regions']))
 
 
