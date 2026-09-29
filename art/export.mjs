@@ -1,7 +1,8 @@
-import { copyFileSync, mkdirSync, statSync } from 'node:fs';
+import { copyFileSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { previewNames, previewVariants } from './presentation.mjs';
 
 const art = fileURLToPath(new URL('.', import.meta.url));
 const out = join(art, 'raster');
@@ -77,6 +78,15 @@ for (const [source, sizes, formats] of jobs) {
   if (name === 'favicon') {
     for (const destination of ['../site/favicon.svg', '../web/static/favicon.svg']) {
       copyFileSync(join(art, source), join(art, destination));
+    }
+  }
+}
+
+if (wanted.size === 0 || wanted.has('previews')) {
+  for (const name of previewNames) {
+    for (const variant of await previewVariants(join(art, '../site/assets', `${name}.jpg`), name)) {
+      writeFileSync(join(art, '../site/assets', variant.name), variant.data);
+      console.log(`site/assets/${variant.name} ${Math.round(variant.size / 1024)} KB`);
     }
   }
 }
