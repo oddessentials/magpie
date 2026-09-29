@@ -68,7 +68,7 @@ func TestDecodeAndTrack(t *testing.T) {
 	if len(player.Skills) != 1 || player.Skills[0].ID != "4pefO9k1lUqfA6mvHNi1SA" || player.Skills[0].XP != 150 {
 		t.Fatalf("skills %+v", player.Skills)
 	}
-	if len(player.Quests) != 1 || player.Quests[0].State != "2" || *player.Quests[0].Objective != "talk" || *player.JournalUnlocked != 40 || *player.Spells != 1 {
+	if len(player.Quests) != 1 || player.Quests[0].State != "completed" || *player.Quests[0].Objective != "talk" || *player.JournalUnlocked != 40 || *player.Spells != 1 {
 		t.Fatalf("quests %+v", player.Quests)
 	}
 	tracker := NewTracker()
@@ -88,6 +88,21 @@ func TestDecodeAndTrack(t *testing.T) {
 	third := tracker.Changes(changed)
 	if kinds(third) != "save.world save.player save.read" {
 		t.Fatalf("a changed character is resent: %s", kinds(third))
+	}
+}
+
+func TestSavedQuestStatesUseTheGameNames(t *testing.T) {
+	raw := strings.Replace(readerOutput, `"quests":[{"id":"quest-1","state":2,"objective":"talk"}]`, `"quests":[{"id":"a","state":0,"objective":""},{"id":"b","state":1,"objective":"go"},{"id":"c","state":2,"objective":""},{"id":"d","state":7,"objective":""}]`, 1)
+	result, err := Decode([]byte(raw), 1)
+	if err != nil {
+		t.Fatal(err)
+	}
+	states := []string{}
+	for _, quest := range result.Characters[0].Quests {
+		states = append(states, quest.State)
+	}
+	if got := strings.Join(states, " "); got != "ungiven given completed 7" {
+		t.Fatalf("states %q", got)
 	}
 }
 

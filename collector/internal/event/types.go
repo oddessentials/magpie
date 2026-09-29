@@ -50,6 +50,18 @@ const (
 	SaveFailed    = "failed"
 )
 
+func QuestState(value float64) string {
+	switch value {
+	case 0:
+		return "ungiven"
+	case 1:
+		return "given"
+	case 2:
+		return "completed"
+	}
+	return ""
+}
+
 type EventPlayer struct {
 	Name     string  `json:"name"`
 	Platform *string `json:"platform"`

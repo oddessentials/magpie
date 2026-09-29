@@ -44,6 +44,22 @@ describe('feed lines', () => {
         objective: null
       })
     ).toBe('Moss completed QUEST Brynmoor Arrival');
+    expect(
+      line('quest.updated', {
+        quest: 'QUEST_Brynmoor_Arrival',
+        quest_name: null,
+        state: 'complete',
+        objective: null
+      })
+    ).toBe('Moss completed QUEST Brynmoor Arrival');
+    expect(
+      line('quest.updated', {
+        quest: 'QUEST_Brynmoor_Arrival',
+        quest_name: null,
+        state: 'given',
+        objective: null
+      })
+    ).not.toBe('Moss completed QUEST Brynmoor Arrival');
     expect(line('server.stopping', { by: 'collector' })).toBe(
       'The server is saving, then stopping, as collector asked'
     );

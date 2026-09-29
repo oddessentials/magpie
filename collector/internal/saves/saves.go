@@ -295,7 +295,11 @@ func Decode(raw []byte, size int64) (*Result, error) {
 			player.Skills = append(player.Skills, event.SaveSkill{ID: skill.ID, XP: skill.XP})
 		}
 		for _, quest := range character.Quests {
-			player.Quests = append(player.Quests, event.SaveQuest{ID: quest.ID, State: strconv.Itoa(quest.State), Objective: event.String(quest.Objective)})
+			state := event.QuestState(float64(quest.State))
+			if state == "" {
+				state = strconv.Itoa(quest.State)
+			}
+			player.Quests = append(player.Quests, event.SaveQuest{ID: quest.ID, State: state, Objective: event.String(quest.Objective)})
 		}
 		result.Characters = append(result.Characters, player)
 	}

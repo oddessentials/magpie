@@ -1,4 +1,5 @@
 import type { ActivityDetails, ActivityItem, ActivityType, PlayerRef } from '$lib/api/types';
+import { isQuestComplete } from '$lib/quests';
 import { formatDuration } from './format';
 import { humanize, journalName, t } from './strings';
 
@@ -115,7 +116,7 @@ export function describeActivity(item: ActivityItem): ActivityView {
       return view('info', [
         who(item.player),
         text(
-          details.state?.toLowerCase() === 'completed'
+          isQuestComplete(details.state)
             ? t.activity.phrases.questDone(quest)
             : t.activity.phrases.questAdvanced(quest)
         )
