@@ -30,6 +30,7 @@ export default defineConfig({
           name: 'integration',
           include: ['tests/integration/**/*.test.ts'],
           environment: 'node',
+          env: { COLLECTOR_SECRET: 'magpie-integration-collector-secret' },
           globalSetup: ['tests/integration/harness.ts'],
           fileParallelism: false
         }

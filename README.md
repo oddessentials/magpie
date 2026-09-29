@@ -61,15 +61,19 @@ The saved clock, populated POI payloads and nonempty world-progress sets are cov
 
 This README describes the current source. The published v0.1.0 release predates the subsequent shutdown, map-facts, saved-progress and remote-transport changes. Build from the current source to use those changes until another release is explicitly published.
 
-1. Run the site with Docker Compose on a machine the collector can reach:
+1. Run the site with Docker Compose on a machine the collector can reach. Create `.env` beside `docker-compose.yml` with a random database password and the address people will use, then start it:
 
    ```sh
    git clone https://github.com/oddessentials/magpie.git && cd magpie
-   cp .env.example .env
+   printf 'POSTGRES_PASSWORD=%s\nORIGIN=%s\n' "$(openssl rand -hex 24)" "https://magpie.example.com" > .env
    docker compose --profile site up -d --build
    ```
 
+   Do not copy `.env.example`; it holds development values. The database listens on `127.0.0.1` only.
+
 2. Open `/admin` on the site (port 3000 with Docker Compose), set the password, and copy the collector secret from the Collector page.
+
+   An `.env` copied from `.env.example` before 0.1.1 contains example values for `COLLECTOR_SECRET`, `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET`, and the site now refuses to start with them. Delete those three lines, restart, set the password at `/admin`, and put the new collector secret in `magpie-collector.toml`.
 3. Download the collector for your platform from a [release](https://github.com/oddessentials/magpie/releases) or pull `ghcr.io/oddessentials/magpie-collector`, or build it with `npm run collector:build` (Go 1.27). Put `magpie-savereader` beside it, write `magpie-collector.toml`, and run it beside the dedicated server:
 
    ```toml
@@ -93,11 +97,12 @@ The site is a SvelteKit app on Node 24 with PostgreSQL 18. It migrates the datab
 | Variable                       | Default              | Meaning                                                                                                                     |
 | ------------------------------ | -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `DATABASE_URL`                 |                      | PostgreSQL connection string.                                                                                               |
-| `COLLECTOR_SECRET`             | generated            | The secret the collector signs its batches with. When unset the site generates one and shows it on the admin Collector page. |
-| `ADMIN_PASSWORD`               |                      | The admin password. When unset the first visitor to `/admin` sets it.                                                       |
-| `ADMIN_SESSION_SECRET`         | generated            | Signs admin sessions.                                                                                                       |
+| `COLLECTOR_SECRET`             | generated            | The secret the collector signs its batches with, at least 16 characters. When unset the site generates one and shows it on the admin Collector page. |
+| `ADMIN_PASSWORD`               |                      | The admin password, 8 to 200 characters. When unset the first visitor to `/admin` sets it.                                  |
+| `ADMIN_SESSION_SECRET`         | generated            | Signs admin sessions, at least 16 characters.                                                                               |
 | `PUBLIC_SITE_NAME`             | `Dragonwilds server` | The site name; also settable on the admin Settings page.                                                                    |
-| `ORIGIN`                       |                      | The address people use, for example `https://magpie.example.com`. Admin changes must come from it.                          |
+| `ORIGIN`                       |                      | The address people use, for example `https://magpie.example.com`. Admin changes and logins must come from it.               |
+| `ADDRESS_HEADER`, `XFF_DEPTH`  |                      | Behind a reverse proxy: the header that carries the visitor's address, usually `X-Forwarded-For`, and the number of proxies in front of the site. Rate limits use that address. |
 | `BACKUP_DIR`, `BACKUPS_KEPT`   | `/backups`, `14`     | Nightly `pg_dump` backups.                                                                                                  |
 | `API_MOCK`                     | `0`                  | `1` serves the recorded fixtures instead of a database, for trying the pages.                                               |
 

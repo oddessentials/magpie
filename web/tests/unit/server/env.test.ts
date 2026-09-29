@@ -28,14 +28,14 @@ describe('the environment', () => {
   it('keeps the values that are set', () => {
     const env = validateEnvironment({
       ...database,
-      COLLECTOR_SECRET: 'collector',
+      COLLECTOR_SECRET: 'collector-secret-for-tests',
       PUBLIC_SITE_NAME: 'Sunreach',
       API_MOCK: '1',
       LOG_LEVEL: 'debug',
       BACKUPS_KEPT: '3'
     });
     expect(env).toMatchObject({
-      collectorSecret: 'collector',
+      collectorSecret: 'collector-secret-for-tests',
       publicSiteName: 'Sunreach',
       apiMock: true,
       logLevel: 'debug',
@@ -52,6 +52,33 @@ describe('the environment', () => {
     );
     expect(() => validateEnvironment({ ...database, BACKUPS_KEPT: '-1' })).toThrow(
       /BACKUPS_KEPT must be a non-negative integer/
+    );
+  });
+
+  it('refuses a short or overlong admin password', () => {
+    expect(() => validateEnvironment({ ...database, ADMIN_PASSWORD: 'admin' })).toThrow(
+      /ADMIN_PASSWORD must be 8 to 200 characters/
+    );
+    expect(() => validateEnvironment({ ...database, ADMIN_PASSWORD: 'x'.repeat(201) })).toThrow(
+      /ADMIN_PASSWORD must be 8 to 200 characters/
+    );
+    expect(validateEnvironment({ ...database, ADMIN_PASSWORD: 'eight ch' }).adminPassword).toBe(
+      'eight ch'
+    );
+  });
+
+  it('refuses the published example secrets and short secrets', () => {
+    expect(() =>
+      validateEnvironment({ ...database, COLLECTOR_SECRET: 'local-collector-secret-change-me' })
+    ).toThrow(/COLLECTOR_SECRET is the published example value/);
+    expect(() =>
+      validateEnvironment({ ...database, ADMIN_SESSION_SECRET: 'local-session-secret-change-me' })
+    ).toThrow(/ADMIN_SESSION_SECRET is the published example value/);
+    expect(() => validateEnvironment({ ...database, COLLECTOR_SECRET: 'short' })).toThrow(
+      /COLLECTOR_SECRET must be at least 16 characters/
+    );
+    expect(() => validateEnvironment({ ...database, ADMIN_SESSION_SECRET: 'short' })).toThrow(
+      /ADMIN_SESSION_SECRET must be at least 16 characters/
     );
   });
 });

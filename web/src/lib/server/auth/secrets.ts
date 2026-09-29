@@ -4,15 +4,13 @@ import { getDb, type Database } from '../db/client';
 import { meta } from '../db/schema';
 import { env } from '../env';
 import { badRequest, conflict } from '../http/respond';
+import { maximumPasswordLength, minimumPasswordLength } from './limits';
 
 export const secretKeys = {
   collector: 'collector_secret',
   session: 'admin_session_secret',
   password: 'admin_password_hash'
 } as const;
-
-export const minimumPasswordLength = 8;
-export const maximumPasswordLength = 200;
 
 export type PasswordSource = 'environment' | 'stored' | 'unset';
 
