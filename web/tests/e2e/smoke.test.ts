@@ -177,21 +177,45 @@ test('saved scenery is applied before JavaScript runs', async ({ browser }) => {
   }
 });
 
-test('scenery still switches when preference storage is unavailable', async ({ page }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(document, 'cookie', {
-      get() {
-        return '';
-      },
-      set() {
-        throw new DOMException('Unavailable', 'SecurityError');
-      }
+for (const [device, viewport] of [
+  ['desktop', { width: 1440, height: 1000 }],
+  ['phone', { width: 390, height: 844 }]
+] as const) {
+  test(`scenery waits for hydration with unavailable preference storage on ${device}`, async ({
+    page
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.addInitScript(() => {
+      Object.defineProperty(document, 'cookie', {
+        get() {
+          return '';
+        },
+        set() {
+          throw new DOMException('Unavailable', 'SecurityError');
+        }
+      });
     });
+    const scripts = Promise.withResolvers<void>();
+    await page.route('**/*', async (route) => {
+      if (route.request().resourceType() === 'script') await scripts.promise;
+      await route.continue();
+    });
+    const problems = watchConsole(page);
+    try {
+      const response = await page.goto('/', { waitUntil: 'commit' });
+      expect(response?.status()).toBe(200);
+      await expect(page.locator('main h1')).toHaveText('4 adventurers in the wilds');
+      await expect(page.getByRole('button', { name: 'Scenery on' })).toBeDisabled();
+      await expect(page.locator('.today-art')).toBeVisible();
+    } finally {
+      scripts.resolve();
+    }
+    await page.getByRole('button', { name: 'Scenery on' }).click();
+    await expect(page.locator('.today-art')).toBeHidden();
+    await expect(page.locator('.backdrop')).toBeHidden();
+    await page.getByRole('button', { name: 'Scenery off' }).click();
+    await expect(page.locator('.today-art')).toBeVisible();
+    await expect(page.locator('.backdrop')).toBeVisible();
+    expect(problems).toEqual([]);
   });
-  const problems = await open(page, '/', '4 adventurers in the wilds');
-  await page.getByRole('button', { name: 'Scenery on' }).click();
-  await expect(page.locator('.today-art')).toBeHidden();
-  await page.getByRole('button', { name: 'Scenery off' }).click();
-  await expect(page.locator('.today-art')).toBeVisible();
-  expect(problems).toEqual([]);
-});
+}

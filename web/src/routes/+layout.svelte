@@ -1,6 +1,6 @@
 <script lang="ts">
   import '../app.css';
-  import { untrack } from 'svelte';
+  import { onMount, untrack } from 'svelte';
   import { page } from '$app/state';
   import Backdrop from '$lib/ui/Backdrop.svelte';
   import { clock } from '$lib/ui/clock.svelte';
@@ -14,6 +14,11 @@
 
   let { data, children } = $props();
   let scenery = $state(untrack(() => data.scenery));
+  let interactive = $state(false);
+
+  onMount(() => {
+    interactive = true;
+  });
 
   function toggleScenery() {
     scenery = !scenery;
@@ -70,7 +75,12 @@
           <Wordmark name={data.siteName} />
         </a>
         <span class="note hidden sm:inline">{t.site.tagline}</span>
-        <button class="btn ml-auto" aria-pressed={scenery} onclick={toggleScenery}>
+        <button
+          class="btn ml-auto"
+          aria-pressed={scenery}
+          disabled={!interactive}
+          onclick={toggleScenery}
+        >
           <span aria-hidden="true">✦</span> Scenery {scenery ? 'on' : 'off'}
         </button>
       </div>
