@@ -21,7 +21,8 @@
     "lint": "npm run lint -w web",
     "check": "npm run check -w web",
     "comments:check": "node scripts/check-no-comments.mjs",
-    "rig:check": "python -m py_compile tools/rig/run_server.py tools/rig/launch.py tools/rig/console_helper.py tools/rig/iostore_peek.py tools/rig/spud_peek.py tools/rig/usmap_peek.py",
+    "rig:check": "python -m py_compile tools/rig/run_server.py tools/rig/launch.py tools/rig/console_helper.py tools/rig/iostore_peek.py tools/rig/spud_peek.py tools/rig/usmap_peek.py && python -m unittest discover -s tools/rig -p \"test_*.py\"",
+    "scripts:test": "node --test scripts/*.test.mjs",
     "facts:extract": "python tools/gamefacts/extract.py",
     "facts:check": "python -m unittest discover -s tools/gamefacts -p \"test_*.py\"",
     "facts:build": "node scripts/dragonwilds-build.mjs",
@@ -44,7 +45,7 @@
     "mod:check": "node scripts/mod-package.mjs",
     "mod:package": "node scripts/mod-package.mjs --out dist/mod",
     "verify:quick": "npm run format:check && npm run lint && npm run comments:check && npm run check && npm run mod:check && npm run savereader:vet && npm run collector:vet",
-    "verify": "npm run verify:quick && npm run rig:check && npm run facts:check && npm run api:lint && npm run api:types:check && npm run fixtures:check && npm run test && npm run build && npm run test:e2e && npm run savereader:test && npm run savereader:build && npm run collector:test && npm run collector:build"
+    "verify": "npm run verify:quick && npm run scripts:test && npm run rig:check && npm run facts:check && npm run api:lint && npm run api:types:check && npm run fixtures:check && npm run test && npm run build && npm run test:e2e && npm run savereader:test && npm run savereader:build && npm run collector:test && npm run collector:build"
   },
   "devDependencies": {
     "@redocly/cli": "2.54.3",

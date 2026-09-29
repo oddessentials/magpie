@@ -83,14 +83,17 @@ def arguments(argv=None):
     parser.add_argument('--ue4ss', default=None)
     parser.add_argument('--preflight', action='store_true')
     parser.add_argument('--request-stop', metavar='SESSION')
+    parser.add_argument('--maintenance-build', type=int)
     parser.add_argument('args', nargs='*')
     opts = parser.parse_args(argv)
-    if opts.request_stop and (opts.untimed or opts.preflight or opts.name or opts.ue4ss or opts.stop or opts.args):
+    if opts.request_stop and (opts.untimed or opts.preflight or opts.name or opts.ue4ss or opts.stop or opts.args or opts.maintenance_build is not None):
         parser.error('--request-stop is a separate operation')
     if opts.preflight and not opts.untimed:
         parser.error('--preflight requires --untimed')
     if opts.untimed and (not opts.ue4ss or opts.stop not in (None, 'save')):
         parser.error('--untimed requires --ue4ss and uses only save and quit')
+    if opts.maintenance_build is not None and (not opts.untimed or opts.maintenance_build <= 0):
+        parser.error('--maintenance-build requires --untimed and a positive installed build')
     return opts
 
 
@@ -107,10 +110,10 @@ def main(argv=None):
             return 0
         repo = Path(__file__).resolve().parents[2]
         if opts.preflight:
-            print(json.dumps(recording.preflight(ROOT, opts.ue4ss, repo), indent=2))
+            print(json.dumps(recording.preflight(ROOT, opts.ue4ss, repo, opts.maintenance_build), indent=2))
             return 0
         name = opts.name or datetime.datetime.now().strftime('%Y-%m-%d-%H%M%S')
-        return recording.run(ROOT, opts.ue4ss, name, opts.args, repo)
+        return recording.run(ROOT, opts.ue4ss, name, opts.args, repo, opts.maintenance_build)
     import launch
     opts.stop = opts.stop or 'ctrlc'
     stamp = datetime.datetime.now().strftime('%Y-%m-%d-%H%M%S')

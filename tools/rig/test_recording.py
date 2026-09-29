@@ -183,6 +183,19 @@ class RecordingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'missing'):
             recording.preflight(self.root, dll, repo)
 
+    def test_maintenance_checks_the_requested_installed_build_without_relabelling_old_facts(self):
+        dll, repo = self.rig_fixture()
+        manifest = self.root / 'server/steamapps/appmanifest_4019830.acf'
+        manifest.write_text('"buildid" "456"')
+        report = recording.preflight(self.root, dll, repo, 456)
+        self.assertEqual((report['server_build'], report['facts_build']), (456, 123))
+        self.assertIsNone(report['game_version'])
+        self.assertTrue(report['maintenance'])
+        with self.assertRaisesRegex(ValueError, 'build differs'):
+            recording.preflight(self.root, dll, repo, 789)
+        with self.assertRaisesRegex(ValueError, 'positive integer'):
+            recording.preflight(self.root, dll, repo, 0)
+
     def test_untimed_run_records_before_after_and_never_forces_exit(self):
         dll, repo = self.rig_fixture()
         save = self.write('server/RSDragonwilds/Saved/SaveGames/world.sav', 'before')
@@ -214,6 +227,17 @@ class RecordingTests(unittest.TestCase):
         self.assertFalse((session / 'pid').exists())
         self.assertEqual(closed, ['handle'])
 
+    def test_successful_save_cannot_hide_failed_capture(self):
+        dll, repo = self.rig_fixture()
+        for index, failures in enumerate(({'missing_hooks': ['missing']}, {'handler_failures': ['handler']}, {'configured_hooks': 0}, {'malformed_records': 1})):
+            report = {'configured_hooks': 1, 'missing_hooks': [], 'handler_failures': [], 'malformed_records': 0, 'save_then_quit': True, **failures}
+            fake = types.SimpleNamespace(start=lambda *args: (123, 'handle'), running=lambda _: (False, 0), close=lambda _: None)
+            with self.subTest(failures=failures), patch.dict('sys.modules', {'launch': fake}), patch.dict(os.environ), patch.object(recording.subprocess, 'run', return_value=types.SimpleNamespace(stdout='')), patch.object(recording.subprocess, 'CREATE_NO_WINDOW', 0, create=True), patch.object(recording, 'audit', return_value=report), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(recording.run(self.root, dll, 'failed-%d' % index, [], repo), 1)
+            manifest = json.loads((recording.session_path(self.root, 'failed-%d' % index) / 'recording.json').read_text())
+            self.assertTrue(manifest['graceful_save_verified'])
+            self.assertFalse(manifest['capture_verified'])
+
     def test_runner_preserves_timed_default_and_rejects_unsafe_combinations(self):
         self.assertEqual(run_server.arguments([]).minutes, 2)
         self.assertFalse(run_server.arguments([]).untimed)
@@ -222,6 +246,7 @@ class RecordingTests(unittest.TestCase):
             ['--untimed'], ['--untimed', '--ue4ss', 'test.dll', '--minutes', '2'],
             ['--untimed', '--ue4ss', 'test.dll', '--stop', 'kill'], ['--preflight'],
             ['--request-stop', 'one', '--untimed', '--ue4ss', 'test.dll'],
+            ['--maintenance-build', '456'], ['--untimed', '--ue4ss', 'test.dll', '--maintenance-build', '0'],
         ):
             with self.subTest(args=args), contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
                 run_server.arguments(args)
