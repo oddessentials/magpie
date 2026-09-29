@@ -80,6 +80,30 @@ func TestDecodeRejectsOtherFormats(t *testing.T) {
 	}
 }
 
+func TestSavedWorldProgressAndBuildingCounts(t *testing.T) {
+	base := strings.TrimSuffix(readerOutput, "}")
+	raw := base + `,"progress":{"world_hooks":["hook"],"defeated_bosses":["unknown-boss"],"values":[{"tag":"World.Test","value":2.5}]},"buildings":[{"data_id":"wall","unfinished":false},{"data_id":"wall","unfinished":true},{"data_id":"door","unfinished":false}]}`
+	result, err := Decode([]byte(raw), 1)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.World.Progress.Values[0].Value != 2.5 || result.World.Progress.DefeatedBosses[0] != "unknown-boss" {
+		t.Fatalf("progress %+v", result.World.Progress)
+	}
+	b := result.World.Buildings
+	if b.Total != 3 || b.Unfinished != 1 || len(b.Types) != 2 || b.Types[0].ID != "door" || b.Types[1].Count != 2 {
+		t.Fatalf("buildings %+v", b)
+	}
+	old, err := Decode([]byte(readerOutput), 1)
+	if err != nil || old.World.Progress != nil || old.World.Buildings != nil {
+		t.Fatal("missing fields must stay unknown")
+	}
+	empty, err := Decode([]byte(base+`,"buildings":[]}`), 1)
+	if err != nil || empty.World.Buildings == nil || empty.World.Buildings.Total != 0 {
+		t.Fatal("known empty buildings must stay available")
+	}
+}
+
 func TestLocatePrefersTheNamedWorldThenTheNewest(t *testing.T) {
 	dir := t.TempDir()
 	old := filepath.Join(dir, "old.sav")

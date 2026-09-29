@@ -288,6 +288,16 @@ export interface SavedWorldEvent {
 }
 
 export const worldSaves = pgTable('world_saves', {
+  progress: jsonb('progress').$type<{
+    world_hooks: string[];
+    defeated_bosses: string[];
+    values: { tag: string; value: number }[];
+  }>(),
+  buildings: jsonb('buildings').$type<{
+    total: number;
+    unfinished: number;
+    types: { id: string; count: number }[];
+  }>(),
   savedAt: utc('saved_at').primaryKey(),
   worldGuid: text('world_guid').notNull(),
   worldName: text('world_name'),

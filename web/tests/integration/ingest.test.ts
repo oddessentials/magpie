@@ -188,6 +188,12 @@ describe('POST /api/ingest', () => {
     expect(runs.length).toBe(history.runs.length);
     const world = await getWorld(db);
     expect(world.save?.weather.length).toBe(3);
+    expect(world.save?.progress?.defeated_bosses).toEqual(['ai_boss_velgar']);
+    expect(world.save?.buildings).toEqual({
+      total: 38,
+      unfinished: 2,
+      types: [{ id: 'sample-timber-wall', count: 38 }]
+    });
     expect(world.totals.players).toBe(seen.size);
     expect(world.max_players).toBe(6);
   });

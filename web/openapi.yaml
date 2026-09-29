@@ -1956,10 +1956,67 @@ components:
         - name
         - state
       additionalProperties: false
+    SavedWorldProgress:
+      type: object
+      description: Complete world progress sets from the last save, without inferred event times.
+      properties:
+        world_hooks:
+          type: array
+          items:
+            type: string
+        defeated_bosses:
+          type: array
+          items:
+            type: string
+        values:
+          type: array
+          items:
+            type: object
+            properties:
+              tag:
+                type: string
+              value:
+                type: number
+            required: [tag, value]
+            additionalProperties: false
+      required: [world_hooks, defeated_bosses, values]
+      additionalProperties: false
+    SavedBuildings:
+      type: object
+      description: Building counts from GlobalBuildingManager in the last save, including unfinished pieces. Null means unavailable, not zero.
+      properties:
+        total:
+          type: integer
+          minimum: 0
+        unfinished:
+          type: integer
+          minimum: 0
+        types:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              count:
+                type: integer
+                minimum: 1
+            required: [id, count]
+            additionalProperties: false
+      required: [total, unfinished, types]
+      additionalProperties: false
     WorldSave:
       type: object
       description: The last world save the collector read; nothing here is live.
       properties:
+        progress:
+          anyOf:
+            - $ref: '#/components/schemas/SavedWorldProgress'
+            - type: 'null'
+        buildings:
+          anyOf:
+            - $ref: '#/components/schemas/SavedBuildings'
+            - type: 'null'
         saved_at:
           type: string
           format: date-time
@@ -3305,6 +3362,14 @@ components:
       type: object
       description: The world as the save records it, sent after each save the collector reads (every 5 minutes on a default server, and at once when a player leaves).
       properties:
+        progress:
+          anyOf:
+            - $ref: '#/components/schemas/SavedWorldProgress'
+            - type: 'null'
+        buildings:
+          anyOf:
+            - $ref: '#/components/schemas/SavedBuildings'
+            - type: 'null'
         saved_at:
           type: string
           format: date-time

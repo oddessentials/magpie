@@ -4,6 +4,16 @@
   "version": "1.0.0.5",
   "max_players": 6,
   "save": {
+    "progress": {
+      "values": [],
+      "world_hooks": ["WH_TempleFlyover"],
+      "defeated_bosses": ["ai_boss_velgar"]
+    },
+    "buildings": {
+      "total": 38,
+      "types": [{ "id": "sample-timber-wall", "count": 38 }],
+      "unfinished": 2
+    },
     "saved_at": "2026-09-28T20:29:00.000Z",
     "day": 299,
     "time_of_day": 23.5,
