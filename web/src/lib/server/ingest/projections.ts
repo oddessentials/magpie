@@ -178,7 +178,14 @@ async function serverStopping(
   event: StoredEvent,
   ts: Date
 ): Promise<EventOutcome> {
+  const data = event.data as unknown as Schemas['ServerStoppingData'];
   const state = await loadServerState(ctx);
+  if (data.save === 'failed') {
+    const stopping = state.stoppingAt !== null;
+    if (stopping) await updateServerState(ctx, { stoppingAt: null });
+    ctx.effects.statusChanged = true;
+    return { playerId: null, quiet: !stopping };
+  }
   const fresh = state.online && state.stoppingAt === null;
   if (fresh) await updateServerState(ctx, { stoppingAt: ts });
   ctx.effects.statusChanged = true;

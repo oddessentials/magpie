@@ -279,6 +279,28 @@ describe('POST /api/ingest', () => {
     expect((await computeStatus(db)).state).toBe('online');
   });
 
+  it('ends the stopping state when the world save fails and shows it in the feed', async () => {
+    const db = getDb();
+    const at = new Date(Date.now() - 30_000);
+    await send(
+      envelope(history, 'server.stopping', { by: 'admin', save: 'requested' }, at, 900_014)
+    );
+    expect((await computeStatus(db)).stopping).toBe(true);
+    const failed = envelope(
+      history,
+      'server.stopping',
+      { by: 'admin', save: 'failed' },
+      new Date(at.getTime() + 5000),
+      900_015
+    );
+    await send(failed);
+    const status = await computeStatus(db);
+    expect(status.state).toBe('online');
+    expect(status.stopping).toBe(false);
+    const stored = await db.select().from(events).where(eq(events.id, failed.events[0]!.id));
+    expect(stored[0]!.quiet).toBe(false);
+  });
+
   it('closes the sessions of a lost collector', async () => {
     const db = getDb();
     const runId = history.runs[history.runs.length - 1]!.runId;

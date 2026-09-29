@@ -126,6 +126,7 @@ export async function buildActivityItems(db: Database, rows: EventRow[]): Promis
         break;
       case 'server.stopping':
         details.by = stringOf(data.by);
+        details.save = stringOf(data.save);
         break;
       case 'server.offline':
         details.reason = stringOf(data.reason) ?? 'unreachable';

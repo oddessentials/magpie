@@ -173,6 +173,47 @@ func TestEveryEmittedTypeMatchesTheContract(t *testing.T) {
 	}
 }
 
+func TestStopAttributionAndAFailedSaveOutsideLaunchMode(t *testing.T) {
+	c := primedCollector(t)
+	c.cfg.Logs.Source = config.SourceFile
+	at := time.Date(2026, 9, 29, 12, 0, 0, 0, time.UTC)
+	emit := func(line string) []emission {
+		t.Helper()
+		record, err := modevents.Parse(line, at)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return c.modEmissions(record)
+	}
+	stopping := func(items []emission) event.ServerStoppingData {
+		t.Helper()
+		if len(items) != 1 || items[0].Type != event.TypeServerStopping {
+			t.Fatalf("items %+v", items)
+		}
+		return items[0].Data.(event.ServerStoppingData)
+	}
+	requested := stopping(emit(`{"file":"x","by":"admin","ts":"2026-09-29T12:00:00Z","type":"stop_requested","v":1}`))
+	if *requested.By != stopByAdmin || *requested.Save != event.SaveRequested {
+		t.Fatalf("requested %+v", requested)
+	}
+	failed := stopping(emit(`{"SlotName":"W","bSuccess":false,"hook":"/Script/Dominion.PersistenceSubsystem:PostSaveWorldState","self":"x","ts":"2026-09-29T12:00:05Z","type":"save_done","v":1}`))
+	if *failed.By != stopByAdmin || *failed.Save != event.SaveFailed {
+		t.Fatalf("failed %+v", failed)
+	}
+	if active, _ := c.stopState(); active {
+		t.Fatal("a failed save outside launch mode ends the stop")
+	}
+	again := stopping(emit(`{"file":"x","by":"collector","ts":"2026-09-29T12:01:00Z","type":"stop_requested","v":1}`))
+	if *again.By != stopByCollector {
+		t.Fatalf("a new request is announced with its own requester: %+v", again)
+	}
+	c.resetStop()
+	unknown := stopping(emit(`{"file":"x","by":"stop","ts":"2026-09-29T12:02:00Z","type":"stop_requested","v":1}`))
+	if *unknown.By != stopByUnknown {
+		t.Fatalf("an unrecognised requester is unknown: %+v", unknown)
+	}
+}
+
 func TestModEventsBecomeContractEvents(t *testing.T) {
 	c := primedCollector(t)
 	c.stopping = true

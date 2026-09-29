@@ -634,12 +634,7 @@ func (c *Collector) markOfflineAt(reason string, at time.Time) {
 	c.serverUp = false
 	c.mapper.Reset()
 	if !c.launched {
-		c.expectShutdown.Store(false)
-		c.stopMu.Lock()
-		c.stopSignaled = false
-		c.stopBy = ""
-		c.stopSave = ""
-		c.stopMu.Unlock()
+		c.resetStop()
 	}
 	if !wasUp {
 		return

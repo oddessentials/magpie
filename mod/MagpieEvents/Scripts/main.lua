@@ -48,7 +48,6 @@ local function emit(kind, fields)
         file:write(encode(fields), "\n")
         file:close()
     end
-    print("[MagpieEvents] " .. encode(fields) .. "\n")
 end
 
 local function try(fn, ...)
@@ -410,11 +409,15 @@ local function quit()
     end
 end
 
+local function keep_running(reason)
+    emit("save_failed", { reason = reason })
+    stopping = false
+end
+
 local function save_and_quit()
     local subsystem = try(FindFirstOf, "PersistenceSubsystem")
     if not valid(subsystem) then
-        emit("save_failed", { reason = "no persistence subsystem" })
-        quit()
+        keep_running("no persistence subsystem")
         return
     end
     local slot = try(function()
@@ -429,33 +432,52 @@ local function save_and_quit()
         subsystem:SaveGame(true)
     end)
     if not ok then
-        emit("save_failed", { reason = tostring(err) })
+        keep_running(tostring(err))
+        return
     end
     local waited = 0
     LoopAsync(1000, function()
         waited = waited + 1
-        if last_save == nil and waited < 30 then
-            return false
+        if last_save == nil then
+            if waited < 30 then
+                return false
+            end
+            keep_running("no save result within 30 seconds")
+            return true
         end
-        ExecuteInGameThread(quit)
+        if last_save.bSuccess == true then
+            ExecuteInGameThread(quit)
+        else
+            stopping = false
+        end
         return true
     end)
+end
+
+local function take_stop_file()
+    local file = io.open(STOP, "r")
+    if not file then
+        return nil, false
+    end
+    local content = file:read("a") or ""
+    file:close()
+    local removed = os.remove(STOP) ~= nil
+    return (content:gsub("%s+$", "")), removed
 end
 
 if STOP then
     LoopAsync(2000, function()
         if stopping then
-            return true
-        end
-        local file = io.open(STOP, "r")
-        if not file then
             return false
         end
-        file:close()
+        local by, removed = take_stop_file()
+        if by == nil then
+            return false
+        end
         stopping = true
-        emit("stop_requested", { file = STOP })
+        emit("stop_requested", { file = STOP, by = by })
         ExecuteInGameThread(save_and_quit)
-        return true
+        return not removed
     end)
 end
 

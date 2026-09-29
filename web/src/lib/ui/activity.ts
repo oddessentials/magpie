@@ -72,6 +72,9 @@ export function describeActivity(item: ActivityItem): ActivityView {
         )
       ]);
     case 'server.stopping':
+      if (details.save === 'failed') {
+        return view('bad', [text(t.activity.phrases.serverSaveFailed)]);
+      }
       return view('warn', [
         text(
           details.by

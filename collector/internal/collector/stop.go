@@ -36,11 +36,24 @@ func StopFileBy(path string) string {
 	if err != nil {
 		return stopByUnknown
 	}
-	switch by := strings.TrimSpace(string(data)); by {
+	return stopRequester(string(data))
+}
+
+func stopRequester(text string) string {
+	switch by := strings.TrimSpace(text); by {
 	case stopByCollector, stopByAdmin:
 		return by
 	}
 	return stopByUnknown
+}
+
+func (c *Collector) resetStop() {
+	c.expectShutdown.Store(false)
+	c.stopMu.Lock()
+	c.stopSignaled = false
+	c.stopBy = ""
+	c.stopSave = ""
+	c.stopMu.Unlock()
 }
 
 func (c *Collector) writePid() {
