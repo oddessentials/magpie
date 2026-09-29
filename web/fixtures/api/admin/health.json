@@ -4,7 +4,7 @@
     "run": {
       "run_id": "60c22306-a1db-4095-a48a-f3f496129bab",
       "name": "magpie-collector",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "os": "windows",
       "arch": "amd64",
       "started_at": "2026-09-25T10:47:20.000Z",

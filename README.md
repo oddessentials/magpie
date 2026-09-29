@@ -85,7 +85,7 @@ The saved clock, populated POI payloads and nonempty world-progress sets are cov
 
 ## Install
 
-This README describes the current source. The published v0.1.0 release predates the subsequent shutdown, map-facts, saved-progress and remote-transport changes. Build from the current source to use those changes until another release is explicitly published.
+This README describes the current source. Each [release](https://github.com/oddessentials/magpie/releases) publishes the site and collector images, the collector and save reader binaries and the server mod, all built from its tag.
 
 1. Run the site with Docker Compose on a machine the collector can reach. Create `.env` beside `docker-compose.yml` with a random database password and the address people will use, then start it:
 
