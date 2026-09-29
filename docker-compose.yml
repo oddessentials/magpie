@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-magpie}
       POSTGRES_DB: magpie
     ports:
-      - '5434:5432'
+      - '127.0.0.1:5434:5432'
     volumes:
       - db-data:/var/lib/postgresql
     healthcheck:
@@ -24,10 +24,10 @@ services:
       dockerfile: web/Dockerfile
     environment:
       DATABASE_URL: postgres://magpie:${POSTGRES_PASSWORD:-magpie}@db:5432/magpie
-      COLLECTOR_SECRET: ${COLLECTOR_SECRET}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-      ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET}
-      PUBLIC_SITE_NAME: ${PUBLIC_SITE_NAME}
+      COLLECTOR_SECRET: ${COLLECTOR_SECRET:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET:-}
+      PUBLIC_SITE_NAME: ${PUBLIC_SITE_NAME:-}
       ORIGIN: ${ORIGIN:-http://localhost:3000}
       PORT: '3000'
       API_MOCK: ${API_MOCK:-0}

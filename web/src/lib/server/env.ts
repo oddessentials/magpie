@@ -1,5 +1,11 @@
 import { env as privateEnv } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
+import {
+  maximumPasswordLength,
+  minimumPasswordLength,
+  minimumSecretLength,
+  publishedSecrets
+} from './auth/limits';
 
 const logLevels = ['debug', 'info', 'warn', 'error'] as const;
 export type LogLevel = (typeof logLevels)[number];
@@ -93,6 +99,28 @@ export function validateEnvironment(source: Record<string, string | undefined>):
     pgDumpCommand: optional('PG_DUMP', 'pg_dump'),
     backupsKept: optionalInteger('BACKUPS_KEPT', 14)
   };
+
+  const password = values.adminPassword;
+  if (
+    password !== '' &&
+    (password.length < minimumPasswordLength || password.length > maximumPasswordLength)
+  ) {
+    invalid.push(
+      `ADMIN_PASSWORD must be ${minimumPasswordLength} to ${maximumPasswordLength} characters`
+    );
+  }
+  const secrets: [string, string][] = [
+    ['COLLECTOR_SECRET', values.collectorSecret],
+    ['ADMIN_SESSION_SECRET', values.adminSessionSecret]
+  ];
+  for (const [name, secret] of secrets) {
+    if (secret === '') continue;
+    if (publishedSecrets.includes(secret)) {
+      invalid.push(`${name} is the published example value; remove it or set your own`);
+    } else if (secret.length < minimumSecretLength) {
+      invalid.push(`${name} must be at least ${minimumSecretLength} characters`);
+    }
+  }
 
   if (missing.length > 0 || invalid.length > 0) {
     const parts: string[] = [];

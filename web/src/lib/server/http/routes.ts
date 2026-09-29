@@ -4,12 +4,7 @@ import { getDb, type Database } from '../db/client';
 import { featureLabels, siteFeatures, type FeatureName } from '../settings';
 import { guarded, notFound, privateJson, publicJson } from './respond';
 
-export function clientAddress(event: RequestEvent): string {
-  const forwarded = event.request.headers.get('x-forwarded-for');
-  if (forwarded) {
-    const first = forwarded.split(',')[0]?.trim();
-    if (first) return first;
-  }
+export function clientAddress(event: Pick<RequestEvent, 'getClientAddress'>): string {
   try {
     return event.getClientAddress();
   } catch {

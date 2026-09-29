@@ -1,5 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { createSession, isSecureSite } from '$lib/server/auth/admin';
+import { createSession, isSecureSite, requireSameOrigin } from '$lib/server/auth/admin';
 import { secrets } from '$lib/server/auth/secrets';
 import { empty, errorResponse, guarded } from '$lib/server/http/respond';
 import { loginRateLimiter } from '$lib/server/http/rateLimit';
@@ -14,6 +14,7 @@ export const POST: RequestHandler = (event) =>
         'more than 5 login attempts per minute from this address'
       );
     }
+    requireSameOrigin(event);
     const body = (await readJsonBody(event)) as { password?: unknown } | undefined;
     if (!body || typeof body !== 'object' || typeof body.password !== 'string') {
       return errorResponse(400, 'bad_request', 'password is required');
