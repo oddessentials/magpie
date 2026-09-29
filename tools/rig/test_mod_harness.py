@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from mod_harness import Harness, Name, Object, ROOT
+from mod_harness import Harness, Name, Object, ROOT, Subsystem
 from mod_fixture import generate, TARGET
 from hook_probe import sanitize
 
@@ -85,6 +85,72 @@ class ModHarnessTests(unittest.TestCase):
         for kind, values in expected.items():
             for name, value in values.items():
                 self.assertEqual(enums['/Script/Dominion.' + kind][kind + '::' + name], value)
+
+
+class ModStopTests(unittest.TestCase):
+    def setUp(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        self.folder = Path(folder.name)
+        self.stop = self.folder / 'magpie-stop.txt'
+
+    def start(self, subsystem=None):
+        harness = Harness(self.folder, stop=self.stop, subsystem=subsystem)
+        self.stop.write_text('collector\n', encoding='utf-8')
+        harness.tick()
+        return harness
+
+    def types(self, harness):
+        return [record['type'] for record in harness.records()]
+
+    def test_a_confirmed_save_quits_and_the_stop_file_is_removed(self):
+        h = self.start()
+        self.assertFalse(self.stop.exists())
+        requested = h.records()[-2]
+        self.assertEqual((requested['type'], requested['by']), ('stop_requested', 'collector'))
+        self.assertEqual(h.subsystem.saves, 1)
+        h.tick()
+        self.assertEqual(h.library.commands, [])
+        h.call('save_done', dict(SlotName=Name('magpie-rig'), bSuccess=True))
+        h.tick()
+        self.assertEqual(h.library.commands, ['quit'])
+        self.assertEqual(self.types(h), ['mod_loaded', 'stop_requested', 'save_requested', 'save_done', 'quit'])
+
+    def test_a_failed_save_keeps_the_server_running_and_a_new_request_works(self):
+        h = self.start()
+        h.call('save_done', dict(SlotName=Name('magpie-rig'), bSuccess=False))
+        h.tick()
+        self.assertEqual(h.library.commands, [])
+        self.stop.write_text('admin\n', encoding='utf-8')
+        h.tick()
+        self.assertFalse(self.stop.exists())
+        self.assertEqual(h.subsystem.saves, 2)
+        self.assertEqual(h.records()[-2]['by'], 'admin')
+        h.call('save_done', dict(SlotName=Name('magpie-rig'), bSuccess=True))
+        h.tick()
+        self.assertEqual(h.library.commands, ['quit'])
+
+    def test_no_save_result_within_30_seconds_keeps_the_server_running(self):
+        h = self.start()
+        for _ in range(30):
+            h.tick()
+        failed = h.records()[-1]
+        self.assertEqual((failed['type'], failed['reason']), ('save_failed', 'no save result within 30 seconds'))
+        self.assertEqual(h.library.commands, [])
+        self.assertNotIn('quit', self.types(h))
+
+    def test_a_save_that_cannot_start_keeps_the_server_running(self):
+        h = self.start(Subsystem(fail=True))
+        failed = h.records()[-1]
+        self.assertEqual(failed['type'], 'save_failed')
+        self.assertIn('save refused', failed['reason'])
+        h.tick()
+        self.assertEqual(h.library.commands, [])
+        self.assertEqual(self.types(h), ['mod_loaded', 'stop_requested', 'save_requested', 'save_failed'])
+
+    def test_events_are_not_printed_to_the_log(self):
+        h = self.start()
+        self.assertFalse(any('stop_requested' in str(line) for line in h.logs))
 
 
 if __name__ == '__main__':

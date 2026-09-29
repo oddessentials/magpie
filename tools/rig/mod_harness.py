@@ -81,12 +81,37 @@ class Param:
         return self.value
 
 
+class Subsystem(Object):
+    def __init__(self, fail=False):
+        super().__init__('PersistenceSubsystem /Script/Dominion.Default__PersistenceSubsystem', dict(WorldSaveSettings=Object('WorldSaveSettings', dict(WorldSlotName='magpie-rig'))))
+        self.fail = fail
+        self.saves = 0
+
+    def SaveGame(self, full):
+        self.saves += 1
+        if self.fail:
+            raise RuntimeError('save refused')
+
+
+class Library(Object):
+    def __init__(self):
+        super().__init__('KismetSystemLibrary /Script/Engine.Default__KismetSystemLibrary')
+        self.commands = []
+
+    def ExecuteConsoleCommand(self, world, command, player):
+        self.commands.append(command)
+
+
 class Harness:
-    def __init__(self, folder, script=SCRIPT):
+    def __init__(self, folder, script=SCRIPT, stop=None, subsystem=None):
         self.schema = json.loads(SCHEMA.read_text(encoding='utf-8'))
         self.lua = LuaRuntime(unpack_returned_tuples=True)
         self.callbacks = {}
         self.logs = []
+        self.loops = []
+        self.subsystem = subsystem or Subsystem()
+        self.library = Library()
+        self.world = Object('World /Game/Maps/World/L_World.L_World')
         self.out = Path(folder) / 'callbacks.jsonl'
         self.descriptors = {}
         for path, struct in self.schema['structs'].items():
@@ -96,9 +121,16 @@ class Harness:
         globals = self.lua.globals()
         globals.StaticFindObject = self.lookup
         globals.RegisterHook = self.register
+        globals.LoopAsync = lambda interval, callback: self.loops.append(callback)
+        globals.ExecuteInGameThread = lambda callback: callback()
+        globals.FindFirstOf = lambda name: self.subsystem if name == 'PersistenceSubsystem' else Object(valid=False)
         globals.print = self.logs.append
-        globals.env = self.lua.table_from({'MAGPIE_EVENTS_FILE': str(self.out)})
-        self.lua.execute('os.getenv = function(key) return env[key] end; os.date = function() return "2026-09-29T12:00:00Z" end')
+        variables = {'MAGPIE_EVENTS_FILE': str(self.out)}
+        if stop is not None:
+            variables['MAGPIE_STOP_FILE'] = str(stop)
+        globals.env = self.lua.table_from(variables)
+        globals.helpers = self.lua.table_from({'GetWorld': lambda: self.world, 'GetKismetSystemLibrary': lambda: self.library})
+        self.lua.execute('os.getenv = function(key) return env[key] end; os.date = function() return "2026-09-29T12:00:00Z" end; package.preload["UEHelpers"] = function() return helpers end')
         self.lua.execute(Path(script).read_text(encoding='utf-8'))
         state = Object('PlayerState /Game/MagpieFixture.State', dict(player_name='Magpie Fixture', PlayerId=17))
         self.context = Object('ActorComponent /Game/MagpieFixture.Component', dict(owner=Object('Actor /Game/MagpieFixture.Actor', dict(PlayerState=state))))
@@ -148,6 +180,11 @@ class Harness:
         if len(records) != before + 1:
             raise AssertionError('callback did not emit exactly one event: ' + repr(self.logs[-1:]))
         return records[-1]
+
+    def tick(self):
+        for callback in list(self.loops):
+            if callback() is True:
+                self.loops.remove(callback)
 
     def records(self):
         return [json.loads(line) for line in self.out.read_text(encoding='utf-8').splitlines()]

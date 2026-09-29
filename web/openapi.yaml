@@ -1422,7 +1422,7 @@ components:
         - other
     ActivityDetails:
       type: object
-      description: 'Type-specific details. player.left: session_s. player.died: cause, killer. journal.unlocked: entry, entry_name. skill.level_up: skill, skill_name, level. quest.updated: quest, quest_name, state, objective. chat.message: channel, text. player.kicked: by, reason. server.online: version. server.stopping: by. server.offline: reason. collector.lost: last_seen_at.'
+      description: 'Type-specific details. player.left: session_s. player.died: cause, killer. journal.unlocked: entry, entry_name. skill.level_up: skill, skill_name, level. quest.updated: quest, quest_name, state, objective. chat.message: channel, text. player.kicked: by, reason. server.online: version. server.stopping: by, save. server.offline: reason. collector.lost: last_seen_at.'
       properties:
         session_s:
           type:
@@ -1472,6 +1472,11 @@ components:
           type:
             - string
             - 'null'
+        save:
+          type:
+            - string
+            - 'null'
+          description: server.stopping only. requested, done, or failed when the world save did not complete and the server keeps running.
         version:
           type:
             - string
@@ -3226,7 +3231,7 @@ components:
                 - type: 'null'
     ServerStoppingData:
       type: object
-      description: The server announced a stop and saves the world before it exits, for example when the collector asked the server mod for a graceful stop.
+      description: The server announced a stop and saves the world before it exits, for example when the collector asked the server mod for a graceful stop. save failed means the world save did not complete; the server mod keeps the server running, and the site no longer shows it as stopping.
       properties:
         by:
           type:

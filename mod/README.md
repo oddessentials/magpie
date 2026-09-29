@@ -38,7 +38,7 @@ The hooks are the game's own remote procedure calls, the functions named `Server
 
 Automated checks execute every production Lua callback against build-stamped engine schemas and compare representative output with transient engine userdata captured by the isolated rig. Enums retain their numeric values, inherited vectors retain their coordinates, and invalid numbers cannot corrupt JSON. The collector uses the updated quest state, the current XP total and victim coordinates; crafting requests and failures do not become completed crafts, and building requests wait for the completion hook. Synthetic fixtures continue through signed ingest and projection rebuilding in CI. They are labeled as synthetic, with unknown parameter shapes retained as fallback events.
 
-The stop calls `PersistenceSubsystem:SaveGame`, the same function the five-minute autosave and a menu leave use, waits for the game to report the save, and then runs `quit`, which is the engine's orderly shutdown.
+The stop calls `PersistenceSubsystem:SaveGame`, the same function the five-minute autosave and a menu leave use, waits for the game to report the save, and then runs `quit`, which is the engine's orderly shutdown. The mod deletes the stop file when it reads it, and the file's text (`collector` or `admin`) names who asked. If the save fails, or the game reports nothing within 30 seconds, the mod reports `save_failed` and the server keeps running; a new stop file tries again.
 
 The mod never changes gameplay, never writes a save and never touches a game file. The game's session attribute `ModDetection` stays 0 with it loaded, so the server does not advertise itself as modded; tell your players.
 

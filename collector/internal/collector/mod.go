@@ -110,7 +110,10 @@ func (c *Collector) modEmissions(record modevents.Record) []emission {
 		announced := c.stopSignaled
 		c.stopSignaled = true
 		if !stopping {
-			by = StopFileBy(c.cfg.Mod.Stop)
+			by = stopRequester(modevents.String(params, "by"))
+			if by == stopByUnknown {
+				by = StopFileBy(c.cfg.Mod.Stop)
+			}
 			c.stopBy = by
 		}
 		c.stopMu.Unlock()
@@ -131,6 +134,9 @@ func (c *Collector) modEmissions(record modevents.Record) []emission {
 			state = event.SaveFailed
 		} else if ok, found := params["bSuccess"].(bool); found && !ok {
 			state = event.SaveFailed
+		}
+		if state == event.SaveFailed && !c.launched {
+			c.resetStop()
 		}
 		return []emission{{Type: event.TypeServerStopping, At: record.At, Data: event.ServerStoppingData{By: event.String(by), Save: event.String(state)}}}
 	case modevents.TypeChat:

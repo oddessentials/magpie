@@ -496,6 +496,7 @@ export interface components {
       quest?: string;
       quest_name?: string | null;
       reason?: string | null;
+      save?: string | null;
       session_s?: number | null;
       skill?: string;
       skill_name?: string | null;

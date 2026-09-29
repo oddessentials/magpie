@@ -47,6 +47,9 @@ describe('feed lines', () => {
     expect(line('server.stopping', { by: 'collector' })).toBe(
       'The server is saving, then stopping, as collector asked'
     );
+    expect(line('server.stopping', { by: 'admin', save: 'failed' })).toBe(
+      'The world save failed; the server keeps running'
+    );
     expect(line('server.offline', { reason: 'crashed' })).toBe('The server crashed');
     expect(line('player.kicked', { by: null, reason: null })).toBe('Moss was kicked');
     expect(line('player.joined', {}, null)).toBe('Someone entered the wilds');

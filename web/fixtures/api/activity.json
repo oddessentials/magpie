@@ -624,7 +624,7 @@
       "type": "server.stopping",
       "ts": "2026-09-28T01:29:30.000Z",
       "player": null,
-      "details": { "by": "collector" }
+      "details": { "by": "collector", "save": "requested" }
     },
     {
       "id": "2198d9af-07e8-4a21-9196-122b79ca667a",

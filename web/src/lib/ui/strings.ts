@@ -159,6 +159,7 @@ export const t = {
       serverOnlineVersion: (version: string) => `The server came online (${version})`,
       serverStopping: 'The server is saving, then stopping',
       serverStoppingBy: (by: string) => `The server is saving, then stopping, as ${by} asked`,
+      serverSaveFailed: 'The world save failed; the server keeps running',
       serverStopped: 'The server stopped',
       serverCrashed: 'The server crashed',
       serverUnreachable: 'The server stopped answering',
