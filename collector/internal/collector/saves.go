@@ -113,7 +113,13 @@ func (c *Collector) onSaveResult(outcome saveOutcome) {
 	for _, item := range c.saveTracker.Changes(outcome.result) {
 		data := item.Data
 		var player *event.EventPlayer
-		if saved, ok := data.(event.SavePlayerData); ok {
+		switch saved := data.(type) {
+		case event.SavePlayerData:
+			if id, known := c.mapper.Identify(saved.Name); known {
+				saved.UserID = event.String(id.UserID)
+			}
+			data = saved
+		case event.SaveProgressData:
 			if id, known := c.mapper.Identify(saved.Name); known {
 				saved.UserID = event.String(id.UserID)
 			}

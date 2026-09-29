@@ -708,6 +708,7 @@ export interface components {
       | components['schemas']['JournalUnlockedEvent']
       | components['schemas']['SaveWorldEvent']
       | components['schemas']['SavePlayerEvent']
+      | components['schemas']['SaveProgressEvent']
       | components['schemas']['SaveReadEvent']
       | components['schemas']['LogOtherEvent']
       | components['schemas']['ChatMessageEvent']
@@ -1167,13 +1168,17 @@ export interface components {
       }[];
       world_hooks: string[];
     };
+    SaveIdList: string[] | null;
     SavePlayerData: {
       character_guid: string;
       health?: components['schemas']['PlayerHealth'] | null;
+      inventory?: components['schemas']['SaveSlot'][] | null;
       journal_unlocked?: number | null;
       journal_unread?: number | null;
+      loadout?: components['schemas']['SaveSlot'][] | null;
       name: string;
       playtime_s?: number | null;
+      position?: components['schemas']['SavePosition'] | null;
       quests: components['schemas']['SaveQuest'][];
       regions_revealed?: number | null;
       saved_at: string;
@@ -1187,10 +1192,40 @@ export interface components {
       data: components['schemas']['SavePlayerData'];
       type: 'save.player';
     };
+    SavePosition: {
+      x: number;
+      y: number;
+      z: number;
+    };
+    SaveProgressData: {
+      actors_interacted: components['schemas']['SaveIdList'];
+      buildings: components['schemas']['SaveIdList'];
+      character_guid: string;
+      creatures_killed: components['schemas']['SaveIdList'];
+      items_picked_up: components['schemas']['SaveIdList'];
+      journal: components['schemas']['SaveIdList'];
+      name: string;
+      quest_locations: components['schemas']['SaveQuestLocation'][] | null;
+      recipes: components['schemas']['SaveIdList'];
+      saved_at: string;
+      user_id: components['schemas']['UserId'] | null;
+    } & {
+      [key: string]: unknown;
+    };
+    SaveProgressEvent: components['schemas']['EventEnvelope'] & {
+      data: components['schemas']['SaveProgressData'];
+      type: 'save.progress';
+    };
     SaveQuest: {
       id: string;
       objective?: string | null;
       state: string;
+    } & {
+      [key: string]: unknown;
+    };
+    SaveQuestLocation: {
+      id: string;
+      state: boolean;
     } & {
       [key: string]: unknown;
     };
@@ -1208,6 +1243,14 @@ export interface components {
     SaveSkill: {
       id: string;
       xp: number;
+    } & {
+      [key: string]: unknown;
+    };
+    SaveSlot: {
+      count: number | null;
+      durability: number | null;
+      item: string;
+      slot: number;
     } & {
       [key: string]: unknown;
     };
@@ -1651,12 +1694,18 @@ export type Retention = components['schemas']['Retention'];
 export type SavedBuildings = components['schemas']['SavedBuildings'];
 export type SavedDiscovery = components['schemas']['SavedDiscovery'];
 export type SavedWorldProgress = components['schemas']['SavedWorldProgress'];
+export type SaveIdList = components['schemas']['SaveIdList'];
 export type SavePlayerData = components['schemas']['SavePlayerData'];
 export type SavePlayerEvent = components['schemas']['SavePlayerEvent'];
+export type SavePosition = components['schemas']['SavePosition'];
+export type SaveProgressData = components['schemas']['SaveProgressData'];
+export type SaveProgressEvent = components['schemas']['SaveProgressEvent'];
 export type SaveQuest = components['schemas']['SaveQuest'];
+export type SaveQuestLocation = components['schemas']['SaveQuestLocation'];
 export type SaveReadData = components['schemas']['SaveReadData'];
 export type SaveReadEvent = components['schemas']['SaveReadEvent'];
 export type SaveSkill = components['schemas']['SaveSkill'];
+export type SaveSlot = components['schemas']['SaveSlot'];
 export type SaveWeather = components['schemas']['SaveWeather'];
 export type SaveWorldData = components['schemas']['SaveWorldData'];
 export type SaveWorldEvent = components['schemas']['SaveWorldEvent'];

@@ -2982,6 +2982,7 @@ components:
         - $ref: '#/components/schemas/JournalUnlockedEvent'
         - $ref: '#/components/schemas/SaveWorldEvent'
         - $ref: '#/components/schemas/SavePlayerEvent'
+        - $ref: '#/components/schemas/SaveProgressEvent'
         - $ref: '#/components/schemas/SaveReadEvent'
         - $ref: '#/components/schemas/LogOtherEvent'
         - $ref: '#/components/schemas/ChatMessageEvent'
@@ -3658,6 +3659,25 @@ components:
             - integer
             - 'null'
           minimum: 0
+        inventory:
+          description: The character's inventory slots, null when the save reader did not report them.
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/SaveSlot'
+        loadout:
+          description: The equipped items, null when the save reader did not report them.
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/SaveSlot'
+        position:
+          anyOf:
+            - $ref: '#/components/schemas/SavePosition'
+            - type: 'null'
+          description: The character's last saved position in game units, from SavedCharacterTransformsManager.
       required:
         - saved_at
         - character_guid
@@ -3666,6 +3686,111 @@ components:
         - skills
         - quests
       additionalProperties: true
+    SaveSlot:
+      type: object
+      description: One inventory or loadout slot. item is the item's PersistenceID from items.json. count is null when the save stores none; the slot still holds at least one.
+      properties:
+        slot:
+          type: integer
+          minimum: 0
+        item:
+          type: string
+          minLength: 1
+        count:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        durability:
+          type:
+            - number
+            - 'null'
+      required:
+        - slot
+        - item
+        - count
+        - durability
+      additionalProperties: true
+    SavePosition:
+      type: object
+      properties:
+        x:
+          type: number
+        y:
+          type: number
+        z:
+          type: number
+      required:
+        - x
+        - y
+        - z
+      additionalProperties: false
+    SaveQuestLocation:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: The QuestLocationName of a quest location placed in the world.
+        state:
+          type: boolean
+      required:
+        - id
+        - state
+      additionalProperties: true
+    SaveProgressData:
+      type: object
+      description: A character's unlocks as the world save caches them, sent when they change and once after the collector starts. Every list holds PersistenceIDs from the game facts (recipes.json, buildings.json, items.json, creatures.json, journal.json), except actors_interacted, which holds class names such as BP_LoreItem_C. A list is null when the save reader did not report it.
+      properties:
+        saved_at:
+          type: string
+          format: date-time
+        character_guid:
+          type: string
+          pattern: ^[0-9A-F]{32}$
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        name:
+          type: string
+        recipes:
+          $ref: '#/components/schemas/SaveIdList'
+        buildings:
+          $ref: '#/components/schemas/SaveIdList'
+        items_picked_up:
+          $ref: '#/components/schemas/SaveIdList'
+        actors_interacted:
+          $ref: '#/components/schemas/SaveIdList'
+        creatures_killed:
+          $ref: '#/components/schemas/SaveIdList'
+        journal:
+          $ref: '#/components/schemas/SaveIdList'
+        quest_locations:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/SaveQuestLocation'
+      required:
+        - saved_at
+        - character_guid
+        - user_id
+        - name
+        - recipes
+        - buildings
+        - items_picked_up
+        - actors_interacted
+        - creatures_killed
+        - journal
+        - quest_locations
+      additionalProperties: true
+    SaveIdList:
+      type:
+        - array
+        - 'null'
+      items:
+        type: string
     SaveReadData:
       type: object
       description: Sent after a read of the world save, listing every cached character it holds, so the site can tell what is gone.
@@ -4149,6 +4274,19 @@ components:
               const: save.player
             data:
               $ref: '#/components/schemas/SavePlayerData'
+          required:
+            - type
+            - data
+    SaveProgressEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: save.progress
+            data:
+              $ref: '#/components/schemas/SaveProgressData'
           required:
             - type
             - data

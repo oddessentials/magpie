@@ -30,6 +30,7 @@ type Result struct {
 	SavedAt    time.Time
 	World      event.SaveWorldData
 	Characters []event.SavePlayerData
+	Progress   []event.SaveProgressData
 	GUIDs      []string
 }
 
@@ -87,8 +88,22 @@ type output struct {
 			Unlocked int `json:"unlocked"`
 			Unread   int `json:"unread"`
 		} `json:"journal"`
-		SpellsSelected int `json:"spells_selected"`
+		SpellsSelected int                       `json:"spells_selected"`
+		Position       *event.SavePosition       `json:"position"`
+		Inventory      []event.SaveSlot          `json:"inventory"`
+		Loadout        []event.SaveSlot          `json:"loadout"`
+		Unlocks        *unlocks                  `json:"unlocks"`
+		JournalEntries []string                  `json:"journal_entries"`
+		QuestLocations []event.SaveQuestLocation `json:"quest_locations"`
 	} `json:"characters"`
+}
+
+type unlocks struct {
+	Recipes          []string `json:"recipes"`
+	Buildings        []string `json:"buildings"`
+	ItemsPickedUp    []string `json:"items_picked_up"`
+	ActorsInteracted []string `json:"actors_interacted"`
+	CreaturesKilled  []string `json:"creatures_killed"`
 }
 
 func Locate(dir, world string) (string, bool) {
@@ -301,7 +316,17 @@ func Decode(raw []byte, size int64) (*Result, error) {
 			}
 			player.Quests = append(player.Quests, event.SaveQuest{ID: quest.ID, State: state, Objective: event.String(quest.Objective)})
 		}
+		player.Inventory = character.Inventory
+		player.Loadout = character.Loadout
+		player.Position = character.Position
 		result.Characters = append(result.Characters, player)
+		if character.Unlocks != nil || character.JournalEntries != nil || character.QuestLocations != nil {
+			progress := event.SaveProgressData{SavedAt: savedAt, CharacterGUID: characterGUID, Name: character.Name, Journal: character.JournalEntries, QuestLocations: character.QuestLocations}
+			if found := character.Unlocks; found != nil {
+				progress.Recipes, progress.Buildings, progress.ItemsPickedUp, progress.ActorsInteracted, progress.CreaturesKilled = found.Recipes, found.Buildings, found.ItemsPickedUp, found.ActorsInteracted, found.CreaturesKilled
+			}
+			result.Progress = append(result.Progress, progress)
+		}
 	}
 	sort.Strings(result.GUIDs)
 	return result, nil
@@ -345,6 +370,15 @@ func (t *Tracker) Changes(result *Result) []Emission {
 		comparable.SavedAt = time.Time{}
 		if t.changed(key, comparable) {
 			out = append(out, Emission{event.TypeSavePlayer, player})
+		}
+	}
+	for _, progress := range result.Progress {
+		key := "progress:" + progress.CharacterGUID
+		present[key] = true
+		comparable := progress
+		comparable.SavedAt = time.Time{}
+		if t.changed(key, comparable) {
+			out = append(out, Emission{event.TypeSaveProgress, progress})
 		}
 	}
 	for key := range t.seen {

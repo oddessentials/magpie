@@ -79,6 +79,11 @@ type Character struct {
 	Journal        Journal            `json:"journal"`
 	SpellsSelected int                `json:"spells_selected"`
 	Position       *Position          `json:"position"`
+	Inventory      []Slot             `json:"inventory"`
+	Loadout        []Slot             `json:"loadout"`
+	Unlocks        *Unlocks           `json:"unlocks"`
+	JournalEntries []string           `json:"journal_entries"`
+	QuestLocations []QuestLocation    `json:"quest_locations"`
 }
 
 type Skill struct {
@@ -425,8 +430,12 @@ type characterJSON struct {
 				State     int    `json:"QuestState"`
 				Objective string `json:"QuestObjective"`
 			} `json:"Quests"`
+			Locations json.RawMessage `json:"QuestLocations"`
 		} `json:"QuestProgress"`
-		Journal struct {
+		Inventory json.RawMessage `json:"Inventory"`
+		Loadout   json.RawMessage `json:"Loadout"`
+		Unlocks   json.RawMessage `json:"Progress"`
+		Journal   struct {
 			Unlocked []string `json:"UnlockedEntries"`
 			Unread   []string `json:"UnreadEntries"`
 		} `json:"Journal"`
@@ -490,6 +499,11 @@ func (c *Character) decode(state string) {
 			c.SpellsSelected++
 		}
 	}
+	c.Inventory = decodeSlots(doc.Progress.Inventory)
+	c.Loadout = decodeSlots(doc.Progress.Loadout)
+	c.Unlocks = decodeUnlocks(doc.Progress.Unlocks)
+	c.JournalEntries = append([]string{}, doc.Progress.Journal.Unlocked...)
+	c.QuestLocations = decodeQuestLocations(doc.Progress.Quests.Locations)
 }
 
 var ErrIncomplete = spud.ErrIncomplete
