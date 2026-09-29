@@ -303,6 +303,29 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '503':
           $ref: '#/components/responses/Unavailable'
+  /api/v1/map:
+    get:
+      operationId: getWorldMap
+      tags:
+        - public
+      summary: World map
+      description: Static region polygons and fixed landmarks from the stamped game build. Coordinates are game X and Y; these are not live positions or saved discoveries.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorldMap'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
   /api/v1/stream:
     get:
       operationId: streamEvents
@@ -2121,6 +2144,74 @@ components:
         - journal_entries
         - quests_completed
       additionalProperties: false
+    MapPoint:
+      type: object
+      additionalProperties: false
+      required: [x, y]
+      properties:
+        x:
+          type: number
+        y:
+          type: number
+    WorldMap:
+      type: object
+      additionalProperties: false
+      required: [build, version, bounds, regions, landmarks]
+      properties:
+        build:
+          type: integer
+          minimum: 1
+        version:
+          type: string
+        bounds:
+          type: object
+          additionalProperties: false
+          required: [min, max]
+          properties:
+            min:
+              $ref: '#/components/schemas/MapPoint'
+            max:
+              $ref: '#/components/schemas/MapPoint'
+        regions:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, name, group, power_level, boundary]
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              group:
+                type: string
+              power_level:
+                type: [integer, 'null']
+              boundary:
+                type: array
+                minItems: 3
+                items:
+                  $ref: '#/components/schemas/MapPoint'
+        landmarks:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, name, kind, position, regions]
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              kind:
+                type: string
+                enum: [lodestone, boss]
+              position:
+                $ref: '#/components/schemas/MapPoint'
+              regions:
+                type: array
+                items:
+                  type: integer
     World:
       type: object
       properties:

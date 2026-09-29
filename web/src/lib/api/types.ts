@@ -303,6 +303,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/map': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getWorldMap'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/online': {
     parameters: {
       query?: never;
@@ -911,6 +927,10 @@ export interface components {
       data: components['schemas']['LogOtherData'];
       type: 'log.other';
     };
+    MapPoint: {
+      x: number;
+      y: number;
+    };
     OnlineList: {
       observed_at: string | null;
       players: components['schemas']['OnlinePlayer'][];
@@ -1407,6 +1427,28 @@ export interface components {
       name: string | null;
       state: string | null;
     };
+    WorldMap: {
+      bounds: {
+        max: components['schemas']['MapPoint'];
+        min: components['schemas']['MapPoint'];
+      };
+      build: number;
+      landmarks: {
+        id: string;
+        kind: 'lodestone' | 'boss';
+        name: string;
+        position: components['schemas']['MapPoint'];
+        regions: number[];
+      }[];
+      regions: {
+        boundary: components['schemas']['MapPoint'][];
+        group: string;
+        id: number;
+        name: string;
+        power_level: number | null;
+      }[];
+      version: string;
+    };
     WorldSave: {
       buildings?: components['schemas']['SavedBuildings'] | null;
       day: number | null;
@@ -1571,6 +1613,7 @@ export type JournalUnlockedEvent = components['schemas']['JournalUnlockedEvent']
 export type LoginRequest = components['schemas']['LoginRequest'];
 export type LogOtherData = components['schemas']['LogOtherData'];
 export type LogOtherEvent = components['schemas']['LogOtherEvent'];
+export type MapPoint = components['schemas']['MapPoint'];
 export type OnlineList = components['schemas']['OnlineList'];
 export type OnlinePlayer = components['schemas']['OnlinePlayer'];
 export type OtherEvent = components['schemas']['OtherEvent'];
@@ -1651,6 +1694,7 @@ export type UserId = components['schemas']['UserId'];
 export type Uuid = components['schemas']['Uuid'];
 export type World = components['schemas']['World'];
 export type WorldEvent = components['schemas']['WorldEvent'];
+export type WorldMap = components['schemas']['WorldMap'];
 export type WorldSave = components['schemas']['WorldSave'];
 export type WorldTotals = components['schemas']['WorldTotals'];
 export type WorldWeather = components['schemas']['WorldWeather'];
@@ -2203,6 +2247,29 @@ export interface operations {
           'application/json': components['schemas']['Health'];
         };
       };
+    };
+  };
+  getWorldMap: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          'Cache-Control': components['headers']['CacheControl'];
+          ETag: components['headers']['ETag'];
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['WorldMap'];
+        };
+      };
+      429: components['responses']['RateLimited'];
+      503: components['responses']['Unavailable'];
     };
   };
   getOnline: {
