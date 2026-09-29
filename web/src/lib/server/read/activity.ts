@@ -5,6 +5,7 @@ import { badRequest, type KeysetPage } from '../http/respond';
 import type { Features } from '../settings';
 import { chatChannel, playerRef, playersById, type Schemas } from './common';
 import { journalNameOf, questNameOf, skillOf } from './facts';
+import { bossNameOf } from './geography';
 
 export type ActivityItem = Schemas['ActivityItem'];
 export type ActivityType = Schemas['ActivityType'];
@@ -93,7 +94,8 @@ export async function buildActivityItems(db: Database, rows: EventRow[]): Promis
       case 'player.died': {
         const death = known.get(row.id);
         details.cause = death ? death.cause : stringOf(data.cause);
-        details.killer = death ? death.killer : stringOf(data.killer);
+        const killer = death ? death.killer : stringOf(data.killer);
+        details.killer = bossNameOf(killer) ?? killer;
         break;
       }
       case 'journal.unlocked':

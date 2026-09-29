@@ -164,6 +164,45 @@
         {/if}
       </Card>
 
+      <Card title="A guide to the wilds" description="Names and places from the game build.">
+        <p class="mb-4 text-sm text-ink-muted">
+          Dragonwilds {data.mapGuide.version} · build {data.mapGuide.build}
+        </p>
+        <div class="flex flex-col gap-4 text-sm">
+          <details>
+            <summary class="cursor-pointer py-2 font-semibold text-accent"
+              >{data.mapGuide.regions.length} regions</summary
+            >
+            <ul class="mt-2 grid gap-2 sm:grid-cols-2">
+              {#each data.mapGuide.regions as region (region.id)}
+                <li>{region.name}</li>
+              {/each}
+            </ul>
+          </details>
+          <details>
+            <summary class="cursor-pointer py-2 font-semibold text-accent"
+              >{data.mapGuide.lodestones.length} fixed lodestones</summary
+            >
+            <ul class="mt-2 flex flex-col gap-2">
+              {#each data.mapGuide.lodestones as stone (stone.id)}
+                <li>{stone.name}{stone.regions.length ? ` · ${stone.regions.join(' / ')}` : ''}</li>
+              {/each}
+            </ul>
+            <p class="mt-2 text-xs text-ink-muted">
+              Map regions may overlap. These fixed landmarks are game data.
+            </p>
+          </details>
+          <details>
+            <summary class="cursor-pointer py-2 font-semibold text-accent">Boss names</summary>
+            <ul class="mt-2 flex flex-col gap-2">
+              {#each data.mapGuide.bosses as boss (boss)}
+                <li>{boss}</li>
+              {/each}
+            </ul>
+          </details>
+        </div>
+      </Card>
+
       <Card title={t.world.seesTitle}>
         {#if capabilities.length === 0}
           <p class="note">{t.world.seesEmpty}</p>
