@@ -52,8 +52,9 @@ class ValidationTests(unittest.TestCase):
                 before = {path.name: path.read_bytes() for path in output.iterdir()}
                 patches.enter_context(patch.object(extract.usmap, 'load', return_value=None))
                 patches.enter_context(patch.object(extract, 'Game', side_effect=[server, client]))
-                for name in ('skills', 'xp', 'quests', 'journal', 'items', 'recipes', 'progression', 'geography', 'clock'):
+                for name in ('skills', 'xp', 'quests', 'journal', 'items', 'recipes', 'progression', 'geography', 'clock', 'buildings', 'stations', 'creatures', 'layers'):
                     patches.enter_context(patch.object(extract, 'build_' + name, return_value={'source': {}}))
+                patches.enter_context(patch.object(extract, 'link_journal'))
                 patches.enter_context(contextlib.redirect_stdout(io.StringIO()))
                 with self.assertRaises(ValueError):
                     extract.main(['--paks', 'server', '--client-paks', 'client', '--usmap', 'test.usmap', '--out', folder])
@@ -66,8 +67,9 @@ class ValidationTests(unittest.TestCase):
             patches.enter_context(patch.object(extract.usmap, 'load', return_value=None))
             patches.enter_context(patch.object(extract, 'Game', return_value=game()))
             patches.enter_context(patch.object(extract.subprocess, 'run'))
-            for name in ('skills', 'xp', 'quests', 'journal', 'items', 'recipes', 'progression', 'geography', 'clock'):
+            for name in ('skills', 'xp', 'quests', 'journal', 'items', 'recipes', 'progression', 'geography', 'clock', 'buildings', 'stations', 'creatures', 'layers'):
                 patches.enter_context(patch.object(extract, 'build_' + name, return_value={'source': {}}))
+            patches.enter_context(patch.object(extract, 'link_journal'))
             patches.enter_context(contextlib.redirect_stdout(io.StringIO()))
             extract.main(['--paks', 'server', '--no-client', '--usmap', 'test.usmap', '--out', folder])
             self.assertIsNone(json.loads((output / 'build.json').read_text())['client_build'])

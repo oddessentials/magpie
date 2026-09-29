@@ -1,0 +1,1950 @@
+{
+  "source": {
+    "app": 4019830,
+    "build": 25501739,
+    "version": "1.0.0.6",
+    "container": "RSDragonwilds-WindowsServer"
+  },
+  "creatures": [
+    {
+      "id": "QxxoQUErqpHVfQGsVJheOQ",
+      "asset": "BP_AI_1HBlackKnightMelee_Data",
+      "class": "BP_AI_1HBlackKnightMelee_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Black Knight Warrior",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "KfVOlUmt4m-jcsKSryqxDA",
+      "asset": "BP_AI_AbyssalDemon_Data",
+      "class": "BP_AI_AbyssalDemon_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Abyssal Demon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "TjIh_U13i6_uuty_g5w_bw",
+      "asset": "BP_AI_AbyssalDemon_Data_ScornedWilderness",
+      "class": "BP_AI_AbyssalDemon_Data_ScornedWilderness_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Abyssal Demon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "GP9IEkKizzt3OZ2xo1fsig",
+      "asset": "BP_AI_BlackKnight2HMelee_Data",
+      "class": "BP_AI_BlackKnight2HMelee_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Elite Black Knight",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "F1TXR0JSpPqmgn6B2cmKNA",
+      "asset": "BP_AI_BlackKnight2HMelee_Flaming_Data",
+      "class": "BP_AI_BlackKnight2HMelee_Flaming_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Black Knight Crusader",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "EYP6IUKSsD2zclW4LMic_g",
+      "asset": "BP_AI_BlackKnightMelee_Data",
+      "class": "BP_AI_BlackKnightMelee_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Black Knight Guardian",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Ns1CS02S1weyh8C0UDMP3w",
+      "asset": "BP_AI_BlackKnightMelee_Flaming_Data",
+      "class": "BP_AI_BlackKnightMelee_Flaming_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Blazing Black Knight",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "v9YoKEer6MAGotaebdXY7g",
+      "asset": "BP_AI_BlackKnightRanged_Data",
+      "class": "BP_AI_BlackKnightRanged_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Black Knight Sniper",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "wcoax00fQg0KkZ6kGBu1bQ",
+      "asset": "BP_AI_BlackKnightTitan_Data_02",
+      "class": "BP_AI_BlackKnightTitan_Data_02_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Black Knight Titan",
+      "boss": true,
+      "internalName": "ai_boss_blackknighttitan"
+    },
+    {
+      "id": "IPEXl0IJxts-XsWFhHlkSA",
+      "asset": "BP_AI_CarnivorousChinchompa_Data",
+      "class": "BP_AI_CarnivorousChinchompa_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Carnivorous Chinchompa",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "pgwQyURKCvAE9lWiuPg2Rw",
+      "asset": "BP_AI_Chicken_Data",
+      "class": "BP_AI_Chicken_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Chicken",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "qEDf9k2aaQx_YSOFP99U4w",
+      "asset": "BP_AI_Chinchompa_Data",
+      "class": "BP_AI_Chinchompa_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Chinchompa",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "aFfff00gfjvz5mGwyjKmaQ",
+      "asset": "BP_AI_ColossalFungalRat_Data",
+      "class": "BP_AI_ColossalFungalRat_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Plague King",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "ymCbCkaPYhH3xNO66F2A9A",
+      "asset": "BP_AI_ColossalFungalRat_Data_SW",
+      "class": "BP_AI_ColossalFungalRat_Data_SW_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Plague King",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "uLO--kBec3plrP2Ta9WExg",
+      "asset": "BP_AI_ColossalMeleeVaultGuardian_Data",
+      "class": "BP_AI_ColossalMeleeVaultGuardian_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Overlord",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "WCNLOEKKh4NaghSS0eHymw",
+      "asset": "BP_AI_ColossalRangedVaultGuardian_Data",
+      "class": "BP_AI_ColossalRangedVaultGuardian_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Archon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "eVURMkRT22g5TY2-EVXfFA",
+      "asset": "BP_AI_ColossalRat_Data",
+      "class": "BP_AI_ColossalRat_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Rat King",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "QeNVaU1ec9A9nR-JuZTnUA",
+      "asset": "BP_AI_ColossalRat_Data_SW",
+      "class": "BP_AI_ColossalRat_Data_SW_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Rat King",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "qV6sSksNjBia5--6-8qFGg",
+      "asset": "BP_AI_CowWithered_Data",
+      "class": "BP_AI_CowWithered_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Rotridden Cow",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "RwQyMUvxIJifmh65PYd9cA",
+      "asset": "BP_AI_CowZombie_Data",
+      "class": "BP_AI_CowZombie_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Zombie Cow",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "QijgCURrPENiQkCii0G-tw",
+      "asset": "BP_AI_Cow_Data",
+      "class": "BP_AI_Cow_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Cow",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "qo9ak0TNfnPsfLOc2IJVVQ",
+      "asset": "BP_AI_DarkKebbit_Data",
+      "class": "BP_AI_DarkKebbit_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Dark Kebbit",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "jwibIkiHk6unThuO8JZ_iQ",
+      "asset": "BP_AI_Data",
+      "class": "BP_AI_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": null,
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "AhpLbUoUgm6V94OwSk9P8w",
+      "asset": "BP_AI_Deer_Data",
+      "class": "BP_AI_Deer_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Deer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "MHR2MU6Ys1GRauipToYr-g",
+      "asset": "BP_AI_DemonMaster_Data",
+      "class": "BP_AI_DemonMaster_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Summoner Flament",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "ksUAp0rUBqiXaNOmXpCf1Q",
+      "asset": "BP_AI_DiseasedKebbit_Data",
+      "class": "BP_AI_DiseasedKebbit_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Diseased Kebbit",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "NheSB0u2sX9cQgaXsd_KwA",
+      "asset": "BP_AI_DragonFuzan_Data",
+      "class": "BP_AI_DragonFuzan_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Fuzan",
+      "boss": true,
+      "internalName": "ai_boss_fuzan"
+    },
+    {
+      "id": "HzkqRk3wMRXKHzOKPhLuHg",
+      "asset": "BP_AI_DragonFuzan_NightPatrol_Data",
+      "class": "BP_AI_DragonFuzan_NightPatrol_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Fuzan",
+      "boss": true,
+      "internalName": "ai_boss_fuzan"
+    },
+    {
+      "id": "83Jrwk-0BKb76xSD_39_ng",
+      "asset": "BP_AI_DragonHatchlingBlack_Data",
+      "class": "BP_AI_DragonHatchlingBlack_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Black Dragon Hatchling",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Jz3vbkUUKThjJ8qg_j2YpQ",
+      "asset": "BP_AI_DragonHatchlingBlue_Data",
+      "class": "BP_AI_DragonHatchlingBlue_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Blue Dragon Hatchling",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "AQTW_EPCQGdVN4ytwbVJTA",
+      "asset": "BP_AI_DragonHatchlingGreen_Data",
+      "class": "BP_AI_DragonHatchlingGreen_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Green Dragon Hatchling",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "5_KI90XIriL6obO9TVGFxQ",
+      "asset": "BP_AI_DragonHatchlingRed_Data",
+      "class": "BP_AI_DragonHatchlingRed_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Red Dragon Hatchling",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "m-XQ-02XemFtY-isjM0PGg",
+      "asset": "BP_AI_DragonImaru_Data",
+      "class": "BP_AI_DragonImaru_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Imaru",
+      "boss": true,
+      "internalName": "ai_boss_imaru"
+    },
+    {
+      "id": "YYnrHku9RxWWg6K8PstgLQ",
+      "asset": "BP_AI_DragonLesserBlack_Data",
+      "class": "BP_AI_DragonLesserBlack_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Green Dragon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "ylPHd0lJWHie4A2GD60VYw",
+      "asset": "BP_AI_DragonLesserBlack_Tier9_Data",
+      "class": "BP_AI_DragonLesserBlack_Tier9_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Green Dragon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "YZ91-U3VQ5N24NO--yazXw",
+      "asset": "BP_AI_DragonLesserBlue_Data",
+      "class": "BP_AI_DragonLesserBlue_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Blue Dragon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "KD51j0QEG83kpo6rGMm15g",
+      "asset": "BP_AI_DragonLesserGreen_Data",
+      "class": "BP_AI_DragonLesserGreen_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Green Dragon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "qev5fEZ6O1lfdMWQvK4-Ng",
+      "asset": "BP_AI_DragonLesserRed_Data",
+      "class": "BP_AI_DragonLesserRed_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Red Dragon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "JZgzr0a84M0wLz6hdOk8Zw",
+      "asset": "BP_AI_DragonLesserRed_NightPatrol_Data",
+      "class": "BP_AI_DragonLesserRed_NightPatrol_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Red Dragon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "4zdlCkASZRuKb8yUuFRHfw",
+      "asset": "BP_AI_DragonVelgar_Data",
+      "class": "BP_AI_DragonVelgar_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "General Velgar",
+      "boss": true,
+      "internalName": "ai_boss_velgar"
+    },
+    {
+      "id": "my0Ac0-4zYHqzBOIflkEIg",
+      "asset": "BP_AI_DragonWolf_Data",
+      "class": "BP_AI_DragonWolf_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Dragon Wolf",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "MM75EUS4BqJVE0-qDdE1FA",
+      "asset": "BP_AI_FemaleBlackKnightMelee_Data",
+      "class": "BP_AI_FemaleBlackKnightMelee_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Black Knight Guardian",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "duUswEIe3ZOZ6p2yIt-i4w",
+      "asset": "BP_AI_FemaleBlackKnightRanged_Data",
+      "class": "BP_AI_FemaleBlackKnightRanged_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Black Knight Sniper",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "7sEMKEehWhw1Y7CdGgMZ7A",
+      "asset": "BP_AI_FungalRat_Data",
+      "class": "BP_AI_FungalRat_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Putrid Rat",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "yE4cI0xATZTrjMOEcHiP-A",
+      "asset": "BP_AI_FungalRat_Data_SW",
+      "class": "BP_AI_FungalRat_Data_SW_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Putrid Rat",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "IMr7oE4y0k9ZtQCfyPZaGQ",
+      "asset": "BP_AI_FuzanMinion_KotHaar_Hur_Data",
+      "class": "BP_AI_FuzanMinion_KotHaar_Hur_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "KotHaar Thrall",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Cwj5ek3TtMWzeCmOE7pmQw",
+      "asset": "BP_AI_FuzanMinion_KotHaar_Ket_Data",
+      "class": "BP_AI_FuzanMinion_KotHaar_Ket_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "KotHaar Thrall",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "FK3UKUWjZER1PE6VcV3RuQ",
+      "asset": "BP_AI_FuzanMinion_KotHaar_Xil_Data",
+      "class": "BP_AI_FuzanMinion_KotHaar_Xil_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "KotHaar Thrall",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "KVo-Y0D5tHQNzECIGUwABg",
+      "asset": "BP_AI_GiantRatWithered_Data",
+      "class": "BP_AI_GiantRatWithered_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Rotridden Rat",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "szK7_0KJq3_IcQCRqRxLUw",
+      "asset": "BP_AI_GiantRatZombie_Data",
+      "class": "BP_AI_GiantRatZombie_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Zombie Rat",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "ACUxb0L_-xQy3Y6UfWuKHw",
+      "asset": "BP_AI_GiantRat_Data",
+      "class": "BP_AI_GiantRat_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Giant Rat",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "HnwkD04Pf9tD93STWNXibw",
+      "asset": "BP_AI_GiantRat_Data_SW",
+      "class": "BP_AI_GiantRat_Data_SW_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Giant Rat",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "K9zIqUAbwnCCtTadotIJeA",
+      "asset": "BP_AI_Goat_Data",
+      "class": "BP_AI_Goat_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Goat",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "XQRjH0ZjiOQWP4qKzR3rqQ",
+      "asset": "BP_AI_GyrFalcon_Data",
+      "class": "BP_AI_GyrFalcon_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Gyrfalcon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "S2vImEiMzLN_8aWCewi2Sw",
+      "asset": "BP_AI_Hellhound_Data",
+      "class": "BP_AI_Hellhound_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Hellhound",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "idPFKkMC__lPyA2CYrRc2w",
+      "asset": "BP_AI_Hellhound_Fido_Data",
+      "class": "BP_AI_Hellhound_Fido_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Fido",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "fjFZaUlrbGyek_6yxt3oJg",
+      "asset": "BP_AI_Hellhound_Gnasher_Data",
+      "class": "BP_AI_Hellhound_Gnasher_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Gnasher",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "dULY7EQjzu9zpySPyGV10Q",
+      "asset": "BP_AI_Hellhound_Lurch_Data",
+      "class": "BP_AI_Hellhound_Lurch_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Lurch",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "-H9uXUdRWnARwS63mNnhvw",
+      "asset": "BP_AI_Hellhound_Rufus_Data",
+      "class": "BP_AI_Hellhound_Rufus_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Rufus",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "78-skE8VCclqD7KKtH3UBg",
+      "asset": "BP_AI_Hellhound_Tiny_Data",
+      "class": "BP_AI_Hellhound_Tiny_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Tiny",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "ksM0UkpmnLCfzTuW8U2fCg",
+      "asset": "BP_AI_Hellrat_Boggs_Data",
+      "class": "BP_AI_Hellrat_Boggs_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Boggs",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "S5tZlElzIx7-7fyWy3B-nQ",
+      "asset": "BP_AI_Hellrat_Curly_Data",
+      "class": "BP_AI_Hellrat_Curly_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Curly",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "vjlMMk_OeYdsq6-QFfqbYw",
+      "asset": "BP_AI_Hellrat_Data",
+      "class": "BP_AI_Hellrat_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Hellrat",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "lGVE7UjIPCIrhFSP4H3VUw",
+      "asset": "BP_AI_Hellrat_Nosey_Data",
+      "class": "BP_AI_Hellrat_Nosey_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Nosey",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "2lL-V0dG5r7nCISBUB7Pbg",
+      "asset": "BP_AI_Hellrat_Patch_Data",
+      "class": "BP_AI_Hellrat_Patch_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Patch",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "EG7LWUX1wd1YtfKce4zjOQ",
+      "asset": "BP_AI_Hellrat_Pip_Data",
+      "class": "BP_AI_Hellrat_Pip_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Pip",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "LgAgpUh3wAtUE7ScWeMODg",
+      "asset": "BP_AI_Hellrat_Reek_Data",
+      "class": "BP_AI_Hellrat_Reek_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Reek",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "d2R-C0TpN-sUufy9oOYRyg",
+      "asset": "BP_AI_Hookworm_Data",
+      "class": "BP_AI_Hookworm_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Heartworm",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "PJE_PExIgxpqTBqdUDzM2Q",
+      "asset": "BP_AI_Hookworm_MeleeOnly_Data_Child",
+      "class": "BP_AI_Hookworm_MeleeOnly_Data_Child_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Heartworm",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "yhF9iUtjtEr4eaOvv6s2Sg",
+      "asset": "BP_AI_Houndmaster_Data",
+      "class": "BP_AI_Houndmaster_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Houndmaster Rexiton",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "roJuQ0IRMWFuw1elMVYB5A",
+      "asset": "BP_AI_KalphiteFriend_Data",
+      "class": "BP_AI_KalphiteFriend_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Buddy",
+      "boss": false,
+      "internalName": "kalphite_friend"
+    },
+    {
+      "id": "c-0yk0TpjFJbeHCOn0Re1Q",
+      "asset": "BP_AI_KalphiteGuardian_Data",
+      "class": "BP_AI_KalphiteGuardian_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Kalphite Guardian",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "KVtxk0eKweIctEudLd1OAA",
+      "asset": "BP_AI_KalphiteQueenFlyer_Data",
+      "class": "BP_AI_KalphiteQueenFlyer_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Kalphite Queen",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "VRzunUtKpr51MnWkBehwNQ",
+      "asset": "BP_AI_KalphiteQueenGrounded_Data",
+      "class": "BP_AI_KalphiteQueenGrounded_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Kalphite Queen",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "mC6pMEZfzwI8qq-0uh2fcg",
+      "asset": "BP_AI_KalphiteQueenMinion_Guardian_Data",
+      "class": "BP_AI_KalphiteQueenMinion_Guardian_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Kalphite Guardian Hatchling",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Ow1O-U6xA53MfNOLbgFaiQ",
+      "asset": "BP_AI_KalphiteQueenMinion_Soldier_Data",
+      "class": "BP_AI_KalphiteQueenMinion_Soldier_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Kalphite Soldier Hatchling",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Xccqe0RPtSHHHLSV8iBkZA",
+      "asset": "BP_AI_KalphiteQueenMinion_Worker_Data",
+      "class": "BP_AI_KalphiteQueenMinion_Worker_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Kalphite Worker Hatchling",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "RhtMFEQX9486rxeB4nAH7A",
+      "asset": "BP_AI_KalphiteSoldier_Data",
+      "class": "BP_AI_KalphiteSoldier_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Kalphite Soldier",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "v_pYa0QocxmvqkS05g-P9g",
+      "asset": "BP_AI_KalphiteWorker_Data",
+      "class": "BP_AI_KalphiteWorker_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Kalphite Worker",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "OwNEpEDTUEsdnJ2PIMaT9g",
+      "asset": "BP_AI_Kebbit_Data",
+      "class": "BP_AI_Kebbit_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Kebbit",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "5G8Dm0b8RHOOb8-vdUbXEQ",
+      "asset": "BP_AI_Kebbit_DesertDevil_Data",
+      "class": "BP_AI_Kebbit_DesertDevil_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Desert Devil Kebbit",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "fAKVwUL1df5hs4eRU4y-zg",
+      "asset": "BP_AI_KotHaar_Hur_Data",
+      "class": "BP_AI_KotHaar_Hur_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "KotHaar-Hur",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "vMyKv0FAahGTA0G96_A0Bg",
+      "asset": "BP_AI_KotHaar_Ket_Data",
+      "class": "BP_AI_KotHaar_Ket_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "KotHaar-Ket",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "blWmC05i2wbgVweCwuWgkA",
+      "asset": "BP_AI_KotHaar_Mej_Data",
+      "class": "BP_AI_KotHaar_Mej_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "KotHaar-Mej",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "keHXCkKGt-XglQKRCsCRsQ",
+      "asset": "BP_AI_KotHaar_Xil_Data",
+      "class": "BP_AI_KotHaar_Xil_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "KotHaar-Kal",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "D6eamUFk5lsgCAKv1o5t9Q",
+      "asset": "BP_AI_KotHaar_Xil_Ranged_Data",
+      "class": "BP_AI_KotHaar_Xil_Ranged_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "KotHaar-Xil",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "HhdT2U4Z3pnsUEqKWGXd0A",
+      "asset": "BP_AI_LesserDemon_Data",
+      "class": "BP_AI_LesserDemon_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Lesser Demon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "M4a4CEcv-2DKgIuN3H2qcQ",
+      "asset": "BP_AI_LesserDemon_Delrom_Data",
+      "class": "BP_AI_LesserDemon_Delrom_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Delrom",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "1Soitkch73QL2zenWZuLEA",
+      "asset": "BP_AI_LesserDemon_Shardbound_Data",
+      "class": "BP_AI_LesserDemon_Shardbound_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Shardbound Lesser Demon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "4OzZT0nHjPlhmlq-pq3vyA",
+      "asset": "BP_AI_LesserDemon_Shock_Data",
+      "class": "BP_AI_LesserDemon_Shock_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Stormpact Demon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "euu0DkCaapXLaH62d0Ls9Q",
+      "asset": "BP_AI_MageOfZamorak_Data",
+      "class": "BP_AI_MageOfZamorak_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Mage of Zamorak",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "-4emkEXN2Y_qDiuv5ZEjZg",
+      "asset": "BP_AI_MageOfZamorak_RatMaster_Data",
+      "class": "BP_AI_MageOfZamorak_RatMaster_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Rat Master Skrexis",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "lQOgAU7Zmdll0Cya6A5L5w",
+      "asset": "BP_AI_MagicBeast_BirdKing_Data",
+      "class": "BP_AI_MagicBeast_BirdKing_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Wildcaller Druid",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "_wQo7EG_760BZBK6qYOrOw",
+      "asset": "BP_AI_MagicBeast_Data",
+      "class": "BP_AI_MagicBeast_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Garou Druid",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "_c6b4kuF6kWga7eKu8sahg",
+      "asset": "BP_AI_MagicalRaven_Data",
+      "class": "BP_AI_MagicalRaven_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Cursed Raven",
+      "boss": false,
+      "internalName": "raven_magical"
+    },
+    {
+      "id": "2NIVK0zLwdpk6SKr5c4BRQ",
+      "asset": "BP_AI_Magpie_Data",
+      "class": "BP_AI_Magpie_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Magpie",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "9DyICke7I59f7h-vWuVAug",
+      "asset": "BP_AI_MediumBeast_Data",
+      "class": "BP_AI_MediumBeast_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Garou Berserker",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "pdIvu0AzwbldMsmICTXhVg",
+      "asset": "BP_AI_MediumBeast_Runt_Data",
+      "class": "BP_AI_MediumBeast_Runt_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Garou Exile",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "UX3Ju0lrd-CAys2sX2ovNg",
+      "asset": "BP_AI_MediumBeast_SW_Data",
+      "class": "BP_AI_MediumBeast_SW_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Garou Berserker",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "SMOsv04Q-EEFU2GSdrF64A",
+      "asset": "BP_AI_MediumBeast_Spinning_Data",
+      "class": "BP_AI_MediumBeast_Spinning_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Garou Lightning Berserker",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "kRQzIUYSgymLKQuKVEmOMg",
+      "asset": "BP_AI_MeleeGoblin_Data",
+      "class": "BP_AI_MeleeGoblin_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Warrior",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "iHcA7E9VVUE3mhihVana2Q",
+      "asset": "BP_AI_MeleeGoblin_Data_RuntBoss",
+      "class": "BP_AI_MeleeGoblin_Data_RuntBoss_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Thug",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "0xEqv0_ZF0di-Jaun6554w",
+      "asset": "BP_AI_MeleeGoblin_Data_SW",
+      "class": "BP_AI_MeleeGoblin_Data_SW_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Warrior",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "lSNvlUpMUo7TQvKQxj-zQQ",
+      "asset": "BP_AI_MeleeVaultGuardianStatue_Data",
+      "class": "BP_AI_MeleeVaultGuardianStatue_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Guardian Hulk",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Tl9cGk1bAyBLHfO9HsaTZQ",
+      "asset": "BP_AI_MeleeVaultGuardian_Data",
+      "class": "BP_AI_MeleeVaultGuardian_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Guardian Hulk",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "XhVRS0d_2WE_DZ-Bw-53vw",
+      "asset": "BP_AI_NC_AbyssalDemon_Data",
+      "class": "BP_AI_NC_AbyssalDemon_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Abyssal Demon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "zvz8MkLag7zicb26MNoa3A",
+      "asset": "BP_AI_NC_BlackKnightTitan_Data",
+      "class": "BP_AI_NC_BlackKnightTitan_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Black Knight Titan",
+      "boss": true,
+      "internalName": "ai_boss_blackknighttitan"
+    },
+    {
+      "id": "FvvVbE6gTfU6DYa2mFw2kA",
+      "asset": "BP_AI_NC_ColossalMeleeVaultGuardian_Data",
+      "class": "BP_AI_NC_ColossalMeleeVaultGuardian_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Vault Overlord",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "gaAH2klx4meCApWRenBB6A",
+      "asset": "BP_AI_NC_ColossalRangedVaultGuardian_Data",
+      "class": "BP_AI_NC_ColossalRangedVaultGuardian_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Vault Archon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "2u8OQk5wStq4nnma5bpKXQ",
+      "asset": "BP_AI_NC_DragonLesserBlue_Data",
+      "class": "BP_AI_NC_DragonLesserBlue_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Blue Dragon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "MXhkJk8Gt50p-bypf52MoA",
+      "asset": "BP_AI_NC_DragonLesserGreen_Data",
+      "class": "BP_AI_NC_DragonLesserGreen_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Green Dragon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "MTJKl0oNRrQJquOtHJKkQA",
+      "asset": "BP_AI_NC_DragonLesserRed_Data",
+      "class": "BP_AI_NC_DragonLesserRed_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Red Dragon",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "oXCAPU-i-4L28V2FLBCGpQ",
+      "asset": "BP_AI_NC_MagicBeast_Data",
+      "class": "BP_AI_NC_MagicBeast_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Garou Druid",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "bQ_dnE9m0Cp5S6CK_-bxRA",
+      "asset": "BP_AI_NC_MediumBeast_Data",
+      "class": "BP_AI_NC_MediumBeast_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Garou Berserker",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "pxGmi0KWPBTdcHG-TW66Ow",
+      "asset": "BP_AI_NC_RangedBeast_Data",
+      "class": "BP_AI_NC_RangedBeast_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Garou Hunter",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "8EzmcUmTerYbEC-Yiwlynw",
+      "asset": "BP_AI_NC_ThaneBeast_Data",
+      "class": "BP_AI_NC_ThaneBeast_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Garou Thane",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "8Bu6fEzjDhFiPWqxfqUbOg",
+      "asset": "BP_AI_NC_Zogre_DR_Data",
+      "class": "BP_AI_NC_Zogre_DR_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Zogre",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "lIF6MUVaTaCsC8WQ3zjsjQ",
+      "asset": "BP_AI_Quest_TokXil_Data_ZI",
+      "class": "BP_AI_Quest_TokXil_Data_ZI_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Reforged Zi",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Q90ZeEeW2h2f_5-UftBWnA",
+      "asset": "BP_AI_Ram_Data",
+      "class": "BP_AI_Ram_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Ram",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "WpfgxUvQhGrvgoGXrPZnkw",
+      "asset": "BP_AI_RangedBeast_Data",
+      "class": "BP_AI_RangedBeast_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Garou Hunter",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "wGmT4EL5Y5S-fAOiMpHcBA",
+      "asset": "BP_AI_RangedBeast_SW_Data",
+      "class": "BP_AI_RangedBeast_SW_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Garou Hunter",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "fMiRUkosQBYSz0WkD79Clw",
+      "asset": "BP_AI_RangedGoblin_Data",
+      "class": "BP_AI_RangedGoblin_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Archer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "7JQ1uEuowUivxDaYuE8Hgg",
+      "asset": "BP_AI_RangedGoblin_Data_SW",
+      "class": "BP_AI_RangedGoblin_Data_SW_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Archer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "7e9SLUk4zo6hioCKbZIuUQ",
+      "asset": "BP_AI_RangedGoblin_Poison_Data",
+      "class": "BP_AI_RangedGoblin_Poison_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Poisonshot Archer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "_kRksEyYDTM5lSi87-b2pQ",
+      "asset": "BP_AI_RangedVaultGuardianStatue_Data",
+      "class": "BP_AI_RangedVaultGuardianStatue_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Guardian Sentinel",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "oiCkXkCrqYDV45ajoVGPzw",
+      "asset": "BP_AI_RangedVaultGuardian_Data",
+      "class": "BP_AI_RangedVaultGuardian_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Guardian Sentinel",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "XOgkaU4tu_SfO0-TvEfalA",
+      "asset": "BP_AI_Raven_Data",
+      "class": "BP_AI_Raven_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Raven",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "O7NG6k4jP-95x_CRTmwslw",
+      "asset": "BP_AI_Raven_Data",
+      "class": "BP_AI_Raven_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Raven",
+      "boss": false,
+      "internalName": "raven"
+    },
+    {
+      "id": "VYr0PUQM2xR0I3KLEYVI9Q",
+      "asset": "BP_AI_Revenant_MeleeBlackKnight_Data",
+      "class": "BP_AI_Revenant_MeleeBlackKnight_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Revenant Knight",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "1Cc9IUcbLrO3i7aMrFio5A",
+      "asset": "BP_AI_RotswornMarauderImaru_Data",
+      "class": "BP_AI_RotswornMarauderImaru_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Rotsworn Thrall",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "LpoD20eb-VTmried7FzjhQ",
+      "asset": "BP_AI_RotswornMarauder_Data",
+      "class": "BP_AI_RotswornMarauder_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Rotsworn Marauder",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "hAZDwEsHp3q0uv277URscg",
+      "asset": "BP_AI_RotswornNecromancerImaru_Data",
+      "class": "BP_AI_RotswornNecromancerImaru_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Rotsworn Thrall",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "PkAHFkgIl6yPAYSkKS3jBw",
+      "asset": "BP_AI_RotswornNecromancer_Data",
+      "class": "BP_AI_RotswornNecromancer_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Rotsworn Necromancer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "P_XjkkBL5sszl4uEXNdqmg",
+      "asset": "BP_AI_RotswornWarriorImaru_Data",
+      "class": "BP_AI_RotswornWarriorImaru_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Rotsworn Thrall",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "JF2gd0n1ifHe8DCSl6_WEQ",
+      "asset": "BP_AI_RotswornWarrior_Data",
+      "class": "BP_AI_RotswornWarrior_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Rotsworn Warrior",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "hcbD4kE3NQnktRiAQjrVZA",
+      "asset": "BP_AI_RotswornZombie_Data",
+      "class": "BP_AI_RotswornZombie_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Rotsworn Zombie",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "SPyR40SygWYPg2aB-3q-Kg",
+      "asset": "BP_AI_RotswornZombie_SelfReviving_Data",
+      "class": "BP_AI_RotswornZombie_SelfReviving_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Rotsworn Reanimator",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "rALoukz-lpWxCbucA_py_w",
+      "asset": "BP_AI_RuntGoblin_Data",
+      "class": "BP_AI_RuntGoblin_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Runt",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "4h0mCUvkIrW15lqe1lXnXg",
+      "asset": "BP_AI_SentryGoblin_Data",
+      "class": "BP_AI_SentryGoblin_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Archer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "OAxHJkISHKbZppaljsFV0A",
+      "asset": "BP_AI_SgtBlister_Data",
+      "class": "BP_AI_SgtBlister_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Sergeant Blister",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "-K0XNUWdGuFyACWqkSFmpg",
+      "asset": "BP_AI_Sheep_Data",
+      "class": "BP_AI_Sheep_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Sheep",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Hy15Y0G-qp_kOS6ZSsuo2w",
+      "asset": "BP_AI_ShieldGoblin_Data",
+      "class": "BP_AI_ShieldGoblin_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Bruiser",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "8invmESlMYnUPvCUIKvXUQ",
+      "asset": "BP_AI_ShieldGoblin_Data_SW",
+      "class": "BP_AI_ShieldGoblin_Data_SW_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Goblin Bruiser",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "tQ4Pzkr2VOMBksq4waJ8Rw",
+      "asset": "BP_AI_SkeletalArcher_Data",
+      "class": "BP_AI_SkeletalArcher_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Archer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "L9kM6EAidaoiJw-cx1afWA",
+      "asset": "BP_AI_SkeletalArcher_Data_SW",
+      "class": "BP_AI_SkeletalArcher_Data_SW_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Archer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "_CxHM0QMCTa4b5qZzwFVqw",
+      "asset": "BP_AI_SkeletalArcher_Poison_Data",
+      "class": "BP_AI_SkeletalArcher_Poison_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Blightshot",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "_P-S7kaIcHA38NinCZ6nMw",
+      "asset": "BP_AI_SkeletalHoplite_Data",
+      "class": "BP_AI_SkeletalHoplite_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Hoplite",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "XfRtaUUlnqGMas6srUztkg",
+      "asset": "BP_AI_SkeletalMarauder_Data",
+      "class": "BP_AI_SkeletalMarauder_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Marauder",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "15viyEDszcrP9zmkBQVgIg",
+      "asset": "BP_AI_SkeletalNecromancer_Data",
+      "class": "BP_AI_SkeletalNecromancer_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Necromancer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "0eulzUUaU_NTnCmTUDO9Gw",
+      "asset": "BP_AI_SkeletalNecromancer_Data_SW",
+      "class": "BP_AI_SkeletalNecromancer_Data_SW_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Necromancer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "_XR8VE05QHGV_VmF8tNN7A",
+      "asset": "BP_AI_SkeletalNecromancer_Razlem_Data",
+      "class": "BP_AI_SkeletalNecromancer_Razlem_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Razlem the Necromancer",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Yh6hsU9tl2IeTuKSo1oV-A",
+      "asset": "BP_AI_SkeletalWarriorGhost_Data",
+      "class": "BP_AI_SkeletalWarriorGhost_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Warrior",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "9_BGwkBsnHDuVTm4-CxuGg",
+      "asset": "BP_AI_SkeletalWarrior_Data",
+      "class": "BP_AI_SkeletalWarrior_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Warrior",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "iTlv-ELZFN6JxVeR4UCAeA",
+      "asset": "BP_AI_SkeletalWarrior_Data_SW",
+      "class": "BP_AI_SkeletalWarrior_Data_SW_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeletal Warrior",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "1JNbIk8-JZE_yr-b8uW53A",
+      "asset": "BP_AI_SkeletonMagicFire_Data",
+      "class": "BP_AI_SkeletonMagicFire_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeleton Fire Mage",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "i9LN80QJS7-mOWSpqnzQUg",
+      "asset": "BP_AI_SkeletonMagicShock_Data",
+      "class": "BP_AI_SkeletonMagicShock_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Skeleton Shock Mage",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "IerPrEoP2GjKAdy1OrPZSg",
+      "asset": "BP_AI_SkeletonMeleeFire_Data",
+      "class": "BP_AI_SkeletonMeleeFire_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Fire Skeleton Warrior",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "iWcCZU5x8pP_KIaVA_6L2A",
+      "asset": "BP_AI_SkeletonMeleeShock_Data",
+      "class": "BP_AI_SkeletonMeleeShock_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Shock Skeleton Warrior",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "jKepHkfpRJhBfyq_Q0rwuQ",
+      "asset": "BP_AI_SpectralChinchompa_Data",
+      "class": "BP_AI_SpectralChinchompa_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Spectral Chinchompa",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Bq5VfUjfPLiuOq-b9KY1-w",
+      "asset": "BP_AI_SpectralDragonWolf_Data",
+      "class": "BP_AI_SpectralDragonWolf_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Ghost Wolf",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "0TefdE64r5mE_8-wKJqvjg",
+      "asset": "BP_AI_SpectralGyrFalcon_Data",
+      "class": "BP_AI_SpectralGyrFalcon_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Spectral Bird",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "aa9BnkkkpHipUlWCqF3DiA",
+      "asset": "BP_AI_SpectralSkeletalHoplite_Data",
+      "class": "BP_AI_SpectralSkeletalHoplite_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Soulstone Sentinel",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "5EQTnE-z1tfnf1aMKp4_zQ",
+      "asset": "BP_AI_SpectralZombieImaru_Data",
+      "class": "BP_AI_SpectralZombieImaru_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Lost Soul",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "E8g7t06EkiShkkmnREyV0Q",
+      "asset": "BP_AI_SpectralZombie_Data",
+      "class": "BP_AI_SpectralZombie_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Lost Soul",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "NEPIQ07hQXWytLK7AHZH-w",
+      "asset": "BP_AI_TerrorBird_BirdKing_Data",
+      "class": "BP_AI_TerrorBird_BirdKing_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Aggressive Terrorbird",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "qZMa0Ugvrd3l-DCHtDzqZA",
+      "asset": "BP_AI_TerrorBird_Data",
+      "class": "BP_AI_TerrorBird_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Terrorbird",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "ggplyUP73XqSsMO3XhjXxw",
+      "asset": "BP_AI_ThaneBeast_Data",
+      "class": "BP_AI_ThaneBeast_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Garou Thane",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "bsBrREWuAOHineGptp22tQ",
+      "asset": "BP_AI_ThaneBeast_MiniBoss_Data",
+      "class": "BP_AI_ThaneBeast_MiniBoss_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Garou King",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "4oEsHUX6-BfPB-uRZ7iJRw",
+      "asset": "BP_AI_ThaneBeast_SW_Data",
+      "class": "BP_AI_ThaneBeast_SW_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Garou Thane",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "ZSSJtk5MjW-6Sb2Xav-1Yg",
+      "asset": "BP_AI_TokXil_Data",
+      "class": "BP_AI_TokXil_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Tok-Xil",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "nwFOPkwNAM4KWJylvComKQ",
+      "asset": "BP_AI_TrainingDummy_Data",
+      "class": "BP_AI_TrainingDummy_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Training Dummy",
+      "boss": false,
+      "internalName": "ai_trainingdummy_data"
+    },
+    {
+      "id": "OOOVeUmuiweX4Vqz57vQIw",
+      "asset": "BP_AI_UmS_MQ_DragonLesserRed_Data",
+      "class": "BP_AI_UmS_MQ_DragonLesserRed_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "The Radiant",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Ni1sMUaMcc32ysCo22fYDQ",
+      "asset": "BP_AI_VaultMinibossMeleeFire_Data",
+      "class": "BP_AI_VaultMinibossMeleeFire_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Corruptor",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "vPjoVkwdfCckeWazor1vKQ",
+      "asset": "BP_AI_VaultMinibossMeleePoison_Data",
+      "class": "BP_AI_VaultMinibossMeleePoison_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Corruptor",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "SheDRUly33vpCfiGaZd4ZA",
+      "asset": "BP_AI_VaultMinibossMelee_Data",
+      "class": "BP_AI_VaultMinibossMelee_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Overlord",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "bX1ItURDV_ckP-eIvdspGg",
+      "asset": "BP_AI_VaultMinibossRangedFire_Data",
+      "class": "BP_AI_VaultMinibossRangedFire_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Pyroclast",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "YbApBUUPPUIk6fO8RMNC6Q",
+      "asset": "BP_AI_VaultMinibossRangedShock_Data",
+      "class": "BP_AI_VaultMinibossRangedShock_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Striker",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "zDN1MUmWTt-HLFC5hVGc5w",
+      "asset": "BP_AI_VaultMinibossRanged_Data",
+      "class": "BP_AI_VaultMinibossRanged_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Vault Overlord",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "RjQC0kTtBz8cSSa6lvfAMg",
+      "asset": "BP_AI_Vulture_Data",
+      "class": "BP_AI_Vulture_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Vulture",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "zLyUwkuBPMN4ew6UcfFTHg",
+      "asset": "BP_AI_WildJadeVineFire_Data",
+      "class": "BP_AI_WildJadeVineFire_Data_C",
+      "feature": "UmbralSands",
+      "deleted": false,
+      "name": "Wild Ruby Vine",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "dJOx-Ua3iiEbsQm7ss-Qtg",
+      "asset": "BP_AI_WildJadeVineShock_Data",
+      "class": "BP_AI_WildJadeVineShock_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Wild Lapulis Vine",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "rUWCREW-2Elj3BeoigUBHg",
+      "asset": "BP_AI_WildJadeVine_Data",
+      "class": "BP_AI_WildJadeVine_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Wild Jade Vine",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "0Uf2pEyobZQAEOykWoC_pQ",
+      "asset": "BP_AI_WolfElite_Data",
+      "class": "BP_AI_WolfElite_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Dire Wolf",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "YZqOKELGAqpY-XeBdCJqMA",
+      "asset": "BP_AI_Wolf_Data",
+      "class": "BP_AI_Wolf_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Wolf",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "F4WtQUm6p3E16iqJ5PkeaA",
+      "asset": "BP_AI_ZamorakianAcolyte_Data",
+      "class": "BP_AI_ZamorakianAcolyte_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Zamorakian Acolyte",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "wSdst0I-7bhaG1Kh6aZ1mw",
+      "asset": "BP_AI_Zogre_DR_Data",
+      "class": "BP_AI_Zogre_DR_Data_C",
+      "feature": "DowdunReach",
+      "deleted": false,
+      "name": "Zogre",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "vzE2P001IANF4uK_o_MxGw",
+      "asset": "BP_AI_Zogre_Data",
+      "class": "BP_AI_Zogre_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Zogre",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "2KmxkUy5wvf5VleL0k0V3w",
+      "asset": "BP_AI_ZombieFast_Data",
+      "class": "BP_AI_ZombieFast_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Zombie",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "-E-08UIlPZaSOUyN1pEe0w",
+      "asset": "BP_AI_ZombieSlow_Data",
+      "class": "BP_AI_ZombieSlow_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Zombie",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "rrJ-7kRwy8GbV2q9Jnm-Fg",
+      "asset": "BP_AI_Zombie_Data",
+      "class": "BP_AI_Zombie_Data_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Zombie",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "Otp_PEJ1vDQJ9o2ylgmCJw",
+      "asset": "BP_AI_Zombie_Data_SW",
+      "class": "BP_AI_Zombie_Data_SW_C",
+      "feature": "FutureMajorVersion",
+      "deleted": false,
+      "name": "Zombie",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "kYeyKEOKJowZk2qrgnwnIg",
+      "asset": "BP_DragonKuldra_Data_New",
+      "class": "BP_DragonKuldra_Data_New_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Kuldra",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "aTz6cEBUVketzKaHxf_rRg",
+      "asset": "BP_DragonKuldra_Heart_Data",
+      "class": "BP_DragonKuldra_Heart_Data_C",
+      "feature": "ScornedWilderness",
+      "deleted": false,
+      "name": "Kuldra's Heart",
+      "boss": false,
+      "internalName": null
+    },
+    {
+      "id": "ts2yW0aMK1IbpF-nnY4xxQ",
+      "asset": "DA_AI_TerrorBird_Witherbeast_Data",
+      "class": "DA_AI_TerrorBird_Witherbeast_Data_C",
+      "feature": null,
+      "deleted": false,
+      "name": "Nature Spirit",
+      "boss": false,
+      "internalName": null
+    }
+  ]
+}
