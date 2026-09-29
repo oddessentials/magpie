@@ -1,7 +1,7 @@
 {
   "name": "Magpie Test Server",
   "world_name": "magpie-test",
-  "version": "1.0.0.5",
+  "version": "1.0.0.6",
   "max_players": 6,
   "save": {
     "progress": {
@@ -14,13 +14,14 @@
       "types": [{ "id": "sample-timber-wall", "count": 38 }],
       "unfinished": 2
     },
+    "discoveries": [{ "id": "C29B965F4A6FE5855746CDB2FB61F658", "characters": 2 }],
     "saved_at": "2026-09-28T20:29:00.000Z",
-    "day": 299,
-    "time_of_day": 23.5,
+    "day": 599,
+    "time_of_day": 23,
     "weather": [
-      { "region": "base", "type": "Storm", "day_count": 299, "remaining_s": 803 },
-      { "region": "dowdun", "type": "Sunny", "day_count": 299, "remaining_s": 834 },
-      { "region": "sands", "type": "Cloudy", "day_count": 299, "remaining_s": 865 }
+      { "region": "base", "type": "Storm", "day_count": 599, "remaining_s": 1103 },
+      { "region": "dowdun", "type": "Sunny", "day_count": 599, "remaining_s": 1134 },
+      { "region": "sands", "type": "Cloudy", "day_count": 599, "remaining_s": 1165 }
     ],
     "events": [],
     "hardcore": false,

@@ -419,12 +419,12 @@
       "quiet": true,
       "player": null,
       "data": {
-        "day": 299,
+        "day": 599,
         "events": [],
         "weather": [
-          { "type": "Storm", "region": "base", "day_count": 299, "remaining_s": 803 },
-          { "type": "Sunny", "region": "dowdun", "day_count": 299, "remaining_s": 834 },
-          { "type": "Cloudy", "region": "sands", "day_count": 299, "remaining_s": 865 }
+          { "type": "Storm", "region": "base", "day_count": 599, "remaining_s": 1103 },
+          { "type": "Sunny", "region": "dowdun", "day_count": 599, "remaining_s": 1134 },
+          { "type": "Cloudy", "region": "sands", "day_count": 599, "remaining_s": 1165 }
         ],
         "hardcore": false,
         "progress": {
@@ -442,9 +442,11 @@
         "size_bytes": 732000,
         "world_guid": "5BB85C85B8CF9C1EDB1D9E06A97C32A0",
         "world_name": "magpie-test",
-        "time_of_day": 23.5,
+        "discoveries": [{ "id": "C29B965F4A6FE5855746CDB2FB61F658", "characters": 2 }],
+        "time_of_day": 23,
+        "clock_seconds": 863940,
         "friendly_fire": false,
-        "last_saved_by": "++dominion+hotfix:244954"
+        "last_saved_by": "++dominion+hotfix:245400"
       }
     },
     {

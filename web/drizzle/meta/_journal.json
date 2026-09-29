@@ -15,6 +15,13 @@
       "when": 1790651535193,
       "tag": "0001_complete_zombie",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790686944791,
+      "tag": "0002_clear_nick_fury",
+      "breakpoints": true
     }
   ]
 }

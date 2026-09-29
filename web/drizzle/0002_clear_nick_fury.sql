@@ -1,0 +1,1 @@
+ALTER TABLE "world_saves" ADD COLUMN "discoveries" jsonb;

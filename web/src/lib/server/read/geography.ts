@@ -18,6 +18,10 @@ export function regionNameOf(id: number): string | null {
   return geography.regions.find((region) => region.id === id)?.name ?? null;
 }
 
+export function poiNameOf(id: string): string | null {
+  return geography.lodestones.find((stone) => fold(stone.id) === fold(id))?.name ?? null;
+}
+
 export const mapGuide = {
   version: geography.source.version,
   build: geography.source.build,

@@ -34,6 +34,11 @@ type Result struct {
 }
 
 type output struct {
+	ClockSeconds *float64 `json:"clock_seconds"`
+	Discoveries  []struct {
+		CharacterGUID string   `json:"character_guid"`
+		POIs          []string `json:"pois"`
+	} `json:"discoveries"`
 	Progress  *event.SavedWorldProgress `json:"progress"`
 	Buildings []struct {
 		DataID     string `json:"data_id"`
@@ -179,10 +184,14 @@ func Decode(raw []byte, size int64) (*Result, error) {
 	if out.World.GUID == "" {
 		return nil, errors.New("the save reader did not report the world guid")
 	}
+	if out.ClockSeconds != nil && *out.ClockSeconds < 0 {
+		return nil, errors.New("the save reader reported a negative clock")
+	}
 	savedAt := out.SavedAt.UTC()
 	guid := strings.ToUpper(out.World.GUID)
 	result := &Result{SavedAt: savedAt}
 	result.World = event.SaveWorldData{
+		ClockSeconds: out.ClockSeconds,
 		SavedAt:      savedAt,
 		WorldGUID:    guid,
 		WorldName:    event.String(out.World.Name),
@@ -196,6 +205,28 @@ func Decode(raw []byte, size int64) (*Result, error) {
 	}
 	result.World.HardcoreState = out.World.HardcoreState
 	result.World.Progress = out.Progress
+	if out.Discoveries != nil {
+		counts := map[string]map[string]bool{}
+		result.World.Discoveries = []event.SavedDiscovery{}
+		for _, entry := range out.Discoveries {
+			if entry.CharacterGUID == "" {
+				return nil, errors.New("discovery has no saved character")
+			}
+			for _, id := range entry.POIs {
+				if id == "" {
+					return nil, errors.New("discovery has no POI identifier")
+				}
+				if counts[id] == nil {
+					counts[id] = map[string]bool{}
+				}
+				counts[id][entry.CharacterGUID] = true
+			}
+		}
+		for id, characters := range counts {
+			result.World.Discoveries = append(result.World.Discoveries, event.SavedDiscovery{ID: id, Characters: len(characters)})
+		}
+		sort.Slice(result.World.Discoveries, func(i, j int) bool { return result.World.Discoveries[i].ID < result.World.Discoveries[j].ID })
+	}
 	if out.Buildings != nil {
 		buildings := &event.SavedBuildings{Total: len(out.Buildings), Types: []event.SavedBuildingCount{}}
 		counts := map[string]int{}

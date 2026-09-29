@@ -122,6 +122,27 @@
             )} unfinished
           </p>
         {/if}
+        {#if save.discoveries}
+          <h3 class="rail mt-5 text-[0.9rem]">Discovered places</h3>
+          <p class="mt-2 text-sm">
+            {formatNumber(save.discoveries.length)}
+            {save.discoveries.length === 1 ? 'place' : 'places'} recorded in the save
+          </p>
+          {#if data.discoveries.length}
+            <details class="mt-2 text-sm">
+              <summary class="cursor-pointer py-2 text-accent">Saved discoveries</summary>
+              <ul class="mt-2 flex flex-col gap-2">
+                {#each data.discoveries as place (place.id)}
+                  <li class="break-words">
+                    {place.name} · {formatNumber(place.characters)} saved {place.characters === 1
+                      ? 'character'
+                      : 'characters'}
+                  </li>
+                {/each}
+              </ul>
+            </details>
+          {/if}
+        {/if}
         {#if save.progress}
           <h3 class="rail mt-5 text-[0.9rem]">World progress</h3>
           <p class="mt-2 text-sm">

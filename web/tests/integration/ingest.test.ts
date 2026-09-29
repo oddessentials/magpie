@@ -194,6 +194,8 @@ describe('POST /api/ingest', () => {
       unfinished: 2,
       types: [{ id: 'sample-timber-wall', count: 38 }]
     });
+    expect(world.save?.discoveries).toHaveLength(1);
+    expect(world.save?.discoveries?.[0]?.characters).toBe(2);
     expect(world.totals.players).toBe(seen.size);
     expect(world.max_players).toBe(6);
   });
@@ -347,6 +349,57 @@ describe('remote observation ingest', () => {
   });
 });
 
+describe('saved clock and discoveries', () => {
+  it('projects raw clock seconds and discoveries through signed ingest, retaining unknown values', async () => {
+    const at = new Date(Date.now() + 60_000);
+    const data = {
+      saved_at: at.toISOString(),
+      world_guid: history.server.world_guid,
+      clock_seconds: 1800,
+      discoveries: [{ id: 'unknown-place', characters: 2 }]
+    };
+    expect((await send(envelope(history, 'save.world', data, at, 902_000))).invalid).toBe(0);
+    const world = await getWorld(getDb());
+    expect(world.save).toMatchObject({ day: 1, time_of_day: 6, discoveries: data.discoveries });
+    expect((await computeStatus(getDb())).save.day).toBe(1);
+    const [stored] = await getDb()
+      .select({ data: events.data })
+      .from(events)
+      .where(eq(events.seq, 902_000));
+    expect(stored?.data).toMatchObject({ day: 1, time_of_day: 6, clock_seconds: 1800 });
+    const midnight = new Date(at.getTime() + 1000);
+    await send(
+      envelope(
+        history,
+        'save.world',
+        { ...data, saved_at: midnight.toISOString(), clock_seconds: 0, discoveries: [] },
+        midnight,
+        902_001
+      )
+    );
+    expect((await getWorld(getDb())).save).toMatchObject({
+      day: 0,
+      time_of_day: 0,
+      discoveries: []
+    });
+    const unknown = new Date(at.getTime() + 2000);
+    await send(
+      envelope(
+        history,
+        'save.world',
+        { saved_at: unknown.toISOString(), world_guid: data.world_guid },
+        unknown,
+        902_002
+      )
+    );
+    expect((await getWorld(getDb())).save).toMatchObject({
+      day: null,
+      time_of_day: null,
+      discoveries: null
+    });
+  });
+});
+
 describe('rebuilding from the event log', () => {
   it('reproduces sessions, deaths, discoveries, chat and player totals', async () => {
     const db = getDb();
@@ -382,7 +435,15 @@ describe('rebuilding from the event log', () => {
       deaths: (await db.select({ n: sql<number>`count(*)::int` }).from(deaths))[0]!.n,
       journal: (await db.select({ n: sql<number>`count(*)::int` }).from(journalEntries))[0]!.n,
       chat: (await db.select({ n: sql<number>`count(*)::int` }).from(chatMessages))[0]!.n,
-      saves: (await db.select({ n: sql<number>`count(*)::int` }).from(characterSaves))[0]!.n
+      saves: (await db.select({ n: sql<number>`count(*)::int` }).from(characterSaves))[0]!.n,
+      worldSaves: await db
+        .select({
+          day: worldSaves.day,
+          hour: worldSaves.timeOfDay,
+          discoveries: worldSaves.discoveries
+        })
+        .from(worldSaves)
+        .orderBy(asc(worldSaves.savedAt))
     });
     const before = await capture();
     const result = await rebuildProjections(db);

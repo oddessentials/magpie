@@ -94,6 +94,7 @@ export function worldSaveOf(row: WorldSaveRow | null | undefined): WorldSave | n
   return {
     progress: row.progress,
     buildings: row.buildings,
+    discoveries: row.discoveries,
     saved_at: row.savedAt.toISOString(),
     day: row.day,
     time_of_day: row.timeOfDay,

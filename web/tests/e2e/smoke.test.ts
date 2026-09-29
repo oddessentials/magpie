@@ -105,6 +105,8 @@ test('activity, chat and the world page render', async ({ page }) => {
   expect(problems).toEqual([]);
   problems = await open(page, '/world', 'magpie-test');
   await expect(page.getByText('Weather by region')).toBeVisible();
+  await page.getByText('Saved discoveries', { exact: true }).click();
+  await expect(page.getByText('Lodestone · 2 saved characters', { exact: true })).toBeVisible();
   await expect(page.getByText('What this site can see')).toBeVisible();
   expect(problems).toEqual([]);
 });

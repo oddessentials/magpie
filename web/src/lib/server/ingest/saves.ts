@@ -34,6 +34,7 @@ export async function applySaveWorld(
 ): Promise<SaveOutcome> {
   const data = event.data as unknown as Schemas['SaveWorldData'];
   const savedAt = parseInstant(data.saved_at);
+  const day = integer(data.day);
   await ctx.tx
     .insert(worldSaves)
     .values({
@@ -42,7 +43,8 @@ export async function applySaveWorld(
       worldName: text(data.world_name),
       progress: data.progress ?? null,
       buildings: data.buildings ?? null,
-      day: integer(data.day),
+      discoveries: data.discoveries ?? null,
+      day,
       timeOfDay: data.time_of_day ?? null,
       weather: (data.weather ?? []).map((entry) => ({
         region: entry.region,
@@ -65,7 +67,7 @@ export async function applySaveWorld(
   if (!state.saveAt || savedAt >= state.saveAt) {
     await updateServerState(ctx, {
       saveAt: savedAt,
-      saveDay: integer(data.day),
+      saveDay: day,
       worldGuid: data.world_guid,
       worldName: text(data.world_name) ?? state.worldName
     });

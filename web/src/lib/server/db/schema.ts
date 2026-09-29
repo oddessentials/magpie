@@ -288,6 +288,7 @@ export interface SavedWorldEvent {
 }
 
 export const worldSaves = pgTable('world_saves', {
+  discoveries: jsonb('discoveries').$type<{ id: string; characters: number }[]>(),
   progress: jsonb('progress').$type<{
     world_hooks: string[];
     defeated_bosses: string[];

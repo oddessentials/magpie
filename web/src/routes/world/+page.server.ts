@@ -1,5 +1,5 @@
 import { attempt } from '$lib/ui/load';
-import { bossNameOf, mapGuide } from '$lib/server/read/geography';
+import { bossNameOf, mapGuide, poiNameOf } from '$lib/server/read/geography';
 import { pickEnum } from '$lib/ui/query';
 import { serverApi } from '$lib/ui/server';
 import type { PageServerLoad } from './$types';
@@ -16,5 +16,9 @@ export const load: PageServerLoad = async ({ fetch, url }) => {
   const defeatedBosses = (world.ok ? (world.data.save?.progress?.defeated_bosses ?? []) : []).map(
     (id) => ({ id, name: bossNameOf(id) ?? id })
   );
-  return { world, history, range, mapGuide, defeatedBosses };
+  const discoveries = (world.ok ? (world.data.save?.discoveries ?? []) : []).map((entry) => ({
+    ...entry,
+    name: poiNameOf(entry.id) ?? entry.id
+  }));
+  return { world, history, range, mapGuide, defeatedBosses, discoveries };
 };

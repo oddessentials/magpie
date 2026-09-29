@@ -14,6 +14,7 @@ import {
 } from './context';
 import { applyEvent, applyHeartbeat, applyMetrics, markEvent } from './projections';
 import type { CheckedEvent, IncomingBatch } from './validate';
+import { savedClock } from '../read/clock';
 
 export type CollectorAction = components['schemas']['CollectorAction'];
 
@@ -160,6 +161,16 @@ export async function applyBatchInTransaction(
       if (await applyHeartbeat(ctx, event)) accepted += 1;
       else duplicates += 1;
       continue;
+    }
+    if (event.type === 'save.world') {
+      const clock = savedClock(event.data.clock_seconds as number | null | undefined);
+      if (clock) {
+        event.data = {
+          ...event.data,
+          day: event.data.day ?? clock.day,
+          time_of_day: event.data.time_of_day ?? clock.hour
+        };
+      }
     }
     if (!(await storeEvent(ctx, event, null))) {
       duplicates += 1;
