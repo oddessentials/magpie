@@ -1,0 +1,65 @@
+{
+  "players": [
+    {
+      "player": { "id": 3, "name": "Bramble" },
+      "position": { "x": 148979, "y": 52149 },
+      "saved_at": "2026-09-28T20:29:00.000Z"
+    },
+    {
+      "player": { "id": 4, "name": "Juniper" },
+      "position": { "x": 142218, "y": 44638 },
+      "saved_at": "2026-09-28T20:29:00.000Z"
+    },
+    {
+      "player": { "id": 6, "name": "Kestrel" },
+      "position": { "x": 143861, "y": 44780 },
+      "saved_at": "2026-09-28T20:29:00.000Z"
+    },
+    {
+      "player": { "id": 1, "name": "Orrin" },
+      "position": { "x": 130515, "y": 42792 },
+      "saved_at": "2026-09-28T20:29:00.000Z"
+    },
+    {
+      "player": { "id": 2, "name": "Tamsin" },
+      "position": { "x": 122757, "y": 46310 },
+      "saved_at": "2026-09-28T20:29:00.000Z"
+    },
+    {
+      "player": { "id": 5, "name": "Wren" },
+      "position": { "x": 125727, "y": 42718 },
+      "saved_at": "2026-09-28T20:29:00.000Z"
+    }
+  ],
+  "bases": [
+    {
+      "position": { "x": 135536.548, "y": 36871.651 },
+      "pieces": 36,
+      "unfinished": 2,
+      "saved_at": "2026-09-28T20:29:00.000Z"
+    },
+    {
+      "position": { "x": 124036.54800000001, "y": 45071.651 },
+      "pieces": 2,
+      "unfinished": 0,
+      "saved_at": "2026-09-28T20:29:00.000Z"
+    }
+  ],
+  "deaths": [
+    {
+      "player": { "id": 4, "name": "Juniper" },
+      "position": { "x": 114499.04, "y": 225100.85 },
+      "at": "2026-09-28T20:12:01.000Z"
+    },
+    {
+      "player": { "id": 3, "name": "Bramble" },
+      "position": { "x": 51425.35, "y": 176381.77 },
+      "at": "2026-09-28T14:59:01.000Z"
+    },
+    {
+      "player": { "id": 3, "name": "Bramble" },
+      "position": { "x": 82528.54, "y": 273655.49 },
+      "at": "2026-09-28T13:53:01.000Z"
+    }
+  ]
+}

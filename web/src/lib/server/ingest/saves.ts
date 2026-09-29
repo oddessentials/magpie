@@ -1,6 +1,13 @@
-import { and, inArray, isNotNull, isNull, lt, notInArray, sql } from 'drizzle-orm';
+import { and, desc, eq, inArray, isNotNull, isNull, lt, notInArray, sql } from 'drizzle-orm';
 import type { components } from '$lib/api/types';
-import { characterSaves, worldSaves } from '../db/schema';
+import {
+  characterSaves,
+  characterSkillSamples,
+  characterUnlocks,
+  worldSaves,
+  type SavedSkill,
+  type SavedSlot
+} from '../db/schema';
 import {
   findPlayer,
   findPlayerByGuid,
@@ -43,6 +50,8 @@ export async function applySaveWorld(
       worldName: text(data.world_name),
       progress: data.progress ?? null,
       buildings: data.buildings ?? null,
+      bases: data.bases ?? null,
+      requirements: data.requirements ?? null,
       discoveries: data.discoveries ?? null,
       day,
       timeOfDay: data.time_of_day ?? null,
@@ -78,11 +87,26 @@ export async function applySaveWorld(
 
 const newer = sql`excluded.saved_at >= ${characterSaves.savedAt}`;
 
+function slots(value: Schemas['SaveSlot'][] | null | undefined): SavedSlot[] | null {
+  if (!Array.isArray(value)) return null;
+  return value.map((slot) => ({
+    slot: slot.slot,
+    item: slot.item,
+    count: slot.count ?? null,
+    durability: slot.durability ?? null
+  }));
+}
+
+function xpKey(skills: SavedSkill[]): string {
+  return JSON.stringify(skills.map((skill) => `${skill.id}:${skill.xp}`).sort());
+}
+
 export async function applySavePlayer(
   ctx: ProjectionContext,
   event: StoredEvent
 ): Promise<SaveOutcome> {
   const data = event.data as unknown as Schemas['SavePlayerData'];
+  const position = data.position ?? null;
   const values = {
     characterGuid: data.character_guid,
     savedAt: parseInstant(data.saved_at),
@@ -101,15 +125,83 @@ export async function applySavePlayer(
     journalUnread: integer(data.journal_unread),
     spells: integer(data.spells),
     regionsRevealed: integer(data.regions_revealed),
+    inventory: slots(data.inventory),
+    loadout: slots(data.loadout),
+    x: position?.x ?? null,
+    y: position?.y ?? null,
+    z: position?.z ?? null,
     goneAt: null
   };
   await ctx.tx
     .insert(characterSaves)
     .values(values)
     .onConflictDoUpdate({ target: characterSaves.characterGuid, set: values, setWhere: newer });
+  const [previous] = await ctx.tx
+    .select({ skills: characterSkillSamples.skills })
+    .from(characterSkillSamples)
+    .where(
+      and(
+        eq(characterSkillSamples.characterGuid, values.characterGuid),
+        lt(characterSkillSamples.savedAt, values.savedAt)
+      )
+    )
+    .orderBy(desc(characterSkillSamples.savedAt))
+    .limit(1);
+  if (!previous || xpKey(previous.skills) !== xpKey(values.skills)) {
+    await ctx.tx
+      .insert(characterSkillSamples)
+      .values({
+        characterGuid: values.characterGuid,
+        savedAt: values.savedAt,
+        skills: values.skills
+      })
+      .onConflictDoNothing();
+  }
   const player =
     (await findPlayerByGuid(ctx, data.character_guid)) ??
     (values.userId ? await findPlayer(ctx, values.userId) : null);
+  return { playerId: player?.id ?? null, quiet: true };
+}
+
+export const unlockKinds = {
+  recipe: 'recipes',
+  building: 'buildings',
+  item: 'items_picked_up',
+  actor: 'actors_interacted',
+  creature: 'creatures_killed',
+  journal: 'journal'
+} as const;
+
+export type UnlockKind = keyof typeof unlockKinds;
+
+export async function applySaveProgress(
+  ctx: ProjectionContext,
+  event: StoredEvent
+): Promise<SaveOutcome> {
+  const data = event.data as unknown as Schemas['SaveProgressData'];
+  const firstSeenAt = parseInstant(data.saved_at);
+  const rows: { characterGuid: string; kind: string; id: string; firstSeenAt: Date }[] = [];
+  for (const [kind, key] of Object.entries(unlockKinds)) {
+    const ids = data[key];
+    if (!Array.isArray(ids)) continue;
+    for (const id of new Set(ids)) {
+      if (typeof id === 'string' && id !== '') {
+        rows.push({ characterGuid: data.character_guid, kind, id, firstSeenAt });
+      }
+    }
+  }
+  for (let start = 0; start < rows.length; start += 1000) {
+    await ctx.tx
+      .insert(characterUnlocks)
+      .values(rows.slice(start, start + 1000))
+      .onConflictDoUpdate({
+        target: [characterUnlocks.characterGuid, characterUnlocks.kind, characterUnlocks.id],
+        set: { firstSeenAt: sql`least(${characterUnlocks.firstSeenAt}, excluded.first_seen_at)` }
+      });
+  }
+  const player =
+    (await findPlayerByGuid(ctx, data.character_guid)) ??
+    (data.user_id ? await findPlayer(ctx, data.user_id) : null);
   return { playerId: player?.id ?? null, quiet: true };
 }
 

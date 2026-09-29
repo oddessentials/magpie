@@ -326,6 +326,155 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '503':
           $ref: '#/components/responses/Unavailable'
+  /api/v1/map/layers/{layer}:
+    get:
+      operationId: getMapLayer
+      tags:
+        - public
+      summary: Map layer
+      description: Placed world objects of one kind from the stamped game build, grouped by type, with game X and Y. Static facts, not live positions.
+      parameters:
+        - name: layer
+          in: path
+          required: true
+          description: The layer.
+          schema:
+            $ref: '#/components/schemas/MapLayerName'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MapLayer'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/map/live:
+    get:
+      operationId: getMapLive
+      tags:
+        - public
+      summary: Players, bases and deaths on the map
+      description: Each character's last saved position, the bases the last world save records and the deaths of the last 24 hours. Needs the positions feature, which is off until the admin switches it on.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MapLive'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/catalog:
+    get:
+      operationId: getCatalog
+      tags:
+        - public
+      summary: Catalog
+      description: Items, recipes, building pieces, crafting stations and skills from the stamped game build, for planning. Static facts.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catalog'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/ledger:
+    get:
+      operationId: getLedger
+      tags:
+        - public
+      summary: Ledger
+      description: What the saved characters carry and have unlocked, and what the unfinished pieces of the last world save still need. From the world save, never live.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ledger'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/journal:
+    get:
+      operationId: getJournal
+      tags:
+        - public
+      summary: Journal
+      description: Every journal entry from the stamped game build, which saved characters have found it, and when it was first seen.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journal'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/progression:
+    get:
+      operationId: getProgression
+      tags:
+        - public
+      summary: Progression
+      description: Each saved character's skills, quests, journal, unlocks and defeated bosses, from the world save.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Progression'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
   /api/v1/stream:
     get:
       operationId: streamEvents
@@ -1089,8 +1238,12 @@ components:
         chat:
           type: boolean
           description: Chat in the feed, on the chat page and in the stream. Off by default, because chat reaches the site through a server mod that players may not expect.
+        positions:
+          type: boolean
+          description: Players' last saved positions, bases and deaths on the map. Off by default, because they show where players and their bases are.
       required:
         - chat
+        - positions
       additionalProperties: false
     Site:
       type: object
@@ -1793,6 +1946,38 @@ components:
             - integer
             - 'null'
           minimum: 0
+        inventory:
+          description: The inventory slots of the last save, null when the collector did not send them.
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/PlayerSlot'
+        loadout:
+          description: The equipped items of the last save, null when the collector did not send them.
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/PlayerSlot'
+        unlocks:
+          anyOf:
+            - $ref: '#/components/schemas/PlayerUnlocks'
+            - type: 'null'
+        level_history:
+          type: array
+          description: The total level at each saved change over the last 30 days, oldest first.
+          items:
+            type: object
+            additionalProperties: false
+            required: [saved_at, total_level]
+            properties:
+              saved_at:
+                type: string
+                format: date-time
+              total_level:
+                type: integer
+                minimum: 0
       required:
         - saved_at
         - playtime_s
@@ -1803,7 +1988,49 @@ components:
         - journal
         - spells
         - regions_revealed
+        - inventory
+        - loadout
+        - unlocks
+        - level_history
       additionalProperties: false
+    PlayerSlot:
+      type: object
+      additionalProperties: false
+      required: [slot, item, name, count, at_least, durability]
+      properties:
+        slot:
+          type: integer
+          minimum: 0
+        item:
+          type: [string, 'null']
+          description: The item's asset from items.json, null for an id the game facts do not list.
+        name:
+          type: [string, 'null']
+        count:
+          type: integer
+          minimum: 0
+        at_least:
+          type: boolean
+          description: True when the save stores no count for the slot, which then holds at least the count shown.
+        durability:
+          type: [number, 'null']
+    PlayerUnlocks:
+      type: object
+      additionalProperties: false
+      required: [recipes, buildings, journal, creatures]
+      properties:
+        recipes:
+          type: integer
+          minimum: 0
+        buildings:
+          type: integer
+          minimum: 0
+        journal:
+          type: integer
+          minimum: 0
+        creatures:
+          type: integer
+          minimum: 0
     PlayerFeats:
       type: object
       description: Counted from the events the site has seen for the player.
@@ -2037,6 +2264,35 @@ components:
             additionalProperties: false
       required: [total, unfinished, types]
       additionalProperties: false
+    SavedBase:
+      type: object
+      description: Building pieces within 50 metres of each other, joined into one base.
+      properties:
+        x:
+          type: number
+        y:
+          type: number
+        z:
+          type: number
+        pieces:
+          type: integer
+          minimum: 1
+        unfinished:
+          type: integer
+          minimum: 0
+      required: [x, y, z, pieces, unfinished]
+      additionalProperties: true
+    SavedRequirement:
+      type: object
+      description: An item the unfinished building pieces still need, by its save id.
+      properties:
+        item:
+          type: string
+        missing:
+          type: integer
+          minimum: 1
+      required: [item, missing]
+      additionalProperties: true
     SavedDiscovery:
       type: object
       description: A POI recorded as discovered by one or more saved characters.
@@ -2217,6 +2473,522 @@ components:
                 type: array
                 items:
                   type: integer
+    MapLayerName:
+      type: string
+      enum:
+        [resources, fishing, chests, lore, spawns, quests, shrines, teleporters, dungeons, vents]
+    MapLayer:
+      type: object
+      additionalProperties: false
+      required: [layer, build, version, groups]
+      properties:
+        layer:
+          $ref: '#/components/schemas/MapLayerName'
+        build:
+          type: integer
+          minimum: 1
+        version:
+          type: string
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/MapLayerGroup'
+    MapLayerGroup:
+      type: object
+      additionalProperties: false
+      required: [id, name, kind, ref, items, points]
+      properties:
+        id:
+          type: string
+        name:
+          type: [string, 'null']
+        kind:
+          type: [string, 'null']
+          description: The resource kind (ore, rock, gatherable, harvestable, salvage), chest or buried, the tool of a fishing spot, or the dungeon tag.
+        ref:
+          type: [string, 'null']
+          description: The journal entry asset of a lore book, the quest asset of a quest location, or the creature id of a spawn.
+        items:
+          type: array
+          description: Assets of the items the group drops or yields, from items.json.
+          items:
+            type: string
+        points:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: number
+    MapLive:
+      type: object
+      additionalProperties: false
+      required: [players, bases, deaths]
+      properties:
+        players:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [player, position, saved_at]
+            properties:
+              player:
+                $ref: '#/components/schemas/PlayerRef'
+              position:
+                $ref: '#/components/schemas/MapPoint'
+              saved_at:
+                type: string
+                format: date-time
+        bases:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [position, pieces, unfinished, saved_at]
+            properties:
+              position:
+                $ref: '#/components/schemas/MapPoint'
+              pieces:
+                type: integer
+                minimum: 1
+              unfinished:
+                type: integer
+                minimum: 0
+              saved_at:
+                type: string
+                format: date-time
+        deaths:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [player, position, at]
+            properties:
+              player:
+                anyOf:
+                  - $ref: '#/components/schemas/PlayerRef'
+                  - type: 'null'
+              position:
+                $ref: '#/components/schemas/MapPoint'
+              at:
+                type: string
+                format: date-time
+    CatalogAmount:
+      type: object
+      additionalProperties: false
+      required: [item, count]
+      properties:
+        item:
+          type: [string, 'null']
+          description: The item's asset from items.json; null where the game data names no item.
+        count:
+          type: [integer, 'null']
+    CatalogXp:
+      type: object
+      additionalProperties: false
+      required: [skill, xp]
+      properties:
+        skill:
+          type: string
+          description: The skill's asset, for example SKILL_Artisan.
+        xp:
+          type: number
+    CatalogItem:
+      type: object
+      additionalProperties: false
+      required: [id, asset, name, category, stack]
+      properties:
+        id:
+          type: [string, 'null']
+          description: The PersistenceID the saves use.
+        asset:
+          type: string
+        name:
+          type: [string, 'null']
+        category:
+          type: [string, 'null']
+        stack:
+          type: [integer, 'null']
+    CatalogRecipe:
+      type: object
+      additionalProperties: false
+      required: [id, asset, creates, consumes, xp, stations, unlock]
+      properties:
+        id:
+          type: [string, 'null']
+        asset:
+          type: string
+        creates:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogAmount'
+        consumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogAmount'
+        xp:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogXp'
+        stations:
+          type: array
+          description: Ids of the stations whose tables list the recipe.
+          items:
+            type: string
+        unlock:
+          type: [string, 'null']
+          description: The game's own unlock condition for the recipe, from the progression tables.
+    CatalogBuilding:
+      type: object
+      additionalProperties: false
+      required: [id, asset, name, category, requirements, xp, unlock]
+      properties:
+        id:
+          type: [string, 'null']
+        asset:
+          type: string
+        name:
+          type: [string, 'null']
+        category:
+          type: [string, 'null']
+        requirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogAmount'
+        xp:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogXp'
+        unlock:
+          type: [string, 'null']
+    CatalogStation:
+      type: object
+      additionalProperties: false
+      required: [id, name, kind, building]
+      properties:
+        id:
+          type: string
+        name:
+          type: [string, 'null']
+        kind:
+          type: string
+          enum: [crafting, processing]
+        building:
+          type: [string, 'null']
+          description: The station's building piece asset.
+    Catalog:
+      type: object
+      additionalProperties: false
+      required: [build, version, skills, items, recipes, buildings, stations]
+      properties:
+        build:
+          type: integer
+          minimum: 1
+        version:
+          type: string
+        skills:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, asset, name]
+            properties:
+              id:
+                type: string
+              asset:
+                type: string
+              name:
+                type: [string, 'null']
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogItem'
+        recipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogRecipe'
+        buildings:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogBuilding'
+        stations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogStation'
+    Ledger:
+      type: object
+      additionalProperties: false
+      required: [saved_at, players, stock, base]
+      properties:
+        saved_at:
+          type: [string, 'null']
+          format: date-time
+          description: The newest character save the ledger uses.
+        players:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [player, saved_at, recipes, buildings]
+            properties:
+              player:
+                $ref: '#/components/schemas/PlayerRef'
+              saved_at:
+                type: string
+                format: date-time
+              recipes:
+                type: array
+                description: Assets of the recipes the character has unlocked.
+                items:
+                  type: string
+              buildings:
+                type: array
+                description: Assets of the building pieces the character has unlocked.
+                items:
+                  type: string
+        stock:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [item, count, at_least, holders]
+            properties:
+              item:
+                type: string
+              count:
+                type: integer
+                minimum: 0
+              at_least:
+                type: boolean
+              holders:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  required: [player, count, at_least]
+                  properties:
+                    player:
+                      $ref: '#/components/schemas/PlayerRef'
+                    count:
+                      type: integer
+                      minimum: 0
+                    at_least:
+                      type: boolean
+        base:
+          anyOf:
+            - type: object
+              additionalProperties: false
+              required: [saved_at, pieces, unfinished, requirements]
+              properties:
+                saved_at:
+                  type: string
+                  format: date-time
+                pieces:
+                  type: integer
+                  minimum: 0
+                unfinished:
+                  type: integer
+                  minimum: 0
+                requirements:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    required: [item, missing]
+                    properties:
+                      item:
+                        type: string
+                        description: The item's asset, or its save id when the game facts do not list it.
+                      missing:
+                        type: integer
+                        minimum: 1
+            - type: 'null'
+    Journal:
+      type: object
+      additionalProperties: false
+      required: [saved_at, entries, players]
+      properties:
+        saved_at:
+          type: [string, 'null']
+          format: date-time
+        entries:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              [
+                id,
+                asset,
+                name,
+                category,
+                group,
+                unlock,
+                item,
+                recipe,
+                creature,
+                regions,
+                found_by,
+                first_found
+              ]
+            properties:
+              id:
+                type: [string, 'null']
+              asset:
+                type: string
+              name:
+                type: [string, 'null']
+              category:
+                type: [string, 'null']
+              group:
+                type: [string, 'null']
+              unlock:
+                type: [string, 'null']
+                description: How the game unlocks the entry, for example AIKill, ItemFirstPickup or RecipeUnlocked.
+              item:
+                type: [string, 'null']
+              recipe:
+                type: [string, 'null']
+              creature:
+                type: [string, 'null']
+                description: The name of the creature whose kill unlocks the entry.
+              regions:
+                type: array
+                items:
+                  type: string
+              found_by:
+                type: array
+                description: Ids of the players whose saved characters have the entry.
+                items:
+                  type: integer
+              first_found:
+                anyOf:
+                  - type: object
+                    additionalProperties: false
+                    required: [player, at]
+                    properties:
+                      player:
+                        type: integer
+                      at:
+                        type: string
+                        format: date-time
+                  - type: 'null'
+        players:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [player, found]
+            properties:
+              player:
+                $ref: '#/components/schemas/PlayerRef'
+              found:
+                type: integer
+                minimum: 0
+    Progression:
+      type: object
+      additionalProperties: false
+      required: [totals, players]
+      properties:
+        totals:
+          type: object
+          additionalProperties: false
+          required: [skills, quests, main_quests, journal, recipes, buildings, bosses]
+          properties:
+            skills:
+              type: integer
+            quests:
+              type: integer
+            main_quests:
+              type: integer
+            journal:
+              type: integer
+            recipes:
+              type: integer
+            buildings:
+              type: integer
+            bosses:
+              type: integer
+        players:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              [
+                player,
+                saved_at,
+                total_level,
+                skills,
+                quests,
+                journal,
+                recipes,
+                buildings,
+                creatures,
+                bosses,
+                latest
+              ]
+            properties:
+              player:
+                $ref: '#/components/schemas/PlayerRef'
+              saved_at:
+                type: string
+                format: date-time
+              total_level:
+                type: [integer, 'null']
+              skills:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  required: [id, name, level]
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    level:
+                      type: [integer, 'null']
+              quests:
+                type: object
+                additionalProperties: false
+                required: [completed, active, main_completed]
+                properties:
+                  completed:
+                    type: integer
+                  active:
+                    type: integer
+                  main_completed:
+                    type: integer
+              journal:
+                type: integer
+              recipes:
+                type: integer
+              buildings:
+                type: integer
+              creatures:
+                type: integer
+              bosses:
+                type: array
+                description: Names of the bosses the character has killed.
+                items:
+                  type: string
+              latest:
+                anyOf:
+                  - type: object
+                    additionalProperties: false
+                    required: [kind, name, at]
+                    properties:
+                      kind:
+                        type: string
+                        enum: [recipe, building, journal]
+                      name:
+                        type: [string, 'null']
+                      at:
+                        type: string
+                        format: date-time
+                  - type: 'null'
     World:
       type: object
       properties:
@@ -3524,6 +4296,20 @@ components:
           anyOf:
             - $ref: '#/components/schemas/SavedBuildings'
             - type: 'null'
+        bases:
+          description: The world's building pieces joined into bases. Null when the save reader did not report buildings.
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/SavedBase'
+        requirements:
+          description: What the unfinished building pieces still need. Null when the save reader did not report buildings.
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/SavedRequirement'
         saved_at:
           type: string
           format: date-time

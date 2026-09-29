@@ -6,6 +6,8 @@ import type { IngestBatch, IngestResult } from '../../src/lib/api/types';
 import { getDb } from '../../src/lib/server/db/client';
 import {
   characterSaves,
+  characterSkillSamples,
+  characterUnlocks,
   chatMessages,
   collectorRuns,
   deaths,
@@ -17,13 +19,25 @@ import {
   sessions,
   worldSaves
 } from '../../src/lib/server/db/schema';
+import { unlockKinds } from '../../src/lib/server/ingest/saves';
 import { runWatchdog } from '../../src/lib/server/jobs/watchdog';
 import { rebuildProjections } from '../../src/lib/server/jobs/rebuild';
+import { getJournal } from '../../src/lib/server/read/journal';
+import { getLedger } from '../../src/lib/server/read/ledger';
+import {
+  buildingsByAsset,
+  itemsByAsset,
+  liveJournal,
+  recipesByAsset
+} from '../../src/lib/server/read/lookup';
+import type { mapLive } from '../../src/lib/server/read/map';
+import { getProgression } from '../../src/lib/server/read/progression';
 import { computeOnline, computeStatus } from '../../src/lib/server/read/status';
 import { getPlayer } from '../../src/lib/server/read/players';
 import { getWorld } from '../../src/lib/server/read/world';
-import { defaultSettings } from '../../src/lib/server/settings';
+import { defaultSettings, siteSettings } from '../../src/lib/server/settings';
 import { POST as ingest } from '../../src/routes/api/ingest/+server';
+import { GET as live } from '../../src/routes/api/v1/map/live/+server';
 import { resetDatabase, routeEvent, seededHistory, signedRequest, useTestDatabase } from './setup';
 import { toBatches, type SimulatedHistory } from '../../scripts/simulator/generator';
 
@@ -189,11 +203,11 @@ describe('POST /api/ingest', () => {
     const world = await getWorld(db);
     expect(world.save?.weather.length).toBe(3);
     expect(world.save?.progress?.defeated_bosses).toEqual(['ai_boss_velgar']);
-    expect(world.save?.buildings).toEqual({
-      total: 38,
-      unfinished: 2,
-      types: [{ id: 'sample-timber-wall', count: 38 }]
-    });
+    const buildings = world.save?.buildings;
+    expect(buildings?.total).toBe(38);
+    expect(buildings?.unfinished).toBe(2);
+    expect(buildings?.types.reduce((sum, type) => sum + type.count, 0)).toBe(38);
+    expect(buildings?.types.every((type) => /^[A-Za-z0-9_-]{22}$/.test(type.id))).toBe(true);
     expect(world.save?.discoveries).toHaveLength(1);
     expect(world.save?.discoveries?.[0]?.characters).toBe(2);
     expect(world.totals.players).toBe(seen.size);
@@ -212,7 +226,185 @@ describe('POST /api/ingest', () => {
     expect(detail.character!.journal.unlocked).toBeGreaterThan(0);
     expect(detail.chat_messages).toBeNull();
     expect(detail.feats).not.toBeNull();
-    expect(JSON.stringify(detail)).not.toMatch(/[0-9a-f]{32}/);
+    expect(detail.character!.inventory).toHaveLength(6);
+    expect(
+      detail.character!.inventory!.every((slot) => slot.item !== null && slot.name !== null)
+    ).toBe(true);
+    expect(detail.character!.inventory!.some((slot) => slot.at_least)).toBe(true);
+    expect(detail.character!.loadout).toHaveLength(2);
+    expect(detail.character!.unlocks!.recipes).toBeGreaterThan(0);
+    expect(detail.character!.unlocks!.journal).toBeGreaterThan(0);
+    const levels = detail.character!.level_history;
+    expect(levels.length).toBeGreaterThan(1);
+    expect(levels.map((sample) => sample.saved_at)).toEqual(
+      levels.map((sample) => sample.saved_at).sort()
+    );
+    expect(levels.at(-1)!.total_level).toBe(detail.character!.total_level);
+    expect(JSON.stringify(detail)).not.toMatch(/[0-9a-f]{32}/i);
+    expect(JSON.stringify(detail)).not.toMatch(/"(x|z)":/);
+  });
+
+  it('records each unlock once, first seen in the earliest save that shows it', async () => {
+    const db = getDb();
+    const expected = new Map<string, string>();
+    for (const event of history.events.filter((event) => event.type === 'save.progress')) {
+      const data = event.data as Record<string, unknown>;
+      const at = new Date(data.saved_at as string).toISOString();
+      for (const [kind, key] of Object.entries(unlockKinds)) {
+        for (const id of (data[key] as string[] | null) ?? []) {
+          const unlock = `${data.character_guid as string}|${kind}|${id}`;
+          const known = expected.get(unlock);
+          if (!known || at < known) expected.set(unlock, at);
+        }
+      }
+    }
+    expect(expected.size).toBeGreaterThan(0);
+    const stored = await db.select().from(characterUnlocks);
+    expect(
+      new Map(
+        stored.map((row) => [
+          `${row.characterGuid}|${row.kind}|${row.id}`,
+          row.firstSeenAt.toISOString()
+        ])
+      )
+    ).toEqual(expected);
+    const saves = new Map<string, Map<string, string>>();
+    for (const event of history.events.filter((event) => event.type === 'save.player')) {
+      const data = event.data as {
+        character_guid: string;
+        saved_at: string;
+        skills: { id: string; xp: number }[];
+      };
+      const byTime = saves.get(data.character_guid) ?? new Map<string, string>();
+      const at = new Date(data.saved_at).toISOString();
+      if (!byTime.has(at)) {
+        byTime.set(
+          at,
+          JSON.stringify(data.skills.map((skill) => `${skill.id}:${skill.xp}`).sort())
+        );
+      }
+      saves.set(data.character_guid, byTime);
+    }
+    let changes = 0;
+    let total = 0;
+    for (const byTime of saves.values()) {
+      const ordered = [...byTime.entries()].sort(([a], [b]) => a.localeCompare(b));
+      total += ordered.length;
+      changes += ordered.filter(
+        ([, xp], index) => index === 0 || xp !== ordered[index - 1]![1]
+      ).length;
+    }
+    const [sampled] = await db
+      .select({ n: sql<number>`count(*)::int` })
+      .from(characterSkillSamples);
+    expect(sampled!.n).toBe(changes);
+    expect(changes).toBeLessThan(total);
+    const guid = 'C0FFEE00C0FFEE00C0FFEE00C0FFEE00';
+    const progress = (at: string, recipes: string[], seq: number) =>
+      envelope(
+        history,
+        'save.progress',
+        {
+          saved_at: at,
+          character_guid: guid,
+          user_id: null,
+          name: 'Latecomer',
+          recipes,
+          buildings: null,
+          items_picked_up: null,
+          actors_interacted: null,
+          creatures_killed: null,
+          journal: null,
+          quest_locations: null
+        },
+        new Date(at),
+        seq
+      );
+    const noon = '2026-09-01T12:00:00.000Z';
+    const morning = '2026-09-01T11:00:00.000Z';
+    const evening = '2026-09-01T13:00:00.000Z';
+    expect((await send(progress(noon, ['first'], 903_000))).invalid).toBe(0);
+    await send(progress(morning, ['first', 'second'], 903_001));
+    await send(progress(evening, ['first', 'second', 'third'], 903_002));
+    const late = await db
+      .select()
+      .from(characterUnlocks)
+      .where(eq(characterUnlocks.characterGuid, guid))
+      .orderBy(asc(characterUnlocks.id));
+    expect(late.map((row) => [row.id, row.firstSeenAt.toISOString()])).toEqual([
+      ['first', morning],
+      ['second', morning],
+      ['third', evening]
+    ]);
+  });
+
+  it('serves the ledger, journal and progression from the saves', async () => {
+    const db = getDb();
+    const ledger = await getLedger(db);
+    expect(ledger.players.length).toBeGreaterThan(1);
+    expect(ledger.saved_at).not.toBeNull();
+    for (const entry of ledger.players) {
+      expect(entry.recipes.length).toBeGreaterThan(0);
+      expect(entry.recipes.every((asset) => recipesByAsset.has(asset))).toBe(true);
+      expect(entry.buildings.every((asset) => buildingsByAsset.has(asset))).toBe(true);
+    }
+    expect(ledger.stock.length).toBeGreaterThan(0);
+    for (const item of ledger.stock) {
+      expect(itemsByAsset.has(item.item)).toBe(true);
+      expect(item.holders.reduce((sum, holder) => sum + holder.count, 0)).toBe(item.count);
+      expect(item.at_least).toBe(item.holders.some((holder) => holder.at_least));
+    }
+    expect(ledger.base).toMatchObject({ pieces: 38, unfinished: 2 });
+    expect(ledger.base!.requirements.length).toBeGreaterThan(0);
+    expect(ledger.base!.requirements.every((entry) => itemsByAsset.has(entry.item))).toBe(true);
+
+    const journal = await getJournal(db);
+    expect(journal.entries).toHaveLength(liveJournal.length);
+    const found = journal.entries.flatMap((entry) => entry.found_by);
+    expect(found.length).toBeGreaterThan(0);
+    expect(journal.players.reduce((sum, entry) => sum + entry.found, 0)).toBe(found.length);
+    for (const entry of journal.entries) {
+      expect(entry.first_found === null).toBe(entry.found_by.length === 0);
+      if (entry.first_found) expect(entry.found_by).toContain(entry.first_found.player);
+    }
+
+    const progression = await getProgression(db);
+    expect(progression.totals.journal).toBe(liveJournal.length);
+    expect(progression.totals.bosses).toBeGreaterThan(0);
+    expect(progression.players.map((entry) => entry.player.id)).toEqual(
+      ledger.players.map((entry) => entry.player.id)
+    );
+    for (const [index, entry] of progression.players.entries()) {
+      expect(entry.recipes).toBe(ledger.players[index]!.recipes.length);
+      expect(entry.skills).toHaveLength(12);
+      expect(entry.journal).toBe(journal.players[index]!.found);
+    }
+    expect(progression.players.some((entry) => entry.bosses.length > 0)).toBe(true);
+    expect(progression.players.some((entry) => entry.latest !== null)).toBe(true);
+    for (const body of [ledger, journal, progression]) {
+      expect(JSON.stringify(body)).not.toMatch(/[0-9a-f]{32}/i);
+    }
+  });
+
+  it('shows positions, bases and deaths only when the site allows it', async () => {
+    const request = () => live(routeEvent(new Request('http://test/api/v1/map/live')));
+    expect((await request()).status).toBe(404);
+    await siteSettings.write({ features: { positions: true } });
+    try {
+      const response = await request();
+      expect(response.status).toBe(200);
+      const body = (await response.json()) as Awaited<ReturnType<typeof mapLive>>;
+      expect(body.players.length).toBeGreaterThan(1);
+      expect(body.bases).toHaveLength(2);
+      expect(body.bases[0]).toMatchObject({ pieces: 36, unfinished: 2 });
+      expect(body.deaths.every((death) => Date.parse(death.at) > Date.now() - 86_400_000)).toBe(
+        true
+      );
+      expect(JSON.stringify(body)).not.toMatch(/[0-9a-f]{32}/i);
+    } finally {
+      await siteSettings.write({ features: { positions: false } });
+    }
+    expect((await request()).status).toBe(404);
   });
 
   it('stores unknown event types and flags invalid data without failing the batch', async () => {
@@ -423,7 +615,7 @@ describe('saved clock and discoveries', () => {
 });
 
 describe('rebuilding from the event log', () => {
-  it('reproduces sessions, deaths, discoveries, chat and player totals', async () => {
+  it('reproduces sessions, deaths, discoveries, chat, unlocks, inventories and player totals', async () => {
     const db = getDb();
     const capture = async () => ({
       sessions: (
@@ -457,17 +649,47 @@ describe('rebuilding from the event log', () => {
       deaths: (await db.select({ n: sql<number>`count(*)::int` }).from(deaths))[0]!.n,
       journal: (await db.select({ n: sql<number>`count(*)::int` }).from(journalEntries))[0]!.n,
       chat: (await db.select({ n: sql<number>`count(*)::int` }).from(chatMessages))[0]!.n,
-      saves: (await db.select({ n: sql<number>`count(*)::int` }).from(characterSaves))[0]!.n,
+      saves: await db
+        .select({
+          guid: characterSaves.characterGuid,
+          inventory: characterSaves.inventory,
+          loadout: characterSaves.loadout,
+          x: characterSaves.x,
+          y: characterSaves.y,
+          z: characterSaves.z
+        })
+        .from(characterSaves)
+        .orderBy(asc(characterSaves.characterGuid)),
+      unlocks: (
+        await db
+          .select()
+          .from(characterUnlocks)
+          .orderBy(
+            asc(characterUnlocks.characterGuid),
+            asc(characterUnlocks.kind),
+            asc(characterUnlocks.id)
+          )
+      ).map((row) => ({ ...row, firstSeenAt: row.firstSeenAt.toISOString() })),
+      samples: (
+        await db
+          .select()
+          .from(characterSkillSamples)
+          .orderBy(asc(characterSkillSamples.characterGuid), asc(characterSkillSamples.savedAt))
+      ).map((row) => ({ ...row, savedAt: row.savedAt.toISOString() })),
       worldSaves: await db
         .select({
           day: worldSaves.day,
           hour: worldSaves.timeOfDay,
-          discoveries: worldSaves.discoveries
+          discoveries: worldSaves.discoveries,
+          bases: worldSaves.bases,
+          requirements: worldSaves.requirements
         })
         .from(worldSaves)
         .orderBy(asc(worldSaves.savedAt))
     });
     const before = await capture();
+    expect(before.unlocks.length).toBeGreaterThan(0);
+    expect(before.samples.length).toBeGreaterThan(0);
     const result = await rebuildProjections(db);
     expect(result.replayed).toBeGreaterThan(100);
     const after = await capture();

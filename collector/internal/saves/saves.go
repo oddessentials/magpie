@@ -41,13 +41,10 @@ type output struct {
 		POIs          []string `json:"pois"`
 	} `json:"discoveries"`
 	Progress  *event.SavedWorldProgress `json:"progress"`
-	Buildings []struct {
-		DataID     string `json:"data_id"`
-		Unfinished bool   `json:"unfinished"`
-	} `json:"buildings"`
-	Format  int       `json:"format"`
-	SavedAt time.Time `json:"saved_at"`
-	World   struct {
+	Buildings []piece                   `json:"buildings"`
+	Format    int                       `json:"format"`
+	SavedAt   time.Time                 `json:"saved_at"`
+	World     struct {
 		GUID               string `json:"guid"`
 		Name               string `json:"name"`
 		FriendlyFire       *bool  `json:"friendly_fire"`
@@ -256,6 +253,8 @@ func Decode(raw []byte, size int64) (*Result, error) {
 		}
 		sort.Slice(buildings.Types, func(i, j int) bool { return buildings.Types[i].ID < buildings.Types[j].ID })
 		result.World.Buildings = buildings
+		result.World.Bases = basesOf(out.Buildings)
+		result.World.Requirements = requirementsOf(out.Buildings)
 	}
 	result.World.SurvivalDifficulty = out.World.SurvivalDifficulty
 	for _, weather := range out.Weather {

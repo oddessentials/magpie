@@ -15,10 +15,33 @@ const xpCurve = readWorld<{ xpForLevel: number[] }>('xp').xpForLevel;
 const clockFacts = readWorld<{ realMinutesPerGameDay: number }>('clock');
 const buildFacts = readWorld<{ version: string; mappings: string }>('build');
 const changelist = buildFacts.mappings.match(/-(\d+)\+\+\+/)?.[1];
-const mapFacts = readWorld<{ lodestones: { id: string }[] }>('geography');
+const mapFacts = readWorld<{ lodestones: { id: string; position: number[] }[] }>('geography');
 const journalFacts = readWorld<{
-  entries: { asset: string; deleted: boolean; category: string }[];
+  entries: { id: string | null; asset: string; deleted: boolean; category: string }[];
 }>('journal').entries.filter((entry) => !entry.deleted);
+const itemFacts = readWorld<{
+  items: {
+    id: string | null;
+    asset: string;
+    deleted: boolean;
+    category: string | null;
+    class: string;
+  }[];
+}>('items').items.filter((item) => !item.deleted && item.id);
+const recipeFacts = readWorld<{
+  recipes: { id: string | null; asset: string; deleted: boolean }[];
+}>('recipes').recipes.filter((recipe) => !recipe.deleted && recipe.id);
+const buildingFacts = readWorld<{
+  buildings: {
+    id: string | null;
+    asset: string;
+    deleted: boolean;
+    requirements: { item: string | null; count: number | null }[];
+  }[];
+}>('buildings').buildings.filter((building) => !building.deleted && building.id);
+const creatureFacts = readWorld<{ creatures: { id: string; boss: boolean; deleted: boolean }[] }>(
+  'creatures'
+).creatures.filter((creature) => !creature.deleted);
 const questFacts = readWorld<{ quests: { asset: string; deleted: boolean; hidden: boolean }[] }>(
   'quests'
 ).quests.filter((quest) => !quest.deleted && !quest.hidden);
@@ -91,6 +114,50 @@ const cast: Omit<SimulatedPlayer, 'userId' | 'characterGuid' | 'platform'>[] = [
 ];
 
 export const skillIds = skillFacts.map((skill) => skill.id);
+
+const journalIds = new Map(journalFacts.map((entry) => [entry.asset, entry.id]));
+const itemIds = new Map(itemFacts.map((item) => [item.asset, item.id!]));
+const every = <T>(items: T[], step: number, count: number) =>
+  items.filter((_, index) => index % step === 0).slice(0, count);
+const resourcePool = every(
+  itemFacts
+    .filter((item) => item.asset.startsWith('ITEM_Resources_'))
+    .sort((a, b) => a.asset.localeCompare(b.asset)),
+  17,
+  24
+);
+const gearPool = every(
+  itemFacts
+    .filter((item) => item.class === 'WearableEquipmentData')
+    .sort((a, b) => a.asset.localeCompare(b.asset)),
+  11,
+  12
+);
+const unlockedRecipePool = every(
+  [...recipeFacts].sort((a, b) => a.asset.localeCompare(b.asset)),
+  7,
+  120
+);
+const piecePool = every(
+  buildingFacts
+    .filter((b) => b.requirements.length > 0)
+    .sort((a, b) => a.asset.localeCompare(b.asset)),
+  9,
+  60
+);
+const creaturePool = every(
+  creatureFacts.filter((creature) => !creature.boss).sort((a, b) => a.id.localeCompare(b.id)),
+  5,
+  24
+);
+const bossIds = creatureFacts
+  .filter((creature) => creature.boss)
+  .map((creature) => creature.id)
+  .sort();
+const unfinishedPiece = piecePool.find(
+  (piece) => piece.requirements.filter((r) => r.item).length >= 2
+);
+const unit = (key: string) => parseInt(hex(key, 8), 16) / 0xffffffff;
 
 const journalPool = journalFacts
   .filter((entry) => entry.category === 'World' || entry.asset.startsWith('JOURNAL_Recipes_'))
@@ -201,6 +268,8 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
   const tailStepS = options.tailStepS ?? 15;
   const random = mulberry32(seed);
   const modRandom = mulberry32(seed ^ 0x5eed);
+  const progressRandom = mulberry32(seed ^ 0x9a1e);
+  const progressSent = new Map<string, string>();
   const endMs = Math.floor((options.endAt ?? new Date()).getTime() / 1000) * 1000;
   const startMs = endMs - days * 86_400_000;
   const worldStartMs = startMs - 3 * 86_400_000;
@@ -302,6 +371,16 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
       data
     } as CollectorEvent);
   };
+  const pushProgress = (ms: number, data: Record<string, unknown>) => {
+    events.push({
+      id: uuidFrom(progressRandom),
+      seq: seq++,
+      run_id: runId,
+      ts: new Date(ms).toISOString(),
+      type: 'save.progress',
+      data
+    } as CollectorEvent);
+  };
   const identity = (state: PlayerState) => ({
     user_id: state.player.userId,
     character_guid: state.player.characterGuid,
@@ -366,6 +445,60 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
       ((ms - worldStartMs) % (realMinutesPerDay * 60_000)) / (realMinutesPerDay * 60_000);
     return Math.round(share * 24 * 100) / 100;
   };
+  const home = mapFacts.lodestones[0]!.position;
+  const carried = (state: PlayerState, ms: number) => {
+    const name = state.player.name;
+    const index = states.indexOf(state);
+    const minute = Math.floor(ms / 60_000);
+    const inventory = [0, 1, 2, 3, 4, 5].map((slot) => {
+      const item = resourcePool[(index * 3 + slot) % resourcePool.length]!;
+      const count =
+        slot === 5 ? null : 1 + Math.floor(unit(`${name}:${slot}:${state.journal.size}`) * 60);
+      return { slot, item: item.id!, count, durability: null };
+    });
+    const loadout = [1, 2].map((slot) => ({
+      slot,
+      item: gearPool[(index * 2 + slot) % gearPool.length]!.id!,
+      count: null,
+      durability: 200 + Math.floor(unit(`${name}:gear:${slot}`) * 300)
+    }));
+    const drift = (axis: string) =>
+      (unit(`${name}:${axis}:${Math.floor(minute / 30)}`) - 0.5) * 16_000;
+    return {
+      inventory,
+      loadout,
+      position: {
+        x: Math.round(home[0]! + (index - 2.5) * 5_000 + drift('x')),
+        y: Math.round(home[1]! + (index % 3) * 4_000 + drift('y')),
+        z: Math.round(home[2]!)
+      }
+    };
+  };
+  const progressOf = (state: PlayerState) => {
+    const index = states.indexOf(state);
+    const reach = 10 + state.journal.size * 2;
+    return {
+      recipes: unlockedRecipePool
+        .slice(0, Math.min(unlockedRecipePool.length, reach))
+        .map((recipe) => recipe.id!),
+      buildings: piecePool
+        .slice(0, Math.min(piecePool.length, 6 + state.journal.size))
+        .map((piece) => piece.id!),
+      items_picked_up: resourcePool.slice(0, 8 + index).map((item) => item.id!),
+      actors_interacted: ['BP_Crafting_StartingBench_C', 'BP_LoreItem_C'],
+      creatures_killed: [
+        ...creaturePool
+          .slice(0, 4 + Math.min(12, state.journal.size))
+          .map((creature) => creature.id),
+        ...(index % 3 === 0 && bossIds[0] ? [bossIds[0]] : [])
+      ],
+      journal: [...loginFlood, ...state.journal]
+        .map((asset) => journalIds.get(asset))
+        .filter((id): id is string => Boolean(id))
+        .sort(),
+      quest_locations: []
+    };
+  };
   const worldSave = (ms: number) => {
     const savedAt = new Date(ms).toISOString();
     push(ms, 'server.saved', { slot: serverInfo.world_name, ok: true });
@@ -378,7 +511,24 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
         defeated_bosses: ['ai_boss_velgar'],
         values: []
       },
-      buildings: { total: 38, unfinished: 2, types: [{ id: 'sample-timber-wall', count: 38 }] },
+      buildings: {
+        total: 38,
+        unfinished: 2,
+        types: [
+          { id: piecePool[0]!.id!, count: 36 },
+          ...(unfinishedPiece ? [{ id: unfinishedPiece.id!, count: 2 }] : [])
+        ]
+      },
+      bases: [
+        { x: home[0]! + 2400, y: home[1]! - 1800, z: home[2]!, pieces: 36, unfinished: 2 },
+        { x: home[0]! - 9100, y: home[1]! + 6400, z: home[2]!, pieces: 2, unfinished: 0 }
+      ],
+      requirements: (unfinishedPiece?.requirements ?? [])
+        .filter((requirement) => requirement.item && itemIds.has(requirement.item))
+        .map((requirement) => ({
+          item: itemIds.get(requirement.item!)!,
+          missing: 2 * (requirement.count ?? 1)
+        })),
       clock_seconds: (ms - worldStartMs) / 1000,
       discoveries: [{ id: mapFacts.lodestones[0]!.id, characters: 2 }],
       day: dayOf(ms),
@@ -416,8 +566,21 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
         journal_unlocked: state.journal.size + loginFlood.length,
         journal_unread: Math.floor(state.journal.size / 3),
         spells: 1 + Math.floor(state.journal.size / 6),
-        regions_revealed: 1 + Math.floor(state.journal.size / 5)
+        regions_revealed: 1 + Math.floor(state.journal.size / 5),
+        ...carried(state, ms)
       });
+      const progress = progressOf(state);
+      const key = JSON.stringify(progress);
+      if (progressSent.get(state.player.characterGuid) !== key) {
+        progressSent.set(state.player.characterGuid, key);
+        pushProgress(ms + 350, {
+          saved_at: savedAt,
+          character_guid: state.player.characterGuid,
+          user_id: state.player.userId,
+          name: state.player.name,
+          ...progress
+        });
+      }
     }
     push(ms + 400, 'save.read', {
       saved_at: savedAt,

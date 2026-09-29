@@ -297,6 +297,8 @@ type SaveWorldData struct {
 	Discoveries        []SavedDiscovery    `json:"discoveries"`
 	Progress           *SavedWorldProgress `json:"progress"`
 	Buildings          *SavedBuildings     `json:"buildings"`
+	Bases              []SavedBase         `json:"bases"`
+	Requirements       []SavedRequirement  `json:"requirements"`
 	SavedAt            time.Time           `json:"saved_at"`
 	WorldGUID          string              `json:"world_guid"`
 	WorldName          *string             `json:"world_name"`
@@ -333,6 +335,19 @@ type SavedBuildings struct {
 	Total      int                  `json:"total"`
 	Unfinished int                  `json:"unfinished"`
 	Types      []SavedBuildingCount `json:"types"`
+}
+
+type SavedBase struct {
+	X          float64 `json:"x"`
+	Y          float64 `json:"y"`
+	Z          float64 `json:"z"`
+	Pieces     int     `json:"pieces"`
+	Unfinished int     `json:"unfinished"`
+}
+
+type SavedRequirement struct {
+	Item    string `json:"item"`
+	Missing int    `json:"missing"`
 }
 
 type SavedBuildingCount struct {

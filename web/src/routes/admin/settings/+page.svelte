@@ -11,7 +11,7 @@
 
   let { data } = $props();
 
-  const features = (['chat'] as const).map((name) => ({
+  const features = (['chat', 'positions'] as const).map((name) => ({
     name,
     ...t.admin.settings.features[name]
   }));
@@ -25,7 +25,7 @@
   );
   let siteName = $state(untrack(() => saved?.site_name ?? ''));
   let toggles = $state<SiteFeatures>(
-    untrack(() => (saved ? { ...saved.features } : { chat: false }))
+    untrack(() => (saved ? { ...saved.features } : { chat: false, positions: false }))
   );
   let keep = $state<Record<keyof Retention, string>>(
     untrack(() => periodFields(saved?.retention ?? null))

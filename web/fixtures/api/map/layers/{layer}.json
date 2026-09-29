@@ -1,0 +1,287 @@
+{
+  "layer": "dungeons",
+  "build": 25501739,
+  "version": "1.0.0.6",
+  "groups": [
+    {
+      "id": "dungeon-0",
+      "name": null,
+      "kind": "Location.Dungeon.ScornedWilderness",
+      "ref": null,
+      "items": [],
+      "points": [[-748900, 727800]]
+    },
+    {
+      "id": "dungeon-1",
+      "name": null,
+      "kind": "Location.Dungeon.DragonLair.Kuldra",
+      "ref": null,
+      "items": [],
+      "points": [[-147045, 623410]]
+    },
+    {
+      "id": "dungeon-2",
+      "name": null,
+      "kind": "Location.Dungeon.DragonLair.Fuzan",
+      "ref": null,
+      "items": [],
+      "points": [[280160, 533495]]
+    },
+    {
+      "id": "dungeon-3",
+      "name": "Chaktan Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-88733, 182766]]
+    },
+    {
+      "id": "dungeon-4",
+      "name": "Crasorak Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-168544, 105101]]
+    },
+    {
+      "id": "dungeon-5",
+      "name": "Dragon's Lair",
+      "kind": "Location.Dungeon.DragonLair.Velgar",
+      "ref": null,
+      "items": [],
+      "points": [[99365, 428259]]
+    },
+    {
+      "id": "dungeon-6",
+      "name": "Imaru's Lair",
+      "kind": "Location.Dungeon.DragonLair.Imaru",
+      "ref": null,
+      "items": [],
+      "points": [[425987, 447504]]
+    },
+    {
+      "id": "dungeon-7",
+      "name": "Kalistrakthen Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-459235, -319840]]
+    },
+    {
+      "id": "dungeon-8",
+      "name": "Kletterbuja Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-168544, -56646]]
+    },
+    {
+      "id": "dungeon-9",
+      "name": "Nightmare Crucible 1",
+      "kind": "Location.Dungeon.NightmareCrucible.2",
+      "ref": null,
+      "items": [],
+      "points": [[-659400, -218522]]
+    },
+    {
+      "id": "dungeon-10",
+      "name": "Nightmare Crucible 1",
+      "kind": "Location.Dungeon.NightmareCrucible.3",
+      "ref": null,
+      "items": [],
+      "points": [[-759400, -218522]]
+    },
+    {
+      "id": "dungeon-11",
+      "name": "Nightmare Crucible 1",
+      "kind": "Location.Dungeon.NightmareCrucible.4",
+      "ref": null,
+      "items": [],
+      "points": [[-859400, -218522]]
+    },
+    {
+      "id": "dungeon-12",
+      "name": "Nightmare Crucible 1",
+      "kind": "Location.Dungeon.NightmareCrucible.1",
+      "ref": null,
+      "items": [],
+      "points": [[-559400, -218522]]
+    },
+    {
+      "id": "dungeon-13",
+      "name": "Skeklac Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-92468, 40995]]
+    },
+    {
+      "id": "dungeon-14",
+      "name": "Skekven Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-474865, -470915]]
+    },
+    {
+      "id": "dungeon-15",
+      "name": "Spectral Room 1",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[96888, -17328]]
+    },
+    {
+      "id": "dungeon-16",
+      "name": "Spectral Room 10",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[220894, -55025]]
+    },
+    {
+      "id": "dungeon-17",
+      "name": "Spectral Room 11",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[246460, -55025]]
+    },
+    {
+      "id": "dungeon-18",
+      "name": "Spectral Room 12",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[246460, -17672]]
+    },
+    {
+      "id": "dungeon-19",
+      "name": "Spectral Room 2",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[128629, -17328]]
+    },
+    {
+      "id": "dungeon-20",
+      "name": "Spectral Room 3",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[159100, -17328]]
+    },
+    {
+      "id": "dungeon-21",
+      "name": "Spectral Room 4",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[189672, -17328]]
+    },
+    {
+      "id": "dungeon-22",
+      "name": "Spectral Room 5",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[220894, -17328]]
+    },
+    {
+      "id": "dungeon-23",
+      "name": "Spectral Room 6",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[96888, -55025]]
+    },
+    {
+      "id": "dungeon-24",
+      "name": "Spectral Room 7",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[128629, -55025]]
+    },
+    {
+      "id": "dungeon-25",
+      "name": "Spectral Room 8",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[158821, -55025]]
+    },
+    {
+      "id": "dungeon-26",
+      "name": "Spectral Room 9",
+      "kind": "Location.Dungeon.SpectralRoom",
+      "ref": null,
+      "items": [],
+      "points": [[189672, -55025]]
+    },
+    {
+      "id": "dungeon-27",
+      "name": "Takla Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-90186, -56646]]
+    },
+    {
+      "id": "dungeon-28",
+      "name": "Thishepen Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-168544, 182766]]
+    },
+    {
+      "id": "dungeon-29",
+      "name": "Vault Door",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-463000, -127500]]
+    },
+    {
+      "id": "dungeon-30",
+      "name": "Vault Door",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-460700, 194700]]
+    },
+    {
+      "id": "dungeon-31",
+      "name": "Vault Door",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-459000, 61500]]
+    },
+    {
+      "id": "dungeon-32",
+      "name": "Vekchenven Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-333065, -462415]]
+    },
+    {
+      "id": "dungeon-33",
+      "name": "Vertentis Kara",
+      "kind": "Location.Dungeon.DragonkinVault",
+      "ref": null,
+      "items": [],
+      "points": [[-168544, 21520]]
+    },
+    {
+      "id": "dungeon-34",
+      "name": "[PH] Fight Cave",
+      "kind": "Location.Dungeon.FightCave",
+      "ref": null,
+      "items": [],
+      "points": [[-549565, 58806]]
+    }
+  ]
+}

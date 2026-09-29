@@ -145,7 +145,88 @@
     "quests": { "active": 1, "completed": 2 },
     "journal": { "unlocked": 25, "unread": 7 },
     "spells": 4,
-    "regions_revealed": 5
+    "regions_revealed": 5,
+    "inventory": [
+      {
+        "slot": 0,
+        "item": "ITEM_Resources_SealBreakKey_Fall",
+        "name": "Curse Fragment (Rage)",
+        "count": 45,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 1,
+        "item": "ITEM_Resources_SteelBar",
+        "name": "Steel Bar",
+        "count": 54,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Resources_Tea_Leaves",
+        "name": "Tea Leaves",
+        "count": 32,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 3,
+        "item": "ITEM_Resources_Watermelon",
+        "name": "Watermelon",
+        "count": 40,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 4,
+        "item": "ITEM_Resources_Abyssal_Ashes",
+        "name": "Abyssal Ashes",
+        "count": 37,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 5,
+        "item": "ITEM_Resources_Animal_Horn",
+        "name": "Antler",
+        "count": 1,
+        "at_least": true,
+        "durability": null
+      }
+    ],
+    "loadout": [
+      {
+        "slot": 1,
+        "item": "ITEM_Armour_T7_Body_LunarGarouMage",
+        "name": "Lunar Garou Robes",
+        "count": 1,
+        "at_least": true,
+        "durability": 219
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Armour_T7_Legs_Adamant",
+        "name": "Adamant Platelegs",
+        "count": 1,
+        "at_least": true,
+        "durability": 242
+      }
+    ],
+    "unlocks": { "recipes": 54, "buildings": 28, "journal": 25, "creatures": 16 },
+    "level_history": [
+      { "saved_at": "2026-09-25T16:06:01.005Z", "total_level": 185 },
+      { "saved_at": "2026-09-25T16:30:01.005Z", "total_level": 186 },
+      { "saved_at": "2026-09-26T16:22:01.005Z", "total_level": 187 },
+      { "saved_at": "2026-09-26T16:28:01.005Z", "total_level": 188 },
+      { "saved_at": "2026-09-26T17:22:01.005Z", "total_level": 189 },
+      { "saved_at": "2026-09-28T19:04:01.005Z", "total_level": 190 },
+      { "saved_at": "2026-09-28T19:16:01.005Z", "total_level": 191 },
+      { "saved_at": "2026-09-28T19:40:01.005Z", "total_level": 192 },
+      { "saved_at": "2026-09-28T20:04:01.005Z", "total_level": 193 },
+      { "saved_at": "2026-09-28T20:29:00.000Z", "total_level": 193 }
+    ]
   },
   "feats": {
     "journal_entries": 25,

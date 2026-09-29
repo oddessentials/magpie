@@ -3,7 +3,7 @@ import { settings as settingsTable } from './db/schema';
 import { env } from './env';
 import { badRequest, conflict } from './http/respond';
 
-export const featureNames = ['chat'] as const;
+export const featureNames = ['chat', 'positions'] as const;
 export type FeatureName = (typeof featureNames)[number];
 export type Features = Record<FeatureName, boolean>;
 
@@ -50,7 +50,7 @@ export const environmentVariables: Record<LockableField, string> = {
 
 export const defaultSettings: SiteSettings = {
   site_name: 'Dragonwilds server',
-  features: { chat: false },
+  features: { chat: false, positions: false },
   retention: { metrics_days: 30, status_samples_days: 90, world_saves_days: 30 }
 };
 
@@ -188,7 +188,8 @@ export function createSettingsStore(
 export type SettingsStore = ReturnType<typeof createSettingsStore>;
 
 export const featureLabels: Record<FeatureName, string> = {
-  chat: 'Chat'
+  chat: 'Chat',
+  positions: 'Player positions'
 };
 
 export const siteSettings: SettingsStore = createSettingsStore(env);

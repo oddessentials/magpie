@@ -1,0 +1,175 @@
+{
+  "layer": "shrines",
+  "build": 25501739,
+  "version": "1.0.0.6",
+  "groups": [
+    {
+      "id": "shrine-0",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[288488, 198441]]
+    },
+    {
+      "id": "shrine-1",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[124799, 157955]]
+    },
+    {
+      "id": "shrine-2",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[76151, 150386]]
+    },
+    {
+      "id": "shrine-3",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[151032, -62753]]
+    },
+    {
+      "id": "shrine-4",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[-778508, 703792]]
+    },
+    {
+      "id": "shrine-5",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[295248, 164836]]
+    },
+    {
+      "id": "shrine-6",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[74399, 142355]]
+    },
+    {
+      "id": "shrine-7",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[185163, -15881]]
+    },
+    {
+      "id": "shrine-8",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[82654, 173185]]
+    },
+    {
+      "id": "shrine-9",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[241211, 10909]]
+    },
+    {
+      "id": "shrine-10",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[52124, 172225]]
+    },
+    {
+      "id": "shrine-11",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[-717931, 708355]]
+    },
+    {
+      "id": "shrine-12",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[41590, 131700]]
+    },
+    {
+      "id": "shrine-13",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[32025, -46994]]
+    },
+    {
+      "id": "shrine-14",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[-743561, 722041]]
+    },
+    {
+      "id": "shrine-15",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[336637, 131081]]
+    },
+    {
+      "id": "shrine-16",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[51232, 153631]]
+    },
+    {
+      "id": "shrine-17",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[124803, 104132]]
+    },
+    {
+      "id": "shrine-18",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[235467, 43987]]
+    },
+    {
+      "id": "shrine-19",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[194484, 63727]]
+    },
+    {
+      "id": "shrine-20",
+      "name": "Sanguine Urn",
+      "kind": null,
+      "ref": null,
+      "items": [],
+      "points": [[13599, 73449]]
+    }
+  ]
+}

@@ -253,6 +253,26 @@ export interface SavedQuest {
   objective: string | null;
 }
 
+export interface SavedSlot {
+  slot: number;
+  item: string;
+  count: number | null;
+  durability: number | null;
+}
+
+export interface SavedBase {
+  x: number;
+  y: number;
+  z: number;
+  pieces: number;
+  unfinished: number;
+}
+
+export interface SavedRequirement {
+  item: string;
+  missing: number;
+}
+
 export const characterSaves = pgTable(
   'character_saves',
   {
@@ -269,9 +289,38 @@ export const characterSaves = pgTable(
     journalUnread: integer('journal_unread'),
     spells: integer('spells'),
     regionsRevealed: integer('regions_revealed'),
+    inventory: jsonb('inventory').$type<SavedSlot[]>(),
+    loadout: jsonb('loadout').$type<SavedSlot[]>(),
+    x: doublePrecision('x'),
+    y: doublePrecision('y'),
+    z: doublePrecision('z'),
     goneAt: utc('gone_at')
   },
   (table) => [index('character_saves_user_idx').on(table.userId)]
+);
+
+export const characterUnlocks = pgTable(
+  'character_unlocks',
+  {
+    characterGuid: text('character_guid').notNull(),
+    kind: text('kind').notNull(),
+    id: text('id').notNull(),
+    firstSeenAt: utc('first_seen_at').notNull()
+  },
+  (table) => [
+    primaryKey({ columns: [table.characterGuid, table.kind, table.id] }),
+    index('character_unlocks_kind_idx').on(table.kind, table.id)
+  ]
+);
+
+export const characterSkillSamples = pgTable(
+  'character_skill_samples',
+  {
+    characterGuid: text('character_guid').notNull(),
+    savedAt: utc('saved_at').notNull(),
+    skills: jsonb('skills').$type<SavedSkill[]>().notNull()
+  },
+  (table) => [primaryKey({ columns: [table.characterGuid, table.savedAt] })]
 );
 
 export interface SavedWeather {
@@ -299,6 +348,8 @@ export const worldSaves = pgTable('world_saves', {
     unfinished: number;
     types: { id: string; count: number }[];
   }>(),
+  bases: jsonb('bases').$type<SavedBase[]>(),
+  requirements: jsonb('requirements').$type<SavedRequirement[]>(),
   savedAt: utc('saved_at').primaryKey(),
   worldGuid: text('world_guid').notNull(),
   worldName: text('world_name'),
@@ -370,6 +421,7 @@ export type JobRow = typeof jobs.$inferSelect;
 export type DeathRow = typeof deaths.$inferSelect;
 export type CharacterSaveRow = typeof characterSaves.$inferSelect;
 export type WorldSaveRow = typeof worldSaves.$inferSelect;
+export type CharacterUnlockRow = typeof characterUnlocks.$inferSelect;
 
 export const projectionTables = [
   sessions,
@@ -379,5 +431,7 @@ export const projectionTables = [
   feats,
   chatMessages,
   characterSaves,
-  worldSaves
+  worldSaves,
+  characterUnlocks,
+  characterSkillSamples
 ] as const;

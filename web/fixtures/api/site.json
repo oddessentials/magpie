@@ -1,1 +1,5 @@
-{ "name": "Dragonwilds server", "version": "0.1.0", "features": { "chat": true } }
+{
+  "name": "Dragonwilds server",
+  "version": "0.1.0",
+  "features": { "chat": true, "positions": true }
+}

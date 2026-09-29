@@ -54,6 +54,7 @@ describe('resolved settings', () => {
   it('falls back to the defaults, with chat off', () => {
     expect(resolveSettings({}, unset)).toEqual({ ...defaultSettings, locked: [] });
     expect(defaultSettings.features.chat).toBe(false);
+    expect(defaultSettings.features.positions).toBe(false);
   });
 
   it('uses stored values and ignores malformed ones', () => {
@@ -68,7 +69,7 @@ describe('resolved settings', () => {
       )
     ).toEqual({
       site_name: 'Brynmoor',
-      features: { chat: true },
+      features: { chat: true, positions: false },
       retention: { ...defaultSettings.retention, metrics_days: 60 },
       locked: []
     });

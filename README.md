@@ -171,7 +171,7 @@ Remote saves are limited to 512 MiB. A download must match the remote size and m
 
 Before anything leaves the machine the collector removes the world password from the log's login lines, the password lines the server prints, join codes, addresses, platform ids and every other id, keeping a player's name and platform family. Your site never shows any of them.
 
-From the world save the collector sends each character's skills, quests, inventory and equipped items, last saved position, and the unlocks the save records: recipes, building pieces, items picked up, objects interacted with, creatures killed, journal entries and quest locations. Slot identifiers and the world password are never sent.
+From the world save the collector sends each character's skills, quests, inventory and equipped items, last saved position, and the unlocks the save records: recipes, building pieces, items picked up, objects interacted with, creatures killed, journal entries and quest locations. It also sends where the world's building pieces stand, grouped into bases, and what unfinished pieces still need. Slot identifiers and the world password are never sent. The site shows saved positions, bases and death locations only when the admin turns on **Player positions**, which is off by default.
 
 </details>
 

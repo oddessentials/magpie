@@ -33,7 +33,7 @@ import {
   openSession,
   sessionJoinedAt
 } from './sessions';
-import { applySavePlayer, applySaveRead, applySaveWorld } from './saves';
+import { applySavePlayer, applySaveProgress, applySaveRead, applySaveWorld } from './saves';
 
 type Schemas = components['schemas'];
 
@@ -549,6 +549,8 @@ export async function applyEvent(
       return applySaveWorld(ctx, event);
     case 'save.player':
       return applySavePlayer(ctx, event);
+    case 'save.progress':
+      return applySaveProgress(ctx, event);
     case 'save.read':
       return applySaveRead(ctx, event);
     case 'log.other':

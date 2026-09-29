@@ -172,7 +172,95 @@
     "quests": { "active": 0, "completed": 4 },
     "journal": { "unlocked": 43, "unread": 13 },
     "spells": 7,
-    "regions_revealed": 9
+    "regions_revealed": 9,
+    "inventory": [
+      {
+        "slot": 0,
+        "item": "ITEM_Resources_Fish_Raw_Salmon",
+        "name": "Raw Salmon",
+        "count": 58,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 1,
+        "item": "ITEM_Resources_Ground_Clay",
+        "name": "Ground Clay",
+        "count": 33,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Resources_IronBar",
+        "name": "Iron Bar",
+        "count": 25,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 3,
+        "item": "ITEM_Resources_Leather_Hard",
+        "name": "Hard Leather",
+        "count": 42,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 4,
+        "item": "ITEM_Resources_Monstrous_Fang",
+        "name": "Monstrous Fang",
+        "count": 27,
+        "at_least": false,
+        "durability": null
+      },
+      {
+        "slot": 5,
+        "item": "ITEM_Resources_Ruby",
+        "name": "Ruby",
+        "count": 1,
+        "at_least": true,
+        "durability": null
+      }
+    ],
+    "loadout": [
+      {
+        "slot": 1,
+        "item": "ITEM_Armour_T5_Body_Ranger",
+        "name": "Ranger Tunic",
+        "count": 1,
+        "at_least": true,
+        "durability": 342
+      },
+      {
+        "slot": 2,
+        "item": "ITEM_Armour_T5_Head_Steel",
+        "name": "Steel Full Helm",
+        "count": 1,
+        "at_least": true,
+        "durability": 403
+      }
+    ],
+    "unlocks": { "recipes": 90, "buildings": 46, "journal": 43, "creatures": 16 },
+    "level_history": [
+      { "saved_at": "2026-09-22T15:30:01.005Z", "total_level": 161 },
+      { "saved_at": "2026-09-22T16:00:01.005Z", "total_level": 162 },
+      { "saved_at": "2026-09-22T16:06:01.005Z", "total_level": 163 },
+      { "saved_at": "2026-09-22T16:24:01.005Z", "total_level": 164 },
+      { "saved_at": "2026-09-23T17:07:01.005Z", "total_level": 165 },
+      { "saved_at": "2026-09-23T17:37:01.005Z", "total_level": 166 },
+      { "saved_at": "2026-09-23T17:49:01.005Z", "total_level": 167 },
+      { "saved_at": "2026-09-24T17:24:01.005Z", "total_level": 168 },
+      { "saved_at": "2026-09-25T15:48:01.005Z", "total_level": 169 },
+      { "saved_at": "2026-09-25T15:54:01.005Z", "total_level": 170 },
+      { "saved_at": "2026-09-25T16:06:01.005Z", "total_level": 171 },
+      { "saved_at": "2026-09-25T16:12:01.005Z", "total_level": 172 },
+      { "saved_at": "2026-09-25T16:24:01.005Z", "total_level": 173 },
+      { "saved_at": "2026-09-25T16:42:01.005Z", "total_level": 174 },
+      { "saved_at": "2026-09-25T17:06:01.005Z", "total_level": 175 },
+      { "saved_at": "2026-09-28T20:04:01.005Z", "total_level": 176 },
+      { "saved_at": "2026-09-28T20:29:00.000Z", "total_level": 179 }
+    ]
   },
   "feats": {
     "journal_entries": 43,

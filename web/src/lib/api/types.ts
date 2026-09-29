@@ -271,6 +271,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/catalog': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getCatalog'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/chat': {
     parameters: {
       query?: never;
@@ -303,6 +319,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/journal': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getJournal'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/ledger': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getLedger'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/map': {
     parameters: {
       query?: never;
@@ -311,6 +359,38 @@ export interface paths {
       cookie?: never;
     };
     get: operations['getWorldMap'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/map/layers/{layer}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getMapLayer'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/map/live': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getMapLive'];
     put?: never;
     post?: never;
     delete?: never;
@@ -391,6 +471,22 @@ export interface paths {
       cookie?: never;
     };
     get: operations['listPlayerSessions'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/progression': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['getProgression'];
     put?: never;
     post?: never;
     delete?: never;
@@ -651,6 +747,58 @@ export interface components {
       data: components['schemas']['BuildingPlacedData'];
       type: 'building.placed';
     };
+    Catalog: {
+      build: number;
+      buildings: components['schemas']['CatalogBuilding'][];
+      items: components['schemas']['CatalogItem'][];
+      recipes: components['schemas']['CatalogRecipe'][];
+      skills: {
+        asset: string;
+        id: string;
+        name: string | null;
+      }[];
+      stations: components['schemas']['CatalogStation'][];
+      version: string;
+    };
+    CatalogAmount: {
+      count: number | null;
+      item: string | null;
+    };
+    CatalogBuilding: {
+      asset: string;
+      category: string | null;
+      id: string | null;
+      name: string | null;
+      requirements: components['schemas']['CatalogAmount'][];
+      unlock: string | null;
+      xp: components['schemas']['CatalogXp'][];
+    };
+    CatalogItem: {
+      asset: string;
+      category: string | null;
+      id: string | null;
+      name: string | null;
+      stack: number | null;
+    };
+    CatalogRecipe: {
+      asset: string;
+      consumes: components['schemas']['CatalogAmount'][];
+      creates: components['schemas']['CatalogAmount'][];
+      id: string | null;
+      stations: string[];
+      unlock: string | null;
+      xp: components['schemas']['CatalogXp'][];
+    };
+    CatalogStation: {
+      building: string | null;
+      id: string;
+      kind: 'crafting' | 'processing';
+      name: string | null;
+    };
+    CatalogXp: {
+      skill: string;
+      xp: number;
+    };
     CharacterGuid: string | null;
     ChatChannel: 'global' | 'direct' | 'other';
     ChatItem: {
@@ -903,6 +1051,30 @@ export interface components {
     JobAccepted: {
       job_id: number;
     };
+    Journal: {
+      entries: {
+        asset: string;
+        category: string | null;
+        creature: string | null;
+        first_found: {
+          at: string;
+          player: number;
+        } | null;
+        found_by: number[];
+        group: string | null;
+        id: string | null;
+        item: string | null;
+        name: string | null;
+        recipe: string | null;
+        regions: string[];
+        unlock: string | null;
+      }[];
+      players: {
+        found: number;
+        player: components['schemas']['PlayerRef'];
+      }[];
+      saved_at: string | null;
+    };
     JournalUnlockedData: {
       character_guid: components['schemas']['CharacterGuid'];
       entry: string;
@@ -914,6 +1086,34 @@ export interface components {
     JournalUnlockedEvent: components['schemas']['EventEnvelope'] & {
       data: components['schemas']['JournalUnlockedData'];
       type: 'journal.unlocked';
+    };
+    Ledger: {
+      base: {
+        pieces: number;
+        requirements: {
+          item: string;
+          missing: number;
+        }[];
+        saved_at: string;
+        unfinished: number;
+      } | null;
+      players: {
+        buildings: string[];
+        player: components['schemas']['PlayerRef'];
+        recipes: string[];
+        saved_at: string;
+      }[];
+      saved_at: string | null;
+      stock: {
+        at_least: boolean;
+        count: number;
+        holders: {
+          at_least: boolean;
+          count: number;
+          player: components['schemas']['PlayerRef'];
+        }[];
+        item: string;
+      }[];
     };
     LoginRequest: {
       password: string;
@@ -928,6 +1128,49 @@ export interface components {
     LogOtherEvent: components['schemas']['EventEnvelope'] & {
       data: components['schemas']['LogOtherData'];
       type: 'log.other';
+    };
+    MapLayer: {
+      build: number;
+      groups: components['schemas']['MapLayerGroup'][];
+      layer: components['schemas']['MapLayerName'];
+      version: string;
+    };
+    MapLayerGroup: {
+      id: string;
+      items: string[];
+      kind: string | null;
+      name: string | null;
+      points: number[][];
+      ref: string | null;
+    };
+    MapLayerName:
+      | 'resources'
+      | 'fishing'
+      | 'chests'
+      | 'lore'
+      | 'spawns'
+      | 'quests'
+      | 'shrines'
+      | 'teleporters'
+      | 'dungeons'
+      | 'vents';
+    MapLive: {
+      bases: {
+        pieces: number;
+        position: components['schemas']['MapPoint'];
+        saved_at: string;
+        unfinished: number;
+      }[];
+      deaths: {
+        at: string;
+        player: components['schemas']['PlayerRef'] | null;
+        position: components['schemas']['MapPoint'];
+      }[];
+      players: {
+        player: components['schemas']['PlayerRef'];
+        position: components['schemas']['MapPoint'];
+        saved_at: string;
+      }[];
     };
     MapPoint: {
       x: number;
@@ -968,7 +1211,13 @@ export interface components {
     };
     PlayerCharacter: {
       health: components['schemas']['PlayerHealth'] | null;
+      inventory: components['schemas']['PlayerSlot'][] | null;
       journal: components['schemas']['PlayerJournal'];
+      level_history: {
+        saved_at: string;
+        total_level: number;
+      }[];
+      loadout: components['schemas']['PlayerSlot'][] | null;
       playtime_s: number | null;
       quests: components['schemas']['PlayerQuests'];
       regions_revealed: number | null;
@@ -976,6 +1225,7 @@ export interface components {
       skills: components['schemas']['PlayerSkill'][];
       spells: number | null;
       total_level: number | null;
+      unlocks: components['schemas']['PlayerUnlocks'] | null;
     };
     PlayerDiedData: {
       cause?: string | null;
@@ -1098,6 +1348,14 @@ export interface components {
       next_level_xp: number | null;
       xp: number;
     };
+    PlayerSlot: {
+      at_least: boolean;
+      count: number;
+      durability: number | null;
+      item: string | null;
+      name: string | null;
+      slot: number;
+    };
     PlayerSummary: {
       deaths: number;
       first_seen: string;
@@ -1108,6 +1366,12 @@ export interface components {
       platform: components['schemas']['Platform'];
       playtime_s: number;
       sessions: number;
+    };
+    PlayerUnlocks: {
+      buildings: number;
+      creatures: number;
+      journal: number;
+      recipes: number;
     };
     PlayerXpData: {
       character_guid: components['schemas']['CharacterGuid'];
@@ -1122,6 +1386,42 @@ export interface components {
     PlayerXpEvent: components['schemas']['EventEnvelope'] & {
       data: components['schemas']['PlayerXpData'];
       type: 'player.xp';
+    };
+    Progression: {
+      players: {
+        bosses: string[];
+        buildings: number;
+        creatures: number;
+        journal: number;
+        latest: {
+          at: string;
+          kind: 'recipe' | 'building' | 'journal';
+          name: string | null;
+        } | null;
+        player: components['schemas']['PlayerRef'];
+        quests: {
+          active: number;
+          completed: number;
+          main_completed: number;
+        };
+        recipes: number;
+        saved_at: string;
+        skills: {
+          id: string;
+          level: number | null;
+          name: string;
+        }[];
+        total_level: number | null;
+      }[];
+      totals: {
+        bosses: number;
+        buildings: number;
+        journal: number;
+        main_quests: number;
+        quests: number;
+        recipes: number;
+        skills: number;
+      };
     };
     QuestUpdatedData: {
       character_guid: components['schemas']['CharacterGuid'];
@@ -1148,6 +1448,15 @@ export interface components {
       status_samples_days: number;
       world_saves_days: number;
     };
+    SavedBase: {
+      pieces: number;
+      unfinished: number;
+      x: number;
+      y: number;
+      z: number;
+    } & {
+      [key: string]: unknown;
+    };
     SavedBuildings: {
       total: number;
       types: {
@@ -1159,6 +1468,12 @@ export interface components {
     SavedDiscovery: {
       characters: number;
       id: string;
+    };
+    SavedRequirement: {
+      item: string;
+      missing: number;
+    } & {
+      [key: string]: unknown;
     };
     SavedWorldProgress: {
       defeated_bosses: string[];
@@ -1263,6 +1578,7 @@ export interface components {
       [key: string]: unknown;
     };
     SaveWorldData: {
+      bases?: components['schemas']['SavedBase'][] | null;
       buildings?: components['schemas']['SavedBuildings'] | null;
       clock_seconds?: number | null;
       day?: number | null;
@@ -1273,6 +1589,7 @@ export interface components {
       hardcore?: boolean | null;
       last_saved_by?: string | null;
       progress?: components['schemas']['SavedWorldProgress'] | null;
+      requirements?: components['schemas']['SavedRequirement'][] | null;
       saved_at: string;
       size_bytes?: number | null;
       time_of_day?: number | null;
@@ -1382,6 +1699,7 @@ export interface components {
     };
     SiteFeatures: {
       chat: boolean;
+      positions: boolean;
     };
     SkillLevelUpData: {
       character_guid: components['schemas']['CharacterGuid'];
@@ -1620,6 +1938,13 @@ export type Backup = components['schemas']['Backup'];
 export type BackupList = components['schemas']['BackupList'];
 export type BuildingPlacedData = components['schemas']['BuildingPlacedData'];
 export type BuildingPlacedEvent = components['schemas']['BuildingPlacedEvent'];
+export type Catalog = components['schemas']['Catalog'];
+export type CatalogAmount = components['schemas']['CatalogAmount'];
+export type CatalogBuilding = components['schemas']['CatalogBuilding'];
+export type CatalogItem = components['schemas']['CatalogItem'];
+export type CatalogRecipe = components['schemas']['CatalogRecipe'];
+export type CatalogStation = components['schemas']['CatalogStation'];
+export type CatalogXp = components['schemas']['CatalogXp'];
 export type CharacterGuid = components['schemas']['CharacterGuid'];
 export type ChatChannel = components['schemas']['ChatChannel'];
 export type ChatItem = components['schemas']['ChatItem'];
@@ -1652,11 +1977,17 @@ export type ItemCraftedData = components['schemas']['ItemCraftedData'];
 export type ItemCraftedEvent = components['schemas']['ItemCraftedEvent'];
 export type Job = components['schemas']['Job'];
 export type JobAccepted = components['schemas']['JobAccepted'];
+export type Journal = components['schemas']['Journal'];
 export type JournalUnlockedData = components['schemas']['JournalUnlockedData'];
 export type JournalUnlockedEvent = components['schemas']['JournalUnlockedEvent'];
+export type Ledger = components['schemas']['Ledger'];
 export type LoginRequest = components['schemas']['LoginRequest'];
 export type LogOtherData = components['schemas']['LogOtherData'];
 export type LogOtherEvent = components['schemas']['LogOtherEvent'];
+export type MapLayer = components['schemas']['MapLayer'];
+export type MapLayerGroup = components['schemas']['MapLayerGroup'];
+export type MapLayerName = components['schemas']['MapLayerName'];
+export type MapLive = components['schemas']['MapLive'];
 export type MapPoint = components['schemas']['MapPoint'];
 export type OnlineList = components['schemas']['OnlineList'];
 export type OnlinePlayer = components['schemas']['OnlinePlayer'];
@@ -1684,15 +2015,20 @@ export type PlayerRef = components['schemas']['PlayerRef'];
 export type PlayerRespawnedData = components['schemas']['PlayerRespawnedData'];
 export type PlayerRespawnedEvent = components['schemas']['PlayerRespawnedEvent'];
 export type PlayerSkill = components['schemas']['PlayerSkill'];
+export type PlayerSlot = components['schemas']['PlayerSlot'];
 export type PlayerSummary = components['schemas']['PlayerSummary'];
+export type PlayerUnlocks = components['schemas']['PlayerUnlocks'];
 export type PlayerXpData = components['schemas']['PlayerXpData'];
 export type PlayerXpEvent = components['schemas']['PlayerXpEvent'];
+export type Progression = components['schemas']['Progression'];
 export type QuestUpdatedData = components['schemas']['QuestUpdatedData'];
 export type QuestUpdatedEvent = components['schemas']['QuestUpdatedEvent'];
 export type RemoteObservation = components['schemas']['RemoteObservation'];
 export type Retention = components['schemas']['Retention'];
+export type SavedBase = components['schemas']['SavedBase'];
 export type SavedBuildings = components['schemas']['SavedBuildings'];
 export type SavedDiscovery = components['schemas']['SavedDiscovery'];
+export type SavedRequirement = components['schemas']['SavedRequirement'];
 export type SavedWorldProgress = components['schemas']['SavedWorldProgress'];
 export type SaveIdList = components['schemas']['SaveIdList'];
 export type SavePlayerData = components['schemas']['SavePlayerData'];
@@ -2251,6 +2587,29 @@ export interface operations {
       503: components['responses']['Unavailable'];
     };
   };
+  getCatalog: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          'Cache-Control': components['headers']['CacheControl'];
+          ETag: components['headers']['ETag'];
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Catalog'];
+        };
+      };
+      429: components['responses']['RateLimited'];
+      503: components['responses']['Unavailable'];
+    };
+  };
   listChat: {
     parameters: {
       query?: {
@@ -2299,6 +2658,52 @@ export interface operations {
       };
     };
   };
+  getJournal: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          'Cache-Control': components['headers']['CacheControl'];
+          ETag: components['headers']['ETag'];
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Journal'];
+        };
+      };
+      429: components['responses']['RateLimited'];
+      503: components['responses']['Unavailable'];
+    };
+  };
+  getLedger: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          'Cache-Control': components['headers']['CacheControl'];
+          ETag: components['headers']['ETag'];
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Ledger'];
+        };
+      };
+      429: components['responses']['RateLimited'];
+      503: components['responses']['Unavailable'];
+    };
+  };
   getWorldMap: {
     parameters: {
       query?: never;
@@ -2318,6 +2723,56 @@ export interface operations {
           'application/json': components['schemas']['WorldMap'];
         };
       };
+      429: components['responses']['RateLimited'];
+      503: components['responses']['Unavailable'];
+    };
+  };
+  getMapLayer: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        layer: components['schemas']['MapLayerName'];
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          'Cache-Control': components['headers']['CacheControl'];
+          ETag: components['headers']['ETag'];
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MapLayer'];
+        };
+      };
+      404: components['responses']['NotFound'];
+      429: components['responses']['RateLimited'];
+      503: components['responses']['Unavailable'];
+    };
+  };
+  getMapLive: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          'Cache-Control': components['headers']['CacheControl'];
+          ETag: components['headers']['ETag'];
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MapLive'];
+        };
+      };
+      404: components['responses']['NotFound'];
       429: components['responses']['RateLimited'];
       503: components['responses']['Unavailable'];
     };
@@ -2446,6 +2901,29 @@ export interface operations {
       };
       400: components['responses']['BadRequest'];
       404: components['responses']['NotFound'];
+      429: components['responses']['RateLimited'];
+      503: components['responses']['Unavailable'];
+    };
+  };
+  getProgression: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          'Cache-Control': components['headers']['CacheControl'];
+          ETag: components['headers']['ETag'];
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Progression'];
+        };
+      };
       429: components['responses']['RateLimited'];
       503: components['responses']['Unavailable'];
     };

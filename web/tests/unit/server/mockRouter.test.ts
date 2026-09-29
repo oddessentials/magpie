@@ -1,6 +1,13 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { describe, expect, it } from 'vitest';
-import type { ActivityPage, Player, PlayerPage, SessionPage } from '$lib/api/types';
+import type {
+  ActivityPage,
+  Catalog,
+  MapLayer,
+  Player,
+  PlayerPage,
+  SessionPage
+} from '$lib/api/types';
 import { answerFromFixtures } from '$lib/server/mock/router';
 
 async function get<T>(path: string): Promise<{ status: number; body: T }> {
@@ -37,6 +44,15 @@ describe('mock API', () => {
     const player = feed.items[0]!.player!.id;
     const { body: mine } = await get<ActivityPage>(`/api/v1/activity?player=${player}`);
     expect(mine.items.every((item) => item.player?.id === player)).toBe(true);
+  });
+
+  it('pages only the lists the contract pages', async () => {
+    const { body: catalog } = await get<Catalog>('/api/v1/catalog');
+    expect(catalog.items.length).toBeGreaterThan(200);
+    const { body: layer } = await get<MapLayer>('/api/v1/map/layers/dungeons');
+    expect(layer.layer).toBe('dungeons');
+    const { status } = await get('/api/v1/chat?limit=500');
+    expect(status).toBe(400);
   });
 
   it('answers 404 for a player that does not exist', async () => {
