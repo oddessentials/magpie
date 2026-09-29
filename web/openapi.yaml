@@ -3590,6 +3590,7 @@ components:
           type: string
         state:
           type: string
+          description: ungiven, given or completed, the names of the game's EQuestState values 0, 1 and 2 (build 25501739). Another value is sent as its number. Earlier collectors sent every state as its number.
         objective:
           type:
             - string
@@ -3817,7 +3818,7 @@ components:
           type: string
         state:
           type: string
-          description: The quest state name, completed when the quest was finished.
+          description: The quest state name, completed when the quest was finished. The site also reads complete and 2 as finished.
         objective:
           type:
             - string

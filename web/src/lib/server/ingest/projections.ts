@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { and, asc, eq, gte, isNull, lt, lte, ne, or, sql } from 'drizzle-orm';
 import type { components } from '$lib/api/types';
+import { isQuestComplete } from '$lib/quests';
 import {
   chatMessages,
   collectorRuns,
@@ -394,7 +395,7 @@ async function questUpdated(
   const data = event.data as unknown as Schemas['QuestUpdatedData'];
   const player = await identifyPlayer(ctx, data, ts);
   if (!player) return { playerId: null, quiet: true };
-  const completed = ['completed', 'complete'].includes(data.state.toLowerCase());
+  const completed = isQuestComplete(data.state);
   if (completed) await recordFeat(ctx, event, ts, player, 'quest', data.quest, null);
   return { playerId: player.id, quiet: !completed };
 }

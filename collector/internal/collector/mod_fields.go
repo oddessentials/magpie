@@ -84,7 +84,7 @@ func (c *Collector) structuredModEvent(record modevents.Record, id event.Identit
 		}
 		quest := modevents.AssetName(modevents.String(params, "UpdatedQuest", "Data"))
 		value, ok := modevents.Number(params, "UpdatedQuest", "State")
-		state := map[float64]string{0: "ungiven", 1: "given", 2: "completed"}[value]
+		state := event.QuestState(value)
 		if !ok || quest == "" || state == "" {
 			return other, true
 		}

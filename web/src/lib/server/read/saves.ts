@@ -1,4 +1,5 @@
 import { desc, eq, isNull, and } from 'drizzle-orm';
+import { isQuestComplete } from '$lib/quests';
 import type { Database } from '../db/client';
 import { characterSaves, worldSaves, type CharacterSaveRow, type WorldSaveRow } from '../db/schema';
 import type { Schemas } from './common';
@@ -7,8 +8,6 @@ import { levelForXp, skillFacts, skillOf, xpToReach } from './facts';
 export type PlayerCharacter = Schemas['PlayerCharacter'];
 export type PlayerSkill = Schemas['PlayerSkill'];
 export type WorldSave = Schemas['WorldSave'];
-
-const completedStates = new Set(['completed', 'complete']);
 
 export function skillsOf(saved: { id: string; xp: number }[]): PlayerSkill[] {
   const byId = new Map(saved.map((skill) => [skill.id, skill.xp]));
@@ -44,9 +43,7 @@ export function totalLevelOf(skills: PlayerSkill[]): number | null {
 
 export function characterOf(row: CharacterSaveRow | null | undefined): PlayerCharacter | null {
   if (!row || row.goneAt) return null;
-  const completed = row.quests.filter((quest) =>
-    completedStates.has(quest.state.toLowerCase())
-  ).length;
+  const completed = row.quests.filter((quest) => isQuestComplete(quest.state)).length;
   const skills = skillsOf(row.skills);
   return {
     saved_at: row.savedAt.toISOString(),
