@@ -139,7 +139,11 @@ export const serverSettings = {
 };
 
 export const collectorName = 'magpie-collector';
-export const collectorVersion = '0.1.0';
+export const collectorVersion = (
+  JSON.parse(readFileSync(new URL('../../../package.json', import.meta.url), 'utf8')) as {
+    version: string;
+  }
+).version;
 export const realMinutesPerDay = clockFacts.realMinutesPerGameDay;
 
 const cast: Omit<SimulatedPlayer, 'userId' | 'characterGuid' | 'platform'>[] = [

@@ -1,12 +1,12 @@
 {
-  "site_version": "0.1.0",
+  "site_version": "0.1.1",
   "secret": "mock-collector-secret-0123456789",
   "secret_from_environment": false,
   "runs": [
     {
       "run_id": "60c22306-a1db-4095-a48a-f3f496129bab",
       "name": "magpie-collector",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "os": "windows",
       "arch": "amd64",
       "started_at": "2026-09-25T10:47:20.000Z",
@@ -37,7 +37,7 @@
     {
       "run_id": "9c27d7e1-e3c8-4ec1-8e0f-107589504bdf",
       "name": "magpie-collector",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "os": "windows",
       "arch": "amd64",
       "started_at": "2026-09-21T20:30:00.000Z",
