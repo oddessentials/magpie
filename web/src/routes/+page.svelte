@@ -6,6 +6,7 @@
   import { formatNumber } from '$lib/ui/format';
   import Freshness from '$lib/ui/Freshness.svelte';
   import { useLive } from '$lib/ui/live.svelte';
+  import Meta from '$lib/ui/Meta.svelte';
   import PlatformTag from '$lib/ui/PlatformTag.svelte';
   import PlayerCountChart from '$lib/ui/PlayerCountChart.svelte';
   import PlayerLink from '$lib/ui/PlayerLink.svelte';
@@ -33,18 +34,42 @@
   });
 </script>
 
+<Meta title="Today" description={t.site.description(data.siteName)} />
+
 <div class="flex flex-col gap-8">
-  <header class="rise flex flex-col gap-2">
-    <p class="eyebrow">
-      {status?.server.name ?? data.siteName}{status?.save.day !== null &&
-      status?.save.day !== undefined
-        ? ` · ${t.today.day(status.save.day)}`
-        : ''}
-    </p>
-    <h1 class="hero-title">{headline}</h1>
-    {#if status?.server.world_name}
-      <p class="max-w-2xl text-[0.875rem] text-ink-muted">{status.server.world_name}</p>
-    {/if}
+  <header class="today-hero rise">
+    <picture class="today-art" aria-hidden="true">
+      <source
+        type="image/avif"
+        srcset="/art/wilds-800.avif 800w, /art/wilds-1600.avif 1600w"
+        sizes="(min-width: 1152px) 1100px, 100vw"
+      />
+      <img
+        src="/art/wilds-1600.webp"
+        srcset="/art/wilds-800.webp 800w, /art/wilds-1600.webp 1600w"
+        sizes="(min-width: 1152px) 1100px, 100vw"
+        alt=""
+        width="1600"
+        height="900"
+        fetchpriority="high"
+      />
+    </picture>
+    <div class="today-copy">
+      <p class="eyebrow">
+        {status?.server.name ?? data.siteName}{status?.save.day !== null &&
+        status?.save.day !== undefined
+          ? ` · ${t.today.day(status.save.day)}`
+          : ''}
+      </p>
+      <h1 class="hero-title">{headline}</h1>
+      {#if status?.server.world_name}
+        <p class="max-w-2xl text-[0.875rem] text-ink-muted">{status.server.world_name}</p>
+      {/if}
+      <p class="note mt-4 text-gold">Every adventure leaves a story.</p>
+      <a class="journal-link" href="/players"
+        >Meet the adventurers <span aria-hidden="true">→</span></a
+      >
+    </div>
   </header>
 
   {#if fresh}

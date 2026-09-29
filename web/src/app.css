@@ -35,14 +35,14 @@
 :root {
   color-scheme: dark;
   --color-surface: #101522;
-  --color-surface-raised: #182034;
+  --color-surface-raised: #171f2b;
   --color-surface-sunken: #0b0f19;
   --color-surface-hover: #1d2740;
   --color-ink: #eef1f6;
   --color-ink-muted: #aab3c5;
   --color-ink-faint: #aab3c5;
-  --color-line: #26304a;
-  --color-line-strong: #3a4664;
+  --color-line: #2e3947;
+  --color-line-strong: #4a5868;
   --color-accent: #3fc9b0;
   --color-accent-bright: #7ee6d0;
   --color-accent-deep: #1c8a78;
@@ -183,11 +183,12 @@
 
 @layer components {
   .eyebrow {
+    font-family: var(--font-mono);
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-gold);
   }
 
   .label {
@@ -284,7 +285,7 @@
     border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
     background:
-      radial-gradient(ellipse at 0 0, rgba(63, 201, 176, 0.06), transparent 60%),
+      radial-gradient(ellipse at 0 0, rgba(227, 179, 76, 0.035), transparent 60%),
       var(--color-surface-raised);
     box-shadow:
       inset 0 1px 0 0 rgba(255, 255, 255, 0.04),
@@ -293,7 +294,7 @@
   }
 
   .card > header {
-    background: linear-gradient(100deg, rgba(63, 201, 176, 0.06), transparent 65%);
+    background: linear-gradient(100deg, rgba(227, 179, 76, 0.045), transparent 65%);
   }
 
   @media (hover: hover) {
@@ -341,7 +342,7 @@
     height: 100%;
     object-fit: cover;
     object-position: 50% 45%;
-    opacity: 0.6;
+    opacity: 0.32;
   }
 
   .backdrop::after {
@@ -364,9 +365,121 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .backdrop {
-      display: none;
+  .scenery-off .backdrop,
+  .scenery-off .today-art {
+    display: none;
+  }
+
+  .scenery-off .today-hero {
+    min-height: 0;
+  }
+
+  .scenery-off .today-copy {
+    max-width: none;
+  }
+
+  .demo-notice {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 24%, transparent);
+    background: #20232a;
+    color: #d9cba9;
+    font-size: 0.78rem;
+  }
+
+  .demo-notice strong {
+    color: #f0d48e;
+    font-weight: 600;
+  }
+
+  .today-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 21rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-card);
+    background: var(--color-surface-sunken);
+    box-shadow: 0 18px 50px -28px #000;
+  }
+
+  .today-art {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .today-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 33%;
+  }
+
+  .today-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      90deg,
+      rgba(11, 15, 25, 0.96),
+      rgba(11, 15, 25, 0.7) 45%,
+      rgba(11, 15, 25, 0.06) 75%
+    );
+  }
+
+  .today-copy {
+    padding: clamp(1.5rem, 3.5vw, 3rem);
+    max-width: 64%;
+  }
+
+  .today-copy .hero-title {
+    margin-block: 0.8rem;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    text-wrap: balance;
+  }
+
+  .journal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 2.75rem;
+    margin-top: 0.6rem;
+    color: var(--color-accent-bright);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .journal-link:hover {
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 639px) {
+    .today-hero {
+      min-height: 25rem;
+      align-items: flex-end;
+    }
+
+    .today-art img {
+      object-position: 78% center;
+    }
+
+    .today-hero::after {
+      background: linear-gradient(
+        0deg,
+        rgba(11, 15, 25, 0.98),
+        rgba(11, 15, 25, 0.76) 50%,
+        rgba(11, 15, 25, 0.08)
+      );
+    }
+
+    .today-copy {
+      max-width: 100%;
+    }
+
+    .today-copy .hero-title {
+      font-size: 2.4rem;
     }
   }
 
@@ -531,7 +644,9 @@
   }
 
   @media (pointer: coarse) {
-    .btn-primary,
+    .btn,
+    .nav-link,
+    .seg,
     .field {
       min-height: 2.75rem;
     }
