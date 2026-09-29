@@ -174,10 +174,30 @@ try {
     ['player', player],
     ['activity', '/activity'],
     ['world', '/world'],
-    ['map', '/map']
+    ['map', '/map?layers=spawns,dungeons,shrines'],
+    ['ledger', '/ledger?plan=i:ITEM_Pickaxe_Bronze*2,b:BUILDPIECE_ProcessingStation_Smelter*1'],
+    ['journal', '/journal'],
+    ['progression', '/progression']
   ];
+  async function settle(page, name) {
+    if (name === 'ledger') {
+      await page.getByRole('heading', { name: 'Craft' }).waitFor();
+    }
+    if (name === 'map') {
+      await page.locator('path.spots').first().waitFor();
+      await page.waitForFunction(() => !document.body.innerText.includes('loading…'));
+    }
+    if (name === 'player') {
+      await page
+        .getByRole('combobox', { name: /^Skill/ })
+        .and(page.locator(':enabled'))
+        .waitFor();
+    }
+    await page.evaluate(() => document.fonts.ready);
+  }
   for (const [name, path] of views) {
     await open(desktop, `${appUrl}${path}`, true);
+    await settle(desktop, name);
     await stage(
       `${name}.jpg`,
       await desktop.screenshot({ type: 'jpeg', quality: 88, animations: 'disabled' }),
@@ -188,6 +208,7 @@ try {
   const mobile = await createPage({ width: 390, height: 1440 }, 2);
   for (const [name, path] of views) {
     await open(mobile, `${appUrl}${path}`, true);
+    await settle(mobile, name);
     assert.equal(
       await mobile.evaluate(() => document.documentElement.scrollWidth > innerWidth),
       false,
@@ -222,7 +243,7 @@ try {
     viewport: { width: 390, height: 844 }
   });
   await open(noScript, `${siteUrl}/demo.html`);
-  assert.equal(await noScript.locator('.tour-panel:not([hidden])').count(), 5);
+  assert.equal(await noScript.locator('.tour-panel:not([hidden])').count(), views.length);
   assert.equal(await noScript.locator('#map').isVisible(), true);
   await noScript.close();
   await desktop.setViewportSize({ width: 1600, height: 800 });
@@ -253,7 +274,7 @@ try {
   app.assertRunning();
   site.assertRunning();
   assert.deepEqual(errors, [], 'Capture pages must have no browser or asset errors.');
-  assert.equal(captures.length, 12);
+  assert.equal(captures.length, views.length * 2 + 2);
   for (const name of previewNames) {
     for (const variant of await previewVariants(join(staging, `${name}.jpg`), name)) {
       await stage(variant.name, variant.data, variant.width, variant.height);

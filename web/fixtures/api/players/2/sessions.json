@@ -6,7 +6,7 @@
       "left_at": null,
       "duration_s": null,
       "end_reason": null,
-      "deaths": 0
+      "deaths": 1
     },
     {
       "id": 20,
@@ -22,7 +22,7 @@
       "left_at": "2026-09-25T18:32:48.100Z",
       "duration_s": 6607,
       "end_reason": "left",
-      "deaths": 1
+      "deaths": 5
     },
     {
       "id": 9,
@@ -30,7 +30,7 @@
       "left_at": "2026-09-24T17:28:39.100Z",
       "duration_s": 8190,
       "end_reason": "left",
-      "deaths": 1
+      "deaths": 4
     },
     {
       "id": 6,
@@ -38,7 +38,7 @@
       "left_at": "2026-09-23T17:01:46.100Z",
       "duration_s": 4770,
       "end_reason": "left",
-      "deaths": 1
+      "deaths": 0
     },
     {
       "id": 2,

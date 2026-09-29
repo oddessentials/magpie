@@ -34,10 +34,20 @@ export function etagOf(body: string | Uint8Array): string {
   return `"${createHash('sha1').update(body).digest('hex').slice(0, 16)}"`;
 }
 
+export function matchesEtag(request: Request | undefined, etag: string): boolean {
+  const header = request?.headers.get('if-none-match');
+  if (!header) return false;
+  const bare = etag.replace(/^W\//, '');
+  return header
+    .split(',')
+    .map((tag) => tag.trim())
+    .some((tag) => tag === '*' || tag.replace(/^W\//, '') === bare);
+}
+
 export function publicJson(document: unknown, request?: Request): Response {
   const body = JSON.stringify(document);
   const etag = etagOf(body);
-  if (request?.headers.get('if-none-match') === etag) {
+  if (matchesEtag(request, etag)) {
     return new Response(null, {
       status: 304,
       headers: { etag, 'cache-control': 'public, max-age=15' }

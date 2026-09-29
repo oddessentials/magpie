@@ -7,7 +7,7 @@
   "last_seen": "2026-09-28T15:42:48.100Z",
   "playtime_s": 13223,
   "sessions": 3,
-  "deaths": 2,
+  "deaths": 3,
   "current_session": null,
   "chat_messages": 3,
   "recent_sessions": [
@@ -25,7 +25,7 @@
       "left_at": "2026-09-26T14:54:43.100Z",
       "duration_s": 3425,
       "end_reason": "left",
-      "deaths": 0
+      "deaths": 1
     },
     {
       "id": 3,
@@ -37,26 +37,27 @@
     }
   ],
   "recent_deaths": [
-    { "at": "2026-09-28T14:59:01.000Z", "cause": "combat", "killer": "a kebbit", "source": "mod" },
-    { "at": "2026-09-28T13:53:01.000Z", "cause": "combat", "killer": "a kebbit", "source": "mod" }
+    { "at": "2026-09-28T15:23:01.000Z", "cause": "drowning", "killer": null, "source": "mod" },
+    { "at": "2026-09-28T14:41:01.000Z", "cause": "combat", "killer": "a goblin", "source": "mod" },
+    { "at": "2026-09-26T14:38:01.000Z", "cause": "combat", "killer": "a wolf", "source": "mod" }
   ],
   "character": {
     "saved_at": "2026-09-28T20:29:00.000Z",
     "playtime_s": 12360,
-    "health": { "current": 93, "max": 100 },
+    "health": { "current": 61, "max": 100 },
     "skills": [
       {
         "id": "pJggvotwOkuoc98igUn7xA",
         "name": "Agility",
-        "xp": 292,
-        "level": 7,
-        "level_xp": 261,
-        "next_level_xp": 322
+        "xp": 251,
+        "level": 6,
+        "level_xp": 206,
+        "next_level_xp": 261
       },
       {
         "id": "Wf3i7Ha-B06DH719j1vtBw",
         "name": "Artisan",
-        "xp": 2237,
+        "xp": 2246,
         "level": 21,
         "level_xp": 2018,
         "next_level_xp": 2261
@@ -64,15 +65,15 @@
       {
         "id": "4pefO9k1lUqfA6mvHNi1SA",
         "name": "Attack",
-        "xp": 531,
-        "level": 10,
-        "level_xp": 463,
-        "next_level_xp": 545
+        "xp": 569,
+        "level": 11,
+        "level_xp": 545,
+        "next_level_xp": 636
       },
       {
         "id": "waK-8EyQFQ2xEjCGYmuTRQ",
         "name": "Construction",
-        "xp": 310,
+        "xp": 281,
         "level": 7,
         "level_xp": 261,
         "next_level_xp": 322
@@ -80,15 +81,15 @@
       {
         "id": "Tn7t6DQyX0-Q0cM5K7B90A",
         "name": "Cooking",
-        "xp": 680,
-        "level": 12,
-        "level_xp": 636,
-        "next_level_xp": 736
+        "xp": 611,
+        "level": 11,
+        "level_xp": 545,
+        "next_level_xp": 636
       },
       {
         "id": "0hreSMRVXUihq9qjDO2CFA",
         "name": "Magic",
-        "xp": 323,
+        "xp": 361,
         "level": 8,
         "level_xp": 322,
         "next_level_xp": 389
@@ -96,15 +97,15 @@
       {
         "id": "jqX0Gh6QI0GFFPCDFK_CJQ",
         "name": "Mining",
-        "xp": 344,
-        "level": 8,
-        "level_xp": 322,
-        "next_level_xp": 389
+        "xp": 311,
+        "level": 7,
+        "level_xp": 261,
+        "next_level_xp": 322
       },
       {
         "id": "heq7u88Q2UuLXFqLGTVwQw",
         "name": "Ranged",
-        "xp": 1923,
+        "xp": 1949,
         "level": 20,
         "level_xp": 1798,
         "next_level_xp": 2018
@@ -112,7 +113,7 @@
       {
         "id": "NOqC-z-2ckqi0El22qMFlw",
         "name": "Runecrafting",
-        "xp": 725,
+        "xp": 692,
         "level": 12,
         "level_xp": 636,
         "next_level_xp": 736
@@ -120,7 +121,7 @@
       {
         "id": "4zYUGF5u_0KbMLkWJmmBbQ",
         "name": "Woodcutting",
-        "xp": 1285,
+        "xp": 1310,
         "level": 17,
         "level_xp": 1253,
         "next_level_xp": 1417
@@ -128,7 +129,7 @@
       {
         "id": "PyUi-0LU_riFY46AnnFiWg",
         "name": "Farming",
-        "xp": 1672,
+        "xp": 1721,
         "level": 19,
         "level_xp": 1598,
         "next_level_xp": 1798
@@ -136,23 +137,24 @@
       {
         "id": "vwY5IkQJJDwb2PKEfoc8MQ",
         "name": "Fishing",
-        "xp": 2179,
+        "xp": 2144,
         "level": 21,
         "level_xp": 2018,
         "next_level_xp": 2261
       }
     ],
-    "total_level": 162,
-    "quests": { "active": 3, "completed": 0 },
-    "journal": { "unlocked": 31, "unread": 9 },
+    "total_level": 160,
+    "quests": { "active": 1, "completed": 0 },
+    "journal": { "unlocked": 27, "unread": 8 },
     "spells": 5,
-    "regions_revealed": 6,
+    "regions_revealed": 5,
     "inventory": [
       {
         "slot": 0,
         "item": "ITEM_Resources_Watermelon",
         "name": "Watermelon",
-        "count": 33,
+        "category": "Item.Food",
+        "count": 36,
         "at_least": false,
         "durability": null
       },
@@ -160,7 +162,8 @@
         "slot": 1,
         "item": "ITEM_Resources_Abyssal_Ashes",
         "name": "Abyssal Ashes",
-        "count": 7,
+        "category": null,
+        "count": 10,
         "at_least": false,
         "durability": null
       },
@@ -168,7 +171,8 @@
         "slot": 2,
         "item": "ITEM_Resources_Animal_Horn",
         "name": "Antler",
-        "count": 51,
+        "category": null,
+        "count": 25,
         "at_least": false,
         "durability": null
       },
@@ -176,7 +180,8 @@
         "slot": 3,
         "item": "ITEM_Resources_Cabbage",
         "name": "Cabbage",
-        "count": 2,
+        "category": "Item.Food",
+        "count": 60,
         "at_least": false,
         "durability": null
       },
@@ -184,7 +189,8 @@
         "slot": 4,
         "item": "ITEM_Resources_Cloth_Wool",
         "name": "Wool Cloth",
-        "count": 1,
+        "category": null,
+        "count": 27,
         "at_least": false,
         "durability": null
       },
@@ -192,6 +198,7 @@
         "slot": 5,
         "item": "ITEM_Resources_Ectoplasm",
         "name": "Ectoplasm",
+        "category": null,
         "count": 1,
         "at_least": true,
         "durability": null
@@ -202,6 +209,7 @@
         "slot": 1,
         "item": "ITEM_Armour_T8_Head_Ancestral",
         "name": "Ancestral Hat",
+        "category": null,
         "count": 1,
         "at_least": true,
         "durability": 228
@@ -210,28 +218,42 @@
         "slot": 2,
         "item": "ITEM_Armour_Head_AnglersHat",
         "name": "Angler's Hat",
+        "category": null,
         "count": 1,
         "at_least": true,
         "durability": 456
       }
     ],
-    "unlocks": { "recipes": 66, "buildings": 34, "journal": 31, "creatures": 16 },
+    "unlocks": { "recipes": 58, "buildings": 30, "journal": 27, "creatures": 16 },
     "level_history": [
       { "saved_at": "2026-09-23T11:11:01.005Z", "total_level": 154 },
-      { "saved_at": "2026-09-23T11:41:01.005Z", "total_level": 155 },
-      { "saved_at": "2026-09-26T14:16:01.005Z", "total_level": 156 },
-      { "saved_at": "2026-09-26T14:34:01.005Z", "total_level": 157 },
+      { "saved_at": "2026-09-23T11:47:01.005Z", "total_level": 156 },
+      { "saved_at": "2026-09-26T14:16:01.005Z", "total_level": 157 },
+      { "saved_at": "2026-09-26T14:28:01.005Z", "total_level": 158 },
       { "saved_at": "2026-09-26T14:52:01.005Z", "total_level": 159 },
-      { "saved_at": "2026-09-28T14:23:01.005Z", "total_level": 160 },
-      { "saved_at": "2026-09-28T14:47:01.005Z", "total_level": 161 },
-      { "saved_at": "2026-09-28T15:41:01.005Z", "total_level": 162 }
+      { "saved_at": "2026-09-28T14:53:01.005Z", "total_level": 160 },
+      { "saved_at": "2026-09-28T15:41:01.005Z", "total_level": 160 }
+    ],
+    "xp_gains": [
+      { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "day": 21, "week": 38 },
+      { "id": "Wf3i7Ha-B06DH719j1vtBw", "name": "Artisan", "day": 36, "week": 66 },
+      { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "day": 45, "week": 59 },
+      { "id": "waK-8EyQFQ2xEjCGYmuTRQ", "name": "Construction", "day": 20, "week": 50 },
+      { "id": "Tn7t6DQyX0-Q0cM5K7B90A", "name": "Cooking", "day": 28, "week": 65 },
+      { "id": "0hreSMRVXUihq9qjDO2CFA", "name": "Magic", "day": 30, "week": 77 },
+      { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "day": 21, "week": 52 },
+      { "id": "heq7u88Q2UuLXFqLGTVwQw", "name": "Ranged", "day": 82, "week": 117 },
+      { "id": "NOqC-z-2ckqi0El22qMFlw", "name": "Runecrafting", "day": 52, "week": 73 },
+      { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "day": 42, "week": 76 },
+      { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "day": 46, "week": 95 },
+      { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "day": 50, "week": 67 }
     ]
   },
   "feats": {
-    "journal_entries": 31,
-    "level_ups": 8,
+    "journal_entries": 27,
+    "level_ups": 6,
     "quests_completed": 0,
-    "buildings": 13,
-    "crafts": 11
+    "buildings": 6,
+    "crafts": 6
   }
 }

@@ -6,117 +6,182 @@
     "journal": 1287,
     "recipes": 1125,
     "buildings": 838,
-    "bosses": 4
+    "bosses": 4,
+    "areas": [
+      { "area": "Brynmoor", "quests": 5 },
+      { "area": "Dowdun Reach", "quests": 3 },
+      { "area": "Fellhollow", "quests": 8 },
+      { "area": "Ghornfell", "quests": 7 },
+      { "area": "Umbral Sands", "quests": 5 },
+      { "area": null, "quests": 18 }
+    ]
   },
+  "bosses": ["Black Knight Titan", "Fuzan", "General Velgar", "Imaru"],
   "players": [
     {
       "player": { "id": 3, "name": "Bramble" },
       "saved_at": "2026-09-28T20:29:00.000Z",
-      "total_level": 162,
+      "total_level": 160,
       "skills": [
-        { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 7 },
+        { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 6 },
         { "id": "Wf3i7Ha-B06DH719j1vtBw", "name": "Artisan", "level": 21 },
-        { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "level": 10 },
+        { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "level": 11 },
         { "id": "waK-8EyQFQ2xEjCGYmuTRQ", "name": "Construction", "level": 7 },
-        { "id": "Tn7t6DQyX0-Q0cM5K7B90A", "name": "Cooking", "level": 12 },
+        { "id": "Tn7t6DQyX0-Q0cM5K7B90A", "name": "Cooking", "level": 11 },
         { "id": "0hreSMRVXUihq9qjDO2CFA", "name": "Magic", "level": 8 },
-        { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 8 },
+        { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 7 },
         { "id": "heq7u88Q2UuLXFqLGTVwQw", "name": "Ranged", "level": 20 },
         { "id": "NOqC-z-2ckqi0El22qMFlw", "name": "Runecrafting", "level": 12 },
         { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "level": 17 },
         { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "level": 19 },
         { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "level": 21 }
       ],
-      "quests": { "completed": 0, "active": 3, "main_completed": 0 },
-      "journal": 31,
-      "recipes": 66,
-      "buildings": 34,
+      "quests": {
+        "completed": 0,
+        "active": 1,
+        "main_completed": 0,
+        "areas": [
+          { "area": "Brynmoor", "completed": 0 },
+          { "area": "Dowdun Reach", "completed": 0 },
+          { "area": "Fellhollow", "completed": 0 },
+          { "area": "Ghornfell", "completed": 0 },
+          { "area": "Umbral Sands", "completed": 0 },
+          { "area": null, "completed": 0 }
+        ]
+      },
+      "journal": 27,
+      "recipes": 58,
+      "buildings": 30,
       "creatures": 16,
       "bosses": [],
-      "latest": { "kind": "recipe", "name": "Burnt Sardine", "at": "2026-09-28T15:41:01.005Z" }
+      "latest": { "kind": "recipe", "name": "Mystic Thread", "at": "2026-09-28T15:29:01.005Z" }
     },
     {
       "player": { "id": 4, "name": "Juniper" },
       "saved_at": "2026-09-28T20:29:00.000Z",
-      "total_level": 164,
+      "total_level": 165,
       "skills": [
         { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 12 },
         { "id": "Wf3i7Ha-B06DH719j1vtBw", "name": "Artisan", "level": 22 },
         { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "level": 17 },
-        { "id": "waK-8EyQFQ2xEjCGYmuTRQ", "name": "Construction", "level": 7 },
+        { "id": "waK-8EyQFQ2xEjCGYmuTRQ", "name": "Construction", "level": 8 },
         { "id": "Tn7t6DQyX0-Q0cM5K7B90A", "name": "Cooking", "level": 18 },
         { "id": "0hreSMRVXUihq9qjDO2CFA", "name": "Magic", "level": 13 },
-        { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 9 },
-        { "id": "heq7u88Q2UuLXFqLGTVwQw", "name": "Ranged", "level": 8 },
+        { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 8 },
+        { "id": "heq7u88Q2UuLXFqLGTVwQw", "name": "Ranged", "level": 9 },
         { "id": "NOqC-z-2ckqi0El22qMFlw", "name": "Runecrafting", "level": 16 },
         { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "level": 21 },
         { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "level": 7 },
         { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "level": 14 }
       ],
-      "quests": { "completed": 5, "active": 1, "main_completed": 0 },
+      "quests": {
+        "completed": 2,
+        "active": 4,
+        "main_completed": 1,
+        "areas": [
+          { "area": "Brynmoor", "completed": 0 },
+          { "area": "Dowdun Reach", "completed": 0 },
+          { "area": "Fellhollow", "completed": 0 },
+          { "area": "Ghornfell", "completed": 1 },
+          { "area": "Umbral Sands", "completed": 0 },
+          { "area": null, "completed": 1 }
+        ]
+      },
       "journal": 43,
       "recipes": 90,
       "buildings": 46,
       "creatures": 17,
       "bosses": ["General Velgar"],
-      "latest": { "kind": "journal", "name": "Flax", "at": "2026-09-25T15:00:01.005Z" }
+      "latest": {
+        "kind": "journal",
+        "name": "Weak Quarrymaster Potion",
+        "at": "2026-09-25T15:06:01.005Z"
+      }
     },
     {
       "player": { "id": 6, "name": "Kestrel" },
       "saved_at": "2026-09-28T20:29:00.000Z",
-      "total_level": 193,
+      "total_level": 194,
       "skills": [
-        { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 21 },
+        { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 22 },
         { "id": "Wf3i7Ha-B06DH719j1vtBw", "name": "Artisan", "level": 6 },
         { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "level": 16 },
         { "id": "waK-8EyQFQ2xEjCGYmuTRQ", "name": "Construction", "level": 22 },
         { "id": "Tn7t6DQyX0-Q0cM5K7B90A", "name": "Cooking", "level": 19 },
         { "id": "0hreSMRVXUihq9qjDO2CFA", "name": "Magic", "level": 21 },
-        { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 6 },
+        { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 7 },
         { "id": "heq7u88Q2UuLXFqLGTVwQw", "name": "Ranged", "level": 20 },
         { "id": "NOqC-z-2ckqi0El22qMFlw", "name": "Runecrafting", "level": 21 },
         { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "level": 21 },
         { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "level": 5 },
-        { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "level": 15 }
+        { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "level": 14 }
       ],
-      "quests": { "completed": 2, "active": 1, "main_completed": 0 },
-      "journal": 25,
-      "recipes": 54,
-      "buildings": 28,
+      "quests": {
+        "completed": 0,
+        "active": 2,
+        "main_completed": 0,
+        "areas": [
+          { "area": "Brynmoor", "completed": 0 },
+          { "area": "Dowdun Reach", "completed": 0 },
+          { "area": "Fellhollow", "completed": 0 },
+          { "area": "Ghornfell", "completed": 0 },
+          { "area": "Umbral Sands", "completed": 0 },
+          { "area": null, "completed": 0 }
+        ]
+      },
+      "journal": 23,
+      "recipes": 50,
+      "buildings": 26,
       "creatures": 16,
       "bosses": [],
-      "latest": { "kind": "journal", "name": "Vegetable Soup", "at": "2026-09-28T20:04:01.005Z" }
+      "latest": { "kind": "recipe", "name": "Hard Leather", "at": "2026-09-28T19:58:01.005Z" }
     },
     {
       "player": { "id": 1, "name": "Orrin" },
       "saved_at": "2026-09-28T20:29:00.000Z",
-      "total_level": 179,
+      "total_level": 181,
       "skills": [
-        { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 15 },
+        { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 16 },
         { "id": "Wf3i7Ha-B06DH719j1vtBw", "name": "Artisan", "level": 13 },
-        { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "level": 18 },
+        { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "level": 19 },
         { "id": "waK-8EyQFQ2xEjCGYmuTRQ", "name": "Construction", "level": 15 },
         { "id": "Tn7t6DQyX0-Q0cM5K7B90A", "name": "Cooking", "level": 15 },
         { "id": "0hreSMRVXUihq9qjDO2CFA", "name": "Magic", "level": 8 },
-        { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 8 },
+        { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 7 },
         { "id": "heq7u88Q2UuLXFqLGTVwQw", "name": "Ranged", "level": 18 },
         { "id": "NOqC-z-2ckqi0El22qMFlw", "name": "Runecrafting", "level": 15 },
-        { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "level": 15 },
+        { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "level": 16 },
         { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "level": 17 },
         { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "level": 22 }
       ],
-      "quests": { "completed": 4, "active": 0, "main_completed": 0 },
+      "quests": {
+        "completed": 1,
+        "active": 5,
+        "main_completed": 1,
+        "areas": [
+          { "area": "Brynmoor", "completed": 0 },
+          { "area": "Dowdun Reach", "completed": 0 },
+          { "area": "Fellhollow", "completed": 0 },
+          { "area": "Ghornfell", "completed": 0 },
+          { "area": "Umbral Sands", "completed": 0 },
+          { "area": null, "completed": 1 }
+        ]
+      },
       "journal": 43,
       "recipes": 90,
       "buildings": 46,
       "creatures": 16,
       "bosses": [],
-      "latest": { "kind": "recipe", "name": null, "at": "2026-09-25T16:24:01.005Z" }
+      "latest": {
+        "kind": "journal",
+        "name": "Soulstone Sentinel",
+        "at": "2026-09-25T17:06:01.005Z"
+      }
     },
     {
       "player": { "id": 2, "name": "Tamsin" },
       "saved_at": "2026-09-28T20:29:00.000Z",
-      "total_level": 189,
+      "total_level": 186,
       "skills": [
         { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 18 },
         { "id": "Wf3i7Ha-B06DH719j1vtBw", "name": "Artisan", "level": 19 },
@@ -127,43 +192,75 @@
         { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 22 },
         { "id": "heq7u88Q2UuLXFqLGTVwQw", "name": "Ranged", "level": 7 },
         { "id": "NOqC-z-2ckqi0El22qMFlw", "name": "Runecrafting", "level": 14 },
-        { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "level": 8 },
-        { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "level": 10 },
-        { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "level": 16 }
+        { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "level": 7 },
+        { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "level": 9 },
+        { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "level": 15 }
       ],
-      "quests": { "completed": 1, "active": 4, "main_completed": 0 },
+      "quests": {
+        "completed": 2,
+        "active": 3,
+        "main_completed": 1,
+        "areas": [
+          { "area": "Brynmoor", "completed": 1 },
+          { "area": "Dowdun Reach", "completed": 0 },
+          { "area": "Fellhollow", "completed": 0 },
+          { "area": "Ghornfell", "completed": 0 },
+          { "area": "Umbral Sands", "completed": 0 },
+          { "area": null, "completed": 1 }
+        ]
+      },
       "journal": 43,
       "recipes": 90,
       "buildings": 46,
       "creatures": 16,
       "bosses": [],
-      "latest": { "kind": "recipe", "name": null, "at": "2026-09-25T16:54:01.005Z" }
+      "latest": {
+        "kind": "recipe",
+        "name": "Pink Adventurer's Cape",
+        "at": "2026-09-24T17:18:01.005Z"
+      }
     },
     {
       "player": { "id": 5, "name": "Wren" },
       "saved_at": "2026-09-28T20:29:00.000Z",
-      "total_level": 196,
+      "total_level": 194,
       "skills": [
-        { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 8 },
-        { "id": "Wf3i7Ha-B06DH719j1vtBw", "name": "Artisan", "level": 13 },
-        { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "level": 12 },
+        { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "level": 7 },
+        { "id": "Wf3i7Ha-B06DH719j1vtBw", "name": "Artisan", "level": 12 },
+        { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "level": 13 },
         { "id": "waK-8EyQFQ2xEjCGYmuTRQ", "name": "Construction", "level": 21 },
         { "id": "Tn7t6DQyX0-Q0cM5K7B90A", "name": "Cooking", "level": 23 },
-        { "id": "0hreSMRVXUihq9qjDO2CFA", "name": "Magic", "level": 19 },
+        { "id": "0hreSMRVXUihq9qjDO2CFA", "name": "Magic", "level": 20 },
         { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "level": 15 },
         { "id": "heq7u88Q2UuLXFqLGTVwQw", "name": "Ranged", "level": 14 },
-        { "id": "NOqC-z-2ckqi0El22qMFlw", "name": "Runecrafting", "level": 16 },
+        { "id": "NOqC-z-2ckqi0El22qMFlw", "name": "Runecrafting", "level": 15 },
         { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "level": 22 },
-        { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "level": 13 },
+        { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "level": 12 },
         { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "level": 20 }
       ],
-      "quests": { "completed": 1, "active": 2, "main_completed": 0 },
+      "quests": {
+        "completed": 4,
+        "active": 1,
+        "main_completed": 1,
+        "areas": [
+          { "area": "Brynmoor", "completed": 0 },
+          { "area": "Dowdun Reach", "completed": 0 },
+          { "area": "Fellhollow", "completed": 2 },
+          { "area": "Ghornfell", "completed": 1 },
+          { "area": "Umbral Sands", "completed": 0 },
+          { "area": null, "completed": 1 }
+        ]
+      },
       "journal": 43,
       "recipes": 90,
       "buildings": 46,
       "creatures": 17,
       "bosses": ["General Velgar"],
-      "latest": { "kind": "recipe", "name": null, "at": "2026-09-24T16:48:01.005Z" }
+      "latest": {
+        "kind": "recipe",
+        "name": "Pink Adventurer's Cape",
+        "at": "2026-09-25T16:12:01.005Z"
+      }
     }
   ]
 }

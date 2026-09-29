@@ -9,7 +9,7 @@
   "sessions": 4,
   "deaths": 5,
   "current_session": { "id": 23, "joined_at": "2026-09-28T18:59:00.000Z" },
-  "chat_messages": 12,
+  "chat_messages": 5,
   "recent_sessions": [
     {
       "id": 23,
@@ -45,31 +45,21 @@
     }
   ],
   "recent_deaths": [
-    { "at": "2026-09-28T20:12:01.000Z", "cause": "combat", "killer": "a goblin", "source": "mod" },
-    { "at": "2026-09-26T15:14:01.000Z", "cause": "combat", "killer": "a goblin", "source": "mod" },
-    { "at": "2026-09-25T14:20:01.000Z", "cause": "combat", "killer": "a chicken", "source": "mod" },
-    {
-      "at": "2026-09-23T12:43:01.000Z",
-      "cause": "combat",
-      "killer": "the Black Knight Titan",
-      "source": "mod"
-    },
-    {
-      "at": "2026-09-23T12:41:01.000Z",
-      "cause": "combat",
-      "killer": "the Black Knight Titan",
-      "source": "mod"
-    }
+    { "at": "2026-09-28T19:36:01.000Z", "cause": "drowning", "killer": null, "source": "mod" },
+    { "at": "2026-09-26T15:00:01.000Z", "cause": "combat", "killer": "a chicken", "source": "mod" },
+    { "at": "2026-09-25T14:44:01.000Z", "cause": "fall", "killer": null, "source": "mod" },
+    { "at": "2026-09-23T14:37:01.000Z", "cause": "combat", "killer": "a chicken", "source": "mod" },
+    { "at": "2026-09-23T13:33:01.000Z", "cause": "combat", "killer": "a chicken", "source": "mod" }
   ],
   "character": {
     "saved_at": "2026-09-28T20:29:00.000Z",
     "playtime_s": 30960,
-    "health": { "current": 98, "max": 100 },
+    "health": { "current": 63, "max": 100 },
     "skills": [
       {
         "id": "pJggvotwOkuoc98igUn7xA",
         "name": "Agility",
-        "xp": 714,
+        "xp": 712,
         "level": 12,
         "level_xp": 636,
         "next_level_xp": 736
@@ -77,7 +67,7 @@
       {
         "id": "Wf3i7Ha-B06DH719j1vtBw",
         "name": "Artisan",
-        "xp": 2367,
+        "xp": 2331,
         "level": 22,
         "level_xp": 2261,
         "next_level_xp": 2529
@@ -85,7 +75,7 @@
       {
         "id": "4pefO9k1lUqfA6mvHNi1SA",
         "name": "Attack",
-        "xp": 1392,
+        "xp": 1405,
         "level": 17,
         "level_xp": 1253,
         "next_level_xp": 1417
@@ -93,15 +83,15 @@
       {
         "id": "waK-8EyQFQ2xEjCGYmuTRQ",
         "name": "Construction",
-        "xp": 318,
-        "level": 7,
-        "level_xp": 261,
-        "next_level_xp": 322
+        "xp": 332,
+        "level": 8,
+        "level_xp": 322,
+        "next_level_xp": 389
       },
       {
         "id": "Tn7t6DQyX0-Q0cM5K7B90A",
         "name": "Cooking",
-        "xp": 1553,
+        "xp": 1582,
         "level": 18,
         "level_xp": 1417,
         "next_level_xp": 1598
@@ -109,7 +99,7 @@
       {
         "id": "0hreSMRVXUihq9qjDO2CFA",
         "name": "Magic",
-        "xp": 830,
+        "xp": 788,
         "level": 13,
         "level_xp": 736,
         "next_level_xp": 847
@@ -117,23 +107,23 @@
       {
         "id": "jqX0Gh6QI0GFFPCDFK_CJQ",
         "name": "Mining",
-        "xp": 459,
-        "level": 9,
-        "level_xp": 389,
-        "next_level_xp": 463
-      },
-      {
-        "id": "heq7u88Q2UuLXFqLGTVwQw",
-        "name": "Ranged",
-        "xp": 351,
+        "xp": 384,
         "level": 8,
         "level_xp": 322,
         "next_level_xp": 389
       },
       {
+        "id": "heq7u88Q2UuLXFqLGTVwQw",
+        "name": "Ranged",
+        "xp": 412,
+        "level": 9,
+        "level_xp": 389,
+        "next_level_xp": 463
+      },
+      {
         "id": "NOqC-z-2ckqi0El22qMFlw",
         "name": "Runecrafting",
-        "xp": 1192,
+        "xp": 1233,
         "level": 16,
         "level_xp": 1104,
         "next_level_xp": 1253
@@ -141,7 +131,7 @@
       {
         "id": "4zYUGF5u_0KbMLkWJmmBbQ",
         "name": "Woodcutting",
-        "xp": 2148,
+        "xp": 2068,
         "level": 21,
         "level_xp": 2018,
         "next_level_xp": 2261
@@ -149,7 +139,7 @@
       {
         "id": "PyUi-0LU_riFY46AnnFiWg",
         "name": "Farming",
-        "xp": 319,
+        "xp": 320,
         "level": 7,
         "level_xp": 261,
         "next_level_xp": 322
@@ -157,14 +147,14 @@
       {
         "id": "vwY5IkQJJDwb2PKEfoc8MQ",
         "name": "Fishing",
-        "xp": 909,
+        "xp": 882,
         "level": 14,
         "level_xp": 847,
         "next_level_xp": 969
       }
     ],
-    "total_level": 164,
-    "quests": { "active": 1, "completed": 5 },
+    "total_level": 165,
+    "quests": { "active": 4, "completed": 2 },
     "journal": { "unlocked": 43, "unread": 13 },
     "spells": 7,
     "regions_revealed": 9,
@@ -173,6 +163,7 @@
         "slot": 0,
         "item": "ITEM_Resources_Leather_Hard",
         "name": "Hard Leather",
+        "category": null,
         "count": 14,
         "at_least": false,
         "durability": null
@@ -181,6 +172,7 @@
         "slot": 1,
         "item": "ITEM_Resources_Monstrous_Fang",
         "name": "Monstrous Fang",
+        "category": null,
         "count": 8,
         "at_least": false,
         "durability": null
@@ -189,6 +181,7 @@
         "slot": 2,
         "item": "ITEM_Resources_Ruby",
         "name": "Ruby",
+        "category": "Item.BuildingResource",
         "count": 12,
         "at_least": false,
         "durability": null
@@ -197,6 +190,7 @@
         "slot": 3,
         "item": "ITEM_Resources_SealBreakKey_Fall",
         "name": "Curse Fragment (Rage)",
+        "category": "Item.QuestItem.KeyItem",
         "count": 51,
         "at_least": false,
         "durability": null
@@ -205,6 +199,7 @@
         "slot": 4,
         "item": "ITEM_Resources_SteelBar",
         "name": "Steel Bar",
+        "category": null,
         "count": 22,
         "at_least": false,
         "durability": null
@@ -213,6 +208,7 @@
         "slot": 5,
         "item": "ITEM_Resources_Tea_Leaves",
         "name": "Tea Leaves",
+        "category": "ItemFilter.Material.BasicMaterial",
         "count": 1,
         "at_least": true,
         "durability": null
@@ -223,6 +219,7 @@
         "slot": 1,
         "item": "ITEM_Armour_T6_Body_BlackRanger",
         "name": "Shadow Body",
+        "category": null,
         "count": 1,
         "at_least": true,
         "durability": 267
@@ -231,6 +228,7 @@
         "slot": 2,
         "item": "ITEM_Armour_T6_Head_Zamorak",
         "name": "Zamorak Hood",
+        "category": null,
         "count": 1,
         "at_least": true,
         "durability": 375
@@ -239,36 +237,49 @@
     "unlocks": { "recipes": 90, "buildings": 46, "journal": 43, "creatures": 17 },
     "level_history": [
       { "saved_at": "2026-09-23T12:19:01.005Z", "total_level": 137 },
-      { "saved_at": "2026-09-23T12:55:01.005Z", "total_level": 138 },
-      { "saved_at": "2026-09-23T13:07:01.005Z", "total_level": 140 },
-      { "saved_at": "2026-09-23T13:31:01.005Z", "total_level": 141 },
-      { "saved_at": "2026-09-23T13:43:01.005Z", "total_level": 142 },
-      { "saved_at": "2026-09-23T14:13:01.005Z", "total_level": 143 },
-      { "saved_at": "2026-09-23T14:43:01.005Z", "total_level": 144 },
-      { "saved_at": "2026-09-23T15:01:01.005Z", "total_level": 145 },
-      { "saved_at": "2026-09-25T14:00:01.005Z", "total_level": 146 },
+      { "saved_at": "2026-09-23T12:37:01.005Z", "total_level": 138 },
+      { "saved_at": "2026-09-23T12:49:01.005Z", "total_level": 139 },
+      { "saved_at": "2026-09-23T13:01:01.005Z", "total_level": 140 },
+      { "saved_at": "2026-09-23T13:07:01.005Z", "total_level": 141 },
+      { "saved_at": "2026-09-23T13:19:01.005Z", "total_level": 142 },
+      { "saved_at": "2026-09-23T14:25:01.005Z", "total_level": 143 },
+      { "saved_at": "2026-09-23T14:31:01.005Z", "total_level": 144 },
+      { "saved_at": "2026-09-23T14:49:01.005Z", "total_level": 146 },
       { "saved_at": "2026-09-25T14:06:01.005Z", "total_level": 147 },
-      { "saved_at": "2026-09-25T14:12:01.005Z", "total_level": 148 },
-      { "saved_at": "2026-09-25T14:24:01.005Z", "total_level": 149 },
-      { "saved_at": "2026-09-25T14:30:01.005Z", "total_level": 150 },
-      { "saved_at": "2026-09-25T15:06:01.005Z", "total_level": 152 },
-      { "saved_at": "2026-09-26T15:28:01.005Z", "total_level": 153 },
-      { "saved_at": "2026-09-26T16:04:01.005Z", "total_level": 154 },
-      { "saved_at": "2026-09-26T16:10:01.005Z", "total_level": 155 },
-      { "saved_at": "2026-09-26T16:22:01.005Z", "total_level": 157 },
-      { "saved_at": "2026-09-26T16:28:01.005Z", "total_level": 158 },
-      { "saved_at": "2026-09-26T17:16:01.005Z", "total_level": 159 },
-      { "saved_at": "2026-09-26T17:34:01.005Z", "total_level": 161 },
-      { "saved_at": "2026-09-28T20:04:01.005Z", "total_level": 162 },
-      { "saved_at": "2026-09-28T20:10:01.005Z", "total_level": 163 },
-      { "saved_at": "2026-09-28T20:29:00.000Z", "total_level": 164 }
+      { "saved_at": "2026-09-25T14:18:01.005Z", "total_level": 148 },
+      { "saved_at": "2026-09-25T14:30:01.005Z", "total_level": 149 },
+      { "saved_at": "2026-09-25T14:36:01.005Z", "total_level": 150 },
+      { "saved_at": "2026-09-25T15:00:01.005Z", "total_level": 151 },
+      { "saved_at": "2026-09-26T15:04:01.005Z", "total_level": 153 },
+      { "saved_at": "2026-09-26T15:10:01.005Z", "total_level": 154 },
+      { "saved_at": "2026-09-26T15:34:01.005Z", "total_level": 155 },
+      { "saved_at": "2026-09-26T17:04:01.005Z", "total_level": 157 },
+      { "saved_at": "2026-09-26T17:16:01.005Z", "total_level": 158 },
+      { "saved_at": "2026-09-28T19:22:01.005Z", "total_level": 159 },
+      { "saved_at": "2026-09-28T19:34:01.005Z", "total_level": 160 },
+      { "saved_at": "2026-09-28T20:10:01.005Z", "total_level": 161 },
+      { "saved_at": "2026-09-28T20:29:00.000Z", "total_level": 165 }
+    ],
+    "xp_gains": [
+      { "id": "pJggvotwOkuoc98igUn7xA", "name": "Agility", "day": 27, "week": 207 },
+      { "id": "Wf3i7Ha-B06DH719j1vtBw", "name": "Artisan", "day": 112, "week": 216 },
+      { "id": "4pefO9k1lUqfA6mvHNi1SA", "name": "Attack", "day": 68, "week": 220 },
+      { "id": "waK-8EyQFQ2xEjCGYmuTRQ", "name": "Construction", "day": 85, "week": 226 },
+      { "id": "Tn7t6DQyX0-Q0cM5K7B90A", "name": "Cooking", "day": 65, "week": 244 },
+      { "id": "0hreSMRVXUihq9qjDO2CFA", "name": "Magic", "day": 52, "week": 187 },
+      { "id": "jqX0Gh6QI0GFFPCDFK_CJQ", "name": "Mining", "day": 43, "week": 196 },
+      { "id": "heq7u88Q2UuLXFqLGTVwQw", "name": "Ranged", "day": 86, "week": 263 },
+      { "id": "NOqC-z-2ckqi0El22qMFlw", "name": "Runecrafting", "day": 51, "week": 230 },
+      { "id": "4zYUGF5u_0KbMLkWJmmBbQ", "name": "Woodcutting", "day": 62, "week": 148 },
+      { "id": "PyUi-0LU_riFY46AnnFiWg", "name": "Farming", "day": 65, "week": 241 },
+      { "id": "vwY5IkQJJDwb2PKEfoc8MQ", "name": "Fishing", "day": 73, "week": 210 }
     ]
   },
   "feats": {
     "journal_entries": 43,
-    "level_ups": 27,
-    "quests_completed": 5,
-    "buildings": 33,
-    "crafts": 22
+    "level_ups": 28,
+    "quests_completed": 2,
+    "buildings": 27,
+    "crafts": 29
   }
 }

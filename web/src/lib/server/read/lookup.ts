@@ -60,8 +60,47 @@ export function itemName(asset: string | null | undefined): string | null {
   return asset ? (itemsByAsset.get(asset)?.name ?? null) : null;
 }
 
+const journalByRecipe = new Map<string, string>();
+for (const entry of liveJournal) {
+  if (entry.recipe && entry.name && !journalByRecipe.has(entry.recipe)) {
+    journalByRecipe.set(entry.recipe, entry.name);
+  }
+}
+
 export function recipeName(asset: string): string | null {
-  return itemName(recipesByAsset.get(asset)?.creates[0]?.item);
+  return (
+    itemName(recipesByAsset.get(asset)?.creates[0]?.item) ?? journalByRecipe.get(asset) ?? null
+  );
+}
+
+export const withoutClassSuffix = (actor: string) => actor.replace(/_C$/, '');
+
+const actorNames = new Map<string, string>();
+for (const piece of liveBuildings) {
+  const actor = piece.actor ? withoutClassSuffix(piece.actor) : null;
+  if (actor && piece.name && !actorNames.has(actor)) actorNames.set(actor, piece.name);
+}
+
+export function actorName(actor: string): string {
+  const key = withoutClassSuffix(actor);
+  return (
+    actorNames.get(key) ??
+    key
+      .replace(/^BP_/, '')
+      .replace(/^(NPC|BaseBuilding|UpgradeProp|Crafting|Station)_/, '')
+      .split('_')
+      .map((part) => part.replace(/([a-z])([A-Z])/g, '$1 $2'))
+      .join(' ')
+      .trim()
+  );
+}
+
+export function questOf(key: string) {
+  return questsById.get(key) ?? questsByAsset.get(key) ?? null;
+}
+
+export function areaName(region: string | null | undefined): string | null {
+  return region ? region.replace(/_/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2') : null;
 }
 
 export const bossCreatureIds = new Set(liveCreatures.filter((c) => c.boss).map((c) => c.id));

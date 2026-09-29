@@ -8,9 +8,9 @@
       "server": { "name": "Magpie Test Server", "version": "1.0.0.6", "world_name": "magpie-test" },
       "players": { "online": 4, "max": 6, "observed_at": "2026-09-28T20:12:52.100Z" },
       "process": {
-        "memory_mb": 1410.3,
+        "memory_mb": 1416.5,
         "uptime_s": 68191,
-        "cpu_percent": 30.1,
+        "cpu_percent": 32.9,
         "measured_at": "2026-09-28T20:29:31.001Z"
       },
       "save": { "saved_at": "2026-09-28T20:29:00.000Z", "day": 599 },
@@ -18,7 +18,7 @@
         "remote": null,
         "state": "active",
         "version": "0.1.0",
-        "last_seen_at": "2026-09-28T20:29:32.501Z",
+        "last_seen_at": "2026-09-28T20:29:47.501Z",
         "layers": { "logs": true, "saves": true, "process": true, "mod": true }
       },
       "stopping": false,
@@ -65,172 +65,86 @@
   },
   {
     "event": "activity",
-    "id": "27c088c5-8e4d-4bc6-b2d5-e2c2b611de57",
+    "id": "3a45842f-b850-45a4-acc2-010d6d20c03b",
     "data": {
-      "id": "27c088c5-8e4d-4bc6-b2d5-e2c2b611de57",
-      "type": "chat.message",
-      "ts": "2026-09-28T19:46:00.999Z",
-      "player": { "id": 6, "name": "Kestrel" },
-      "details": { "channel": "global", "text": "anyone up for Velgar tonight?" }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "6b7db6f3-c22d-4a0e-924a-dbaa73b783f6",
-    "data": {
-      "id": "6b7db6f3-c22d-4a0e-924a-dbaa73b783f6",
-      "type": "journal.unlocked",
-      "ts": "2026-09-28T19:46:01.000Z",
-      "player": { "id": 6, "name": "Kestrel" },
-      "details": {
-        "entry": "JOURNAL_World_Factions_Fellhollow_SoulstoneSentinel",
-        "entry_name": "Soulstone Sentinel"
-      }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "b32b8d55-0ee0-4fc1-82c0-58ea97f8c585",
-    "data": {
-      "id": "b32b8d55-0ee0-4fc1-82c0-58ea97f8c585",
-      "type": "player.joined",
-      "ts": "2026-09-28T19:50:00.000Z",
-      "player": { "id": 5, "name": "Wren" },
-      "details": {}
-    }
-  },
-  {
-    "event": "activity",
-    "id": "a3310b29-e537-4988-97a2-b097e760a58f",
-    "data": {
-      "id": "a3310b29-e537-4988-97a2-b097e760a58f",
-      "type": "journal.unlocked",
-      "ts": "2026-09-28T19:50:01.000Z",
-      "player": { "id": 6, "name": "Kestrel" },
-      "details": {
-        "entry": "JOURNAL_Recipes_Ammo_Arrows_Adamant_Bleed",
-        "entry_name": "Adamant Barbed Arrow"
-      }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "0343b467-429e-4ee2-b76b-9531cfb9cbbe",
-    "data": {
-      "id": "0343b467-429e-4ee2-b76b-9531cfb9cbbe",
-      "type": "chat.message",
-      "ts": "2026-09-28T19:52:00.999Z",
-      "player": { "id": 6, "name": "Kestrel" },
-      "details": { "channel": "global", "text": "brb" }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "9670d9fd-91f7-472d-9ef8-6688d9e01f3b",
-    "data": {
-      "id": "9670d9fd-91f7-472d-9ef8-6688d9e01f3b",
+      "id": "3a45842f-b850-45a4-acc2-010d6d20c03b",
       "type": "skill.level_up",
-      "ts": "2026-09-28T19:52:01.001Z",
-      "player": { "id": 2, "name": "Tamsin" },
-      "details": { "skill": "vwY5IkQJJDwb2PKEfoc8MQ", "skill_name": "Fishing", "level": 16 }
+      "ts": "2026-09-28T19:54:01.001Z",
+      "player": { "id": 5, "name": "Wren" },
+      "details": { "skill": "Wf3i7Ha-B06DH719j1vtBw", "skill_name": "Artisan", "level": 12 }
     }
   },
   {
     "event": "activity",
-    "id": "4b145efe-b2d1-4f41-b118-468a3886469b",
+    "id": "195b1740-c23d-4790-91b2-0055756268ba",
     "data": {
-      "id": "4b145efe-b2d1-4f41-b118-468a3886469b",
+      "id": "195b1740-c23d-4790-91b2-0055756268ba",
       "type": "chat.message",
       "ts": "2026-09-28T19:56:00.999Z",
-      "player": { "id": 5, "name": "Wren" },
-      "details": { "channel": "global", "text": "the swamp is full of goblins" }
+      "player": { "id": 2, "name": "Tamsin" },
+      "details": { "channel": "direct", "text": "brb" }
     }
   },
   {
     "event": "activity",
-    "id": "ed3d3f52-089c-4b43-9ebd-1ac9a37257e3",
+    "id": "b16fd4b8-3117-42b7-8845-a670ec02ef1d",
     "data": {
-      "id": "ed3d3f52-089c-4b43-9ebd-1ac9a37257e3",
-      "type": "journal.unlocked",
-      "ts": "2026-09-28T19:56:01.000Z",
-      "player": { "id": 6, "name": "Kestrel" },
-      "details": {
-        "entry": "JOURNAL_Recipes_Weapons_Staff_MagicWood",
-        "entry_name": "Ancestral Staff"
-      }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "b9360975-31bd-45c4-ac88-dec3b5410918",
-    "data": {
-      "id": "b9360975-31bd-45c4-ac88-dec3b5410918",
+      "id": "b16fd4b8-3117-42b7-8845-a670ec02ef1d",
       "type": "skill.level_up",
-      "ts": "2026-09-28T20:00:01.001Z",
-      "player": { "id": 1, "name": "Orrin" },
-      "details": { "skill": "Tn7t6DQyX0-Q0cM5K7B90A", "skill_name": "Cooking", "level": 15 }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "c83f66c3-dde9-42fd-92a8-3bd3afc68cea",
-    "data": {
-      "id": "c83f66c3-dde9-42fd-92a8-3bd3afc68cea",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:00:01.001Z",
+      "ts": "2026-09-28T20:08:01.001Z",
       "player": { "id": 4, "name": "Juniper" },
       "details": { "skill": "PyUi-0LU_riFY46AnnFiWg", "skill_name": "Farming", "level": 7 }
     }
   },
   {
     "event": "activity",
-    "id": "89abc1bb-adc7-4b72-86d7-49d973e84a59",
+    "id": "fe672fc0-1da9-436b-b997-76ed20df26f5",
     "data": {
-      "id": "89abc1bb-adc7-4b72-86d7-49d973e84a59",
-      "type": "journal.unlocked",
-      "ts": "2026-09-28T20:02:01.000Z",
-      "player": { "id": 6, "name": "Kestrel" },
-      "details": { "entry": "JOURNAL_Recipes_Food_Soup_Vegetable", "entry_name": "Vegetable Soup" }
+      "id": "fe672fc0-1da9-436b-b997-76ed20df26f5",
+      "type": "chat.message",
+      "ts": "2026-09-28T20:10:00.999Z",
+      "player": { "id": 5, "name": "Wren" },
+      "details": { "channel": "global", "text": "who left the campfire burning" }
     }
   },
   {
     "event": "activity",
-    "id": "acf57800-b545-414c-bfbe-36a9d43090e0",
+    "id": "9e318dcb-3491-42a9-af2f-f32e0a3bfcab",
     "data": {
-      "id": "acf57800-b545-414c-bfbe-36a9d43090e0",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:04:01.001Z",
-      "player": { "id": 6, "name": "Kestrel" },
-      "details": { "skill": "4zYUGF5u_0KbMLkWJmmBbQ", "skill_name": "Woodcutting", "level": 21 }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "8cc7f838-52c2-44e7-a07c-58b71195aac7",
-    "data": {
-      "id": "8cc7f838-52c2-44e7-a07c-58b71195aac7",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:06:01.001Z",
-      "player": { "id": 4, "name": "Juniper" },
-      "details": { "skill": "vwY5IkQJJDwb2PKEfoc8MQ", "skill_name": "Fishing", "level": 14 }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "e6ccd867-dfa4-45e2-b25a-0cbd64903e7e",
-    "data": {
-      "id": "e6ccd867-dfa4-45e2-b25a-0cbd64903e7e",
+      "id": "9e318dcb-3491-42a9-af2f-f32e0a3bfcab",
       "type": "player.died",
-      "ts": "2026-09-28T20:12:01.000Z",
-      "player": { "id": 4, "name": "Juniper" },
-      "details": { "cause": "combat", "killer": "a goblin" }
+      "ts": "2026-09-28T20:10:01.000Z",
+      "player": { "id": 2, "name": "Tamsin" },
+      "details": { "cause": "cold", "killer": null }
     }
   },
   {
     "event": "activity",
-    "id": "a1ba58a6-6934-44c9-9f47-69d2ceb5e286",
+    "id": "9fd90d36-2d46-4449-9536-7236a4743b3b",
     "data": {
-      "id": "a1ba58a6-6934-44c9-9f47-69d2ceb5e286",
+      "id": "9fd90d36-2d46-4449-9536-7236a4743b3b",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:10:01.001Z",
+      "player": { "id": 2, "name": "Tamsin" },
+      "details": { "skill": "PyUi-0LU_riFY46AnnFiWg", "skill_name": "Farming", "level": 9 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "e80abeab-58bc-45bb-8d48-bde1770d3750",
+    "data": {
+      "id": "e80abeab-58bc-45bb-8d48-bde1770d3750",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:12:01.001Z",
+      "player": { "id": 2, "name": "Tamsin" },
+      "details": { "skill": "4zYUGF5u_0KbMLkWJmmBbQ", "skill_name": "Woodcutting", "level": 7 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "82a9eabf-ccde-4760-b3e6-3732e92ff1e8",
+    "data": {
+      "id": "82a9eabf-ccde-4760-b3e6-3732e92ff1e8",
       "type": "player.left",
       "ts": "2026-09-28T20:12:52.100Z",
       "player": { "id": 6, "name": "Kestrel" },
@@ -239,167 +153,244 @@
   },
   {
     "event": "activity",
-    "id": "463913d5-d534-49c7-8755-a374e1df8d79",
+    "id": "fbbd325f-3cc2-4379-8dfe-f372d32248db",
     "data": {
-      "id": "463913d5-d534-49c7-8755-a374e1df8d79",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:22:16.001Z",
-      "player": { "id": 1, "name": "Orrin" },
-      "details": { "skill": "0hreSMRVXUihq9qjDO2CFA", "skill_name": "Magic", "level": 8 }
+      "id": "fbbd325f-3cc2-4379-8dfe-f372d32248db",
+      "type": "chat.message",
+      "ts": "2026-09-28T20:14:00.999Z",
+      "player": { "id": 5, "name": "Wren" },
+      "details": { "channel": "global", "text": "anyone up for Velgar tonight?" }
     }
   },
   {
     "event": "activity",
-    "id": "c0f60676-0edd-4253-bcbd-21a13217d1bf",
+    "id": "514d5505-964b-4348-ae94-9277a01b852a",
     "data": {
-      "id": "c0f60676-0edd-4253-bcbd-21a13217d1bf",
+      "id": "514d5505-964b-4348-ae94-9277a01b852a",
       "type": "skill.level_up",
-      "ts": "2026-09-28T20:22:46.001Z",
+      "ts": "2026-09-28T20:16:16.001Z",
       "player": { "id": 2, "name": "Tamsin" },
-      "details": { "skill": "Tn7t6DQyX0-Q0cM5K7B90A", "skill_name": "Cooking", "level": 24 }
+      "details": { "skill": "heq7u88Q2UuLXFqLGTVwQw", "skill_name": "Ranged", "level": 7 }
     }
   },
   {
     "event": "activity",
-    "id": "d8042fc7-ee36-40f8-af7e-b1f3d15060a1",
+    "id": "d0c021a2-dc12-4985-a14b-05f137863d48",
     "data": {
-      "id": "d8042fc7-ee36-40f8-af7e-b1f3d15060a1",
+      "id": "d0c021a2-dc12-4985-a14b-05f137863d48",
       "type": "skill.level_up",
-      "ts": "2026-09-28T20:23:16.001Z",
+      "ts": "2026-09-28T20:16:16.001Z",
+      "player": { "id": 4, "name": "Juniper" },
+      "details": { "skill": "Wf3i7Ha-B06DH719j1vtBw", "skill_name": "Artisan", "level": 22 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "07d693cb-463f-48c0-8b38-5e0ebfff57b1",
+    "data": {
+      "id": "07d693cb-463f-48c0-8b38-5e0ebfff57b1",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:16:46.001Z",
+      "player": { "id": 4, "name": "Juniper" },
+      "details": { "skill": "heq7u88Q2UuLXFqLGTVwQw", "skill_name": "Ranged", "level": 9 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "5bbe46f7-3d6f-4f27-ad96-be380011168e",
+    "data": {
+      "id": "5bbe46f7-3d6f-4f27-ad96-be380011168e",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:16:46.001Z",
+      "player": { "id": 1, "name": "Orrin" },
+      "details": { "skill": "4zYUGF5u_0KbMLkWJmmBbQ", "skill_name": "Woodcutting", "level": 16 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "63d88f4d-7d90-4930-a76a-d615efcf1f72",
+    "data": {
+      "id": "63d88f4d-7d90-4930-a76a-d615efcf1f72",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:17:01.001Z",
+      "player": { "id": 5, "name": "Wren" },
+      "details": { "skill": "4pefO9k1lUqfA6mvHNi1SA", "skill_name": "Attack", "level": 13 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "9cdbfafa-d40a-49be-bc92-8b5afad83a49",
+    "data": {
+      "id": "9cdbfafa-d40a-49be-bc92-8b5afad83a49",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:17:01.001Z",
+      "player": { "id": 4, "name": "Juniper" },
+      "details": { "skill": "vwY5IkQJJDwb2PKEfoc8MQ", "skill_name": "Fishing", "level": 14 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "69ac0936-4a19-4bf4-b42d-a6132a3d1de1",
+    "data": {
+      "id": "69ac0936-4a19-4bf4-b42d-a6132a3d1de1",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:17:16.001Z",
       "player": { "id": 5, "name": "Wren" },
       "details": { "skill": "4zYUGF5u_0KbMLkWJmmBbQ", "skill_name": "Woodcutting", "level": 22 }
     }
   },
   {
     "event": "activity",
-    "id": "f8b3f1eb-5ce7-496f-8304-a5865102405c",
+    "id": "0ee0a3df-4c64-4512-95f3-2589b12a81e9",
     "data": {
-      "id": "f8b3f1eb-5ce7-496f-8304-a5865102405c",
+      "id": "0ee0a3df-4c64-4512-95f3-2589b12a81e9",
+      "type": "chat.message",
+      "ts": "2026-09-28T20:20:00.999Z",
+      "player": { "id": 2, "name": "Tamsin" },
+      "details": { "channel": "global", "text": "gg" }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "168f549d-6617-4040-8bd4-5e15b82a3ba2",
+    "data": {
+      "id": "168f549d-6617-4040-8bd4-5e15b82a3ba2",
       "type": "skill.level_up",
-      "ts": "2026-09-28T20:24:01.001Z",
+      "ts": "2026-09-28T20:20:16.001Z",
       "player": { "id": 1, "name": "Orrin" },
       "details": { "skill": "PyUi-0LU_riFY46AnnFiWg", "skill_name": "Farming", "level": 17 }
     }
   },
   {
     "event": "activity",
-    "id": "5e15b82a-3ba2-4676-a750-2a86e784aa03",
+    "id": "28457b1a-ccaf-4a39-a924-b71418e3c45c",
     "data": {
-      "id": "5e15b82a-3ba2-4676-a750-2a86e784aa03",
+      "id": "28457b1a-ccaf-4a39-a924-b71418e3c45c",
       "type": "skill.level_up",
-      "ts": "2026-09-28T20:24:16.001Z",
-      "player": { "id": 2, "name": "Tamsin" },
-      "details": { "skill": "waK-8EyQFQ2xEjCGYmuTRQ", "skill_name": "Construction", "level": 14 }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "72bc5138-a2c9-4ce6-9a16-73697d4dcc9f",
-    "data": {
-      "id": "72bc5138-a2c9-4ce6-9a16-73697d4dcc9f",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:25:01.001Z",
-      "player": { "id": 5, "name": "Wren" },
-      "details": { "skill": "vwY5IkQJJDwb2PKEfoc8MQ", "skill_name": "Fishing", "level": 20 }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "c1a1ea1b-58f1-404c-941e-db2d7dddb124",
-    "data": {
-      "id": "c1a1ea1b-58f1-404c-941e-db2d7dddb124",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:25:01.001Z",
+      "ts": "2026-09-28T20:20:46.001Z",
       "player": { "id": 2, "name": "Tamsin" },
       "details": { "skill": "0hreSMRVXUihq9qjDO2CFA", "skill_name": "Magic", "level": 16 }
     }
   },
   {
     "event": "activity",
-    "id": "ad6b0dcb-0c81-4ba1-9121-a269a0d15e9e",
+    "id": "5bf8967d-a122-4aad-ab0d-cb0c810ba151",
     "data": {
-      "id": "ad6b0dcb-0c81-4ba1-9121-a269a0d15e9e",
+      "id": "5bf8967d-a122-4aad-ab0d-cb0c810ba151",
       "type": "skill.level_up",
-      "ts": "2026-09-28T20:25:16.001Z",
-      "player": { "id": 4, "name": "Juniper" },
-      "details": { "skill": "heq7u88Q2UuLXFqLGTVwQw", "skill_name": "Ranged", "level": 8 }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "e921c6ab-3050-4e73-ad9b-536474a43665",
-    "data": {
-      "id": "e921c6ab-3050-4e73-ad9b-536474a43665",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:26:16.001Z",
-      "player": { "id": 1, "name": "Orrin" },
-      "details": { "skill": "jqX0Gh6QI0GFFPCDFK_CJQ", "skill_name": "Mining", "level": 8 }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "045bc4a7-957f-4a04-bd5d-b68841fe585d",
-    "data": {
-      "id": "045bc4a7-957f-4a04-bd5d-b68841fe585d",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:26:31.001Z",
-      "player": { "id": 2, "name": "Tamsin" },
-      "details": { "skill": "PyUi-0LU_riFY46AnnFiWg", "skill_name": "Farming", "level": 10 }
-    }
-  },
-  {
-    "event": "activity",
-    "id": "851c1b78-8c8c-48da-86e2-739f892b0187",
-    "data": {
-      "id": "851c1b78-8c8c-48da-86e2-739f892b0187",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:27:31.001Z",
+      "ts": "2026-09-28T20:22:01.001Z",
       "player": { "id": 2, "name": "Tamsin" },
       "details": { "skill": "NOqC-z-2ckqi0El22qMFlw", "skill_name": "Runecrafting", "level": 14 }
     }
   },
   {
     "event": "activity",
-    "id": "143e6974-a1e0-41fe-89b6-796d9ea1c80f",
+    "id": "3bba7f1f-d0fd-4e04-a86f-dad5414de95e",
     "data": {
-      "id": "143e6974-a1e0-41fe-89b6-796d9ea1c80f",
-      "type": "skill.level_up",
-      "ts": "2026-09-28T20:27:46.001Z",
+      "id": "3bba7f1f-d0fd-4e04-a86f-dad5414de95e",
+      "type": "chat.message",
+      "ts": "2026-09-28T20:22:15.999Z",
       "player": { "id": 2, "name": "Tamsin" },
-      "details": { "skill": "4zYUGF5u_0KbMLkWJmmBbQ", "skill_name": "Woodcutting", "level": 8 }
+      "details": { "channel": "global", "text": "need more runes, trade?" }
     }
   },
   {
     "event": "activity",
-    "id": "616e4d48-7373-4f97-9fd9-7b581a4e0d3f",
+    "id": "b68841fe-585d-4d03-a9c2-df6f9fcbdb9b",
     "data": {
-      "id": "616e4d48-7373-4f97-9fd9-7b581a4e0d3f",
+      "id": "b68841fe-585d-4d03-a9c2-df6f9fcbdb9b",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:23:31.001Z",
+      "player": { "id": 5, "name": "Wren" },
+      "details": { "skill": "pJggvotwOkuoc98igUn7xA", "skill_name": "Agility", "level": 7 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "581a4e0d-3f70-49c1-bc5a-143e6974a1e0",
+    "data": {
+      "id": "581a4e0d-3f70-49c1-bc5a-143e6974a1e0",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:24:46.001Z",
+      "player": { "id": 1, "name": "Orrin" },
+      "details": { "skill": "Tn7t6DQyX0-Q0cM5K7B90A", "skill_name": "Cooking", "level": 15 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "a5149e21-c0b8-4802-8785-c22300b2a9d2",
+    "data": {
+      "id": "a5149e21-c0b8-4802-8785-c22300b2a9d2",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:26:01.001Z",
+      "player": { "id": 1, "name": "Orrin" },
+      "details": { "skill": "4pefO9k1lUqfA6mvHNi1SA", "skill_name": "Attack", "level": 19 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "39ae3565-330d-4f54-a278-7343937070e1",
+    "data": {
+      "id": "39ae3565-330d-4f54-a278-7343937070e1",
+      "type": "chat.message",
+      "ts": "2026-09-28T20:27:00.999Z",
+      "player": { "id": 2, "name": "Tamsin" },
+      "details": { "channel": "global", "text": "found copper past the vault" }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "1d904ae1-86f6-4608-b24a-8eb91ee0ab9f",
+    "data": {
+      "id": "1d904ae1-86f6-4608-b24a-8eb91ee0ab9f",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:27:31.001Z",
+      "player": { "id": 5, "name": "Wren" },
+      "details": { "skill": "heq7u88Q2UuLXFqLGTVwQw", "skill_name": "Ranged", "level": 14 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "64e1a6b3-7e35-48ab-bd4f-410c9d6f84d3",
+    "data": {
+      "id": "64e1a6b3-7e35-48ab-bd4f-410c9d6f84d3",
+      "type": "skill.level_up",
+      "ts": "2026-09-28T20:27:31.001Z",
+      "player": { "id": 1, "name": "Orrin" },
+      "details": { "skill": "jqX0Gh6QI0GFFPCDFK_CJQ", "skill_name": "Mining", "level": 7 }
+    }
+  },
+  {
+    "event": "activity",
+    "id": "bc2484cc-5596-44d9-ba9c-d5776d7fc28f",
+    "data": {
+      "id": "bc2484cc-5596-44d9-ba9c-d5776d7fc28f",
       "type": "skill.level_up",
       "ts": "2026-09-28T20:27:46.001Z",
-      "player": { "id": 5, "name": "Wren" },
-      "details": { "skill": "Tn7t6DQyX0-Q0cM5K7B90A", "skill_name": "Cooking", "level": 23 }
+      "player": { "id": 4, "name": "Juniper" },
+      "details": { "skill": "waK-8EyQFQ2xEjCGYmuTRQ", "skill_name": "Construction", "level": 8 }
     }
   },
   {
     "event": "activity",
-    "id": "5779f2f3-df8a-498b-89c3-07888fbe62d9",
+    "id": "5876812e-fbe3-4b0d-a6cc-b6ab70ccc779",
     "data": {
-      "id": "5779f2f3-df8a-498b-89c3-07888fbe62d9",
+      "id": "5876812e-fbe3-4b0d-a6cc-b6ab70ccc779",
       "type": "skill.level_up",
       "ts": "2026-09-28T20:28:01.001Z",
-      "player": { "id": 5, "name": "Wren" },
-      "details": { "skill": "pJggvotwOkuoc98igUn7xA", "skill_name": "Agility", "level": 8 }
+      "player": { "id": 2, "name": "Tamsin" },
+      "details": { "skill": "Tn7t6DQyX0-Q0cM5K7B90A", "skill_name": "Cooking", "level": 24 }
     }
   },
   {
     "event": "activity",
-    "id": "12729e3b-12f6-405a-a773-5459b39c6f01",
+    "id": "e6a9b2df-ac42-4948-a0d4-da414d172004",
     "data": {
-      "id": "12729e3b-12f6-405a-a773-5459b39c6f01",
+      "id": "e6a9b2df-ac42-4948-a0d4-da414d172004",
       "type": "skill.level_up",
-      "ts": "2026-09-28T20:29:16.001Z",
-      "player": { "id": 5, "name": "Wren" },
-      "details": { "skill": "Wf3i7Ha-B06DH719j1vtBw", "skill_name": "Artisan", "level": 13 }
+      "ts": "2026-09-28T20:29:46.001Z",
+      "player": { "id": 1, "name": "Orrin" },
+      "details": { "skill": "0hreSMRVXUihq9qjDO2CFA", "skill_name": "Magic", "level": 8 }
     }
   }
 ]

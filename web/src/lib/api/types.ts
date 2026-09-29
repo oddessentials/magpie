@@ -759,6 +759,7 @@ export interface components {
       }[];
       stations: components['schemas']['CatalogStation'][];
       version: string;
+      xp_for_level: number[];
     };
     CatalogAmount: {
       count: number | null;
@@ -770,7 +771,7 @@ export interface components {
       id: string | null;
       name: string | null;
       requirements: components['schemas']['CatalogAmount'][];
-      unlock: string | null;
+      unlock: components['schemas']['CatalogUnlock'] | null;
       xp: components['schemas']['CatalogXp'][];
     };
     CatalogItem: {
@@ -785,15 +786,39 @@ export interface components {
       consumes: components['schemas']['CatalogAmount'][];
       creates: components['schemas']['CatalogAmount'][];
       id: string | null;
+      kind: 'craft' | 'vendor' | 'journal' | 'test';
+      name: string | null;
       stations: string[];
-      unlock: string | null;
+      unlock: components['schemas']['CatalogUnlock'] | null;
       xp: components['schemas']['CatalogXp'][];
     };
     CatalogStation: {
       building: string | null;
       id: string;
       kind: 'crafting' | 'processing';
-      name: string | null;
+      name: string;
+    };
+    CatalogUnlock: {
+      operator: ('and' | 'or') | null;
+      steps: components['schemas']['CatalogUnlockStep'][];
+      text: string;
+    };
+    CatalogUnlockStep: {
+      actors: {
+        class: string;
+        name: string;
+      }[];
+      items: {
+        asset: string;
+        name: string | null;
+      }[];
+      kind: 'pick_up' | 'interact' | 'skill_level';
+      level: number | null;
+      match: 'all' | 'any';
+      skill: {
+        asset: string;
+        name: string | null;
+      } | null;
     };
     CatalogXp: {
       skill: string;
@@ -1056,6 +1081,7 @@ export interface components {
         asset: string;
         category: string | null;
         creature: string | null;
+        find: string | null;
         first_found: {
           at: string;
           player: number;
@@ -1064,8 +1090,10 @@ export interface components {
         group: string | null;
         id: string | null;
         item: string | null;
+        item_name: string | null;
         name: string | null;
         recipe: string | null;
+        recipe_unlock: number | null;
         regions: string[];
         unlock: string | null;
       }[];
@@ -1074,6 +1102,7 @@ export interface components {
         player: components['schemas']['PlayerRef'];
       }[];
       saved_at: string | null;
+      unlocks: components['schemas']['CatalogUnlock'][];
     };
     JournalUnlockedData: {
       character_guid: components['schemas']['CharacterGuid'];
@@ -1093,19 +1122,28 @@ export interface components {
         requirements: {
           item: string;
           missing: number;
+          name: string | null;
         }[];
         saved_at: string;
         unfinished: number;
       } | null;
       players: {
         buildings: string[];
+        interacted: string[];
+        picked_up: string[];
         player: components['schemas']['PlayerRef'];
         recipes: string[];
         saved_at: string;
+        skills: {
+          level: number;
+          skill: string;
+          xp: number;
+        }[];
       }[];
       saved_at: string | null;
       stock: {
         at_least: boolean;
+        category: string | null;
         count: number;
         holders: {
           at_least: boolean;
@@ -1113,6 +1151,7 @@ export interface components {
           player: components['schemas']['PlayerRef'];
         }[];
         item: string;
+        name: string | null;
       }[];
     };
     LoginRequest: {
@@ -1226,6 +1265,12 @@ export interface components {
       spells: number | null;
       total_level: number | null;
       unlocks: components['schemas']['PlayerUnlocks'] | null;
+      xp_gains: {
+        day: number;
+        id: string;
+        name: string;
+        week: number;
+      }[];
     };
     PlayerDiedData: {
       cause?: string | null;
@@ -1350,6 +1395,7 @@ export interface components {
     };
     PlayerSlot: {
       at_least: boolean;
+      category: string | null;
       count: number;
       durability: number | null;
       item: string | null;
@@ -1388,6 +1434,7 @@ export interface components {
       type: 'player.xp';
     };
     Progression: {
+      bosses: string[];
       players: {
         bosses: string[];
         buildings: number;
@@ -1401,6 +1448,10 @@ export interface components {
         player: components['schemas']['PlayerRef'];
         quests: {
           active: number;
+          areas: {
+            area: string | null;
+            completed: number;
+          }[];
           completed: number;
           main_completed: number;
         };
@@ -1414,6 +1465,10 @@ export interface components {
         total_level: number | null;
       }[];
       totals: {
+        areas: {
+          area: string | null;
+          quests: number;
+        }[];
         bosses: number;
         buildings: number;
         journal: number;
@@ -1944,6 +1999,8 @@ export type CatalogBuilding = components['schemas']['CatalogBuilding'];
 export type CatalogItem = components['schemas']['CatalogItem'];
 export type CatalogRecipe = components['schemas']['CatalogRecipe'];
 export type CatalogStation = components['schemas']['CatalogStation'];
+export type CatalogUnlock = components['schemas']['CatalogUnlock'];
+export type CatalogUnlockStep = components['schemas']['CatalogUnlockStep'];
 export type CatalogXp = components['schemas']['CatalogXp'];
 export type CharacterGuid = components['schemas']['CharacterGuid'];
 export type ChatChannel = components['schemas']['ChatChannel'];

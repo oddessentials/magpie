@@ -14,7 +14,7 @@
       "left_at": "2026-09-25T17:06:25.100Z",
       "duration_s": 5894,
       "end_reason": "left",
-      "deaths": 1
+      "deaths": 2
     },
     {
       "id": 10,
@@ -22,7 +22,7 @@
       "left_at": "2026-09-24T17:52:05.100Z",
       "duration_s": 2423,
       "end_reason": "left",
-      "deaths": 0
+      "deaths": 1
     },
     {
       "id": 7,

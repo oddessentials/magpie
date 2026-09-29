@@ -1,6 +1,6 @@
 import sharp from 'sharp';
 
-export const previewNames = ['today', 'player', 'world', 'map'];
+export const previewNames = ['today', 'player', 'world', 'map', 'ledger', 'journal', 'progression'];
 
 export async function previewVariants(source, name) {
   const variants = [];

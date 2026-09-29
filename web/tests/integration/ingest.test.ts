@@ -240,6 +240,11 @@ describe('POST /api/ingest', () => {
       levels.map((sample) => sample.saved_at).sort()
     );
     expect(levels.at(-1)!.total_level).toBe(detail.character!.total_level);
+    const gains = detail.character!.xp_gains;
+    expect(gains).toHaveLength(12);
+    expect(gains.every((gain) => gain.day >= 0 && gain.week >= gain.day)).toBe(true);
+    expect(gains.some((gain) => gain.week > 0)).toBe(true);
+    expect(detail.character!.inventory!.some((slot) => slot.category !== null)).toBe(true);
     expect(JSON.stringify(detail)).not.toMatch(/[0-9a-f]{32}/i);
     expect(JSON.stringify(detail)).not.toMatch(/"(x|z)":/);
   });
@@ -347,7 +352,13 @@ describe('POST /api/ingest', () => {
       expect(entry.recipes.length).toBeGreaterThan(0);
       expect(entry.recipes.every((asset) => recipesByAsset.has(asset))).toBe(true);
       expect(entry.buildings.every((asset) => buildingsByAsset.has(asset))).toBe(true);
+      expect(entry.picked_up.length).toBeGreaterThan(0);
+      expect(entry.picked_up.every((asset) => itemsByAsset.has(asset))).toBe(true);
+      expect(entry.interacted).toContain('BP_LoreItem');
+      expect(entry.skills).toHaveLength(12);
+      expect(entry.skills.every((skill) => skill.xp >= 0 && skill.level >= 1)).toBe(true);
     }
+    expect(ledger.stock.every((item) => item.name !== null)).toBe(true);
     expect(ledger.stock.length).toBeGreaterThan(0);
     for (const item of ledger.stock) {
       expect(itemsByAsset.has(item.item)).toBe(true);
@@ -360,6 +371,14 @@ describe('POST /api/ingest', () => {
 
     const journal = await getJournal(db);
     expect(journal.entries).toHaveLength(liveJournal.length);
+    const indexed = journal.entries.filter((entry) => entry.recipe_unlock !== null);
+    expect(indexed.length).toBeGreaterThan(0);
+    expect(indexed.every((entry) => journal.unlocks[entry.recipe_unlock!] !== undefined)).toBe(
+      true
+    );
+    expect(journal.entries.some((entry) => entry.find?.startsWith('item:'))).toBe(true);
+    expect(journal.entries.some((entry) => entry.find?.startsWith('creature:'))).toBe(true);
+    expect(journal.entries.some((entry) => entry.find?.startsWith('lore:'))).toBe(true);
     const found = journal.entries.flatMap((entry) => entry.found_by);
     expect(found.length).toBeGreaterThan(0);
     expect(journal.players.reduce((sum, entry) => sum + entry.found, 0)).toBe(found.length);
@@ -370,7 +389,18 @@ describe('POST /api/ingest', () => {
 
     const progression = await getProgression(db);
     expect(progression.totals.journal).toBe(liveJournal.length);
-    expect(progression.totals.bosses).toBeGreaterThan(0);
+    expect(progression.totals.bosses).toBe(progression.bosses.length);
+    expect(progression.totals.areas.reduce((sum, area) => sum + area.quests, 0)).toBe(
+      progression.totals.quests
+    );
+    for (const entry of progression.players) {
+      expect(entry.quests.areas.map((area) => area.area)).toEqual(
+        progression.totals.areas.map((area) => area.area)
+      );
+      expect(entry.quests.areas.reduce((sum, area) => sum + area.completed, 0)).toBeLessThanOrEqual(
+        entry.quests.completed
+      );
+    }
     expect(progression.players.map((entry) => entry.player.id)).toEqual(
       ledger.players.map((entry) => entry.player.id)
     );

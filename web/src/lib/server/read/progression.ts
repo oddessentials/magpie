@@ -15,13 +15,25 @@ import {
   liveJournal,
   liveQuests,
   liveRecipes,
-  questsById,
+  areaName,
+  questOf,
   recipeName,
   recipesById
 } from './lookup';
 import { skillsOf, totalLevelOf } from './saves';
 
 type Progression = Schemas['Progression'];
+
+const countedQuests = liveQuests.filter((quest) => !quest.hidden && !quest.task);
+const areaTotals = new Map<string | null, number>();
+for (const quest of countedQuests) {
+  const area = areaName(quest.region);
+  areaTotals.set(area, (areaTotals.get(area) ?? 0) + 1);
+}
+const areas = [...areaTotals.keys()].sort((a, b) =>
+  a === null ? 1 : b === null ? -1 : a.localeCompare(b)
+);
+const countedAssets = new Set(countedQuests.map((quest) => quest.asset));
 type Latest = NonNullable<Progression['players'][number]['latest']>;
 
 function latestName(kind: Latest['kind'], id: string): string | null {
@@ -44,24 +56,37 @@ export async function getProgression(db: Database): Promise<Progression> {
   ).filter(isKnownUnlock);
   const byCharacter = new Map<string, typeof rows>();
   for (const row of rows) {
-    byCharacter.set(row.characterGuid, [...(byCharacter.get(row.characterGuid) ?? []), row]);
+    const list = byCharacter.get(row.characterGuid);
+    if (list) list.push(row);
+    else byCharacter.set(row.characterGuid, [row]);
   }
-  const bossNames = new Set(liveCreatures.filter((c) => c.boss && c.name).map((c) => c.name));
+  const bossNames = new Set(
+    liveCreatures.filter((c) => c.boss && c.name).map((c) => c.name as string)
+  );
   return {
     totals: {
       skills: skillFacts.length,
-      quests: liveQuests.filter((q) => !q.hidden && !q.task).length,
+      quests: countedQuests.length,
       main_quests: liveQuests.filter((q) => q.main).length,
       journal: liveJournal.length,
       recipes: liveRecipes.length,
       buildings: liveBuildings.length,
-      bosses: bossNames.size
+      bosses: bossNames.size,
+      areas: areas.map((area) => ({ area, quests: areaTotals.get(area) ?? 0 }))
     },
+    bosses: [...bossNames].sort(),
     players: characters.map(({ player, save }) => {
       const unlocked = byCharacter.get(save.characterGuid) ?? [];
       const count = (kind: string) => unlocked.filter((row) => row.kind === kind).length;
       const skills = skillsOf(save.skills);
       const completed = save.quests.filter((quest) => isQuestComplete(quest.state));
+      const doneByArea = new Map<string | null, number>();
+      for (const quest of completed) {
+        const fact = questOf(quest.id);
+        if (!fact || !countedAssets.has(fact.asset)) continue;
+        const area = areaName(fact.region);
+        doneByArea.set(area, (doneByArea.get(area) ?? 0) + 1);
+      }
       const bosses = [
         ...new Set(
           unlocked
@@ -97,8 +122,8 @@ export async function getProgression(db: Database): Promise<Progression> {
         quests: {
           completed: completed.length,
           active: save.quests.length - completed.length,
-          main_completed: completed.filter((quest) => questsById.get(quest.id)?.main === true)
-            .length
+          main_completed: completed.filter((quest) => questOf(quest.id)?.main === true).length,
+          areas: areas.map((area) => ({ area, completed: doneByArea.get(area) ?? 0 }))
         },
         journal: count('journal'),
         recipes: count('recipe'),

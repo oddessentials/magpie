@@ -1,9 +1,21 @@
 import type { Database } from '../db/client';
 import { savedCharacters, unlocksOf } from './characters';
 import { playerRef, type Schemas } from './common';
-import { creaturesById, liveJournal } from './lookup';
+import { unlockFor } from './catalog';
+import { findable } from './layers';
+import { creaturesById, itemName, liveJournal } from './lookup';
 
 type Journal = Schemas['Journal'];
+
+function findOf(entry: (typeof liveJournal)[number]): string | null {
+  for (const item of [entry.item, ...entry.materials]) {
+    if (item && findable.item.has(item)) return `item:${item}`;
+  }
+  const creature = entry.creature ? creaturesById.get(entry.creature)?.asset : undefined;
+  if (creature && findable.creature.has(creature)) return `creature:${creature}`;
+  if (findable.lore.has(entry.asset)) return `lore:${entry.asset}`;
+  return null;
+}
 
 export async function getJournal(db: Database): Promise<Journal> {
   const characters = await savedCharacters(db);
@@ -32,27 +44,44 @@ export async function getJournal(db: Database): Promise<Journal> {
     (latest, { save }) => (!latest || save.savedAt > latest ? save.savedAt : latest),
     null
   );
+  const unlocks: Schemas['CatalogUnlock'][] = [];
+  const indexes = new Map<Schemas['CatalogUnlock'], number>();
+  const unlockIndex = (recipe: string | null) => {
+    const unlock = unlockFor(recipe);
+    if (!unlock) return null;
+    let index = indexes.get(unlock);
+    if (index === undefined) {
+      index = unlocks.push(unlock) - 1;
+      indexes.set(unlock, index);
+    }
+    return index;
+  };
+  const entries = liveJournal.map((entry) => {
+    const seen = entry.id ? found.get(entry.id) : undefined;
+    return {
+      id: entry.id,
+      asset: entry.asset,
+      name: entry.name,
+      category: entry.category,
+      group: entry.group,
+      unlock: entry.unlock,
+      item: entry.item,
+      recipe: entry.recipe,
+      creature: entry.creature ? (creaturesById.get(entry.creature)?.name ?? null) : null,
+      item_name: itemName(entry.item),
+      recipe_unlock: unlockIndex(entry.recipe),
+      find: findOf(entry),
+      regions: entry.locations,
+      found_by: seen ? [...seen.players].sort((a, b) => a - b) : [],
+      first_found: seen?.first
+        ? { player: seen.first.player, at: seen.first.at.toISOString() }
+        : null
+    };
+  });
   return {
     saved_at: newest ? newest.toISOString() : null,
-    entries: liveJournal.map((entry) => {
-      const seen = entry.id ? found.get(entry.id) : undefined;
-      return {
-        id: entry.id,
-        asset: entry.asset,
-        name: entry.name,
-        category: entry.category,
-        group: entry.group,
-        unlock: entry.unlock,
-        item: entry.item,
-        recipe: entry.recipe,
-        creature: entry.creature ? (creaturesById.get(entry.creature)?.name ?? null) : null,
-        regions: entry.locations,
-        found_by: seen ? [...seen.players].sort((a, b) => a - b) : [],
-        first_found: seen?.first
-          ? { player: seen.first.player, at: seen.first.at.toISOString() }
-          : null
-      };
-    }),
+    unlocks,
+    entries,
     players: characters.map(({ player }) => ({
       player: playerRef(player),
       found: counts.get(player.id) ?? 0

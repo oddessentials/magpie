@@ -4,9 +4,9 @@
   "server": { "name": "Magpie Test Server", "version": "1.0.0.6", "world_name": "magpie-test" },
   "players": { "online": 4, "max": 6, "observed_at": "2026-09-28T20:12:52.100Z" },
   "process": {
-    "memory_mb": 1410.3,
+    "memory_mb": 1416.5,
     "uptime_s": 68191,
-    "cpu_percent": 30.1,
+    "cpu_percent": 32.9,
     "measured_at": "2026-09-28T20:29:31.001Z"
   },
   "save": { "saved_at": "2026-09-28T20:29:00.000Z", "day": 599 },
@@ -14,7 +14,7 @@
     "remote": null,
     "state": "active",
     "version": "0.1.0",
-    "last_seen_at": "2026-09-28T20:29:32.501Z",
+    "last_seen_at": "2026-09-28T20:29:47.501Z",
     "layers": { "logs": true, "saves": true, "process": true, "mod": true }
   },
   "stopping": false,
