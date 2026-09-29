@@ -1,0 +1,7 @@
+{
+  "ModName": "Magpie Events",
+  "PackageName": "MagpieEvents",
+  "Author": "oddessentials",
+  "Description": "Writes chat, deaths, skills, quests, crafting, building, world events and presence to a JSON lines file for the Magpie collector, and stops the server after a world save when asked. Server only.",
+  "Dependencies": ["UE4SS"]
+}
