@@ -85,11 +85,12 @@ type ServerSettings struct {
 }
 
 type CollectorLayers struct {
-	Logs       bool    `json:"logs"`
-	LogsSource *string `json:"logs_source"`
-	Saves      bool    `json:"saves"`
-	Process    bool    `json:"process"`
-	Mod        bool    `json:"mod"`
+	Remote     *RemoteObservation `json:"remote,omitempty"`
+	Logs       bool               `json:"logs"`
+	LogsSource *string            `json:"logs_source"`
+	Saves      bool               `json:"saves"`
+	Process    bool               `json:"process"`
+	Mod        bool               `json:"mod"`
 }
 
 type CollectorStartedData struct {
@@ -102,13 +103,21 @@ type CollectorStartedData struct {
 }
 
 type CollectorHeartbeatData struct {
-	UptimeS       float64 `json:"uptime_s"`
-	QueueDepth    int     `json:"queue_depth"`
-	DroppedEvents int64   `json:"dropped_events"`
-	Logs          string  `json:"logs"`
-	Saves         string  `json:"saves"`
-	Process       string  `json:"process"`
-	Mod           string  `json:"mod"`
+	Remote        *RemoteObservation `json:"remote,omitempty"`
+	UptimeS       float64            `json:"uptime_s"`
+	QueueDepth    int                `json:"queue_depth"`
+	DroppedEvents int64              `json:"dropped_events"`
+	Logs          string             `json:"logs"`
+	Saves         string             `json:"saves"`
+	Process       string             `json:"process"`
+	Mod           string             `json:"mod"`
+}
+
+type RemoteObservation struct {
+	LogsPollS      *float64   `json:"logs_poll_s"`
+	SavesPollS     *float64   `json:"saves_poll_s"`
+	LogsCheckedAt  *time.Time `json:"logs_checked_at"`
+	SavesCheckedAt *time.Time `json:"saves_checked_at"`
 }
 
 type ServerOnlineData struct {

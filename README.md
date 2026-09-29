@@ -90,7 +90,7 @@ The API is described in `web/openapi.yaml` and served at `/api/v1/openapi.json`.
 <details id="collector-reference">
 <summary><b>Collector reference</b></summary>
 
-The collector is one binary for Windows x64, Linux x64 and Linux arm64. It reads the server's log, the world save through `magpie-savereader`, and the server mod's events file, turns what it sees into events, and posts them in signed batches to your site. Every event waits in a journal on disk until the site confirms it, so a crash, a restart or a site outage loses nothing.
+The collector is one binary for Windows x64, Linux x64 and Linux arm64. It reads the server's log, the world save through `magpie-savereader`, and the server mod's events file, turns what it sees into events, and posts them in signed batches to your site. Queued events wait in a journal on disk until the site confirms them and are replayed after a restart or site outage.
 
 | `logs.source` | How the collector reads the server's log                                                                                                                                                                                                       |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -99,6 +99,7 @@ The collector is one binary for Windows x64, Linux x64 and Linux arm64. It reads
 | `docker`      | Follows a container's log through the Docker Engine API (`/var/run/docker.sock`, the Windows named pipe or `docker.host`).                                                                                                                     |
 | `stdin`       | Reads the server's output from a pipe. The collector stops when the server does.                                                                                                                                                               |
 | `none`        | Saves and mod events only.                                                                                                                                                                                                                     |
+| `remote` | Polls one remote log file over FTP, explicit FTPS or SFTP, retaining a cursor across reconnects and collector restarts. |
 
 On Windows the collector can run as a service: from a terminal opened with Run as administrator, `magpie-collector service install --config C:\magpie\magpie-collector.toml` registers a service that starts with Windows and restarts after a failure; `service start`, `service stop` and `service remove` manage it.
 
@@ -121,6 +122,29 @@ The collector reads `magpie-collector.toml` beside the binary, or the file given
 | `journal_dir`                                             | `magpie-journal` beside the config file               | Where events wait until the site confirms them.                                                                            |
 
 `magpie-collector check` reports what the configuration resolves to and what it can reach, and `--dry-run` prints the batches instead of sending them.
+
+For a rented server, set `logs.remote` to the full URL of its log and `saves.remote` to the full URL of its world `.sav`. FTP and FTPS URL paths are relative to the login directory; use an encoded leading slash for an absolute path. SFTP paths are absolute, or use `/~/` for the login directory. There are no separate player saves to download and no REST or RCON fallback.
+
+```toml
+[logs]
+source = "remote"
+remote = "sftp://user@example.invalid/~/RSDragonwilds/Saved/Logs/RSDragonwilds.log"
+host_key = "SHA256:replace-with-provider-verified-fingerprint"
+interval = "5s"
+timeout = "30s"
+
+[saves]
+remote = "sftp://user@example.invalid/~/RSDragonwilds/Saved/SaveGames/world.sav"
+host_key = "SHA256:replace-with-provider-verified-fingerprint"
+interval = "30s"
+timeout = "30s"
+```
+
+Supply `MAGPIE_LOGS_PASSWORD` and `MAGPIE_SAVES_PASSWORD`, or the `logs.key` and `saves.key` private-key paths. Each SFTP endpoint requires its own explicit `host_key` pin, obtained through the provider; a changed key is refused. FTPS verifies the server certificate and protects both connections with TLS. Plain FTP is also supported. Use `saves.path` for a local save or `saves.remote` for a remote one.
+
+Remote logs read incremental ranges and check the preceding bytes for rotation or truncation. Complete lines advance the persisted cursor; partial lines wait for the next poll. Identical replacements without a changed length or preceding bytes cannot be distinguished on these protocols. The first connection reads the available log from its beginning. `logs.interval` defaults to 5 seconds (1–60 seconds allowed); `saves.interval` defaults to 30 seconds (at least 10 seconds). Timeouts apply to each listing or transfer, and an unavailable endpoint is retried on the next poll.
+
+Remote saves are limited to 512 MiB. A download must match the remote size and modification time before and after copying, pass the SPUD completeness check, and decode successfully before replacing the local copy. Unchanged size/time pairs skip a repeated decode. The mirror keeps the remote timestamp; a provider that supplies no save modification time is refused. The site labels these observations **Polled**, shows cadence and successful-check times on the world page, and keeps save freshness separate from download time.
 
 Before anything leaves the machine the collector removes the world password from the log's login lines, the password lines the server prints, join codes, addresses, platform ids and every other id, keeping a player's name and platform family. Your site never shows any of them.
 

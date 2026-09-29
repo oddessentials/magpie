@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 
 function watchConsole(page: Page): string[] {
   const problems: string[] = [];
@@ -38,6 +39,40 @@ test('today shows who is in the wilds, the last save and the latest lines', asyn
   await expect(page.getByText('live', { exact: true })).toBeVisible({ timeout: 15_000 });
   await expect(page.getByRole('link', { name: 'Skip to the page' })).toHaveCount(1);
   expect(problems).toEqual([]);
+});
+
+test('remote observations show polling cadence and freshness without a live label', async ({
+  page
+}) => {
+  const status = JSON.parse(
+    readFileSync(new URL('../../fixtures/api/status.json', import.meta.url), 'utf8')
+  );
+  status.collector.remote = {
+    logs_poll_s: 5,
+    saves_poll_s: 30,
+    logs_checked_at: status.updated_at,
+    saves_checked_at: status.updated_at
+  };
+  await page.addInitScript((status) => {
+    class PolledStream extends EventTarget {
+      constructor() {
+        super();
+        setTimeout(() => {
+          this.dispatchEvent(new Event('open'));
+          this.dispatchEvent(new MessageEvent('status', { data: JSON.stringify(status) }));
+        }, 20);
+      }
+      close() {}
+    }
+    window.EventSource = PolledStream as unknown as typeof EventSource;
+  }, status);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/world');
+  await expect(page.getByText('Polled', { exact: true })).toBeVisible();
+  await expect(page.getByText('live', { exact: true })).toHaveCount(0);
+  await expect(page.getByText(/Remote logs: checked every 5 seconds/)).toBeVisible();
+  await expect(page.getByText(/Remote saves: checked every 30 seconds/)).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
 });
 
 test('players sort through the query string and open their page with the skill grid', async ({

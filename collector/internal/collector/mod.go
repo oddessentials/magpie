@@ -99,7 +99,7 @@ func (c *Collector) modEmissions(record modevents.Record) []emission {
 	userID, guid := optional(id.UserID), optional(id.CharacterGUID)
 	switch record.Type {
 	case modevents.TypeStopRequested:
-		if c.cfg.Logs.Source == config.SourceFile && !c.serverUp {
+		if (c.cfg.Logs.Source == config.SourceFile || c.cfg.Logs.Source == config.SourceRemote) && !c.serverUp {
 			return nil
 		}
 		stopping, by := c.stopState()

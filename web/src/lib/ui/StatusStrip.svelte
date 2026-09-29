@@ -37,7 +37,8 @@
           ? t.status.collectorNone
           : null
   );
-  const streamLabel = $derived(t.status.stream[stream]);
+  const remote = $derived(status?.collector.remote);
+  const streamLabel = $derived(remote && stream === 'open' ? 'Polled' : t.status.stream[stream]);
 </script>
 
 <div class="status-strip ticker" role="status" aria-live="polite">
@@ -75,7 +76,12 @@
     {:else}
       <span class="text-warning">{t.status.unavailable}{error ? ` (${error.code})` : ''}</span>
     {/if}
-    <span class="ml-auto flex items-center gap-2" title={t.status.streamTitle}>
+    <span
+      class="ml-auto flex items-center gap-2"
+      title={remote
+        ? 'Remote files are checked periodically. Observation times can be earlier than the last check.'
+        : t.status.streamTitle}
+    >
       <span
         class="inline-block size-1.5 rounded-full {stream === 'open'
           ? 'live-dot bg-online shadow-[0_0_8px_var(--color-online)]'

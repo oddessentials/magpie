@@ -116,6 +116,8 @@ func TestEveryEmittedTypeMatchesTheContract(t *testing.T) {
 	info := event.ServerInfo{Name: "Test Server", Build: event.String("++dominion+hotfix-CL-244954"), WorldName: "Test World", WorldGUID: event.String("1234567890ABCDEF1234567890ABCDEF"), MaxPlayers: event.Int(6)}
 	settings := &event.ServerSettings{MaxPlayers: event.Int(6), PlatformPolicy: event.String("Crossplay"), SaveFrequencyMin: event.Int(5)}
 	items = append(items,
+		emission{Type: event.TypeCollectorStarted, At: at, Data: event.CollectorStartedData{CollectorVersion: "0.1.0", OS: "linux", Arch: "amd64", Layers: event.CollectorLayers{Logs: true, LogsSource: event.String("remote"), Saves: true, Remote: &event.RemoteObservation{LogsPollS: event.Float(5), SavesPollS: event.Float(30)}}}},
+		emission{Type: event.TypeCollectorHeartbeat, At: at, Data: event.CollectorHeartbeatData{Logs: stateOK, Saves: stateOK, Process: stateOff, Mod: stateOff, Remote: &event.RemoteObservation{LogsPollS: event.Float(5), SavesPollS: event.Float(30), LogsCheckedAt: &at, SavesCheckedAt: &at}}},
 		emission{Type: event.TypeCollectorStarted, At: at, Data: event.CollectorStartedData{CollectorVersion: "0.1.0", OS: "linux", Arch: "amd64", Layers: event.CollectorLayers{Logs: true, LogsSource: event.String("launch"), Saves: true, Process: true, Mod: true}, Server: &info, Settings: settings}},
 		emission{Type: event.TypeCollectorStarted, At: at, Data: event.CollectorStartedData{CollectorVersion: "0.1.0", OS: "linux", Arch: "amd64", Layers: event.CollectorLayers{}}},
 		emission{Type: event.TypeCollectorHeartbeat, At: at, Data: event.CollectorHeartbeatData{UptimeS: 60.5, QueueDepth: 3, Logs: stateError, Saves: stateWaiting, Process: stateOff, Mod: stateOff}},

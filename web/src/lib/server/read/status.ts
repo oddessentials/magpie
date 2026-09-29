@@ -10,6 +10,29 @@ export type CollectorState = Schemas['StatusCollector']['state'];
 
 export const collectorLostAfterSeconds = 180;
 
+export function remoteObservationOf(value: unknown): Schemas['RemoteObservation'] | null {
+  if (!value || typeof value !== 'object') return null;
+  const raw = value as Record<string, unknown>;
+  const interval = (key: string, minimum: number) =>
+    typeof raw[key] === 'number' && Number.isFinite(raw[key]) && raw[key] >= minimum
+      ? raw[key]
+      : null;
+  const instant = (key: string) =>
+    typeof raw[key] === 'string' && Number.isFinite(Date.parse(raw[key]))
+      ? new Date(raw[key]).toISOString()
+      : null;
+  const logs = interval('logs_poll_s', 1),
+    saves = interval('saves_poll_s', 10);
+  return logs === null && saves === null
+    ? null
+    : {
+        logs_poll_s: logs,
+        saves_poll_s: saves,
+        logs_checked_at: instant('logs_checked_at'),
+        saves_checked_at: instant('saves_checked_at')
+      };
+}
+
 export async function latestRun(db: Database): Promise<CollectorRunRow | null> {
   const rows = await db
     .select()
@@ -86,6 +109,7 @@ export async function computeStatus(db: Database, now = new Date()): Promise<Sta
     },
     save: { saved_at: iso(state?.saveAt), day: state?.saveDay ?? null },
     collector: {
+      remote: remoteObservationOf(run?.heartbeat?.remote ?? run?.layers?.remote),
       state: collector,
       version: run?.collectorVersion ?? null,
       last_seen_at: run ? run.lastSeenAt.toISOString() : null,

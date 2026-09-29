@@ -13,6 +13,7 @@ import (
 	"github.com/oddessentials/magpie/collector/internal/config"
 	"github.com/oddessentials/magpie/collector/internal/event"
 	"github.com/oddessentials/magpie/collector/internal/ingest"
+	"github.com/oddessentials/magpie/collector/internal/remote"
 	"github.com/oddessentials/magpie/collector/internal/saves"
 	"github.com/oddessentials/magpie/collector/internal/serverlog"
 )
@@ -64,6 +65,17 @@ func Check(ctx context.Context, cfg *config.Config, out io.Writer) int {
 		} else {
 			line("logs", "ok", fmt.Sprintf("file %s (%s)", cfg.LogPath, fileSize(info.Size())))
 		}
+	case config.SourceRemote:
+		client, err := remote.New(cfg.LogRemote())
+		if err == nil {
+			_, err = client.Stat(ctx)
+		}
+		if err != nil {
+			failed = true
+			line("logs", "FAIL", err.Error())
+		} else {
+			line("logs", "ok", fmt.Sprintf("remote file, polled every %s", cfg.Logs.Interval))
+		}
 	default:
 		line("logs", "ok", cfg.Logs.Source)
 	}
@@ -86,6 +98,17 @@ func Check(ctx context.Context, cfg *config.Config, out io.Writer) int {
 	switch {
 	case cfg.Saves.Reader == "":
 		line("saves", "off", "no save reader beside the collector")
+	case cfg.Saves.Remote != "":
+		client, err := remote.New(cfg.SaveRemote())
+		if err == nil {
+			_, err = client.Stat(ctx)
+		}
+		if err != nil {
+			failed = true
+			line("saves", "FAIL", err.Error())
+		} else {
+			line("saves", "ok", fmt.Sprintf("remote world save, polled every %s", cfg.Saves.Interval))
+		}
 	case cfg.SaveDir == "" && cfg.Saves.Path == "":
 		line("saves", "WARN", "the world save folder is unknown; set dragonwilds.server_dir or saves.path")
 	default:

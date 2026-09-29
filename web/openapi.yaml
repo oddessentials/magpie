@@ -1217,6 +1217,10 @@ components:
     StatusCollector:
       type: object
       properties:
+        remote:
+          anyOf:
+            - $ref: '#/components/schemas/RemoteObservation'
+            - type: 'null'
         state:
           type: string
           description: active while batches arrive, stopped after a clean stop, lost when batches stopped for 3 minutes, none before the first batch.
@@ -2942,10 +2946,32 @@ components:
         - last_seq
         - actions
       additionalProperties: true
+    RemoteObservation:
+      type: object
+      description: Remote files are polled. Check times are successful retrieval or metadata checks, not live game observations. Save data retains its original saved_at timestamp.
+      properties:
+        logs_poll_s:
+          type: [number, 'null']
+          minimum: 1
+        saves_poll_s:
+          type: [number, 'null']
+          minimum: 10
+        logs_checked_at:
+          type: [string, 'null']
+          format: date-time
+        saves_checked_at:
+          type: [string, 'null']
+          format: date-time
+      required: [logs_poll_s, saves_poll_s, logs_checked_at, saves_checked_at]
+      additionalProperties: false
     CollectorLayers:
       type: object
       description: Which data sources this collector run reads.
       properties:
+        remote:
+          anyOf:
+            - $ref: '#/components/schemas/RemoteObservation'
+            - type: 'null'
         logs:
           type: boolean
         logs_source:
@@ -2957,8 +2983,9 @@ components:
             - file
             - stdin
             - docker
+            - remote
             - null
-          description: launch when the collector starts the server itself and reads its output, file when it tails Saved/Logs/RSDragonwilds.log, stdin and docker for piped and container logs.
+          description: launch when the collector starts the server itself, file for a local log, remote for polled FTP/FTPS/SFTP files, stdin and docker for piped and container logs.
         saves:
           type: boolean
           description: Whether the collector reads the world save.
@@ -3027,6 +3054,10 @@ components:
     CollectorHeartbeatData:
       type: object
       properties:
+        remote:
+          anyOf:
+            - $ref: '#/components/schemas/RemoteObservation'
+            - type: 'null'
         uptime_s:
           type: number
           minimum: 0

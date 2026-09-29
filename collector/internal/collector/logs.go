@@ -12,7 +12,7 @@ import (
 
 func (c *Collector) onLine(line serverlog.Line) {
 	if line.Reset {
-		if c.cfg.Logs.Source == config.SourceFile && !c.launched {
+		if (c.cfg.Logs.Source == config.SourceFile || c.cfg.Logs.Source == config.SourceRemote) && !c.launched {
 			c.markOfflineAt(event.OfflineUnreachable, line.ReceivedAt)
 		}
 		return
@@ -32,7 +32,7 @@ func (c *Collector) onLine(line serverlog.Line) {
 		}
 		c.emit(item.Type, item.At, item.Player, item.Data)
 	}
-	if c.cfg.Logs.Source == config.SourceFile && !c.launched && c.mapper.Server().Exiting {
+	if (c.cfg.Logs.Source == config.SourceFile || c.cfg.Logs.Source == config.SourceRemote) && !c.launched && c.mapper.Server().Exiting {
 		c.markOfflineAt(event.OfflineStopped, at)
 	}
 }
@@ -66,6 +66,9 @@ func (c *Collector) onSourceState(state sourceState) bool {
 	c.logState = state.state
 	switch state.state {
 	case serverlog.StateConnected:
+		if c.cfg.Logs.Source == config.SourceRemote {
+			c.remoteLogChecked = time.Now()
+		}
 		if previous != serverlog.StateConnected {
 			c.log.Info("reading the server log", "source", c.cfg.Logs.Source)
 		}
