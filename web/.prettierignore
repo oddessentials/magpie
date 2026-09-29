@@ -1,0 +1,8 @@
+.svelte-kit/
+build/
+node_modules/
+drizzle/meta/
+test-results/
+playwright-report/
+package-lock.json
+src/lib/world/*.json

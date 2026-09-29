@@ -1,0 +1,179 @@
+{
+  "id": 4,
+  "name": "Juniper",
+  "platform": "pc",
+  "online": true,
+  "first_seen": "2026-09-23T12:04:10.000Z",
+  "last_seen": "2026-09-28T20:30:05.000Z",
+  "playtime_s": 31800,
+  "sessions": 4,
+  "deaths": 5,
+  "current_session": { "id": 23, "joined_at": "2026-09-28T18:59:00.000Z" },
+  "chat_messages": 12,
+  "recent_sessions": [
+    {
+      "id": 23,
+      "joined_at": "2026-09-28T18:59:00.000Z",
+      "left_at": null,
+      "duration_s": null,
+      "end_reason": null,
+      "deaths": 1
+    },
+    {
+      "id": 17,
+      "joined_at": "2026-09-26T14:51:53.000Z",
+      "left_at": "2026-09-26T17:44:51.100Z",
+      "duration_s": 10378,
+      "end_reason": "left",
+      "deaths": 1
+    },
+    {
+      "id": 11,
+      "joined_at": "2026-09-25T13:53:47.000Z",
+      "left_at": "2026-09-25T15:09:52.100Z",
+      "duration_s": 4565,
+      "end_reason": "left",
+      "deaths": 1
+    },
+    {
+      "id": 4,
+      "joined_at": "2026-09-23T12:04:10.000Z",
+      "left_at": "2026-09-23T15:14:02.100Z",
+      "duration_s": 11392,
+      "end_reason": "left",
+      "deaths": 2
+    }
+  ],
+  "recent_deaths": [
+    { "at": "2026-09-28T20:12:01.000Z", "cause": "combat", "killer": "a goblin", "source": "mod" },
+    { "at": "2026-09-26T15:14:01.000Z", "cause": "combat", "killer": "a goblin", "source": "mod" },
+    { "at": "2026-09-25T14:20:01.000Z", "cause": "combat", "killer": "a chicken", "source": "mod" },
+    {
+      "at": "2026-09-23T12:43:01.000Z",
+      "cause": "combat",
+      "killer": "the Black Knight Titan",
+      "source": "mod"
+    },
+    {
+      "at": "2026-09-23T12:41:01.000Z",
+      "cause": "combat",
+      "killer": "the Black Knight Titan",
+      "source": "mod"
+    }
+  ],
+  "character": {
+    "saved_at": "2026-09-28T20:29:00.000Z",
+    "playtime_s": 30960,
+    "health": { "current": 98, "max": 100 },
+    "skills": [
+      {
+        "id": "pJggvotwOkuoc98igUn7xA",
+        "name": "Agility",
+        "xp": 714,
+        "level": 12,
+        "level_xp": 636,
+        "next_level_xp": 736
+      },
+      {
+        "id": "Wf3i7Ha-B06DH719j1vtBw",
+        "name": "Artisan",
+        "xp": 2367,
+        "level": 22,
+        "level_xp": 2261,
+        "next_level_xp": 2529
+      },
+      {
+        "id": "4pefO9k1lUqfA6mvHNi1SA",
+        "name": "Attack",
+        "xp": 1392,
+        "level": 17,
+        "level_xp": 1253,
+        "next_level_xp": 1417
+      },
+      {
+        "id": "waK-8EyQFQ2xEjCGYmuTRQ",
+        "name": "Construction",
+        "xp": 318,
+        "level": 7,
+        "level_xp": 261,
+        "next_level_xp": 322
+      },
+      {
+        "id": "Tn7t6DQyX0-Q0cM5K7B90A",
+        "name": "Cooking",
+        "xp": 1553,
+        "level": 18,
+        "level_xp": 1417,
+        "next_level_xp": 1598
+      },
+      {
+        "id": "0hreSMRVXUihq9qjDO2CFA",
+        "name": "Magic",
+        "xp": 830,
+        "level": 13,
+        "level_xp": 736,
+        "next_level_xp": 847
+      },
+      {
+        "id": "jqX0Gh6QI0GFFPCDFK_CJQ",
+        "name": "Mining",
+        "xp": 459,
+        "level": 9,
+        "level_xp": 389,
+        "next_level_xp": 463
+      },
+      {
+        "id": "heq7u88Q2UuLXFqLGTVwQw",
+        "name": "Ranged",
+        "xp": 351,
+        "level": 8,
+        "level_xp": 322,
+        "next_level_xp": 389
+      },
+      {
+        "id": "NOqC-z-2ckqi0El22qMFlw",
+        "name": "Runecrafting",
+        "xp": 1192,
+        "level": 16,
+        "level_xp": 1104,
+        "next_level_xp": 1253
+      },
+      {
+        "id": "4zYUGF5u_0KbMLkWJmmBbQ",
+        "name": "Woodcutting",
+        "xp": 2148,
+        "level": 21,
+        "level_xp": 2018,
+        "next_level_xp": 2261
+      },
+      {
+        "id": "PyUi-0LU_riFY46AnnFiWg",
+        "name": "Farming",
+        "xp": 319,
+        "level": 7,
+        "level_xp": 261,
+        "next_level_xp": 322
+      },
+      {
+        "id": "vwY5IkQJJDwb2PKEfoc8MQ",
+        "name": "Fishing",
+        "xp": 909,
+        "level": 14,
+        "level_xp": 847,
+        "next_level_xp": 969
+      }
+    ],
+    "total_level": 164,
+    "quests": { "active": 1, "completed": 5 },
+    "journal": { "unlocked": 43, "unread": 13 },
+    "spells": 7,
+    "regions_revealed": 9
+  },
+  "feats": {
+    "journal_entries": 43,
+    "level_ups": 27,
+    "quests_completed": 5,
+    "buildings": 33,
+    "crafts": 22
+  }
+}

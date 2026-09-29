@@ -1,0 +1,45 @@
+{
+  "items": [
+    {
+      "id": 24,
+      "joined_at": "2026-09-28T19:16:00.000Z",
+      "left_at": null,
+      "duration_s": null,
+      "end_reason": null,
+      "deaths": 0
+    },
+    {
+      "id": 13,
+      "joined_at": "2026-09-25T15:28:11.000Z",
+      "left_at": "2026-09-25T17:06:25.100Z",
+      "duration_s": 5894,
+      "end_reason": "left",
+      "deaths": 1
+    },
+    {
+      "id": 10,
+      "joined_at": "2026-09-24T17:11:42.000Z",
+      "left_at": "2026-09-24T17:52:05.100Z",
+      "duration_s": 2423,
+      "end_reason": "left",
+      "deaths": 0
+    },
+    {
+      "id": 7,
+      "joined_at": "2026-09-23T16:50:02.000Z",
+      "left_at": "2026-09-23T18:20:41.100Z",
+      "duration_s": 5439,
+      "end_reason": "left",
+      "deaths": 0
+    },
+    {
+      "id": 1,
+      "joined_at": "2026-09-22T15:25:33.000Z",
+      "left_at": "2026-09-22T16:47:33.100Z",
+      "duration_s": 4920,
+      "end_reason": "left",
+      "deaths": 1
+    }
+  ],
+  "next_cursor": null
+}

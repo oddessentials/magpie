@@ -1,0 +1,158 @@
+{
+  "id": 3,
+  "name": "Bramble",
+  "platform": "pc",
+  "online": false,
+  "first_seen": "2026-09-23T11:02:50.000Z",
+  "last_seen": "2026-09-28T15:42:48.100Z",
+  "playtime_s": 13223,
+  "sessions": 3,
+  "deaths": 2,
+  "current_session": null,
+  "chat_messages": 3,
+  "recent_sessions": [
+    {
+      "id": 21,
+      "joined_at": "2026-09-28T13:44:04.000Z",
+      "left_at": "2026-09-28T15:42:48.100Z",
+      "duration_s": 7124,
+      "end_reason": "left",
+      "deaths": 2
+    },
+    {
+      "id": 16,
+      "joined_at": "2026-09-26T13:57:38.000Z",
+      "left_at": "2026-09-26T14:54:43.100Z",
+      "duration_s": 3425,
+      "end_reason": "left",
+      "deaths": 0
+    },
+    {
+      "id": 3,
+      "joined_at": "2026-09-23T11:02:50.000Z",
+      "left_at": "2026-09-23T11:47:24.100Z",
+      "duration_s": 2674,
+      "end_reason": "left",
+      "deaths": 0
+    }
+  ],
+  "recent_deaths": [
+    { "at": "2026-09-28T14:59:01.000Z", "cause": "combat", "killer": "a kebbit", "source": "mod" },
+    { "at": "2026-09-28T13:53:01.000Z", "cause": "combat", "killer": "a kebbit", "source": "mod" }
+  ],
+  "character": {
+    "saved_at": "2026-09-28T20:29:00.000Z",
+    "playtime_s": 12360,
+    "health": { "current": 93, "max": 100 },
+    "skills": [
+      {
+        "id": "pJggvotwOkuoc98igUn7xA",
+        "name": "Agility",
+        "xp": 292,
+        "level": 7,
+        "level_xp": 261,
+        "next_level_xp": 322
+      },
+      {
+        "id": "Wf3i7Ha-B06DH719j1vtBw",
+        "name": "Artisan",
+        "xp": 2237,
+        "level": 21,
+        "level_xp": 2018,
+        "next_level_xp": 2261
+      },
+      {
+        "id": "4pefO9k1lUqfA6mvHNi1SA",
+        "name": "Attack",
+        "xp": 531,
+        "level": 10,
+        "level_xp": 463,
+        "next_level_xp": 545
+      },
+      {
+        "id": "waK-8EyQFQ2xEjCGYmuTRQ",
+        "name": "Construction",
+        "xp": 310,
+        "level": 7,
+        "level_xp": 261,
+        "next_level_xp": 322
+      },
+      {
+        "id": "Tn7t6DQyX0-Q0cM5K7B90A",
+        "name": "Cooking",
+        "xp": 680,
+        "level": 12,
+        "level_xp": 636,
+        "next_level_xp": 736
+      },
+      {
+        "id": "0hreSMRVXUihq9qjDO2CFA",
+        "name": "Magic",
+        "xp": 323,
+        "level": 8,
+        "level_xp": 322,
+        "next_level_xp": 389
+      },
+      {
+        "id": "jqX0Gh6QI0GFFPCDFK_CJQ",
+        "name": "Mining",
+        "xp": 344,
+        "level": 8,
+        "level_xp": 322,
+        "next_level_xp": 389
+      },
+      {
+        "id": "heq7u88Q2UuLXFqLGTVwQw",
+        "name": "Ranged",
+        "xp": 1923,
+        "level": 20,
+        "level_xp": 1798,
+        "next_level_xp": 2018
+      },
+      {
+        "id": "NOqC-z-2ckqi0El22qMFlw",
+        "name": "Runecrafting",
+        "xp": 725,
+        "level": 12,
+        "level_xp": 636,
+        "next_level_xp": 736
+      },
+      {
+        "id": "4zYUGF5u_0KbMLkWJmmBbQ",
+        "name": "Woodcutting",
+        "xp": 1285,
+        "level": 17,
+        "level_xp": 1253,
+        "next_level_xp": 1417
+      },
+      {
+        "id": "PyUi-0LU_riFY46AnnFiWg",
+        "name": "Farming",
+        "xp": 1672,
+        "level": 19,
+        "level_xp": 1598,
+        "next_level_xp": 1798
+      },
+      {
+        "id": "vwY5IkQJJDwb2PKEfoc8MQ",
+        "name": "Fishing",
+        "xp": 2179,
+        "level": 21,
+        "level_xp": 2018,
+        "next_level_xp": 2261
+      }
+    ],
+    "total_level": 162,
+    "quests": { "active": 3, "completed": 0 },
+    "journal": { "unlocked": 31, "unread": 9 },
+    "spells": 5,
+    "regions_revealed": 6
+  },
+  "feats": {
+    "journal_entries": 31,
+    "level_ups": 8,
+    "quests_completed": 0,
+    "buildings": 13,
+    "crafts": 11
+  }
+}

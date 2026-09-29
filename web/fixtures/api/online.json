@@ -1,0 +1,34 @@
+{
+  "players": [
+    {
+      "id": 4,
+      "name": "Juniper",
+      "platform": "pc",
+      "joined_at": "2026-09-28T18:59:00.000Z",
+      "down": false
+    },
+    {
+      "id": 1,
+      "name": "Orrin",
+      "platform": "pc",
+      "joined_at": "2026-09-28T19:16:00.000Z",
+      "down": false
+    },
+    {
+      "id": 2,
+      "name": "Tamsin",
+      "platform": "pc",
+      "joined_at": "2026-09-28T19:33:00.000Z",
+      "down": false
+    },
+    {
+      "id": 5,
+      "name": "Wren",
+      "platform": "pc",
+      "joined_at": "2026-09-28T19:50:00.000Z",
+      "down": false
+    }
+  ],
+  "observed_at": "2026-09-28T20:12:52.100Z",
+  "updated_at": "2026-09-28T20:30:05.000Z"
+}

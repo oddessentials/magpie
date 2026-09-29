@@ -1,0 +1,4115 @@
+openapi: 3.1.0
+info:
+  title: Magpie API
+  version: 1.0.0
+  summary: Public read API, admin API, live stream and collector ingest of a Magpie site.
+  description: 'Conventions: JSON UTF-8; timestamps ISO 8601 UTC with Z; world positions x, y and z in Unreal units (centimetres) as the server logs them; durations in seconds unless the field name ends in _ms. Errors: the HTTP status plus { error: { code, message } }. Public responses never contain IP addresses, account or platform ids, passwords or join codes; players appear by character name and platform only. The collector posts signed batches to /api/ingest; every event carries an id, a per-run sequence number, the collector run id, a UTC timestamp, a type and a data object. The site validates the data of the event types documented here, stores events of unknown types without processing them, ignores unknown fields, and flags an event whose data does not match its schema instead of rejecting its batch, so collectors and sites of different versions keep working together. Every fact about the game in this document was read from Steam build 25465077 of the dedicated server.'
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: http://localhost:5173
+    description: Local development server (npm run dev, npm run dev:mock).
+  - url: http://localhost:3000
+    description: Local production image.
+security: []
+tags:
+  - name: public
+    description: What anyone can read about the server and its players.
+  - name: stream
+    description: Live updates as server-sent events.
+  - name: admin
+    description: Settings, collector connection, players, events, backups and jobs. Needs the admin session cookie; changes also need a same-origin Origin header.
+  - name: system
+    description: Health, site information and this contract.
+  - name: ingest
+    description: Signed batches from the collector.
+paths:
+  /api/v1/status:
+    get:
+      operationId: getStatus
+      tags:
+        - public
+      summary: Server status
+      description: Online, offline or unknown (the site has lost contact with its collector), who is on, the server process, the last world save and what the collector can see. Each figure names when it was observed so a page can say where it comes from and how old it is.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/status/history:
+    get:
+      operationId: getStatusHistory
+      tags:
+        - public
+      summary: Status history
+      description: Server state, player counts and process memory in time buckets (5 minutes for 24h, 1 hour for 7d, 6 hours for 30d), oldest first.
+      parameters:
+        - name: range
+          in: query
+          required: false
+          description: How far back.
+          schema:
+            type: string
+            enum:
+              - 24h
+              - 7d
+              - 30d
+            default: 24h
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusHistory'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/online:
+    get:
+      operationId: getOnline
+      tags:
+        - public
+      summary: Players online
+      description: The players in the world now as the server log reports them, longest online first.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnlineList'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/activity:
+    get:
+      operationId: listActivity
+      tags:
+        - public
+      summary: Activity feed
+      description: What happened on the server, newest first. Chat items need the chat feature.
+      parameters:
+        - name: types
+          in: query
+          required: false
+          description: Comma-separated activity types to include.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/PlayerFilter'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/players:
+    get:
+      operationId: listPlayers
+      tags:
+        - public
+      summary: Players
+      description: Every player the site has seen, except hidden ones.
+      parameters:
+        - name: sort
+          in: query
+          required: false
+          description: Order of the list. playtime, deaths and last_seen sort highest first, name alphabetically.
+          schema:
+            type: string
+            enum:
+              - last_seen
+              - playtime
+              - deaths
+              - name
+            default: last_seen
+        - name: q
+          in: query
+          required: false
+          description: Only players whose name contains this text, ignoring case.
+          schema:
+            type: string
+            maxLength: 64
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/players/{id}:
+    get:
+      operationId: getPlayer
+      tags:
+        - public
+      summary: Player
+      description: A player with their totals, current session, recent sessions and deaths, what the world save records about their character, and what the server mod has seen them do. A hidden player answers 404.
+      parameters:
+        - $ref: '#/components/parameters/PlayerId'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/players/{id}/sessions:
+    get:
+      operationId: listPlayerSessions
+      tags:
+        - public
+      summary: A player's sessions
+      description: Newest first.
+      parameters:
+        - $ref: '#/components/parameters/PlayerId'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/chat:
+    get:
+      operationId: listChat
+      tags:
+        - public
+      summary: Chat
+      description: Chat messages newest first, as the server mod reported them. Needs the chat feature, which is off until the admin switches it on.
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/world:
+    get:
+      operationId: getWorld
+      tags:
+        - public
+      summary: World
+      description: The server, the last world save (day count, weather per region, world events) and totals since the site began keeping the log.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/World'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/stream:
+    get:
+      operationId: streamEvents
+      tags:
+        - stream
+      summary: Live stream
+      description: "Server-sent events. Event names: status (the Status object, on connect and whenever it changes), online (the OnlineList, on connect and on change) and activity (one ActivityItem per new feed item, with the frame id set to the event id). When a later event changes a feed item that was already sent, for example the server mod's death detail merging into a death seen in the log, the item is sent again with the same ActivityItem id and no frame id; clients replace the item they hold with that id. A comment frame every 15 s keeps the connection alive. A reconnect with Last-Event-ID first replays up to 100 newer activity items."
+      parameters:
+        - $ref: '#/components/parameters/LastEventId'
+        - name: last_event_id
+          in: query
+          required: false
+          description: Same as the Last-Event-ID header, for clients that reconnect manually.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An event stream that stays open.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamFrame'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/health:
+    get:
+      operationId: getHealth
+      tags:
+        - system
+      summary: Health
+      description: Container health check.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+  /api/v1/site:
+    get:
+      operationId: getSite
+      tags:
+        - system
+      summary: Site information
+      description: The site name, the project version and the features the admin has switched on.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/CacheControl'
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /api/v1/openapi.json:
+    get:
+      operationId: getOpenApi
+      tags:
+        - system
+      summary: This contract
+      description: The OpenAPI document the site serves and validates against, as JSON.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/v1/admin/login:
+    post:
+      operationId: adminLogin
+      tags:
+        - admin
+      summary: Log in
+      description: Sets an HttpOnly, SameSite=Lax (Secure on https) session cookie. Limited to 5 attempts per minute per address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '204':
+          description: Logged in; the cookie is set.
+          headers:
+            Set-Cookie:
+              description: The admin session cookie.
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/logout:
+    post:
+      operationId: adminLogout
+      tags:
+        - admin
+      summary: Log out
+      description: Ends the admin session and clears the cookie.
+      security:
+        - adminCookie: []
+      responses:
+        '204':
+          description: Logged out; the cookie is cleared.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /api/v1/admin/session:
+    get:
+      operationId: getAdminSession
+      tags:
+        - admin
+      summary: Session state
+      description: Whether the cookie holds a valid admin session.
+      responses:
+        '200':
+          description: Whether the cookie holds a valid session, and whether the first password still has to be set.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSession'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/setup:
+    post:
+      operationId: adminSetup
+      tags:
+        - admin
+      summary: Set the first admin password
+      description: Stores the admin password as a scrypt hash and logs in. Only while no password is stored and ADMIN_PASSWORD is not set. Limited to 5 attempts per minute per address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetupRequest'
+      responses:
+        '204':
+          description: Password stored and logged in; the cookie is set.
+          headers:
+            Set-Cookie:
+              description: The admin session cookie.
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/settings:
+    get:
+      operationId: getAdminSettings
+      tags:
+        - admin
+      summary: Site settings
+      description: The site name, the feature switches and the retention periods, with the settings fixed by environment variables.
+      security:
+        - adminCookie: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSettings'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+    put:
+      operationId: updateAdminSettings
+      tags:
+        - admin
+      summary: Change site settings
+      description: Changes the given settings and keeps the others. A setting whose environment variable is set cannot be changed here.
+      security:
+        - adminCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminSettingsUpdate'
+      responses:
+        '200':
+          description: The settings after the change.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSettings'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/collector:
+    get:
+      operationId: getAdminCollector
+      tags:
+        - admin
+      summary: Collector connection
+      description: The secret the collector signs with, the recent collector runs and the ingest counters of the last 24 hours.
+      security:
+        - adminCookie: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectorAdmin'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/collector/secret:
+    post:
+      operationId: regenerateCollectorSecret
+      tags:
+        - admin
+      summary: Replace the collector secret
+      description: The running collector is rejected until it is given the new secret.
+      security:
+        - adminCookie: []
+      responses:
+        '200':
+          description: The new secret.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectorSecret'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/players:
+    get:
+      operationId: listAdminPlayers
+      tags:
+        - admin
+      summary: Players with their account ids
+      description: Every player with the account id and character guid that public responses leave out.
+      parameters:
+        - name: q
+          in: query
+          required: false
+          description: Only players whose name, account id or character guid contains this text, ignoring case.
+          schema:
+            type: string
+            maxLength: 128
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      security:
+        - adminCookie: []
+      responses:
+        '200':
+          description: Most recently seen first, hidden players included.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPlayerPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/players/{id}:
+    patch:
+      operationId: updateAdminPlayer
+      tags:
+        - admin
+      summary: Rename or hide a player
+      description: Sets or removes a name override and hides or shows the player.
+      parameters:
+        - $ref: '#/components/parameters/PlayerId'
+      security:
+        - adminCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerPatch'
+      responses:
+        '200':
+          description: The player after the change.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPlayer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/events:
+    get:
+      operationId: listAdminEvents
+      tags:
+        - admin
+      summary: Raw events
+      description: Stored events newest first, with their data exactly as received.
+      parameters:
+        - name: type
+          in: query
+          required: false
+          description: Only this event type.
+          schema:
+            type: string
+            maxLength: 64
+        - name: invalid
+          in: query
+          required: false
+          description: Only events flagged as invalid.
+          schema:
+            type: boolean
+        - $ref: '#/components/parameters/PlayerFilter'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      security:
+        - adminCookie: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/projections/rebuild:
+    post:
+      operationId: rebuildProjections
+      tags:
+        - admin
+      summary: Rebuild sessions and history
+      description: Replays every stored event in time order to rebuild sessions, deaths, journal entries, level-ups, chat, the saves and the player totals. Ingest answers 503 while it runs.
+      security:
+        - adminCookie: []
+      responses:
+        '202':
+          description: Queued.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobAccepted'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/backups:
+    get:
+      operationId: listBackups
+      tags:
+        - admin
+      summary: Backups
+      description: Database backups on the backup volume, newest first.
+      security:
+        - adminCookie: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/backups/run:
+    post:
+      operationId: runBackup
+      tags:
+        - admin
+      summary: Back up now
+      description: Dumps the database to the backup volume and keeps the 14 newest backups.
+      security:
+        - adminCookie: []
+      responses:
+        '202':
+          description: Queued.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobAccepted'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/jobs/{id}:
+    get:
+      operationId: getJob
+      tags:
+        - admin
+      summary: Job state
+      description: Progress of a rebuild or backup job.
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      security:
+        - adminCookie: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/v1/admin/health:
+    get:
+      operationId: getAdminHealth
+      tags:
+        - admin
+      summary: Site health
+      description: The collector connection, ingest counters, database size, backups and background jobs.
+      security:
+        - adminCookie: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminHealth'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/ingest:
+    post:
+      operationId: ingestBatch
+      tags:
+        - ingest
+      summary: Collector batch
+      description: Verifies the timestamp window (5 minutes) and the HMAC with a constant-time comparison, stores every event it has not seen (duplicates by event id are counted and skipped), applies the documented event types to the site's views in the same transaction, and answers with counts. The actions list is empty in this version and reserved for admin actions the collector will carry out.
+      security:
+        - collectorSignature: []
+      parameters:
+        - $ref: '#/components/parameters/MagpieTimestamp'
+        - $ref: '#/components/parameters/MagpieSignature'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestBatch'
+      responses:
+        '200':
+          description: Counts for the batch.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/NoStore'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestResult'
+        '401':
+          description: 'unauthorized: bad signature or stale timestamp.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '413':
+          description: 'payload_too_large: body over 512 KB.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: 'unprocessable: the body is not JSON or the batch envelope is malformed. Events with bad data never cause this; they are flagged.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: 'unavailable: the database cannot be reached; the collector retries.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  headers:
+    CacheControl:
+      description: public, max-age=15 on public GET responses.
+      schema:
+        type: string
+    ETag:
+      description: Entity tag of the response body.
+      schema:
+        type: string
+    NoStore:
+      description: no-store on stream, admin and ingest responses.
+      schema:
+        type: string
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Page size.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 50
+    Cursor:
+      name: cursor
+      in: query
+      required: false
+      description: Opaque cursor from a previous next_cursor.
+      schema:
+        type: string
+    PlayerFilter:
+      name: player
+      in: query
+      required: false
+      description: Only items involving this player id.
+      schema:
+        type: integer
+        minimum: 1
+    PlayerId:
+      name: id
+      in: path
+      required: true
+      description: Player id.
+      schema:
+        type: integer
+        minimum: 1
+    JobId:
+      name: id
+      in: path
+      required: true
+      description: Job id.
+      schema:
+        type: integer
+        minimum: 1
+    LastEventId:
+      name: Last-Event-ID
+      in: header
+      required: false
+      description: Sent by EventSource on reconnect; newer activity items are replayed first (at most 100).
+      schema:
+        type: string
+    MagpieTimestamp:
+      name: X-Magpie-Timestamp
+      in: header
+      required: true
+      description: Signature timestamp.
+      schema:
+        type: integer
+        description: Unix seconds; must be within 5 minutes of the site clock.
+    MagpieSignature:
+      name: X-Magpie-Signature
+      in: header
+      required: true
+      description: HMAC-SHA256 of timestamp + "." + body with the collector secret.
+      schema:
+        type: string
+        pattern: ^sha256=[0-9a-f]{64}$
+  responses:
+    RateLimited:
+      description: 'rate_limited: more than 120 requests per minute from this address.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: 'bad_request: a parameter or body field is invalid.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: 'unauthorized: no valid admin session, or a wrong password.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: 'forbidden: the Origin header does not match the site.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: 'not_found: no such resource, or its feature is switched off.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: 'conflict: the request clashes with the current state, for example a setting fixed by an environment variable or a job that is already running.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unavailable:
+      description: 'unavailable: the database cannot be reached.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    adminCookie:
+      type: apiKey
+      in: cookie
+      name: admin_session
+      description: The session cookie set by /api/v1/admin/login or /api/v1/admin/setup.
+    collectorSignature:
+      type: apiKey
+      in: header
+      name: X-Magpie-Signature
+      description: sha256=<hex HMAC-SHA256> over X-Magpie-Timestamp + "." + body with the collector secret (COLLECTOR_SECRET, or the one on the admin Collector page).
+  schemas:
+    Error:
+      type: object
+      description: Error envelope returned with every non-2xx status.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+                - bad_request
+                - unauthorized
+                - forbidden
+                - not_found
+                - conflict
+                - payload_too_large
+                - unprocessable
+                - rate_limited
+                - unavailable
+                - not_implemented
+            message:
+              type: string
+          required:
+            - code
+            - message
+          additionalProperties: false
+      required:
+        - error
+      additionalProperties: false
+    Health:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        db:
+          type: boolean
+        mock:
+          type: boolean
+        version:
+          type: string
+      required:
+        - ok
+        - db
+        - mock
+        - version
+      additionalProperties: false
+    SiteFeatures:
+      type: object
+      description: Switches the admin controls. A switched-off feature leaves the menu, its API routes answer 404, and its data leaves the feed and the stream.
+      properties:
+        chat:
+          type: boolean
+          description: Chat in the feed, on the chat page and in the stream. Off by default, because chat reaches the site through a server mod that players may not expect.
+      required:
+        - chat
+      additionalProperties: false
+    Site:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+          description: The project version, shared by the site and the collector.
+        features:
+          $ref: '#/components/schemas/SiteFeatures'
+      required:
+        - name
+        - version
+        - features
+      additionalProperties: false
+    PlayerRef:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+      additionalProperties: false
+    Platform:
+      type: string
+      description: The platform the login line names, in lower case. Build 25465077 reports pc; other values are shown as they arrive.
+      minLength: 1
+      maxLength: 32
+    StatusState:
+      type: string
+      description: unknown when the site has lost contact with its collector or has never heard from one.
+      enum:
+        - online
+        - offline
+        - unknown
+    CollectorLayersSummary:
+      type: object
+      description: What the collector reads, and so what this site can show.
+      properties:
+        logs:
+          type: boolean
+        saves:
+          type: boolean
+        process:
+          type: boolean
+        mod:
+          type: boolean
+      required:
+        - logs
+        - saves
+        - process
+        - mod
+      additionalProperties: false
+    StatusServer:
+      type: object
+      properties:
+        name:
+          type:
+            - string
+            - 'null'
+        version:
+          type:
+            - string
+            - 'null'
+          description: The game version the collector read, for example 1.0.0.5.
+        world_name:
+          type:
+            - string
+            - 'null'
+      required:
+        - name
+        - version
+        - world_name
+      additionalProperties: false
+    StatusPlayers:
+      type: object
+      description: From the server log.
+      properties:
+        online:
+          type: integer
+          minimum: 0
+        max:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        observed_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          description: When the log last reported a join or a leave.
+      required:
+        - online
+        - max
+        - observed_at
+      additionalProperties: false
+    StatusProcess:
+      type: object
+      description: From the server process, when the collector launched it.
+      properties:
+        memory_mb:
+          type:
+            - number
+            - 'null'
+        uptime_s:
+          type:
+            - number
+            - 'null'
+        cpu_percent:
+          type:
+            - number
+            - 'null'
+        measured_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+      required:
+        - memory_mb
+        - uptime_s
+        - cpu_percent
+        - measured_at
+      additionalProperties: false
+    StatusSave:
+      type: object
+      description: From the last world save the collector read.
+      properties:
+        saved_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        day:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+      required:
+        - saved_at
+        - day
+      additionalProperties: false
+    StatusCollector:
+      type: object
+      properties:
+        state:
+          type: string
+          description: active while batches arrive, stopped after a clean stop, lost when batches stopped for 3 minutes, none before the first batch.
+          enum:
+            - active
+            - stopped
+            - lost
+            - none
+        version:
+          type:
+            - string
+            - 'null'
+        last_seen_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        layers:
+          anyOf:
+            - $ref: '#/components/schemas/CollectorLayersSummary'
+            - type: 'null'
+      required:
+        - state
+        - version
+        - last_seen_at
+        - layers
+      additionalProperties: false
+    Status:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/StatusState'
+        since:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          description: When the current state began.
+        server:
+          $ref: '#/components/schemas/StatusServer'
+        players:
+          $ref: '#/components/schemas/StatusPlayers'
+        process:
+          $ref: '#/components/schemas/StatusProcess'
+        save:
+          $ref: '#/components/schemas/StatusSave'
+        collector:
+          $ref: '#/components/schemas/StatusCollector'
+        stopping:
+          type: boolean
+          description: True after the server announced a stop (it saves the world first) until it goes offline or comes back.
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - state
+        - since
+        - server
+        - players
+        - process
+        - save
+        - collector
+        - stopping
+        - updated_at
+      additionalProperties: false
+    StatusHistoryPoint:
+      type: object
+      properties:
+        ts:
+          type: string
+          format: date-time
+          description: Start of the bucket.
+        state:
+          $ref: '#/components/schemas/StatusState'
+        players_max:
+          type: integer
+          minimum: 0
+        players_avg:
+          type: number
+          minimum: 0
+        memory_mb_avg:
+          type:
+            - number
+            - 'null'
+      required:
+        - ts
+        - state
+        - players_max
+        - players_avg
+        - memory_mb_avg
+      additionalProperties: false
+    StatusHistory:
+      type: object
+      properties:
+        range:
+          type: string
+          enum:
+            - 24h
+            - 7d
+            - 30d
+        bucket_s:
+          type: integer
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatusHistoryPoint'
+      required:
+        - range
+        - bucket_s
+        - points
+      additionalProperties: false
+    OnlinePlayer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        platform:
+          $ref: '#/components/schemas/Platform'
+        joined_at:
+          type: string
+          format: date-time
+        down:
+          type: boolean
+          description: True after a death until the log shows the respawn.
+      required:
+        - id
+        - name
+        - platform
+        - joined_at
+        - down
+      additionalProperties: false
+    OnlineList:
+      type: object
+      properties:
+        players:
+          type: array
+          items:
+            $ref: '#/components/schemas/OnlinePlayer'
+        observed_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          description: When the log last reported a join or a leave.
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - players
+        - observed_at
+        - updated_at
+      additionalProperties: false
+    ActivityType:
+      type: string
+      enum:
+        - server.online
+        - server.stopping
+        - server.offline
+        - collector.lost
+        - player.joined
+        - player.left
+        - player.died
+        - journal.unlocked
+        - skill.level_up
+        - quest.updated
+        - chat.message
+        - player.kicked
+    ChatChannel:
+      type: string
+      description: global when the message went to everyone, direct when the sender named receivers, other otherwise.
+      enum:
+        - global
+        - direct
+        - other
+    ActivityDetails:
+      type: object
+      description: 'Type-specific details. player.left: session_s. player.died: cause, killer. journal.unlocked: entry, entry_name. skill.level_up: skill, skill_name, level. quest.updated: quest, quest_name, state, objective. chat.message: channel, text. player.kicked: by, reason. server.online: version. server.stopping: by. server.offline: reason. collector.lost: last_seen_at.'
+      properties:
+        session_s:
+          type:
+            - number
+            - 'null'
+        cause:
+          type:
+            - string
+            - 'null'
+        killer:
+          type:
+            - string
+            - 'null'
+        entry:
+          type: string
+          description: The journal entry id, for example JOURNAL_World_Fauna_Chicken.
+        entry_name:
+          type:
+            - string
+            - 'null'
+          description: The entry's name from the game facts (journal.json), or null for an entry they do not list.
+        skill:
+          type: string
+        skill_name:
+          type:
+            - string
+            - 'null'
+        level:
+          type: integer
+        quest:
+          type: string
+        quest_name:
+          type:
+            - string
+            - 'null'
+        state:
+          type: string
+        objective:
+          type:
+            - string
+            - 'null'
+        channel:
+          $ref: '#/components/schemas/ChatChannel'
+        text:
+          type: string
+        by:
+          type:
+            - string
+            - 'null'
+        version:
+          type:
+            - string
+            - 'null'
+        reason:
+          type:
+            - string
+            - 'null'
+        last_seen_at:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ActivityItem:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Uuid'
+        type:
+          $ref: '#/components/schemas/ActivityType'
+        ts:
+          type: string
+          format: date-time
+        player:
+          anyOf:
+            - $ref: '#/components/schemas/PlayerRef'
+            - type: 'null'
+        details:
+          $ref: '#/components/schemas/ActivityDetails'
+      required:
+        - id
+        - type
+        - ts
+        - player
+        - details
+      additionalProperties: false
+    ActivityPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityItem'
+        next_cursor:
+          type:
+            - string
+            - 'null'
+      required:
+        - items
+        - next_cursor
+      additionalProperties: false
+    PlayerSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        platform:
+          $ref: '#/components/schemas/Platform'
+        online:
+          type: boolean
+        first_seen:
+          type: string
+          format: date-time
+        last_seen:
+          type: string
+          format: date-time
+        playtime_s:
+          type: number
+          minimum: 0
+          description: Includes the current session.
+        sessions:
+          type: integer
+          minimum: 0
+        deaths:
+          type: integer
+          minimum: 0
+      required:
+        - id
+        - name
+        - platform
+        - online
+        - first_seen
+        - last_seen
+        - playtime_s
+        - sessions
+        - deaths
+      additionalProperties: false
+    PlayerPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlayerSummary'
+        next_cursor:
+          type:
+            - string
+            - 'null'
+      required:
+        - items
+        - next_cursor
+      additionalProperties: false
+    SessionEndReason:
+      type: string
+      description: left when the player left, server_offline when the server stopped, collector_stopped or collector_lost when the site stopped hearing from the collector.
+      enum:
+        - left
+        - server_offline
+        - collector_stopped
+        - collector_lost
+    Session:
+      type: object
+      properties:
+        id:
+          type: integer
+        joined_at:
+          type: string
+          format: date-time
+        left_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        duration_s:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+          description: Null while the session is open.
+        end_reason:
+          anyOf:
+            - $ref: '#/components/schemas/SessionEndReason'
+            - type: 'null'
+        deaths:
+          type: integer
+          minimum: 0
+      required:
+        - id
+        - joined_at
+        - left_at
+        - duration_s
+        - end_reason
+        - deaths
+      additionalProperties: false
+    SessionPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Session'
+        next_cursor:
+          type:
+            - string
+            - 'null'
+      required:
+        - items
+        - next_cursor
+      additionalProperties: false
+    Death:
+      type: object
+      properties:
+        at:
+          type: string
+          format: date-time
+        cause:
+          type:
+            - string
+            - 'null'
+        killer:
+          type:
+            - string
+            - 'null'
+        source:
+          type: string
+          description: log when the server log showed it, mod when the server mod reported it with its cause.
+          enum:
+            - log
+            - mod
+      required:
+        - at
+        - cause
+        - killer
+        - source
+      additionalProperties: false
+    CurrentSession:
+      type: object
+      properties:
+        id:
+          type: integer
+        joined_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - joined_at
+      additionalProperties: false
+    PlayerSkill:
+      type: object
+      description: One of the character's skills as the world save records it. The twelve skills of the game facts (skills.json) come first in the game's order, with the level read off the experience curve (xp.json, level 2 at 33 experience, level 99 at 1,000,000); a skill the save names that the facts do not know follows with a null name and level.
+      properties:
+        id:
+          type: string
+          description: The skill's persistence id, as the save and skills.json key it.
+        name:
+          type:
+            - string
+            - 'null'
+        xp:
+          type: number
+          minimum: 0
+        level:
+          type:
+            - integer
+            - 'null'
+          minimum: 1
+        level_xp:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+          description: The experience at which the current level begins.
+        next_level_xp:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+          description: The experience at which the next level begins, null at the maximum level.
+      required:
+        - id
+        - name
+        - xp
+        - level
+        - level_xp
+        - next_level_xp
+      additionalProperties: false
+    PlayerHealth:
+      type: object
+      properties:
+        current:
+          type: number
+        max:
+          type: number
+      required:
+        - current
+        - max
+      additionalProperties: false
+    PlayerQuests:
+      type: object
+      properties:
+        active:
+          type: integer
+          minimum: 0
+        completed:
+          type: integer
+          minimum: 0
+      required:
+        - active
+        - completed
+      additionalProperties: false
+    PlayerJournal:
+      type: object
+      properties:
+        unlocked:
+          type: integer
+          minimum: 0
+        unread:
+          type: integer
+          minimum: 0
+      required:
+        - unlocked
+        - unread
+      additionalProperties: false
+    PlayerCharacter:
+      type: object
+      description: What the world save records about the character, never live.
+      properties:
+        saved_at:
+          type: string
+          format: date-time
+          description: When the server wrote the save these come from.
+        playtime_s:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+          description: The playtime the game itself counts for this world.
+        health:
+          anyOf:
+            - $ref: '#/components/schemas/PlayerHealth'
+            - type: 'null'
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlayerSkill'
+        total_level:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+          description: The sum of the known skill levels.
+        quests:
+          $ref: '#/components/schemas/PlayerQuests'
+        journal:
+          $ref: '#/components/schemas/PlayerJournal'
+        spells:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        regions_revealed:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+      required:
+        - saved_at
+        - playtime_s
+        - health
+        - skills
+        - total_level
+        - quests
+        - journal
+        - spells
+        - regions_revealed
+      additionalProperties: false
+    PlayerFeats:
+      type: object
+      description: Counted from the events the site has seen for the player.
+      properties:
+        journal_entries:
+          type: integer
+          minimum: 0
+          description: Journal entries the log showed being unlocked.
+        level_ups:
+          type: integer
+          minimum: 0
+          description: Skill level-ups the server mod reported.
+        quests_completed:
+          type: integer
+          minimum: 0
+        buildings:
+          type: integer
+          minimum: 0
+        crafts:
+          type: integer
+          minimum: 0
+      required:
+        - journal_entries
+        - level_ups
+        - quests_completed
+        - buildings
+        - crafts
+      additionalProperties: false
+    Player:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        platform:
+          $ref: '#/components/schemas/Platform'
+        online:
+          type: boolean
+        first_seen:
+          type: string
+          format: date-time
+        last_seen:
+          type: string
+          format: date-time
+        playtime_s:
+          type: number
+          minimum: 0
+        sessions:
+          type: integer
+          minimum: 0
+        deaths:
+          type: integer
+          minimum: 0
+        current_session:
+          anyOf:
+            - $ref: '#/components/schemas/CurrentSession'
+            - type: 'null'
+        chat_messages:
+          type:
+            - integer
+            - 'null'
+          description: Null unless the chat feature is on.
+        recent_sessions:
+          type: array
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/Session'
+        recent_deaths:
+          type: array
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/Death'
+        character:
+          description: The character as the world save records it; null until the collector's save reader has read it.
+          anyOf:
+            - $ref: '#/components/schemas/PlayerCharacter'
+            - type: 'null'
+        feats:
+          description: What the site has seen the player do; null until it has seen something.
+          anyOf:
+            - $ref: '#/components/schemas/PlayerFeats'
+            - type: 'null'
+      required:
+        - id
+        - name
+        - platform
+        - online
+        - first_seen
+        - last_seen
+        - playtime_s
+        - sessions
+        - deaths
+        - current_session
+        - chat_messages
+        - recent_sessions
+        - recent_deaths
+        - character
+        - feats
+      additionalProperties: false
+    ChatItem:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Uuid'
+        ts:
+          type: string
+          format: date-time
+        player:
+          anyOf:
+            - $ref: '#/components/schemas/PlayerRef'
+            - type: 'null'
+        name:
+          type: string
+          description: The character name the mod reported, for a sender the site has no page for.
+        channel:
+          $ref: '#/components/schemas/ChatChannel'
+        text:
+          type: string
+      required:
+        - id
+        - ts
+        - player
+        - name
+        - channel
+        - text
+      additionalProperties: false
+    ChatPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatItem'
+        next_cursor:
+          type:
+            - string
+            - 'null'
+      required:
+        - items
+        - next_cursor
+      additionalProperties: false
+    WorldWeather:
+      type: object
+      description: The weather of one region as the save records it.
+      properties:
+        region:
+          type: string
+          description: The region key in the save, for example base, dowdun or sands.
+        type:
+          type: string
+          description: The weather type name as the save records it, for example Cloudy or Sunny.
+        day_count:
+          type:
+            - integer
+            - 'null'
+        remaining_s:
+          type:
+            - number
+            - 'null'
+      required:
+        - region
+        - type
+        - day_count
+        - remaining_s
+      additionalProperties: false
+    WorldEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type:
+            - string
+            - 'null'
+        state:
+          type:
+            - string
+            - 'null'
+      required:
+        - id
+        - name
+        - state
+      additionalProperties: false
+    WorldSave:
+      type: object
+      description: The last world save the collector read; nothing here is live.
+      properties:
+        saved_at:
+          type: string
+          format: date-time
+        day:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        time_of_day:
+          type:
+            - number
+            - 'null'
+          description: The in-game hour, 0 to 24, when the save records it.
+        weather:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorldWeather'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorldEvent'
+        hardcore:
+          type:
+            - boolean
+            - 'null'
+        friendly_fire:
+          type:
+            - boolean
+            - 'null'
+        difficulty:
+          type:
+            - string
+            - 'null'
+        size_bytes:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+      required:
+        - saved_at
+        - day
+        - time_of_day
+        - weather
+        - events
+        - hardcore
+        - friendly_fire
+        - difficulty
+        - size_bytes
+      additionalProperties: false
+    WorldTotals:
+      type: object
+      properties:
+        players:
+          type: integer
+          minimum: 0
+        sessions:
+          type: integer
+          minimum: 0
+        playtime_s:
+          type: number
+          minimum: 0
+        deaths:
+          type: integer
+          minimum: 0
+        level_ups:
+          type: integer
+          minimum: 0
+        journal_entries:
+          type: integer
+          minimum: 0
+        quests_completed:
+          type: integer
+          minimum: 0
+      required:
+        - players
+        - sessions
+        - playtime_s
+        - deaths
+        - level_ups
+        - journal_entries
+        - quests_completed
+      additionalProperties: false
+    World:
+      type: object
+      properties:
+        name:
+          type:
+            - string
+            - 'null'
+        world_name:
+          type:
+            - string
+            - 'null'
+        version:
+          type:
+            - string
+            - 'null'
+        max_players:
+          type:
+            - integer
+            - 'null'
+        save:
+          anyOf:
+            - $ref: '#/components/schemas/WorldSave'
+            - type: 'null'
+        totals:
+          $ref: '#/components/schemas/WorldTotals'
+        tracking_since:
+          type:
+            - string
+            - 'null'
+          format: date-time
+      required:
+        - name
+        - world_name
+        - version
+        - max_players
+        - save
+        - totals
+        - tracking_since
+      additionalProperties: false
+    StreamFrame:
+      type: object
+      description: One server-sent event frame, shown as JSON for documentation.
+      properties:
+        event:
+          type: string
+          enum:
+            - status
+            - online
+            - activity
+        id:
+          type:
+            - string
+            - 'null'
+        data:
+          anyOf:
+            - $ref: '#/components/schemas/Status'
+            - $ref: '#/components/schemas/OnlineList'
+            - $ref: '#/components/schemas/ActivityItem'
+      required:
+        - event
+        - id
+        - data
+      additionalProperties: false
+    LoginRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          maxLength: 200
+      required:
+        - password
+      additionalProperties: false
+    SetupRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          minLength: 8
+          maxLength: 200
+      required:
+        - password
+      additionalProperties: false
+    AdminSession:
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+        expires_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        setup_required:
+          type: boolean
+          description: True until the first admin password is set.
+      required:
+        - authenticated
+        - expires_at
+        - setup_required
+      additionalProperties: false
+    Retention:
+      type: object
+      description: How long the site keeps raw data. Players, sessions, deaths, journal entries, level-ups and chat stay regardless.
+      properties:
+        metrics_days:
+          type: integer
+          minimum: 1
+          maximum: 3650
+          description: Days of server process metrics to keep.
+        status_samples_days:
+          type: integer
+          minimum: 1
+          maximum: 3650
+          description: Days of the one-minute status samples behind the history chart to keep.
+        world_saves_days:
+          type: integer
+          minimum: 1
+          maximum: 3650
+          description: Days of world save readings to keep; the latest always stays.
+      required:
+        - metrics_days
+        - status_samples_days
+        - world_saves_days
+      additionalProperties: false
+    AdminSettings:
+      type: object
+      properties:
+        site_name:
+          type: string
+          maxLength: 60
+        features:
+          $ref: '#/components/schemas/SiteFeatures'
+        retention:
+          $ref: '#/components/schemas/Retention'
+        locked:
+          type: array
+          description: Settings fixed by an environment variable.
+          items:
+            type: string
+            enum:
+              - site_name
+      required:
+        - site_name
+        - features
+        - retention
+        - locked
+      additionalProperties: false
+    AdminSettingsUpdate:
+      type: object
+      properties:
+        site_name:
+          type: string
+          minLength: 1
+          maxLength: 60
+        features:
+          type: object
+          properties:
+            chat:
+              type: boolean
+          additionalProperties: false
+        retention:
+          type: object
+          properties:
+            metrics_days:
+              type: integer
+              minimum: 1
+              maximum: 3650
+            status_samples_days:
+              type: integer
+              minimum: 1
+              maximum: 3650
+            world_saves_days:
+              type: integer
+              minimum: 1
+              maximum: 3650
+          additionalProperties: false
+      additionalProperties: false
+    CollectorRun:
+      type: object
+      properties:
+        run_id:
+          $ref: '#/components/schemas/Uuid'
+        name:
+          type:
+            - string
+            - 'null'
+        version:
+          type:
+            - string
+            - 'null'
+        os:
+          type:
+            - string
+            - 'null'
+        arch:
+          type:
+            - string
+            - 'null'
+        started_at:
+          type: string
+          format: date-time
+        last_seen_at:
+          type: string
+          format: date-time
+        stopped_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        lost_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        last_seq:
+          type: integer
+          minimum: 0
+        layers:
+          type:
+            - object
+            - 'null'
+          additionalProperties: true
+        server_version:
+          type:
+            - string
+            - 'null'
+        world_guid:
+          type:
+            - string
+            - 'null'
+        heartbeat:
+          type:
+            - object
+            - 'null'
+          additionalProperties: true
+        heartbeat_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+      required:
+        - run_id
+        - name
+        - version
+        - os
+        - arch
+        - started_at
+        - last_seen_at
+        - stopped_at
+        - lost_at
+        - last_seq
+        - layers
+        - server_version
+        - world_guid
+        - heartbeat
+        - heartbeat_at
+      additionalProperties: false
+    IngestCounters:
+      type: object
+      properties:
+        last_batch_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        batches_24h:
+          type: integer
+          minimum: 0
+        events_24h:
+          type: integer
+          minimum: 0
+        duplicates_24h:
+          type: integer
+          minimum: 0
+        invalid_24h:
+          type: integer
+          minimum: 0
+        rejected_24h:
+          type: integer
+          minimum: 0
+      required:
+        - last_batch_at
+        - batches_24h
+        - events_24h
+        - duplicates_24h
+        - invalid_24h
+        - rejected_24h
+      additionalProperties: false
+    CollectorAdmin:
+      type: object
+      properties:
+        site_version:
+          type: string
+          description: The project version this site runs; collectors of the same version match it exactly.
+        secret:
+          type: string
+        secret_from_environment:
+          type: boolean
+          description: True when COLLECTOR_SECRET sets the secret, which then cannot be replaced here.
+        runs:
+          type: array
+          description: The 10 most recent collector runs, newest first.
+          items:
+            $ref: '#/components/schemas/CollectorRun'
+        ingest:
+          $ref: '#/components/schemas/IngestCounters'
+      required:
+        - site_version
+        - secret
+        - secret_from_environment
+        - runs
+        - ingest
+      additionalProperties: false
+    CollectorSecret:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+        - secret
+      additionalProperties: false
+    AdminPlayer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          description: The name shown on the site, the override when there is one.
+        game_name:
+          type: string
+          description: The character name the server last reported.
+        name_override:
+          type:
+            - string
+            - 'null'
+        user_id:
+          $ref: '#/components/schemas/UserId'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        platform:
+          $ref: '#/components/schemas/Platform'
+        hidden:
+          type: boolean
+        online:
+          type: boolean
+        first_seen:
+          type: string
+          format: date-time
+        last_seen:
+          type: string
+          format: date-time
+        playtime_s:
+          type: number
+        sessions:
+          type: integer
+      required:
+        - id
+        - name
+        - game_name
+        - name_override
+        - user_id
+        - character_guid
+        - platform
+        - hidden
+        - online
+        - first_seen
+        - last_seen
+        - playtime_s
+        - sessions
+      additionalProperties: false
+    AdminPlayerPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminPlayer'
+        next_cursor:
+          type:
+            - string
+            - 'null'
+      required:
+        - items
+        - next_cursor
+      additionalProperties: false
+    PlayerPatch:
+      type: object
+      properties:
+        name_override:
+          type:
+            - string
+            - 'null'
+          minLength: 1
+          maxLength: 64
+          description: The name to show instead of the character name; null removes it.
+        hidden:
+          type: boolean
+          description: A hidden player is left out of every public page, list and feed.
+      additionalProperties: false
+    AdminEvent:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Uuid'
+        type:
+          type: string
+        ts:
+          type: string
+          format: date-time
+        received_at:
+          type: string
+          format: date-time
+        source:
+          type: string
+          enum:
+            - collector
+            - site
+        run_id:
+          $ref: '#/components/schemas/Uuid'
+        seq:
+          type: integer
+        invalid:
+          type:
+            - string
+            - 'null'
+          description: Why the data did not match the schema of its type.
+        quiet:
+          type: boolean
+          description: True when the event changed nothing the public feed shows, for example a join of a player already online.
+        player:
+          anyOf:
+            - $ref: '#/components/schemas/PlayerRef'
+            - type: 'null'
+        data:
+          type: object
+          additionalProperties: true
+      required:
+        - id
+        - type
+        - ts
+        - received_at
+        - source
+        - run_id
+        - seq
+        - invalid
+        - quiet
+        - player
+        - data
+      additionalProperties: false
+    EventPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminEvent'
+        next_cursor:
+          type:
+            - string
+            - 'null'
+      required:
+        - items
+        - next_cursor
+      additionalProperties: false
+    JobAccepted:
+      type: object
+      properties:
+        job_id:
+          type: integer
+      required:
+        - job_id
+      additionalProperties: false
+    Job:
+      type: object
+      properties:
+        id:
+          type: integer
+        kind:
+          type: string
+          enum:
+            - projections_rebuild
+            - backup
+        state:
+          type: string
+          enum:
+            - queued
+            - running
+            - done
+            - failed
+        started_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        finished_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        progress:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+          maximum: 1
+        error:
+          type:
+            - string
+            - 'null'
+      required:
+        - id
+        - kind
+        - state
+        - started_at
+        - finished_at
+        - progress
+        - error
+      additionalProperties: false
+    Backup:
+      type: object
+      properties:
+        at:
+          type: string
+          format: date-time
+        file:
+          type: string
+        size_bytes:
+          type: integer
+          minimum: 0
+        ok:
+          type: boolean
+      required:
+        - at
+        - file
+        - size_bytes
+        - ok
+      additionalProperties: false
+    BackupList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Backup'
+      required:
+        - items
+      additionalProperties: false
+    AdminHealthCollector:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+            - active
+            - stopped
+            - lost
+            - none
+        run:
+          anyOf:
+            - $ref: '#/components/schemas/CollectorRun'
+            - type: 'null'
+        heartbeat_age_s:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+        queue_depth:
+          type:
+            - integer
+            - 'null'
+        dropped_events:
+          type:
+            - integer
+            - 'null'
+        logs:
+          type:
+            - string
+            - 'null'
+        saves:
+          type:
+            - string
+            - 'null'
+        process:
+          type:
+            - string
+            - 'null'
+        mod:
+          type:
+            - string
+            - 'null'
+      required:
+        - state
+        - run
+        - heartbeat_age_s
+        - queue_depth
+        - dropped_events
+        - logs
+        - saves
+        - process
+        - mod
+      additionalProperties: false
+    AdminHealthDb:
+      type: object
+      properties:
+        events_total:
+          type: integer
+          minimum: 0
+        size_mb:
+          type: number
+          minimum: 0
+      required:
+        - events_total
+        - size_mb
+      additionalProperties: false
+    AdminHealthBackup:
+      type: object
+      properties:
+        last_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        size_mb:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+        kept:
+          type: integer
+          minimum: 0
+      required:
+        - last_at
+        - size_mb
+        - kept
+      additionalProperties: false
+    AdminHealthJob:
+      type: object
+      properties:
+        name:
+          type: string
+        last_run_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        last_ok:
+          type:
+            - boolean
+            - 'null'
+        last_error:
+          type:
+            - string
+            - 'null'
+      required:
+        - name
+        - last_run_at
+        - last_ok
+        - last_error
+      additionalProperties: false
+    AdminHealth:
+      type: object
+      properties:
+        collector:
+          $ref: '#/components/schemas/AdminHealthCollector'
+        ingest:
+          $ref: '#/components/schemas/IngestCounters'
+        db:
+          $ref: '#/components/schemas/AdminHealthDb'
+        backup:
+          $ref: '#/components/schemas/AdminHealthBackup'
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminHealthJob'
+      required:
+        - collector
+        - ingest
+        - db
+        - backup
+        - jobs
+      additionalProperties: false
+    Uuid:
+      type: string
+      pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+    UserId:
+      type: string
+      minLength: 1
+      maxLength: 128
+      description: The account id from the login line (the EOS product user id, 32 hex characters on build 25465077, the same id the entered-world line shows as Account[XP:...]). Treated as an opaque key. Never shown publicly.
+    CharacterGuid:
+      type:
+        - string
+        - 'null'
+      pattern: ^[0-9A-F]{32}$
+      description: The character guid the entered-world line shows as Guid[DCG:...] and the world save keys its cached character state by. Never shown publicly.
+    CollectorInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        run_id:
+          $ref: '#/components/schemas/Uuid'
+        os:
+          type: string
+        arch:
+          type: string
+      required:
+        - name
+        - version
+        - run_id
+      additionalProperties: true
+    ServerInfo:
+      type: object
+      description: What the collector knows about the server from its configuration, its log header and the world save.
+      properties:
+        name:
+          type: string
+          description: ServerName from DedicatedServer.ini.
+        version:
+          type:
+            - string
+            - 'null'
+          description: The game version, for example 1.0.0.5.
+        build:
+          type:
+            - string
+            - 'null'
+          description: The engine build string the log header prints, for example ++dominion+hotfix-CL-244954.
+        world_name:
+          type: string
+          description: DefaultWorldName from DedicatedServer.ini, the save slot name.
+        world_guid:
+          type:
+            - string
+            - 'null'
+          description: The world save guid, from the save header or the session's WorldSaveGuid attribute.
+        max_players:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+      required:
+        - name
+        - world_name
+      additionalProperties: true
+    CollectorEvent:
+      description: One event. A documented type must carry the data of its schema; the site stores an event whose data does not match and flags it instead of rejecting its batch. Other types are stored as they are.
+      anyOf:
+        - $ref: '#/components/schemas/CollectorStartedEvent'
+        - $ref: '#/components/schemas/CollectorHeartbeatEvent'
+        - $ref: '#/components/schemas/ServerOnlineEvent'
+        - $ref: '#/components/schemas/ServerStoppingEvent'
+        - $ref: '#/components/schemas/ServerOfflineEvent'
+        - $ref: '#/components/schemas/ServerSavedEvent'
+        - $ref: '#/components/schemas/ServerMetricsEvent'
+        - $ref: '#/components/schemas/PlayerJoinedEvent'
+        - $ref: '#/components/schemas/PlayerLeftEvent'
+        - $ref: '#/components/schemas/PlayerDiedEvent'
+        - $ref: '#/components/schemas/PlayerRespawnedEvent'
+        - $ref: '#/components/schemas/JournalUnlockedEvent'
+        - $ref: '#/components/schemas/SaveWorldEvent'
+        - $ref: '#/components/schemas/SavePlayerEvent'
+        - $ref: '#/components/schemas/SaveReadEvent'
+        - $ref: '#/components/schemas/LogOtherEvent'
+        - $ref: '#/components/schemas/ChatMessageEvent'
+        - $ref: '#/components/schemas/PlayerEventEvent'
+        - $ref: '#/components/schemas/PlayerXpEvent'
+        - $ref: '#/components/schemas/SkillLevelUpEvent'
+        - $ref: '#/components/schemas/QuestUpdatedEvent'
+        - $ref: '#/components/schemas/BuildingPlacedEvent'
+        - $ref: '#/components/schemas/ItemCraftedEvent'
+        - $ref: '#/components/schemas/AdminActionEvent'
+        - $ref: '#/components/schemas/PlayerKickedEvent'
+        - $ref: '#/components/schemas/OtherEvent'
+    IngestBatch:
+      type: object
+      description: Signed batch posted by the collector. At most 500 events and 512 KB per request.
+      properties:
+        collector:
+          $ref: '#/components/schemas/CollectorInfo'
+        server:
+          anyOf:
+            - $ref: '#/components/schemas/ServerInfo'
+            - type: 'null'
+        events:
+          type: array
+          maxItems: 500
+          items:
+            $ref: '#/components/schemas/CollectorEvent'
+      required:
+        - collector
+        - server
+        - events
+      additionalProperties: true
+    CollectorAction:
+      type: object
+      description: An admin action for the collector to carry out. None is queued in this version.
+      properties:
+        id:
+          type: integer
+        kind:
+          type: string
+        message:
+          type:
+            - string
+            - 'null'
+      required:
+        - id
+        - kind
+        - message
+      additionalProperties: true
+    IngestResult:
+      type: object
+      properties:
+        accepted:
+          type: integer
+          minimum: 0
+        duplicates:
+          type: integer
+          minimum: 0
+        invalid:
+          type: integer
+          minimum: 0
+          description: Events stored but flagged because their data did not match the schema of their type.
+        last_seq:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectorAction'
+      required:
+        - accepted
+        - duplicates
+        - invalid
+        - last_seq
+        - actions
+      additionalProperties: true
+    CollectorLayers:
+      type: object
+      description: Which data sources this collector run reads.
+      properties:
+        logs:
+          type: boolean
+        logs_source:
+          type:
+            - string
+            - 'null'
+          enum:
+            - launch
+            - file
+            - stdin
+            - docker
+            - null
+          description: launch when the collector starts the server itself and reads its output, file when it tails Saved/Logs/RSDragonwilds.log, stdin and docker for piped and container logs.
+        saves:
+          type: boolean
+          description: Whether the collector reads the world save.
+        process:
+          type: boolean
+          description: Whether the collector measures the server process (launch mode only).
+        mod:
+          type: boolean
+          description: Whether the collector reads the events file of the server mod.
+      required:
+        - logs
+        - logs_source
+        - saves
+        - process
+        - mod
+      additionalProperties: true
+    ServerSettings:
+      type: object
+      description: What the collector read from the server's configuration files. A value it could not read is null.
+      properties:
+        max_players:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+          description: MaxPlayers from DedicatedServerGame.ini, 6 on build 25465077.
+        platform_policy:
+          type:
+            - string
+            - 'null'
+          description: PlatformPolicy from DedicatedServer.ini, for example Crossplay.
+        save_frequency_min:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+          description: dom.StateSaveFrequencyMins, 5 by default.
+      additionalProperties: true
+    CollectorStartedData:
+      type: object
+      properties:
+        collector_version:
+          type: string
+        os:
+          type: string
+        arch:
+          type: string
+        layers:
+          $ref: '#/components/schemas/CollectorLayers'
+        server:
+          anyOf:
+            - $ref: '#/components/schemas/ServerInfo'
+            - type: 'null'
+        settings:
+          anyOf:
+            - $ref: '#/components/schemas/ServerSettings'
+            - type: 'null'
+      required:
+        - collector_version
+        - os
+        - arch
+        - layers
+        - server
+        - settings
+      additionalProperties: true
+    CollectorHeartbeatData:
+      type: object
+      properties:
+        uptime_s:
+          type: number
+          minimum: 0
+        queue_depth:
+          type: integer
+          minimum: 0
+        dropped_events:
+          type: integer
+          minimum: 0
+        logs:
+          type: string
+          enum:
+            - ok
+            - off
+            - idle
+            - error
+        saves:
+          type: string
+          description: ok after a successful read, waiting until the first one, off when no save reader is set up, error when the last read failed.
+          enum:
+            - ok
+            - waiting
+            - off
+            - error
+        process:
+          type: string
+          description: ok while the collector measures the process, off outside launch mode, unavailable when the measurement failed.
+          enum:
+            - ok
+            - off
+            - unavailable
+        mod:
+          type: string
+          description: ok while the collector reads the mod's events file, waiting until the file appears, off when no mod is set up.
+          enum:
+            - ok
+            - waiting
+            - off
+      required:
+        - uptime_s
+        - queue_depth
+        - dropped_events
+        - logs
+        - saves
+        - process
+        - mod
+      additionalProperties: true
+    ServerOnlineData:
+      allOf:
+        - $ref: '#/components/schemas/ServerInfo'
+        - type: object
+          properties:
+            settings:
+              description: The settings at this start, so a change made while the server was down reaches the site.
+              anyOf:
+                - $ref: '#/components/schemas/ServerSettings'
+                - type: 'null'
+    ServerStoppingData:
+      type: object
+      description: The server announced a stop and saves the world before it exits, for example when the collector asked the server mod for a graceful stop.
+      properties:
+        by:
+          type:
+            - string
+            - 'null'
+          description: Who asked, for example collector or admin.
+        save:
+          type:
+            - string
+            - 'null'
+          enum:
+            - requested
+            - done
+            - failed
+            - null
+      required:
+        - by
+        - save
+      additionalProperties: true
+    ServerOfflineData:
+      type: object
+      properties:
+        reason:
+          type: string
+          description: stopped when the process exited normally, crashed when it exited with an error, unreachable when the collector lost it, collector_stopping when the collector itself shut down.
+          enum:
+            - stopped
+            - crashed
+            - unreachable
+            - collector_stopping
+      required:
+        - reason
+      additionalProperties: true
+    ServerSavedData:
+      type: object
+      description: 'From the log: LogSpudSubsystem Save to slot, the world save the server writes every 5 minutes and at once when a player leaves. The save reader adds save.world with what the file holds.'
+      properties:
+        slot:
+          type:
+            - string
+            - 'null'
+        ok:
+          type: boolean
+      required:
+        - slot
+        - ok
+      additionalProperties: true
+    ServerMetricsData:
+      type: object
+      description: The server process as the collector measures it in launch mode.
+      properties:
+        memory_mb:
+          type: number
+          minimum: 0
+          description: Working set in megabytes.
+        uptime_s:
+          type: number
+          minimum: 0
+        players:
+          type: integer
+          minimum: 0
+        max_players:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        cpu_percent:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+      required:
+        - memory_mb
+        - uptime_s
+        - players
+      additionalProperties: true
+    PlayerJoinedData:
+      type: object
+      description: 'From the log: the login request line gives the account id, the platform and the character name; the entered-world line that follows gives the character guid. The collector sends the event at the entered-world line.'
+      properties:
+        user_id:
+          $ref: '#/components/schemas/UserId'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        platform:
+          type:
+            - string
+            - 'null'
+          description: The pf value of the login request, in lower case.
+        source:
+          type: string
+          enum:
+            - log
+      required:
+        - user_id
+        - character_guid
+        - name
+        - platform
+        - source
+      additionalProperties: true
+    PlayerLeftData:
+      type: object
+      description: 'From the log: the ClientRequestDisconnect line of a leave through the menu, or the removal from the session.'
+      properties:
+        user_id:
+          $ref: '#/components/schemas/UserId'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        saved:
+          type:
+            - boolean
+            - 'null'
+          description: Whether the log reported the player state saved on the way out.
+        source:
+          type: string
+          enum:
+            - log
+      required:
+        - user_id
+        - character_guid
+        - name
+        - saved
+        - source
+      additionalProperties: true
+    PlayerDiedData:
+      type: object
+      description: From the log, the respawn teleport together with the gravestone spawned at the death spot; from the server mod, the death telemetry with its cause. The site merges a log death and a mod death within a minute of each other.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        x:
+          type:
+            - number
+            - 'null'
+          description: The gravestone position, where the player died.
+        y:
+          type:
+            - number
+            - 'null'
+        z:
+          type:
+            - number
+            - 'null'
+        source:
+          type: string
+          enum:
+            - log
+            - mod
+        cause:
+          type:
+            - string
+            - 'null'
+        killer:
+          type:
+            - string
+            - 'null'
+      required:
+        - user_id
+        - character_guid
+        - name
+        - source
+      additionalProperties: true
+    PlayerRespawnedData:
+      type: object
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        x:
+          type:
+            - number
+            - 'null'
+        y:
+          type:
+            - number
+            - 'null'
+        z:
+          type:
+            - number
+            - 'null'
+      required:
+        - user_id
+        - character_guid
+        - name
+      additionalProperties: true
+    JournalUnlockedData:
+      type: object
+      description: 'From the log: LogJournal Unlocking Journal Entry. The line names no player; the collector attributes it to the only player online, or leaves the player fields null.'
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type:
+            - string
+            - 'null'
+        entry:
+          type: string
+          description: The entry id, for example JOURNAL_World_Fauna_Chicken.
+      required:
+        - user_id
+        - character_guid
+        - name
+        - entry
+      additionalProperties: true
+    SaveWeather:
+      type: object
+      properties:
+        region:
+          type: string
+        type:
+          type: string
+        day_count:
+          type:
+            - integer
+            - 'null'
+        remaining_s:
+          type:
+            - number
+            - 'null'
+      required:
+        - region
+        - type
+      additionalProperties: true
+    SaveWorldEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: save.world
+            data:
+              $ref: '#/components/schemas/SaveWorldData'
+          required:
+            - type
+            - data
+    SaveWorldTrigger:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type:
+            - string
+            - 'null'
+        state:
+          type:
+            - string
+            - 'null'
+      required:
+        - id
+      additionalProperties: true
+    SaveWorldData:
+      type: object
+      description: The world as the save records it, sent after each save the collector reads (every 5 minutes on a default server, and at once when a player leaves).
+      properties:
+        saved_at:
+          type: string
+          format: date-time
+          description: TimeOfSave from the save header.
+        world_guid:
+          type: string
+        world_name:
+          type:
+            - string
+            - 'null'
+        day:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        time_of_day:
+          type:
+            - number
+            - 'null'
+        weather:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaveWeather'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaveWorldTrigger'
+        hardcore:
+          type:
+            - boolean
+            - 'null'
+        friendly_fire:
+          type:
+            - boolean
+            - 'null'
+        difficulty:
+          type:
+            - string
+            - 'null'
+        size_bytes:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        last_saved_by:
+          type:
+            - string
+            - 'null'
+          description: LastSavedBy from the save header, the engine build that wrote it.
+      required:
+        - saved_at
+        - world_guid
+      additionalProperties: true
+    SaveSkill:
+      type: object
+      properties:
+        id:
+          type: string
+        xp:
+          type: number
+          minimum: 0
+      required:
+        - id
+        - xp
+      additionalProperties: true
+    SaveQuest:
+      type: object
+      properties:
+        id:
+          type: string
+        state:
+          type: string
+        objective:
+          type:
+            - string
+            - 'null'
+      required:
+        - id
+        - state
+      additionalProperties: true
+    SavePlayerData:
+      type: object
+      description: A character as the world save caches its state, sent when it changes and once after the collector starts.
+      properties:
+        saved_at:
+          type: string
+          format: date-time
+        character_guid:
+          type: string
+          pattern: ^[0-9A-F]{32}$
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        name:
+          type: string
+        playtime_s:
+          type:
+            - number
+            - 'null'
+          minimum: 0
+          description: worlds_playtime for this world.
+        health:
+          anyOf:
+            - $ref: '#/components/schemas/PlayerHealth'
+            - type: 'null'
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaveSkill'
+        quests:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaveQuest'
+        journal_unlocked:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        journal_unread:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        spells:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+        regions_revealed:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+      required:
+        - saved_at
+        - character_guid
+        - user_id
+        - name
+        - skills
+        - quests
+      additionalProperties: true
+    SaveReadData:
+      type: object
+      description: Sent after a read of the world save, listing every cached character it holds, so the site can tell what is gone.
+      properties:
+        saved_at:
+          type: string
+          format: date-time
+        world_guid:
+          type: string
+        character_guids:
+          type: array
+          items:
+            type: string
+            pattern: ^[0-9A-F]{32}$
+      required:
+        - saved_at
+        - world_guid
+        - character_guids
+      additionalProperties: true
+    LogOtherData:
+      type: object
+      description: A log line the collector keeps for admins, for example a warning or an error, with addresses and secrets already removed.
+      properties:
+        category:
+          type: string
+        level:
+          type:
+            - string
+            - 'null'
+        message:
+          type: string
+          maxLength: 2000
+      required:
+        - category
+        - level
+        - message
+      additionalProperties: true
+    ChatMessageData:
+      type: object
+      description: From the server mod's hook on PlayerChatComponent Server_SendChatMessage.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        channel:
+          type: string
+          description: global, direct or another value the mod reports.
+        text:
+          type: string
+          maxLength: 2000
+        recipients:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+          description: How many receivers the sender named, 0 for everyone.
+      required:
+        - user_id
+        - character_guid
+        - name
+        - channel
+        - text
+      additionalProperties: true
+    PlayerEventData:
+      type: object
+      description: From the server mod's hook on Server_SendPlayerEvent, a gameplay tag the game broadcasts, for example at a join or a death.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        tag:
+          type: string
+      required:
+        - user_id
+        - character_guid
+        - name
+        - tag
+      additionalProperties: true
+    PlayerXpData:
+      type: object
+      description: From the server mod, experience gained in a skill.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        skill:
+          type: string
+        xp:
+          type: number
+          minimum: 0
+          description: The skill's experience after the gain.
+        delta:
+          type:
+            - number
+            - 'null'
+      required:
+        - user_id
+        - character_guid
+        - name
+        - skill
+        - xp
+      additionalProperties: true
+    SkillLevelUpData:
+      type: object
+      description: From the server mod's hook on NetMulticast_OnPlayerSkillLevelIncreased.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        skill:
+          type: string
+        level:
+          type: integer
+          minimum: 1
+      required:
+        - user_id
+        - character_guid
+        - name
+        - skill
+        - level
+      additionalProperties: true
+    QuestUpdatedData:
+      type: object
+      description: From the server mod, a quest whose state or objective changed.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        quest:
+          type: string
+        state:
+          type: string
+          description: The quest state name, completed when the quest was finished.
+        objective:
+          type:
+            - string
+            - 'null'
+      required:
+        - user_id
+        - character_guid
+        - name
+        - quest
+        - state
+      additionalProperties: true
+    BuildingPlacedData:
+      type: object
+      description: From the server mod's hook on Server_SpawnBuilding.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        building:
+          type: string
+      required:
+        - user_id
+        - character_guid
+        - name
+        - building
+      additionalProperties: true
+    ItemCraftedData:
+      type: object
+      description: From the server mod's hook on Server_CraftRecipe.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        recipe:
+          type: string
+        count:
+          type:
+            - integer
+            - 'null'
+          minimum: 1
+      required:
+        - user_id
+        - character_guid
+        - name
+        - recipe
+      additionalProperties: true
+    AdminActionData:
+      type: object
+      description: From the server mod's hook on Server_RequestAdminAction.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type: string
+        action:
+          type: string
+        target:
+          type:
+            - string
+            - 'null'
+      required:
+        - user_id
+        - character_guid
+        - name
+        - action
+      additionalProperties: true
+    PlayerKickedData:
+      type: object
+      description: From the server mod's hook on ClientWasKicked, or from the log once its kick line is confirmed.
+      properties:
+        user_id:
+          anyOf:
+            - $ref: '#/components/schemas/UserId'
+            - type: 'null'
+        character_guid:
+          $ref: '#/components/schemas/CharacterGuid'
+        name:
+          type:
+            - string
+            - 'null'
+        by:
+          type:
+            - string
+            - 'null'
+        reason:
+          type:
+            - string
+            - 'null'
+      required:
+        - user_id
+        - character_guid
+        - name
+      additionalProperties: true
+    EventPlayer:
+      type: object
+      description: Who an event of a type this contract does not document is about, by character name and platform only; documented types carry the identity in their data.
+      properties:
+        name:
+          type: string
+        platform:
+          type:
+            - string
+            - 'null'
+      required:
+        - name
+      additionalProperties: true
+    EventEnvelope:
+      type: object
+      description: The fields every event carries. The site stores every event whatever its type and projects only the types it knows, so a collector or mod that emits a new kind never breaks ingest.
+      properties:
+        id:
+          $ref: '#/components/schemas/Uuid'
+        seq:
+          type: integer
+          minimum: 0
+          description: Monotonic per collector run.
+        run_id:
+          $ref: '#/components/schemas/Uuid'
+        ts:
+          type: string
+          format: date-time
+          description: When the collector observed the event, or when the server logged it, in UTC.
+        type:
+          type: string
+          minLength: 1
+          maxLength: 64
+          pattern: ^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$
+        v:
+          type: integer
+          minimum: 1
+          description: The version of the data shape, from collectors that send one.
+        player:
+          anyOf:
+            - $ref: '#/components/schemas/EventPlayer'
+            - type: 'null'
+        data:
+          type: object
+      required:
+        - id
+        - seq
+        - run_id
+        - ts
+        - type
+        - data
+      additionalProperties: true
+    CollectorStartedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: collector.started
+            data:
+              $ref: '#/components/schemas/CollectorStartedData'
+          required:
+            - type
+            - data
+    CollectorHeartbeatEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: collector.heartbeat
+            data:
+              $ref: '#/components/schemas/CollectorHeartbeatData'
+          required:
+            - type
+            - data
+    ServerOnlineEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: server.online
+            data:
+              $ref: '#/components/schemas/ServerOnlineData'
+          required:
+            - type
+            - data
+    ServerStoppingEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: server.stopping
+            data:
+              $ref: '#/components/schemas/ServerStoppingData'
+          required:
+            - type
+            - data
+    ServerOfflineEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: server.offline
+            data:
+              $ref: '#/components/schemas/ServerOfflineData'
+          required:
+            - type
+            - data
+    ServerSavedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: server.saved
+            data:
+              $ref: '#/components/schemas/ServerSavedData'
+          required:
+            - type
+            - data
+    ServerMetricsEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: server.metrics
+            data:
+              $ref: '#/components/schemas/ServerMetricsData'
+          required:
+            - type
+            - data
+    PlayerJoinedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: player.joined
+            data:
+              $ref: '#/components/schemas/PlayerJoinedData'
+          required:
+            - type
+            - data
+    PlayerLeftEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: player.left
+            data:
+              $ref: '#/components/schemas/PlayerLeftData'
+          required:
+            - type
+            - data
+    PlayerDiedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: player.died
+            data:
+              $ref: '#/components/schemas/PlayerDiedData'
+          required:
+            - type
+            - data
+    PlayerRespawnedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: player.respawned
+            data:
+              $ref: '#/components/schemas/PlayerRespawnedData'
+          required:
+            - type
+            - data
+    JournalUnlockedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: journal.unlocked
+            data:
+              $ref: '#/components/schemas/JournalUnlockedData'
+          required:
+            - type
+            - data
+    SavePlayerEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: save.player
+            data:
+              $ref: '#/components/schemas/SavePlayerData'
+          required:
+            - type
+            - data
+    SaveReadEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: save.read
+            data:
+              $ref: '#/components/schemas/SaveReadData'
+          required:
+            - type
+            - data
+    LogOtherEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: log.other
+            data:
+              $ref: '#/components/schemas/LogOtherData'
+          required:
+            - type
+            - data
+    ChatMessageEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: chat.message
+            data:
+              $ref: '#/components/schemas/ChatMessageData'
+          required:
+            - type
+            - data
+    PlayerEventEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: player.event
+            data:
+              $ref: '#/components/schemas/PlayerEventData'
+          required:
+            - type
+            - data
+    PlayerXpEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: player.xp
+            data:
+              $ref: '#/components/schemas/PlayerXpData'
+          required:
+            - type
+            - data
+    SkillLevelUpEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: skill.level_up
+            data:
+              $ref: '#/components/schemas/SkillLevelUpData'
+          required:
+            - type
+            - data
+    QuestUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: quest.updated
+            data:
+              $ref: '#/components/schemas/QuestUpdatedData'
+          required:
+            - type
+            - data
+    BuildingPlacedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: building.placed
+            data:
+              $ref: '#/components/schemas/BuildingPlacedData'
+          required:
+            - type
+            - data
+    ItemCraftedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: item.crafted
+            data:
+              $ref: '#/components/schemas/ItemCraftedData'
+          required:
+            - type
+            - data
+    AdminActionEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: admin.action
+            data:
+              $ref: '#/components/schemas/AdminActionData'
+          required:
+            - type
+            - data
+    PlayerKickedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: player.kicked
+            data:
+              $ref: '#/components/schemas/PlayerKickedData'
+          required:
+            - type
+            - data
+    OtherEvent:
+      description: An event of a type this contract does not document. The site stores it without processing it.
+      allOf:
+        - $ref: '#/components/schemas/EventEnvelope'
+        - type: object
+          properties:
+            type:
+              type: string
+              not:
+                enum:
+                  - collector.started
+                  - collector.heartbeat
+                  - server.online
+                  - server.stopping
+                  - server.offline
+                  - server.saved
+                  - server.metrics
+                  - player.joined
+                  - player.left
+                  - player.died
+                  - player.respawned
+                  - journal.unlocked
+                  - save.world
+                  - save.player
+                  - save.read
+                  - log.other
+                  - chat.message
+                  - player.event
+                  - player.xp
+                  - skill.level_up
+                  - quest.updated
+                  - building.placed
+                  - item.crafted
+                  - admin.action
+                  - player.kicked
+          required:
+            - type
