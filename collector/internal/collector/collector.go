@@ -602,13 +602,26 @@ func (c *Collector) markOnline(loaded dragonwilds.WorldLoaded, at time.Time) {
 }
 
 func (c *Collector) markOffline(reason string) {
-	if !c.serverUp {
-		return
-	}
+	c.markOfflineAt(reason, time.Now())
+}
+
+func (c *Collector) markOfflineAt(reason string, at time.Time) {
+	wasUp := c.serverUp
 	c.serverUp = false
 	c.mapper.Reset()
+	if !c.launched {
+		c.expectShutdown.Store(false)
+		c.stopMu.Lock()
+		c.stopSignaled = false
+		c.stopBy = ""
+		c.stopSave = ""
+		c.stopMu.Unlock()
+	}
+	if !wasUp {
+		return
+	}
 	c.log.Info("server offline", "reason", reason)
-	c.emit(event.TypeServerOffline, time.Now(), nil, event.ServerOfflineData{Reason: reason})
+	c.emit(event.TypeServerOffline, at, nil, event.ServerOfflineData{Reason: reason})
 }
 
 func (c *Collector) emitMetrics() {

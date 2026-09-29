@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/oddessentials/magpie/collector/internal/config"
 	"github.com/oddessentials/magpie/collector/internal/contract"
 	"github.com/oddessentials/magpie/collector/internal/dragonwilds"
 	"github.com/oddessentials/magpie/collector/internal/event"
@@ -63,7 +64,7 @@ func sessionEmissions(t *testing.T, mapper *dragonwilds.Mapper) []dragonwilds.Em
 
 func primedCollector(t *testing.T) *Collector {
 	t.Helper()
-	c := &Collector{mapper: dragonwilds.NewMapper()}
+	c := &Collector{mapper: dragonwilds.NewMapper(), cfg: &config.Config{}, serverUp: true}
 	at := time.Date(2026, 9, 28, 22, 0, 0, 0, time.UTC)
 	c.mapper.Map(serverlog.Record{Category: "LogNet", Message: "Login request: ?p=x?pf=PC?cpx=1?c?Name=Wanderer userId: RedpointEOS:00000000000000000000000000000abc platform: RedpointEOS"}, at)
 	c.mapper.Map(serverlog.Record{Category: "LogDominionPlayerControllerBase", Message: "PlayerChar entered world [Account[XP:00000000000000000000000000000abc] Character Name[Wanderer] Guid[DCG:ABCDEF0123456789ABCDEF0123456789] Type[0]]"}, at)

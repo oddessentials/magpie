@@ -14,11 +14,16 @@ type recordingSink struct {
 	mu     sync.Mutex
 	lines  []string
 	states []State
+	resets int
 }
 
 func (s *recordingSink) Line(line Line) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+	if line.Reset {
+		s.resets++
+		return
+	}
 	s.lines = append(s.lines, line.Text)
 }
 
@@ -101,6 +106,34 @@ func TestFileSourceReadsFromTheStartAndFollowsARotation(t *testing.T) {
 	waitFor(t, "the new file after the rotation", func() bool { return strings.HasSuffix(sink.texts(), "|LogInit: Build: two") })
 	cancel()
 	<-done
+	if sink.resets != 1 {
+		t.Fatalf("rotation must report one reset: %d", sink.resets)
+	}
+}
+
+func TestFileSourceDiscardsPartialLinesOnTruncation(t *testing.T) {
+	dir := scratchDir(t)
+	path := filepath.Join(dir, "server.log")
+	appendText(t, path, "first\n"+strings.Repeat("unfinished", 100))
+	sink := &recordingSink{}
+	source := &FileSource{Path: path, Poll: 10 * time.Millisecond, FromStart: true}
+	ctx, cancel := context.WithCancel(context.Background())
+	done := make(chan struct{})
+	go func() {
+		defer close(done)
+		source.Run(ctx, sink)
+	}()
+	defer func() { cancel(); <-done }()
+	waitFor(t, "the complete line", func() bool { return sink.texts() == "first" })
+	if err := os.WriteFile(path, []byte("restarted\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	waitFor(t, "the new file without the old partial line", func() bool { return sink.texts() == "first|restarted" })
+	sink.mu.Lock()
+	defer sink.mu.Unlock()
+	if sink.resets != 1 {
+		t.Fatalf("truncation must report one reset: %d", sink.resets)
+	}
 }
 
 func TestFileSourceTailsAnExistingFileByDefault(t *testing.T) {
