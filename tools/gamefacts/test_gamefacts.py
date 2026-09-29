@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import struct
 import sys
 import tempfile
@@ -441,6 +442,53 @@ class BuildersTest(unittest.TestCase):
         self.assertEqual((record['category'], record['group'], record['unlock'], record['item'], record['recipe']), ('Recipes', 'Recipes/Weapons', 'RecipeUnlocked', 'ITEM_Club', 'RECIPE_Club'))
 
 
+class StationGame(StubGame):
+    def __init__(self, tables):
+        super().__init__({})
+        self.tables = tables
+        self.store = type('S', (), {'paths': {i: '/Game/' + name + '.uasset' for i, name in enumerate(tables)}})()
+
+    def rows(self, path):
+        name = path.rsplit('/', 1)[-1][:-7]
+        return name, 'Row', self.tables[name]
+
+
+class FactBuildersTest(unittest.TestCase):
+    def test_building_pieces_carry_costs_categories_and_xp_rows(self):
+        piece = {'PersistenceID': 'p1', 'DisplayName': Text('Ash Foundation', '', 'k'), 'PieceTag': {'TagName': 'BaseBuilding.PieceType.Foundation'}, 'Requirements': [{'Amount': 4, 'ItemData': {'package': '/Game/Items/ITEM_Resources_Wood_Ash', 'hash': 1}}, {'Amount': 2, 'ItemData': None}], 'BuildXpEvent': {'DataTable': {'package': '/Game/XP/DT_XPEvents_Building', 'hash': 2}, 'RowName': 'Build_Foundation_Tier1'}, 'BuildableActor': {'package': '/Game/BP_T1_Foundation', 'asset': 'BP_T1_Foundation_C'}}
+        old = {'PersistenceID': 'p2', 'DisplayName': Text('Old Bench', '', 'k')}
+        game = StubGame({'RSDragonwilds/Content/Gameplay/BaseBuilding/DA_T1_Foundation.uasset': piece, 'RSDragonwilds/Content/Gameplay/BaseBuilding/BUILDPIECE_DEPRECATED_Bench.uasset': old})
+        result = extract.build_buildings(game, {'BuildingPieceData': [(path, 0, 'BuildingPieceData') for path in game.objects_by_path]})
+        live, deleted = result['buildings']
+        self.assertEqual((live['id'], live['name'], live['category']), ('p1', 'Ash Foundation', 'BaseBuilding.PieceType.Foundation'))
+        self.assertEqual(live['requirements'], [dict(item='ITEM_Resources_Wood_Ash', count=4), dict(item=None, count=2)])
+        self.assertEqual(live['xpEvent'], dict(table='DT_XPEvents_Building', row='Build_Foundation_Tier1'))
+        self.assertEqual(live['actor'], 'BP_T1_Foundation_C')
+        self.assertTrue(deleted['deleted'])
+        self.assertIsNone(deleted['xpEvent'])
+
+    def test_stations_list_labelled_and_processing_recipes(self):
+        crafting = [('CraftingTable', {'DisplayNameOverride': Text('', '', 'k'), 'LabeledRecipes': [{'Label': Text('Tools', '', 'k'), 'Collection': [{'package': '/Game/RECIPE_Torch', 'asset': 'RECIPE_Torch'}, {'package': '/Game/RECIPE_Pickaxe', 'asset': 'RECIPE_Pickaxe'}]}], 'StationBuildingPieceData': {'package': '/Game/BUILDPIECE_CraftingStation_Basic', 'hash': 3}, 'bIsVendor': False})]
+        processing = [('Furnace', {'Recipes': [{'package': '/Game/RECIPE_Process_IronBar', 'hash': 4}, {'package': '/Game/RECIPE_Torch', 'hash': 5}], 'AcceptedFuels': [{'package': '/Game/ITEM_Fuel_Resources_Charcoal', 'hash': 6}], 'StationBuildingPieceData': {'package': '/Game/BUILDPIECE_ProcessingStation_Smelter', 'hash': 7}})]
+        result = extract.build_stations(StationGame({'DT_CraftingStationsDataTable': crafting, 'DT_ProcessingStationDataTable': processing}))
+        table, furnace = result['stations']
+        self.assertEqual((table['id'], table['kind'], table['building']), ('CraftingTable', 'crafting', 'BUILDPIECE_CraftingStation_Basic'))
+        self.assertEqual(table['recipes'], ['RECIPE_Torch', 'RECIPE_Pickaxe'])
+        self.assertEqual(table['groups'], [dict(label='Tools', recipes=['RECIPE_Torch', 'RECIPE_Pickaxe'])])
+        self.assertEqual((furnace['kind'], furnace['recipes'], furnace['fuels']), ('processing', ['RECIPE_Process_IronBar', 'RECIPE_Torch'], ['ITEM_Fuel_Resources_Charcoal']))
+
+    def test_missing_station_tables_stop_the_extraction(self):
+        with self.assertRaises(ValueError):
+            extract.build_stations(StationGame({'DT_CraftingStationsDataTable': []}))
+
+    def test_journal_creatures_link_by_data_class(self):
+        journal = {'entries': [{'asset': 'JOURNAL_World_Fauna_Wolf', 'aiClass': 'BP_AI_Wolf_Data_C'}, {'asset': 'JOURNAL_Know_Lore', 'aiClass': None}]}
+        creatures = {'creatures': [{'id': 'wolf-id', 'class': 'BP_AI_Wolf_Data_C'}]}
+        entries = extract.link_journal(journal, creatures)['entries']
+        self.assertEqual([entry.get('creature') for entry in entries], ['wolf-id', None])
+        self.assertTrue(all('aiClass' not in entry for entry in entries))
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(WORLD, 'build.json')), 'no extracted facts')
 class WorldFilesTest(unittest.TestCase):
     def load(self, name):
@@ -476,11 +524,40 @@ class WorldFilesTest(unittest.TestCase):
         self.assertTrue(xp['row'])
 
     def test_ids_are_unique_where_present(self):
-        for name, key in (('quests.json', 'quests'), ('journal.json', 'entries'), ('items.json', 'items'), ('recipes.json', 'recipes')):
+        for name, key in (('quests.json', 'quests'), ('journal.json', 'entries'), ('items.json', 'items'), ('recipes.json', 'recipes'), ('buildings.json', 'buildings'), ('creatures.json', 'creatures')):
             rows = self.load(name)[key]
             ids = [row['id'] for row in rows if row['id']]
             self.assertEqual(len(ids), len(set(ids)), name)
             self.assertTrue(all(row['asset'] for row in rows), name)
+
+    def test_building_costs_and_xp_rows_resolve(self):
+        items = {item['asset'] for item in self.load('items.json')['items']}
+        rows = {(event['table'], event['row']) for event in self.load('xp.json')['events']}
+        buildings = self.load('buildings.json')['buildings']
+        self.assertTrue(len([b for b in buildings if not b['deleted']]) > 400)
+        for building in buildings:
+            for requirement in building['requirements']:
+                self.assertTrue(requirement['item'] is None or requirement['item'] in items, building['asset'])
+            if building['xpEvent'] and not building['deleted']:
+                self.assertIn((building['xpEvent']['table'], building['xpEvent']['row']), rows, building['asset'])
+
+    def test_station_recipes_and_buildings_resolve(self):
+        recipes = {recipe['asset'] for recipe in self.load('recipes.json')['recipes']}
+        buildings = {building['asset'] for building in self.load('buildings.json')['buildings']}
+        stations = self.load('stations.json')['stations']
+        self.assertEqual({station['kind'] for station in stations}, {'crafting', 'processing'})
+        for station in stations:
+            self.assertTrue(all(recipe in recipes for recipe in station['recipes']), station['id'])
+            self.assertTrue(station['building'] is None or station['building'] in buildings, station['id'])
+
+    def test_creatures_carry_save_ids_and_journal_links(self):
+        creatures = self.load('creatures.json')['creatures']
+        ids = {creature['id'] for creature in creatures}
+        self.assertTrue(all(re.fullmatch(r'[A-Za-z0-9_-]{22}', creature['id']) for creature in creatures))
+        self.assertTrue(any(creature['boss'] for creature in creatures))
+        for entry in self.load('journal.json')['entries']:
+            if entry['unlock'] == 'AIKill' and not entry['deleted']:
+                self.assertIn(entry['creature'], ids, entry['asset'])
 
 
 if __name__ == '__main__':

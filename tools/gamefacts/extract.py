@@ -12,7 +12,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import locres
 import usmap
 from clockfacts import build_clock
+from creatures import build_creatures, link_journal
 from geography import build_geography
+from layers import build_layers
 from iostore import Store
 from pak import Pak
 from properties import Decoder, Text, Unreadable
@@ -26,8 +28,9 @@ LOCRES = 'RSDragonwilds/Content/Localization/Game/en/Game.locres'
 GAME_INI = 'RSDragonwilds/Config/DefaultGame.ini'
 SCAN_ROOTS = ('/Content/Gameplay/', '/Content/UI/')
 CLASS_DEFAULT = 0x10
-ROOT_CLASSES = ('SkillData', 'QuestData', 'JournalEntryData', 'ItemData', 'RecipeData')
-FILES = ('build.json', 'skills.json', 'xp.json', 'quests.json', 'journal.json', 'items.json', 'recipes.json', 'progression.json', 'geography.json', 'clock.json')
+ROOT_CLASSES = ('SkillData', 'QuestData', 'JournalEntryData', 'ItemData', 'RecipeData', 'BuildingPieceData')
+FILES = ('build.json', 'skills.json', 'xp.json', 'quests.json', 'journal.json', 'items.json', 'recipes.json', 'progression.json', 'geography.json', 'clock.json', 'buildings.json', 'stations.json', 'creatures.json', 'layers.json')
+STATION_TABLES = (('DT_CraftingStationsDataTable', 'crafting'), ('DT_ProcessingStationDataTable', 'processing'))
 JOURNAL_CATEGORIES = {'JournalEntryRecipeData': 'Recipes', 'JournalEntryWorldData': 'World', 'JournalEntryKnowLoreData': 'Knowledge', 'JournalEntryKnowPeopleData': 'Knowledge', 'JournalEntryKnowPlaceData': 'Knowledge', 'JournalEntryKnowTreasureData': 'Knowledge'}
 
 
@@ -329,7 +332,7 @@ def build_journal(game, found):
         match = re.search(r'/JournalData/Entries/(.+)/[^/]+$', path)
         group = match.group(1) if match else None
         unlock = props.get('UnlockCondition') or {}
-        record.update(name=game.text(props.get('DisplayName')), category=JOURNAL_CATEGORIES.get(class_name, group.split('/')[0] if group else None), group=group, unlock=enum_entry(unlock.get('UnlockType')), item=asset_of(props.get('ItemData')) or asset_of(unlock.get('UnlockingItemData')), recipe=asset_of(props.get('RecipeData')) or asset_of(unlock.get('UnlockingRecipe')), pages=len(props.get('PageDescriptions') or []))
+        record.update(name=game.text(props.get('DisplayName')), category=JOURNAL_CATEGORIES.get(class_name, group.split('/')[0] if group else None), group=group, unlock=enum_entry(unlock.get('UnlockType')), item=asset_of(props.get('ItemData')) or asset_of(unlock.get('UnlockingItemData')), recipe=asset_of(props.get('RecipeData')) or asset_of(unlock.get('UnlockingRecipe')), pages=len(props.get('PageDescriptions') or []), aiClass=asset_of(unlock.get('AIData')), locations=[location.get('LocationID') for location in props.get('Locations') or [] if location.get('LocationID')], materials=[asset_of(material.get('MaterialItemData')) for material in props.get('Materials') or [] if asset_of(material.get('MaterialItemData'))])
         entries.append(record)
     entries.sort(key=lambda e: (e['deleted'], e['category'] or '', e['asset']))
     return dict(source=game.source(), unlockTypes={str(value): entry for entry, value in game.mappings.enums.get('EJournalEntryUnlockType', []) if not entry.endswith('_MAX')}, entries=entries)
@@ -358,6 +361,36 @@ def build_recipes(game, found):
         recipes.append(record)
     recipes.sort(key=lambda r: (r['deleted'], r['asset']))
     return dict(source=game.source(), recipes=recipes)
+
+
+def build_buildings(game, found):
+    pieces = []
+    for path, index, class_name in found['BuildingPieceData']:
+        pkg = game.package(path)
+        _, props, _ = game.decode(pkg, index)
+        record = common(game, path, props, class_name)
+        record['deleted'] = record['deleted'] or 'deprecated' in path.lower()
+        tag = props.get('PieceTag')
+        xp = props.get('BuildXpEvent') or {}
+        record.update(name=game.text(props.get('DisplayName')), description=game.text(props.get('Description')), category=tag.get('TagName') if isinstance(tag, dict) else None, requirements=[dict(item=asset_of(entry.get('ItemData')), count=entry.get('Amount')) for entry in props.get('Requirements') or []], xpEvent=dict(table=asset_of(xp.get('DataTable')), row=xp.get('RowName')) if xp.get('RowName') else None, actor=asset_of(props.get('BuildableActor')), internalName=props.get('InternalName'))
+        pieces.append(record)
+    pieces.sort(key=lambda p: (p['deleted'], p['asset']))
+    return dict(source=game.source(), buildings=pieces)
+
+
+def build_stations(game):
+    stations = []
+    for table, kind in STATION_TABLES:
+        path = next((p for p in game.store.paths.values() if p.endswith('/' + table + '.uasset')), None)
+        if path is None:
+            raise ValueError('station table %s is missing' % table)
+        _, _, rows = game.rows(path)
+        for name, row in rows:
+            groups = [dict(label=game.text(group.get('Label')), recipes=[asset_of(recipe) for recipe in group.get('Collection') or []]) for group in row.get('LabeledRecipes') or []]
+            direct = [asset_of(recipe) for recipe in row.get('Recipes') or []]
+            recipes = list(dict.fromkeys([recipe for group in groups for recipe in group['recipes']] + direct))
+            stations.append(dict(id=name, kind=kind, name=game.text(row.get('DisplayNameOverride')), building=asset_of(row.get('StationBuildingPieceData')), recipes=recipes, groups=groups, fuels=[asset_of(fuel) for fuel in row.get('AcceptedFuels') or []], vendor=bool(row.get('bIsVendor'))))
+    return dict(source=game.source(), stations=stations)
 
 
 def operand(value):
@@ -500,6 +533,11 @@ def main(argv=None):
         outputs['progression.json'] = build_progression(game, found)
         outputs['geography.json'] = build_geography(game)
         outputs['clock.json'] = build_clock(game)
+        outputs['buildings.json'] = build_buildings(game, found)
+        outputs['stations.json'] = build_stations(game)
+        outputs['creatures.json'] = build_creatures(game)
+        outputs['layers.json'] = build_layers(game)
+        link_journal(outputs['journal.json'], outputs['creatures.json'])
         client = None
         client_build = None
         if args.client_paks:
