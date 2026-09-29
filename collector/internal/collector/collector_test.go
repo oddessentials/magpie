@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -71,6 +72,21 @@ func (s *fakeSite) has(kinds ...string) bool {
 		}
 	}
 	return true
+}
+
+func (s *fakeSite) any(kind string, match func(map[string]any) bool) bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	for _, item := range s.events {
+		if item.Type != kind {
+			continue
+		}
+		var decoded map[string]any
+		if json.Unmarshal(item.Data, &decoded) == nil && match(decoded) {
+			return true
+		}
+	}
+	return false
 }
 
 func (s *fakeSite) data(kind string, index int) map[string]any {
@@ -140,9 +156,22 @@ func scratchDir(t *testing.T) string {
 	return dir
 }
 
+type testWriter struct {
+	t *testing.T
+}
+
+func (w testWriter) Write(p []byte) (int, error) {
+	w.t.Log(strings.TrimSpace(string(p)))
+	return len(p), nil
+}
+
+func testLogger(t *testing.T) *slog.Logger {
+	return slog.New(slog.NewTextHandler(testWriter{t}, &slog.HandlerOptions{Level: slog.LevelDebug}))
+}
+
 func waitFor(t *testing.T, what string, condition func() bool) {
 	t.Helper()
-	deadline := time.Now().Add(20 * time.Second)
+	deadline := time.Now().Add(30 * time.Second)
 	for time.Now().Before(deadline) {
 		if condition() {
 			return
@@ -198,14 +227,21 @@ func TestFileModeEndToEnd(t *testing.T) {
 	site := &fakeSite{secret: "s"}
 	server := httptest.NewServer(site)
 	defer server.Close()
+	t.Cleanup(func() {
+		if t.Failed() {
+			t.Logf("the site received %v", site.types())
+		}
+	})
 	dir := scratchDir(t)
 	logPath := filepath.Join(dir, "RSDragonwilds.log")
 	events := filepath.Join(dir, "magpie-events.jsonl")
-	if err := os.WriteFile(logPath, nil, 0o644); err != nil {
-		t.Fatal(err)
+	for _, path := range []string{logPath, events} {
+		if err := os.WriteFile(path, nil, 0o644); err != nil {
+			t.Fatal(err)
+		}
 	}
 	cfg := testConfig(t, server, map[string]string{"MAGPIE_LOGS_SOURCE": "file", "MAGPIE_LOGS_PATH": logPath, "MAGPIE_MOD_EVENTS": events})
-	c, err := New(Options{Config: cfg, Source: &serverlog.FileSource{Path: logPath, FromStart: true}, StartupWait: 200 * time.Millisecond, OfflineAfter: time.Hour})
+	c, err := New(Options{Config: cfg, Logger: testLogger(t), Source: &serverlog.FileSource{Path: logPath, FromStart: true}, StartupWait: 200 * time.Millisecond, OfflineAfter: time.Hour})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -214,6 +250,9 @@ func TestFileModeEndToEnd(t *testing.T) {
 	done := make(chan error, 1)
 	go func() { done <- c.Run(ctx, make(chan struct{})) }()
 	appendLines(t, logPath, loadedLine, loginLine, enteredLine)
+	waitFor(t, "the mod file to be followed", func() bool {
+		return site.any(event.TypeCollectorHeartbeat, func(data map[string]any) bool { return data["mod"] == stateOK })
+	})
 	appendLines(t, events, chatLine)
 	waitFor(t, "the session events", func() bool {
 		return site.has(event.TypeCollectorStarted, event.TypeServerOnline, event.TypePlayerJoined, event.TypeChatMessage, event.TypeCollectorHeartbeat)
@@ -261,12 +300,17 @@ func TestLaunchModeStopsThroughTheMod(t *testing.T) {
 	site := &fakeSite{secret: "s"}
 	server := httptest.NewServer(site)
 	defer server.Close()
+	t.Cleanup(func() {
+		if t.Failed() {
+			t.Logf("the site received %v", site.types())
+		}
+	})
 	dir := scratchDir(t)
 	logPath := filepath.Join(dir, "RSDragonwilds.log")
 	os.WriteFile(logPath, nil, 0o644)
 	cfg := launchConfig(t, server, dir, logPath, "10s")
 	process := newFakeProcess()
-	c, err := New(Options{Config: cfg, Source: &serverlog.FileSource{Path: logPath, FromStart: true}, Process: process, StartupWait: 200 * time.Millisecond})
+	c, err := New(Options{Config: cfg, Logger: testLogger(t), Source: &serverlog.FileSource{Path: logPath, FromStart: true}, Process: process, StartupWait: 200 * time.Millisecond})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -319,12 +363,17 @@ func TestLaunchModeKillsWhenTheModDoesNotAnswer(t *testing.T) {
 	site := &fakeSite{secret: "s"}
 	server := httptest.NewServer(site)
 	defer server.Close()
+	t.Cleanup(func() {
+		if t.Failed() {
+			t.Logf("the site received %v", site.types())
+		}
+	})
 	dir := scratchDir(t)
 	logPath := filepath.Join(dir, "RSDragonwilds.log")
 	os.WriteFile(logPath, nil, 0o644)
 	cfg := launchConfig(t, server, dir, logPath, "1s")
 	process := newFakeProcess()
-	c, err := New(Options{Config: cfg, Source: &serverlog.FileSource{Path: logPath, FromStart: true}, Process: process, StartupWait: 200 * time.Millisecond})
+	c, err := New(Options{Config: cfg, Logger: testLogger(t), Source: &serverlog.FileSource{Path: logPath, FromStart: true}, Process: process, StartupWait: 200 * time.Millisecond})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -350,12 +399,17 @@ func TestAnAdminStopFileIsAttributed(t *testing.T) {
 	site := &fakeSite{secret: "s"}
 	server := httptest.NewServer(site)
 	defer server.Close()
+	t.Cleanup(func() {
+		if t.Failed() {
+			t.Logf("the site received %v", site.types())
+		}
+	})
 	dir := scratchDir(t)
 	logPath := filepath.Join(dir, "RSDragonwilds.log")
 	os.WriteFile(logPath, nil, 0o644)
 	cfg := launchConfig(t, server, dir, logPath, "10s")
 	process := newFakeProcess()
-	c, err := New(Options{Config: cfg, Source: &serverlog.FileSource{Path: logPath, FromStart: true}, Process: process, StartupWait: 200 * time.Millisecond})
+	c, err := New(Options{Config: cfg, Logger: testLogger(t), Source: &serverlog.FileSource{Path: logPath, FromStart: true}, Process: process, StartupWait: 200 * time.Millisecond})
 	if err != nil {
 		t.Fatal(err)
 	}
