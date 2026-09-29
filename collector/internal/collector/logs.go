@@ -11,6 +11,12 @@ import (
 )
 
 func (c *Collector) onLine(line serverlog.Line) {
+	if line.Reset {
+		if c.cfg.Logs.Source == config.SourceFile && !c.launched {
+			c.markOfflineAt(event.OfflineUnreachable, line.ReceivedAt)
+		}
+		return
+	}
 	c.lastLogLine = time.Now()
 	record, ok := serverlog.Parse(line.Text)
 	if !ok {
@@ -25,6 +31,9 @@ func (c *Collector) onLine(line serverlog.Line) {
 			continue
 		}
 		c.emit(item.Type, item.At, item.Player, item.Data)
+	}
+	if c.cfg.Logs.Source == config.SourceFile && !c.launched && c.mapper.Server().Exiting {
+		c.markOfflineAt(event.OfflineStopped, at)
 	}
 }
 
