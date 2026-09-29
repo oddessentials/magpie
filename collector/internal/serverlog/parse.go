@@ -19,6 +19,7 @@ type Line struct {
 	Text       string
 	ReceivedAt time.Time
 	SourceTime time.Time
+	Reset      bool
 }
 
 var (
