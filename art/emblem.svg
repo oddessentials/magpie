@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false">
   <circle cx="32" cy="32" r="31" fill="currentColor"/>
   <g transform="translate(32 32) scale(0.74) translate(-32 -32)">
-    <g fill="var(--color-surface-raised, #f4f7fb)">
+    <g fill="var(--color-surface-raised, #171f2b)">
       <path d="M26 38 C20 44 13 52 6 60 C12 57 18 53 22.5 48.5 C25 46 27.5 43 31.5 40 Z"/>
       <ellipse cx="32.5" cy="33.5" rx="12.5" ry="8" transform="rotate(-22 32.5 33.5)"/>
       <circle cx="43" cy="22" r="6.5"/>
@@ -9,6 +9,6 @@
     </g>
     <path d="M27 29.5 C33 25.5 40 27 44 31 C40 34 34 36 27.5 35.5 Z" fill="currentColor"/>
     <circle cx="45.2" cy="21" r="1.4" fill="currentColor"/>
-    <path d="M59 11 L60.2 14.2 L63.4 15.4 L60.2 16.6 L59 19.8 L57.8 16.6 L54.6 15.4 L57.8 14.2 Z" fill="var(--color-gold, #e3b34c)"/>
+    <path d="M59 11 L60.2 14.2 L63.4 15.4 L60.2 16.6 L59 19.8 L57.8 16.6 L54.6 15.4 L57.8 14.2 Z" fill="var(--color-surface-raised, #171f2b)"/>
   </g>
 </svg>

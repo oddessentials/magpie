@@ -32,7 +32,7 @@
     <circle cx="45.2" cy="21" r="1.4" fill={badge ? 'currentColor' : 'var(--color-surface)'} />
     <path
       d="M59 11 L60.2 14.2 L63.4 15.4 L60.2 16.6 L59 19.8 L57.8 16.6 L54.6 15.4 L57.8 14.2 Z"
-      fill="var(--color-gold)"
+      fill={badge ? 'var(--color-surface-raised)' : 'var(--color-gold)'}
     />
   </g>
 </svg>

@@ -98,3 +98,65 @@ test('an unknown address says nothing is on this branch', async ({ page }) => {
   expect(response?.status()).toBe(404);
   await expect(page.locator('main h1')).toHaveText('Nothing on this branch');
 });
+
+test('demo scenery preference survives reloads and navigation', async ({ page }) => {
+  const problems = await open(page, '/', '4 adventurers in the wilds');
+  await expect(page.getByRole('complementary', { name: 'Demo mode' })).toBeVisible();
+  const toggle = page.getByRole('button', { name: 'Scenery on' });
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  await toggle.click();
+  await expect(page.locator('.today-art')).toBeHidden();
+  await expect(page.locator('.backdrop')).toBeHidden();
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Scenery off' })).toHaveAttribute(
+    'aria-pressed',
+    'false'
+  );
+  await page
+    .getByRole('navigation', { name: 'Site', exact: true })
+    .getByRole('link', { name: 'World' })
+    .click();
+  await expect(page.locator('.backdrop')).toBeHidden();
+  await page.getByRole('button', { name: 'Scenery off' }).click();
+  await expect(page.locator('.backdrop')).toBeVisible();
+  expect(problems).toEqual([]);
+});
+
+test('saved scenery is applied before JavaScript runs', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    await context.addCookies([
+      { name: 'magpie-scenery', value: 'off', url: 'http://localhost:5190' }
+    ]);
+    const page = await context.newPage();
+    await page.goto('http://localhost:5190');
+    await expect(page.locator('main h1')).toHaveText('4 adventurers in the wilds');
+    await expect(page.locator('.today-art')).toBeHidden();
+    await expect(page.locator('.backdrop')).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Scenery off' })).toHaveAttribute(
+      'aria-pressed',
+      'false'
+    );
+  } finally {
+    await context.close();
+  }
+});
+
+test('scenery still switches when preference storage is unavailable', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(document, 'cookie', {
+      get() {
+        return '';
+      },
+      set() {
+        throw new DOMException('Unavailable', 'SecurityError');
+      }
+    });
+  });
+  const problems = await open(page, '/', '4 adventurers in the wilds');
+  await page.getByRole('button', { name: 'Scenery on' }).click();
+  await expect(page.locator('.today-art')).toBeHidden();
+  await page.getByRole('button', { name: 'Scenery off' }).click();
+  await expect(page.locator('.today-art')).toBeVisible();
+  expect(problems).toEqual([]);
+});

@@ -1,5 +1,6 @@
 <script lang="ts">
   import '../app.css';
+  import { untrack } from 'svelte';
   import { page } from '$app/state';
   import Backdrop from '$lib/ui/Backdrop.svelte';
   import { clock } from '$lib/ui/clock.svelte';
@@ -12,6 +13,16 @@
   import Wordmark from '$lib/ui/Wordmark.svelte';
 
   let { data, children } = $props();
+  let scenery = $state(untrack(() => data.scenery));
+
+  function toggleScenery() {
+    scenery = !scenery;
+    try {
+      document.cookie = `magpie-scenery=${scenery ? 'on' : 'off'}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`;
+    } catch {
+      return;
+    }
+  }
 
   const live = provideLive();
 
@@ -33,9 +44,18 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content={canonical} />
   <meta name="description" content={t.site.description(data.siteName)} />
+  <meta property="og:image" content={`${page.url.origin}/social.jpg`} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta
+    property="og:image:alt"
+    content="Magpie, a journal for your Dragonwilds server, with a magpie overlooking a woodland valley at dusk"
+  />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={`${page.url.origin}/social.jpg`} />
 </svelte:head>
 
-<div class="relative flex min-h-screen flex-col">
+<div class="site-shell relative flex min-h-screen flex-col" class:scenery-off={!scenery}>
   <a
     href="#main"
     class="sr-only z-50 rounded-md bg-surface-raised px-4 py-2 text-ink shadow-lg focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
@@ -44,17 +64,33 @@
   <Backdrop />
   <header class="relative z-10 bg-linear-to-b from-surface/90 via-surface/60 to-transparent">
     <div class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-(--gutter) pt-4 pb-1">
-      <div class="flex items-center gap-4">
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
         <a href="/" class="flex items-center gap-2.5 text-ink hover:text-accent-bright">
-          <Emblem size={32} badge class="text-accent" />
+          <Emblem size={36} badge class="text-gold" />
           <Wordmark name={data.siteName} />
         </a>
         <span class="note hidden sm:inline">{t.site.tagline}</span>
+        <button class="btn ml-auto" aria-pressed={scenery} onclick={toggleScenery}>
+          <span aria-hidden="true">✦</span> Scenery {scenery ? 'on' : 'off'}
+        </button>
       </div>
       <SiteNav entries={data.navigation} />
     </div>
   </header>
   <StatusStrip {status} error={data.statusError} stream={live.stream} />
+  {#if data.demo}
+    <aside class="demo-notice relative z-10" aria-label="Demo mode">
+      <div
+        class="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-3 gap-y-1 px-(--gutter) py-2"
+      >
+        <strong>Demo journal</strong>
+        <span>Sample adventurers and events. Explore freely.</span>
+        <a class="ml-auto underline" href="https://oddessentials.github.io/magpie/"
+          >About Magpie <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </aside>
+  {/if}
   <main
     id="main"
     tabindex="-1"

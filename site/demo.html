@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Explore Magpie — demo tour</title>
+    <meta
+      name="description"
+      content="Explore the working Magpie journal through screenshots of Today, player progress, activity and the world, captured with sample data."
+    />
+    <link rel="canonical" href="https://oddessentials.github.io/magpie/demo.html" />
+    <meta property="og:title" content="Explore Magpie — demo tour" />
+    <meta
+      property="og:description"
+      content="Explore the working Magpie journal through screenshots of Today, player progress, activity and the world, captured with sample data."
+    />
+    <meta property="og:url" content="https://oddessentials.github.io/magpie/demo.html" />
+    <meta property="og:image" content="https://oddessentials.github.io/magpie/assets/social.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Magpie, a journal for your Dragonwilds server, overlooking a woodland valley at dusk"
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://oddessentials.github.io/magpie/assets/social.jpg" />
+    <meta name="theme-color" content="#101522" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="assets/fonts/grenze-600.woff2"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="assets/fonts/atkinson-hyperlegible-next-variable.woff2"
+    />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the page</a>
+    <header class="masthead">
+      <div class="wrap">
+        <a class="brand" href="./"><img src="favicon.svg" width="34" height="34" alt="" />Magpie</a>
+        <nav aria-label="Main">
+          <a href="demo.html" aria-current="page">Demo tour</a>
+          <a href="https://github.com/oddessentials/magpie#install">Install</a>
+          <a href="https://github.com/oddessentials/magpie"
+            >GitHub <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+      <header class="tour-head">
+        <p class="eyebrow">Inside the journal / In development</p>
+        <h1>A glimpse into the wilds.</h1>
+        <p class="lead">
+          Tour the working app through four views. These are screenshots from the demo with sample
+          data; run it locally to explore the live interface.
+        </p>
+      </header>
+      <nav class="tour-controls" aria-label="Demo views">
+        <a href="#today" data-view="today">Today</a>
+        <a href="#player" data-view="player">Player</a>
+        <a href="#activity" data-view="activity">Activity</a>
+        <a href="#world" data-view="world">World</a>
+      </nav>
+      <section id="today" class="tour-panel" aria-labelledby="today-title">
+        <div class="panel-heading">
+          <h2 id="today-title">A day in the wilds</h2>
+          <a class="desktop-image" href="assets/today.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/today-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <figure class="screenshot">
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/today-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/today.jpg"
+              width="1440"
+              height="1080"
+              fetchpriority="high"
+              alt="Magpie Today page with a woodland hero, online adventurers, recent activity and last save"
+            />
+          </picture>
+          <figcaption>
+            Four sample adventurers, recent events, the last save and a player-count history. The
+            scenery can be switched off in the running app.
+          </figcaption>
+        </figure>
+      </section>
+      <section id="player" class="tour-panel" aria-labelledby="player-title">
+        <div class="panel-heading">
+          <h2 id="player-title">Every level tells a story</h2>
+          <a class="desktop-image" href="assets/player.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/player-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <figure class="screenshot">
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/player-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/player.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="Magpie player profile with twelve skills, experience rings and session statistics"
+            />
+          </picture>
+          <figcaption>
+            A character's twelve skills and experience, sessions, deaths, quests and journal
+            entries. Save-derived progress is labelled with the time it was read.
+          </figcaption>
+        </figure>
+      </section>
+      <section id="activity" class="tour-panel" aria-labelledby="activity-title">
+        <div class="panel-heading">
+          <h2 id="activity-title">The story as it happens</h2>
+          <a class="desktop-image" href="assets/activity.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/activity-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <figure class="screenshot">
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/activity-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/activity.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="Magpie activity page with event filters and a chronological sample journal"
+            />
+          </picture>
+          <figcaption>
+            A filterable journal of arrivals, departures, discoveries and other observed events. The
+            optional server mod supplies the events the server log does not report.
+          </figcaption>
+        </figure>
+      </section>
+      <section id="world" class="tour-panel" aria-labelledby="world-title">
+        <div class="panel-heading">
+          <h2 id="world-title">The world you share</h2>
+          <a class="desktop-image" href="assets/world.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/world-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <figure class="screenshot">
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/world-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/world.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="Magpie World page with weather, saved world settings and community statistics"
+            />
+          </picture>
+          <figcaption>
+            The day and conditions from the last save, weather by region, historical totals and the
+            sources available to the collector.
+          </figcaption>
+        </figure>
+      </section>
+      <section class="try-local" aria-labelledby="try-title">
+        <p class="eyebrow">Take the next step</p>
+        <h2 id="try-title">Try the running demo.</h2>
+        <p>
+          With Node.js 24 or newer, start the app with its sample data. No game server or running
+          database is needed for demo mode.
+        </p>
+        <pre><code>git clone https://github.com/oddessentials/magpie.git
+cd magpie
+npm install
+npm run dev:mock</code></pre>
+        <p>
+          Open the local address printed by the command. Browse the adventurers, filter the journal
+          and explore the world. Demo admin changes are simulated.
+        </p>
+        <a class="text-link" href="https://github.com/oddessentials/magpie#install"
+          >Ready for your own server? Read the setup guide <span aria-hidden="true">→</span></a
+        >
+      </section>
+    </main>
+    <footer>
+      <div class="wrap">
+        <div class="footer-row">
+          <span>The magpie keeps what it finds.</span
+          ><a href="https://github.com/oddessentials/magpie">Open source · MIT licence</a>
+        </div>
+        <p>
+          An independent companion for RuneScape: Dragonwilds. Created using intellectual property
+          belonging to Jagex Limited under the terms of Jagex's Fan Content Policy. This content is
+          not endorsed by or affiliated with Jagex.
+        </p>
+      </div>
+    </footer>
+    <script src="assets/demo.js" defer></script>
+  </body>
+</html>

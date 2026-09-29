@@ -1,9 +1,10 @@
 <p align="center">
-  <img src="site/assets/social.jpg" alt="Magpie: a live website for your RuneScape: Dragonwilds server" width="100%">
+  <a href="https://oddessentials.github.io/magpie/"><img src="site/assets/banner.jpg" alt="Magpie. The wilds move on. Keep their story. A journal for your RuneScape: Dragonwilds server." width="100%"></a>
 </p>
 
 <p align="center">
   <a href="https://oddessentials.github.io/magpie/"><b>Website</b></a> &nbsp;·&nbsp;
+  <a href="https://oddessentials.github.io/magpie/demo.html"><b>Demo tour</b></a> &nbsp;·&nbsp;
   <a href="#install"><b>Install</b></a> &nbsp;·&nbsp;
   <a href="#collector-reference"><b>Collector</b></a> &nbsp;·&nbsp;
   <a href="mod/README.md"><b>Server mod</b></a> &nbsp;·&nbsp;
@@ -12,6 +13,22 @@
 </p>
 
 Magpie gives a RuneScape: Dragonwilds dedicated server its own website: who is online, how far each adventurer has come, what the wilds did today, and the history of all of it. A collector runs beside the server and reports to the site; players install nothing.
+
+**In development.** The journal works today; the project is still being built. The screenshots below use sample data. [Explore the demo tour](https://oddessentials.github.io/magpie/demo.html), or run `npm run dev:mock` after the development setup to browse the working app without a game server or running database. The admin area has no server actions in this version.
+
+## A look inside the journal
+
+<img src="site/assets/today.jpg" alt="The Today page with the woodland panorama, four sample adventurers online, recent activity and the last world save" width="100%">
+
+**The day at a glance.** Who is exploring, what just happened, and when the server last saved. Live observations and saved progress carry their source and freshness. Original woodland artwork sets the scene; the Scenery button switches it off and remembers your preference.
+
+<img src="site/assets/player.jpg" alt="Juniper's sample profile: twelve skill levels and experience rings, playtime, sessions and recent deaths" width="100%">
+
+**Every adventurer's progress.** Twelve skills, sessions, quests and journal discoveries, drawn from the server's own records. The skill rings show progress toward the next level.
+
+<img src="site/assets/world.jpg" alt="The World page with saved conditions, weather by region, community totals and server details" width="100%">
+
+**The world beyond your last visit.** See regional weather, world events and the day from the last save, alongside server history and the sources the collector can read.
 
 ## What the site shows
 
@@ -121,7 +138,11 @@ npm run dev
 
 `npm run dev:mock` runs the pages on recorded fixtures without a server. `npm run verify` runs what CI runs: formatting, the no-comments rule, the mod check, the contract lint and types, the fixtures, the site's tests and build, and the Go tests and builds for the collector and the save reader.
 
-Facts about the game come from the free dedicated server's own files: `tools/gamefacts` reads the cooked packages with the mappings file in `tools/rig/mappings` and writes `web/src/lib/world`, each file stamped with the Steam build and game version it was read from; a daily workflow opens an issue when the public build changes. `tools/rig` holds the scripts that run a bounded, recorded server session (`run_server.py`, with the UE4SS probe mods that dump the mappings file and every function name) and decode saves and containers by hand. The art is Magpie's own, vector sources in `art/` rendered by `art/export.mjs`.
+Facts about the game come from the free dedicated server's own files: `tools/gamefacts` reads the cooked packages with the mappings file in `tools/rig/mappings` and writes `web/src/lib/world`, each file stamped with the Steam build and game version it was read from; a daily workflow opens an issue when the public build changes. `tools/rig` holds the scripts that run a bounded, recorded server session (`run_server.py`, with the UE4SS probe mods that dump the mappings file and every function name) and decode saves and containers by hand.
+
+The artwork is original to Magpie. The woodland master is in `art/source/wilds.png`, with its image-generation prompt and provenance in `art/source/wilds.json`; the bird mark and icon sources remain vectors in `art/`. No game artwork or textures are used. `npm run art:export` rebuilds the raster variants and synchronizes only the AVIF/WebP scenery used by the app and landing page; PNG masters stay in `art/`.
+
+`npm run art:capture` starts temporary local servers, captures desktop and phone views with sample data, and rebuilds the README banner and social cards using headless Chromium (install it once with `npx playwright install chromium`). Captures use the status fixture's timestamp, UTC and a fixed locale, and ignore external API overrides. Images are staged and validated before the existing set is replaced. `npm run art:capture -- --check` compares a fresh capture with the committed images without changing them; use the same browser version and platform for byte-for-byte comparisons. `npm run site:preview` serves the landing page and screenshot tour at `http://127.0.0.1:5180`. The tour selects phone screenshots on small screens and also works without JavaScript; `npm run dev:mock` runs the interactive app.
 
 Pushing a tag `v<version>` that matches the `package.json` version publishes `ghcr.io/oddessentials/magpie` and `ghcr.io/oddessentials/magpie-collector` for amd64 and arm64, and a GitHub release with the collector and save reader binaries, the mod as a zip, and their checksums.
 
