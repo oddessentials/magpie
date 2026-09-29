@@ -33,7 +33,7 @@ Magpie gives a RuneScape: Dragonwilds dedicated server its own website: who is o
 ## What the site shows
 
 - **Today.** The server's state, who is in the wilds and since when, the last save, the latest events, and the last day as a chart of players over time. Every live figure says where it came from and how old it is.
-- **Players.** Everyone who has joined since the site began keeping the log, with playtime, sessions and deaths. A player's page carries the twelve skills from the character save, levelled by the game's own experience curve, with total level, sessions, deaths, quests, journal entries and what the log has counted.
+- **Players.** Everyone who has joined since the site began keeping the log, with playtime, sessions and deaths. A player's page carries the twelve skills from the cached character state in the world save, levelled by the game's own experience curve, with total level, sessions, deaths, quests, journal entries and what the log has counted.
 - **Activity.** Deaths, discoveries, level-ups, quests, crafts, builds, boss summons, base raids and dragon events, filtered by kind.
 - **Chat.** The server's chat, when the admin turns it on and the server mod is installed. Off by default.
 - **World.** The world as the server last saved it: day, difficulty, hardcore and friendly fire, regional weather, world events, building counts, triggered world hooks and defeated bosses. A separate guide lists build-stamped region, lodestone and boss names. Time of day stays unknown until the save's StoredTime units are verified; the demo's clock is illustrative.
@@ -41,7 +41,13 @@ Magpie gives a RuneScape: Dragonwilds dedicated server its own website: who is o
 
 Facts come from three places, and the site keeps them apart: the server's log (joins and leaves to the second, deaths, discoveries), the world save (skills, quests, journal, weather and the day, never live, always marked with the time of the save), and the optional [server mod](mod/README.md) (chat, level-ups, quests, crafting, building, the world's events, and a stop that saves the world first). Names of skills, quests, journal entries and items come from the game's own files, read from the dedicated server build and stamped with the Steam build they were read from.
 
+**Validation limits.** On dedicated-server build 25465077 (1.0.0.5), the rig verified log/save/mod capture through the collector to the site, all 51 hook registrations, and the save-and-quit path. Registration does not verify a hook's real player parameters. Player-triggered mod death, XP, quest, building and crafting mappings remain unverified against real player recordings and retain their existing field-name fallbacks; unknown identifiers remain usable. The recorded chat example establishes nested parameter serialization only. See [the deferred validation work](https://github.com/oddessentials/magpie/issues/12). Game updates require a separate build check; these observations do not establish compatibility with later builds.
+
+The save reader does not expose time of day because StoredTime's units and semantics remain unverified. Populated POI discovery payloads also remain undecoded: all 17 inspected saves contain empty POI Play sections. Nonempty defeated-boss and tagged-progress sets have structural regression coverage but no recorded examples. These [save-reader gaps](https://github.com/oddessentials/magpie/issues/4) remain separate from the implemented saved building and world-progress projections.
+
 ## Install
+
+This README describes the current source. The published v0.1.0 release predates the subsequent shutdown, map-facts, saved-progress and remote-transport changes. Build from the current source to use those changes until another release is explicitly published.
 
 1. Run the site with Docker Compose on a machine the collector can reach:
 
@@ -65,7 +71,7 @@ Facts come from three places, and the site keeps them apart: the server's log (j
 
    With `server_dir` alone the collector follows the server's log and world save. To let it start and stop the server as well, add `[launch]` with the server's command; to read chat and everything else the log never reports, install the [server mod](mod/README.md).
 
-**Rented servers.** The collector needs the server's log and save files where it runs, so it has to run on the same machine or share its files. A rented server without a shell or a shared folder cannot run it in this version.
+**Rented servers.** Current source builds can run the collector on another machine and retrieve the server's log and world save over FTP, explicit FTPS or SFTP. The provider must expose those files. SFTP requires a pinned host key, and the site labels remote observations as polled with their cadence and freshness. See the [collector reference](#collector-reference) below; Dragonwilds has no REST or RCON fallback.
 
 <details>
 <summary><b>Site settings</b></summary>
@@ -160,7 +166,7 @@ npm run db:migrate
 npm run dev
 ```
 
-`npm run dev:mock` runs the pages on recorded fixtures without a server. `npm run verify` runs what CI runs: formatting, the no-comments rule, the mod check, the contract lint and types, the fixtures, the site's tests and build, and the Go tests and builds for the collector and the save reader.
+`npm run dev:mock` runs the pages on recorded fixtures without a server. `npm run verify` checks formatting, the no-comments rule, the mod, the API contract and types, the fixtures, the site's tests and build, and the Go tests and builds for the collector and the save reader. CI also runs the offline Python recording tests described below.
 
 Facts about the game come from the free dedicated server's own files: `tools/gamefacts` reads the cooked packages with the mappings file in `tools/rig/mappings` and writes `web/src/lib/world`, each file stamped with the Steam build and game version it was read from; a daily workflow opens an issue when the public build changes. `tools/rig` holds the recorded server runner (`run_server.py`, with the UE4SS probe mods that dump the mappings file and every function name) and decodes saves and containers by hand.
 
@@ -173,6 +179,8 @@ The artwork is original to Magpie. The woodland master is in `art/source/wilds.p
 `node scripts/measure-presentation.mjs after` measures the landing page and demo tour on a local static server in three fresh Chromium contexts each: 390 × 844 CSS pixels, DPR 3, 1.6 Mbps download, 750 Kbps upload, 150 ms latency, 4× CPU slowdown and disabled cache. It records LCP elements, resource timings, image selection, fonts, layout shifts, browser version and screenshots under ignored `local/`, checks attribution and horizontal overflow, and fails if any LCP reaches 2.5 seconds. Compare runs on the same machine and browser with other builds stopped. These are local lab measurements, not field p75 Core Web Vitals.
 
 Pushing a tag `v<version>` that matches the `package.json` version publishes `ghcr.io/oddessentials/magpie` and `ghcr.io/oddessentials/magpie-collector` for amd64 and arm64, and a GitHub release with the collector and save reader binaries, the mod as a zip, and their checksums.
+
+The current release workflow can also publish on a main push touching `package.json` whenever that version's tag is absent, including a scripts-only change without a version bump. An [explicit publication gate](https://github.com/oddessentials/magpie/issues/34) is proposed before the next release. Release and production-hosting decisions remain separate from merging source changes.
 
 </details>
 
