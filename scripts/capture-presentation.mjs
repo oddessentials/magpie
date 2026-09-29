@@ -10,10 +10,11 @@ import {
   rmSync,
   writeFileSync
 } from 'node:fs';
-import { join, resolve, sep } from 'node:path';
+import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
+import { previewNames, previewVariants } from '../art/presentation.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const file = (path) => fileURLToPath(new URL(`../${path}`, import.meta.url));
@@ -78,7 +79,9 @@ async function ready(url, ownedProcess) {
 
 async function stage(name, buffer, width, height, destinations = [`site/assets/${name}`]) {
   const metadata = await sharp(buffer).metadata();
-  assert.equal(metadata.format, 'jpeg', `${name} format`);
+  const formats = { '.jpg': 'jpeg', '.avif': 'heif', '.webp': 'webp' };
+  assert.equal(metadata.format, formats[extname(name)], `${name} format`);
+  if (extname(name) === '.avif') assert.equal(metadata.compression, 'av1', `${name} codec`);
   assert.equal(metadata.width, width, `${name} width`);
   assert.equal(metadata.height, height, `${name} height`);
   await sharp(buffer).raw().toBuffer();
@@ -140,6 +143,14 @@ try {
   async function open(page, url, appPage = false) {
     const response = await page.goto(url);
     assert.ok(response?.ok(), `Failed to open ${url}`);
+    const attribution =
+      "Created using intellectual property belonging to Jagex Limited under the terms of Jagex's Fan Content Policy. This content is not endorsed by or affiliated with Jagex.";
+    const rendered = (await page.locator('body').innerText()).replace(/\s+/g, ' ');
+    assert.equal(
+      rendered.split(attribution).length - 1,
+      1,
+      'The attribution must render exactly once.'
+    );
     await page.evaluate(async () => {
       await document.fonts.ready;
       await Promise.all(
@@ -217,6 +228,11 @@ try {
   site.assertRunning();
   assert.deepEqual(errors, [], 'Capture pages must have no browser or asset errors.');
   assert.equal(captures.length, 10);
+  for (const name of previewNames) {
+    for (const variant of await previewVariants(join(staging, `${name}.jpg`), name)) {
+      await stage(variant.name, variant.data, variant.width, variant.height);
+    }
+  }
   const outputs = captures.flatMap(({ source, destinations }) =>
     destinations.map((destination) => ({ source, target: file(destination) }))
   );

@@ -108,7 +108,7 @@
     >
       <div class="flex max-w-2xl flex-col gap-1">
         <span class="note text-accent">{t.site.footerNote}</span>
-        <span class="ticker">{t.site.disclaimer}</span>
+        <span class="ticker normal-case">{t.site.disclaimer}</span>
         <span class="ticker">{t.site.provenance}</span>
         <span class="ticker">{versionLine(__APP_VERSION__, status)}</span>
       </div>

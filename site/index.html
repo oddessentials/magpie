@@ -120,14 +120,23 @@
           </div>
           <figure class="screenshot">
             <a href="demo.html#today"
-              ><img
-                src="assets/today.jpg"
-                width="1440"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-                alt="Magpie's Today page: four adventurers online, the latest activity and the last world save beneath a woodland panorama"
-            /></a>
+              ><picture>
+                <source
+                  type="image/avif"
+                  srcset="assets/today-720.avif 720w, assets/today-1440.avif 1440w"
+                  sizes="(max-width: 600px) calc(100vw - 2rem), (max-width: 1232px) calc(100vw - 3rem), 1184px" />
+                <source
+                  type="image/webp"
+                  srcset="assets/today-720.webp 720w, assets/today-1440.webp 1440w"
+                  sizes="(max-width: 600px) calc(100vw - 2rem), (max-width: 1232px) calc(100vw - 3rem), 1184px" />
+                <img
+                  src="assets/today.jpg"
+                  width="1440"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Magpie's Today page: four adventurers online, the latest activity and the last world save beneath a woodland panorama" /></picture
+            ></a>
             <figcaption>
               The working app, with sample data. Live observations and saved progress each carry
               their source and freshness.
@@ -144,14 +153,23 @@
             </p>
             <figure class="screenshot">
               <a href="demo.html#player"
-                ><img
-                  src="assets/player.jpg"
-                  width="1440"
-                  height="1080"
-                  loading="lazy"
-                  decoding="async"
-                  alt="An adventurer's profile with twelve skill levels and experience progress rings"
-              /></a>
+                ><picture>
+                  <source
+                    type="image/avif"
+                    srcset="assets/player-720.avif 720w, assets/player-1440.avif 1440w"
+                    sizes="(max-width: 600px) calc(100vw - 2rem), (max-width: 1232px) 50vw, 572px" />
+                  <source
+                    type="image/webp"
+                    srcset="assets/player-720.webp 720w, assets/player-1440.webp 1440w"
+                    sizes="(max-width: 600px) calc(100vw - 2rem), (max-width: 1232px) 50vw, 572px" />
+                  <img
+                    src="assets/player.jpg"
+                    width="1440"
+                    height="1080"
+                    loading="lazy"
+                    decoding="async"
+                    alt="An adventurer's profile with twelve skill levels and experience progress rings" /></picture
+              ></a>
               <figcaption>
                 <a href="demo.html#player"
                   >Explore a player profile <span aria-hidden="true">→</span></a
@@ -168,14 +186,23 @@
             </p>
             <figure class="screenshot">
               <a href="demo.html#world"
-                ><img
-                  src="assets/world.jpg"
-                  width="1440"
-                  height="1080"
-                  loading="lazy"
-                  decoding="async"
-                  alt="The World page with saved world conditions, weather by region and server statistics"
-              /></a>
+                ><picture>
+                  <source
+                    type="image/avif"
+                    srcset="assets/world-720.avif 720w, assets/world-1440.avif 1440w"
+                    sizes="(max-width: 600px) calc(100vw - 2rem), (max-width: 1232px) 50vw, 572px" />
+                  <source
+                    type="image/webp"
+                    srcset="assets/world-720.webp 720w, assets/world-1440.webp 1440w"
+                    sizes="(max-width: 600px) calc(100vw - 2rem), (max-width: 1232px) 50vw, 572px" />
+                  <img
+                    src="assets/world.jpg"
+                    width="1440"
+                    height="1080"
+                    loading="lazy"
+                    decoding="async"
+                    alt="The World page with saved world conditions, weather by region and server statistics" /></picture
+              ></a>
               <figcaption>
                 <a href="demo.html#world">Look into the world <span aria-hidden="true">→</span></a>
               </figcaption>
