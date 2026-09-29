@@ -115,6 +115,7 @@ Before anything leaves the machine the collector removes the world password from
 ```sh
 npm install
 docker compose up -d db
+npm run db:migrate
 npm run dev
 ```
 

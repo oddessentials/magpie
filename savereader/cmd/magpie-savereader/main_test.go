@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	st "github.com/oddessentials/magpie/savereader/internal/spud/spudtest"
 )
@@ -25,6 +26,10 @@ func writeSave(t *testing.T) string {
 	}
 	path := filepath.Join(t.TempDir(), "magpie-rig.sav")
 	if err := os.WriteFile(path, save.Bytes(), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	written := time.Date(2026, 9, 28, 18, 14, 27, 756000000, time.UTC)
+	if err := os.Chtimes(path, written, written); err != nil {
 		t.Fatal(err)
 	}
 	return path

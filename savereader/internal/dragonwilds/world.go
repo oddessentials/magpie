@@ -117,6 +117,9 @@ func ReadFile(path string) (*World, error) {
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", path, err)
 	}
+	if info, err := os.Stat(path); err == nil {
+		world.SavedAt = info.ModTime().UTC()
+	}
 	return world, nil
 }
 
