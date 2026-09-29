@@ -1,5 +1,6 @@
 import argparse
 import datetime
+from contextlib import ExitStack, closing
 import json
 import os
 import re
@@ -395,10 +396,16 @@ def build_progression(game, found):
     return dict(source=game.source(), tables=tables)
 
 
-def build_info(game, previous, client_build, mappings_name):
-    info = dict(previous or {})
-    info.update(server_app=SERVER_APP, server_build=game.build if game.build is not None else info.get('server_build'), client_app=CLIENT_APP, client_build=client_build if client_build is not None else info.get('client_build'), version=game.version or info.get('version'), container=game.container, mappings=mappings_name, extracted=datetime.date.today().isoformat())
-    return info
+def validate_build(game):
+    if type(game.build) is not int or game.build <= 0:
+        raise ValueError('installed Steam build is missing for app %s' % game.app)
+    if not isinstance(game.version, str) or not re.fullmatch(r'\d+(\.\d+)+', game.version):
+        raise ValueError('installed game version is missing for app %s' % game.app)
+
+
+def build_info(game, client_build, mappings_name):
+    validate_build(game)
+    return dict(server_app=SERVER_APP, server_build=game.build, client_app=CLIENT_APP, client_build=client_build, version=game.version, container=game.container, mappings=mappings_name, extracted=datetime.date.today().isoformat())
 
 
 def write_outputs(out, outputs):
@@ -419,9 +426,15 @@ def write_outputs(out, outputs):
 def compare(server, client, found):
     mismatches = 0
     checked = 0
+    server_tests = 0
     for root, entries in found.items():
         for path, index, class_name in entries:
             if not client.store.has(path):
+                if '/gameplay/test/' in path.lower():
+                    server_tests += 1
+                    continue
+                print('client asset missing: %s' % path)
+                mismatches += 1
                 continue
             try:
                 _, expected, _ = server.decode(server.package(path), index)
@@ -442,7 +455,10 @@ def compare(server, client, found):
                             print('mismatch %s %s: server %r client %r' % (path, key, other, value))
                         mismatches += 1
     print('client check: %d objects compared, %d mismatches' % (checked, mismatches))
-    return mismatches
+    print('server-only test assets excluded from client comparison: %d' % server_tests)
+    if mismatches or not checked:
+        raise ValueError('client comparison failed: %d objects compared, %d mismatches' % (checked, mismatches))
+    return checked
 
 
 def newest_mappings():
@@ -451,7 +467,7 @@ def newest_mappings():
     return os.path.join(folder, files[-1]) if files else None
 
 
-def main():
+def main(argv=None):
     rig = os.environ.get('MAGPIE_RIG', r'D:\dragonwilds-rig')
     client_default = os.environ.get('DRAGONWILDS_PAKS', r'D:\SteamLibrary\steamapps\common\RSDragonwilds\RSDragonwilds\Content\Paks')
     parser = argparse.ArgumentParser()
@@ -460,50 +476,47 @@ def main():
     parser.add_argument('--out', default=os.path.join(ROOT, 'web', 'src', 'lib', 'world'))
     parser.add_argument('--client-paks', default=client_default if os.path.isdir(client_default) else None)
     parser.add_argument('--no-client', action='store_true')
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.usmap is None:
         parser.error('no mappings file; pass --usmap or add one under tools/rig/mappings')
     if args.no_client:
         args.client_paks = None
     mappings = usmap.load(args.usmap)
-    game = Game(args.paks, SERVER_APP, mappings)
-    print('reading %s build %s version %s' % (game.container, game.build, game.version))
-    found = game.scan()
-    for name, entries in found.items():
-        print('%s: %d objects' % (name, len(entries)))
-    outputs = {}
-    outputs['skills.json'] = build_skills(game, found)
-    outputs['xp.json'] = build_xp(game, found)
-    outputs['quests.json'] = build_quests(game, found)
-    outputs['journal.json'] = build_journal(game, found)
-    outputs['items.json'] = build_items(game, found)
-    outputs['recipes.json'] = build_recipes(game, found)
-    outputs['progression.json'] = build_progression(game, found)
-    outputs['geography.json'] = build_geography(game)
-    client = None
-    client_build = None
-    if args.client_paks:
-        client = Game(args.client_paks, CLIENT_APP, mappings)
-        client_build = client.build
-        print('client %s build %s version %s' % (client.container, client.build, client.version))
-        compare(game, client, found)
-    previous_path = os.path.join(args.out, 'build.json')
-    previous = None
-    if os.path.exists(previous_path):
-        with open(previous_path, encoding='utf-8') as f:
-            previous = json.load(f)
-    outputs['build.json'] = build_info(game, previous, client_build, os.path.basename(args.usmap))
-    for data in outputs.values():
-        if 'source' in data:
-            data['source']['build'] = outputs['build.json']['server_build']
-            data['source']['version'] = outputs['build.json']['version']
-    written = write_outputs(args.out, outputs)
-    print('unreadable values: %d' % game.unreadable)
-    for target in written:
-        print('wrote %s (%d bytes)' % (target, os.path.getsize(target)))
-    game.close()
-    if client is not None:
-        client.close()
+    with ExitStack() as resources:
+        game = resources.enter_context(closing(Game(args.paks, SERVER_APP, mappings)))
+        validate_build(game)
+        print('reading %s build %s version %s' % (game.container, game.build, game.version))
+        found = game.scan()
+        for name, entries in found.items():
+            print('%s: %d objects' % (name, len(entries)))
+        outputs = {}
+        outputs['skills.json'] = build_skills(game, found)
+        outputs['xp.json'] = build_xp(game, found)
+        outputs['quests.json'] = build_quests(game, found)
+        outputs['journal.json'] = build_journal(game, found)
+        outputs['items.json'] = build_items(game, found)
+        outputs['recipes.json'] = build_recipes(game, found)
+        outputs['progression.json'] = build_progression(game, found)
+        outputs['geography.json'] = build_geography(game)
+        client = None
+        client_build = None
+        if args.client_paks:
+            client = resources.enter_context(closing(Game(args.client_paks, CLIENT_APP, mappings)))
+            validate_build(client)
+            client_build = client.build
+            print('client %s build %s version %s' % (client.container, client.build, client.version))
+            compare(game, client, found)
+        if game.unreadable or (client is not None and client.unreadable):
+            raise ValueError('extraction contains unreadable values; existing facts were preserved')
+        outputs['build.json'] = build_info(game, client_build, os.path.basename(args.usmap))
+        for data in outputs.values():
+            if 'source' in data:
+                data['source']['build'] = outputs['build.json']['server_build']
+                data['source']['version'] = outputs['build.json']['version']
+        written = write_outputs(args.out, outputs)
+        print('unreadable values: %d' % game.unreadable)
+        for target in written:
+            print('wrote %s (%d bytes)' % (target, os.path.getsize(target)))
 
 
 if __name__ == '__main__':

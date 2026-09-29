@@ -155,7 +155,7 @@ def audit(session, mod_source):
     }
 
 
-def preflight(root, ue4ss, repo):
+def preflight(root, ue4ss, repo, maintenance_build=None):
     root, ue4ss, repo = Path(root), Path(ue4ss), Path(repo)
     server = root / 'server'
     required = [
@@ -173,16 +173,19 @@ def preflight(root, ue4ss, repo):
     build = json.loads((repo / 'web/src/lib/world/build.json').read_text(encoding='utf-8'))
     manifest = (server / 'steamapps/appmanifest_4019830.acf').read_text(encoding='utf-8')
     match = re.search(r'"buildid"\s+"(\d+)"', manifest)
-    if match is None or int(match[1]) != build['server_build']:
+    expected = build['server_build'] if maintenance_build is None else maintenance_build
+    if type(expected) is not int or expected <= 0:
+        raise ValueError('expected server build must be a positive integer')
+    if match is None or int(match[1]) != expected:
         raise ValueError('installed server build differs from recorded facts')
-    return {'server_build': build['server_build'], 'game_version': build['version'], 'mod_sha256': digest}
+    return {'server_build': expected, 'facts_build': build['server_build'], 'game_version': build['version'] if expected == build['server_build'] else None, 'maintenance': maintenance_build is not None, 'mod_sha256': digest}
 
 
-def run(root, ue4ss, name, args, repo):
+def run(root, ue4ss, name, args, repo, maintenance_build=None):
     import launch
 
     root, ue4ss, repo = Path(root), Path(ue4ss).resolve(), Path(repo)
-    evidence = preflight(root, ue4ss, repo)
+    evidence = preflight(root, ue4ss, repo, maintenance_build)
     processes = subprocess.run(
         ['tasklist', '/FI', 'IMAGENAME eq RSDragonwildsServer-Win64-Shipping.exe', '/FO', 'CSV', '/NH'],
         capture_output=True, text=True, check=True, creationflags=subprocess.CREATE_NO_WINDOW,
@@ -229,8 +232,9 @@ def run(root, ue4ss, name, args, repo):
         shutil.copytree(saved, session / 'Saved', ignore=shutil.ignore_patterns('Crashes', 'Sentry', '*.tmp'))
     report = audit(session, repo / 'mod/MagpieEvents/Scripts/main.lua')
     verified = code == 0 and report['save_then_quit']
-    manifest.update(phase='finished', finished_at=timestamp(), exit_code=code, graceful_save_verified=verified, audit=report)
+    capture_verified = report['configured_hooks'] > 0 and not report['missing_hooks'] and not report['handler_failures'] and report['malformed_records'] == 0
+    manifest.update(phase='finished', finished_at=timestamp(), exit_code=code, graceful_save_verified=verified, capture_verified=capture_verified, audit=report)
     write_manifest(session, manifest)
     (session / 'pid').unlink()
-    print('Recording finished: %s.' % ('save and quit verified' if verified else 'shutdown needs review'), flush=True)
-    return 0 if verified else 1
+    print('Recording finished: %s.' % ('capture, save and quit verified' if verified and capture_verified else 'capture or shutdown verification failed'), flush=True)
+    return 0 if verified and capture_verified else 1
