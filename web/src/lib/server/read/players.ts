@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gte, ilike, sql, type SQL } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, ilike, lt, sql, type SQL } from 'drizzle-orm';
 import type { Database } from '../db/client';
 import {
   characterSkillSamples,
@@ -10,12 +10,14 @@ import {
   sessions,
   type CharacterSaveRow,
   type PlayerRow,
+  type SavedSkill,
   type SessionRow
 } from '../db/schema';
 import { notFound, type Page } from '../http/respond';
 import type { Features } from '../settings';
 import { unlocksOf } from './characters';
 import { displayName, platformName, secondsBetween, type Schemas } from './common';
+import { skillFacts } from './facts';
 import { countedKinds, isKnownUnlock } from './lookup';
 import {
   characterOf,
@@ -134,9 +136,9 @@ async function extrasOf(
   save: CharacterSaveRow | null,
   now: Date
 ): Promise<CharacterExtras> {
-  if (!save) return { unlocks: null, history: [] };
+  if (!save) return { unlocks: null, history: [], gains: [] };
   const since = new Date(now.getTime() - 30 * 86_400_000);
-  const [unlocked, samples] = await Promise.all([
+  const [unlocked, samples, earlier] = await Promise.all([
     unlocksOf(db, [save.characterGuid], countedKinds),
     db
       .select()
@@ -147,7 +149,18 @@ async function extrasOf(
           gte(characterSkillSamples.savedAt, since)
         )
       )
-      .orderBy(asc(characterSkillSamples.savedAt))
+      .orderBy(asc(characterSkillSamples.savedAt)),
+    db
+      .select()
+      .from(characterSkillSamples)
+      .where(
+        and(
+          eq(characterSkillSamples.characterGuid, save.characterGuid),
+          lt(characterSkillSamples.savedAt, since)
+        )
+      )
+      .orderBy(desc(characterSkillSamples.savedAt))
+      .limit(1)
   ]);
   const points = samples.flatMap((sample) => {
     const total = totalLevelOf(skillsOf(sample.skills));
@@ -170,8 +183,39 @@ async function extrasOf(
         index === 0 ||
         index === points.length - 1 ||
         point.total_level !== points[index - 1]!.total_level
-    )
+    ),
+    gains: xpGains(save.skills, [...earlier, ...samples], now)
   };
+}
+
+export function xpGains(
+  current: SavedSkill[],
+  samples: { savedAt: Date; skills: SavedSkill[] }[],
+  now: Date
+): Schemas['PlayerCharacter']['xp_gains'] {
+  const baseline = (hours: number) => {
+    const cutoff = now.getTime() - hours * 3_600_000;
+    let found = samples[0];
+    for (const sample of samples) {
+      if (sample.savedAt.getTime() <= cutoff) found = sample;
+      else break;
+    }
+    return new Map((found?.skills ?? []).map((skill) => [skill.id, skill.xp]));
+  };
+  const day = baseline(24);
+  const week = baseline(24 * 7);
+  const xp = new Map(current.map((skill) => [skill.id, skill.xp]));
+  const gained = (base: Map<string, number>, id: string) => {
+    const latest = xp.get(id);
+    const then = base.get(id);
+    return latest === undefined || then === undefined ? 0 : Math.max(0, latest - then);
+  };
+  return skillFacts.map((skill) => ({
+    id: skill.id,
+    name: skill.name,
+    day: gained(day, skill.id),
+    week: gained(week, skill.id)
+  }));
 }
 
 export async function getPlayer(

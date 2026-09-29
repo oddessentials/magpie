@@ -1978,6 +1978,24 @@ components:
               total_level:
                 type: integer
                 minimum: 0
+        xp_gains:
+          type: array
+          description: Experience each skill gained in the last day and the last week, from the character's saved samples. A window reaching past the first sample counts from that sample.
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, name, day, week]
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              day:
+                type: number
+                minimum: 0
+              week:
+                type: number
+                minimum: 0
       required:
         - saved_at
         - playtime_s
@@ -1992,11 +2010,12 @@ components:
         - loadout
         - unlocks
         - level_history
+        - xp_gains
       additionalProperties: false
     PlayerSlot:
       type: object
       additionalProperties: false
-      required: [slot, item, name, count, at_least, durability]
+      required: [slot, item, name, category, count, at_least, durability]
       properties:
         slot:
           type: integer
@@ -2006,6 +2025,9 @@ components:
           description: The item's asset from items.json, null for an id the game facts do not list.
         name:
           type: [string, 'null']
+        category:
+          type: [string, 'null']
+          description: The item's category tag from items.json.
         count:
           type: integer
           minimum: 0
@@ -2610,15 +2632,89 @@ components:
           type: [string, 'null']
         stack:
           type: [integer, 'null']
+    CatalogUnlock:
+      type: object
+      additionalProperties: false
+      required: [text, operator, steps]
+      description: How the game unlocks a recipe or building piece, from its progression tables. The steps join with the operator; within a step, match says whether every listed thing or any one of them is needed. No steps means the tables name nothing to do.
+      properties:
+        text:
+          type: string
+          description: The condition as the game's own tables print it.
+        operator:
+          anyOf:
+            - type: string
+              enum: [and, or]
+            - type: 'null'
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogUnlockStep'
+    CatalogUnlockStep:
+      type: object
+      additionalProperties: false
+      required: [kind, match, items, actors, skill, level]
+      properties:
+        kind:
+          type: string
+          enum: [pick_up, interact, skill_level]
+        match:
+          type: string
+          enum: [all, any]
+        items:
+          type: array
+          description: The items to pick up, for pick_up.
+          items:
+            type: object
+            additionalProperties: false
+            required: [asset, name]
+            properties:
+              asset:
+                type: string
+              name:
+                type: [string, 'null']
+        actors:
+          type: array
+          description: The things to use, for interact. The class is the game's actor class without its _C suffix, as a save's actors_interacted names it; the name is the building piece that places it, or the class made readable.
+          items:
+            type: object
+            additionalProperties: false
+            required: [class, name]
+            properties:
+              class:
+                type: string
+              name:
+                type: string
+        skill:
+          description: The skill to level, for skill_level.
+          anyOf:
+            - type: object
+              additionalProperties: false
+              required: [asset, name]
+              properties:
+                asset:
+                  type: string
+                name:
+                  type: [string, 'null']
+            - type: 'null'
+        level:
+          type: [integer, 'null']
     CatalogRecipe:
       type: object
       additionalProperties: false
-      required: [id, asset, creates, consumes, xp, stations, unlock]
+      required: [id, asset, name, kind, creates, consumes, xp, stations, unlock]
       properties:
         id:
           type: [string, 'null']
         asset:
           type: string
+        name:
+          type: [string, 'null']
+          description: The name of the item the recipe makes, or of the journal entry that teaches it.
+        kind:
+          type: string
+          enum: [craft, vendor, journal, test]
+          description: craft for a recipe players make; vendor for a trader's exchange and test for the developers' test recipes, both as the game's asset names mark them; journal for a recipe that makes nothing and only fills the journal.
         creates:
           type: array
           items:
@@ -2637,8 +2733,9 @@ components:
           items:
             type: string
         unlock:
-          type: [string, 'null']
-          description: The game's own unlock condition for the recipe, from the progression tables.
+          anyOf:
+            - $ref: '#/components/schemas/CatalogUnlock'
+            - type: 'null'
     CatalogBuilding:
       type: object
       additionalProperties: false
@@ -2661,7 +2758,9 @@ components:
           items:
             $ref: '#/components/schemas/CatalogXp'
         unlock:
-          type: [string, 'null']
+          anyOf:
+            - $ref: '#/components/schemas/CatalogUnlock'
+            - type: 'null'
     CatalogStation:
       type: object
       additionalProperties: false
@@ -2670,7 +2769,8 @@ components:
         id:
           type: string
         name:
-          type: [string, 'null']
+          type: string
+          description: The station's own name, else the name of its building piece, else its id made readable.
         kind:
           type: string
           enum: [crafting, processing]
@@ -2680,13 +2780,19 @@ components:
     Catalog:
       type: object
       additionalProperties: false
-      required: [build, version, skills, items, recipes, buildings, stations]
+      required: [build, version, xp_for_level, skills, items, recipes, buildings, stations]
       properties:
         build:
           type: integer
           minimum: 1
         version:
           type: string
+        xp_for_level:
+          type: array
+          description: The experience a skill needs for each level, from level 1 at index 0.
+          items:
+            type: integer
+            minimum: 0
         skills:
           type: array
           items:
@@ -2730,7 +2836,7 @@ components:
           items:
             type: object
             additionalProperties: false
-            required: [player, saved_at, recipes, buildings]
+            required: [player, saved_at, recipes, buildings, picked_up, interacted, skills]
             properties:
               player:
                 $ref: '#/components/schemas/PlayerRef'
@@ -2747,15 +2853,46 @@ components:
                 description: Assets of the building pieces the character has unlocked.
                 items:
                   type: string
+              picked_up:
+                type: array
+                description: Assets of the items the character has picked up, which the game's unlock conditions check.
+                items:
+                  type: string
+              interacted:
+                type: array
+                description: Actor classes the character has used, without the _C suffix.
+                items:
+                  type: string
+              skills:
+                type: array
+                description: The character's skill levels and experience by skill asset.
+                items:
+                  type: object
+                  additionalProperties: false
+                  required: [skill, level, xp]
+                  properties:
+                    skill:
+                      type: string
+                    level:
+                      type: integer
+                      minimum: 1
+                    xp:
+                      type: number
+                      minimum: 0
         stock:
           type: array
           items:
             type: object
             additionalProperties: false
-            required: [item, count, at_least, holders]
+            required: [item, name, category, count, at_least, holders]
             properties:
               item:
                 type: string
+              name:
+                type: [string, 'null']
+              category:
+                type: [string, 'null']
+                description: The item's category tag from items.json.
               count:
                 type: integer
                 minimum: 0
@@ -2795,11 +2932,13 @@ components:
                   items:
                     type: object
                     additionalProperties: false
-                    required: [item, missing]
+                    required: [item, name, missing]
                     properties:
                       item:
                         type: string
                         description: The item's asset, or its save id when the game facts do not list it.
+                      name:
+                        type: [string, 'null']
                       missing:
                         type: integer
                         minimum: 1
@@ -2807,11 +2946,16 @@ components:
     Journal:
       type: object
       additionalProperties: false
-      required: [saved_at, entries, players]
+      required: [saved_at, unlocks, entries, players]
       properties:
         saved_at:
           type: [string, 'null']
           format: date-time
+        unlocks:
+          type: array
+          description: The unlock conditions the entries' recipe_unlock values point to.
+          items:
+            $ref: '#/components/schemas/CatalogUnlock'
         entries:
           type: array
           items:
@@ -2830,7 +2974,10 @@ components:
                 creature,
                 regions,
                 found_by,
-                first_found
+                first_found,
+                item_name,
+                recipe_unlock,
+                find
               ]
             properties:
               id:
@@ -2853,8 +3000,19 @@ components:
               creature:
                 type: [string, 'null']
                 description: The name of the creature whose kill unlocks the entry.
+              item_name:
+                type: [string, 'null']
+                description: The name of the item the entry is about.
+              recipe_unlock:
+                type: [integer, 'null']
+                minimum: 0
+                description: How the game unlocks the recipe that teaches the entry, as an index into unlocks.
+              find:
+                type: [string, 'null']
+                description: Where the map layers place the entry, as the map page's find value, a kind (item, creature or lore) and an asset joined by a colon. Null when no layer places it.
               regions:
                 type: array
+                description: The areas the entry's locations name, such as Ghornfell.
                 items:
                   type: string
               found_by:
@@ -2889,12 +3047,12 @@ components:
     Progression:
       type: object
       additionalProperties: false
-      required: [totals, players]
+      required: [totals, bosses, players]
       properties:
         totals:
           type: object
           additionalProperties: false
-          required: [skills, quests, main_quests, journal, recipes, buildings, bosses]
+          required: [skills, quests, main_quests, journal, recipes, buildings, bosses, areas]
           properties:
             skills:
               type: integer
@@ -2910,6 +3068,23 @@ components:
               type: integer
             bosses:
               type: integer
+            areas:
+              type: array
+              description: The quests the game places in each area; area is null for quests without one.
+              items:
+                type: object
+                additionalProperties: false
+                required: [area, quests]
+                properties:
+                  area:
+                    type: [string, 'null']
+                  quests:
+                    type: integer
+        bosses:
+          type: array
+          description: The names of the game's bosses.
+          items:
+            type: string
         players:
           type: array
           items:
@@ -2953,7 +3128,7 @@ components:
               quests:
                 type: object
                 additionalProperties: false
-                required: [completed, active, main_completed]
+                required: [completed, active, main_completed, areas]
                 properties:
                   completed:
                     type: integer
@@ -2961,6 +3136,18 @@ components:
                     type: integer
                   main_completed:
                     type: integer
+                  areas:
+                    type: array
+                    description: Completed quests per area, counting the quests totals.areas counts.
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required: [area, completed]
+                      properties:
+                        area:
+                          type: [string, 'null']
+                        completed:
+                          type: integer
               journal:
                 type: integer
               recipes:

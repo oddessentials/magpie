@@ -127,3 +127,112 @@ export function mapCharts(world: MapData) {
     }
   ];
 }
+
+export type LayerName = components['schemas']['MapLayerName'];
+export type LayerGroup = components['schemas']['MapLayerGroup'];
+
+export const layerOrder: LayerName[] = [
+  'resources',
+  'fishing',
+  'spawns',
+  'chests',
+  'lore',
+  'quests',
+  'dungeons',
+  'shrines',
+  'teleporters',
+  'vents'
+];
+
+export const layerStyles: Record<LayerName, { label: string; color: string; size: number }> = {
+  resources: { label: 'Resources', color: '#b7e36a', size: 4 },
+  fishing: { label: 'Fishing spots', color: '#6cc7f0', size: 5 },
+  spawns: { label: 'Creatures', color: '#f07a6a', size: 4 },
+  chests: { label: 'Chests', color: '#f0c24b', size: 5 },
+  lore: { label: 'Lore', color: '#efe0b8', size: 5 },
+  quests: { label: 'Quest places', color: '#f5a3ff', size: 5 },
+  dungeons: { label: 'Dungeons', color: '#ff9f45', size: 7 },
+  shrines: { label: 'Shrines', color: '#7ef0c8', size: 6 },
+  teleporters: { label: 'Teleporters', color: '#b99cff', size: 5 },
+  vents: { label: 'Anima vents', color: '#d2f7ff', size: 4 }
+};
+
+export function isLayer(value: string): value is LayerName {
+  return (layerOrder as string[]).includes(value);
+}
+
+export type Find =
+  | { kind: 'item' | 'creature' | 'lore'; key: string }
+  | { kind: 'name'; layer: LayerName; key: string };
+
+export function parseFind(text: string | null | undefined): Find | null {
+  if (!text) return null;
+  const [kind, ...rest] = text.split(':');
+  if (kind === 'name') {
+    const [layer, ...name] = rest;
+    return layer && isLayer(layer) && name.length
+      ? { kind: 'name', layer, key: name.join(':') }
+      : null;
+  }
+  const key = rest.join(':');
+  return (kind === 'item' || kind === 'creature' || kind === 'lore') && key ? { kind, key } : null;
+}
+
+export function formatFind(find: Find): string {
+  return find.kind === 'name' ? `name:${find.layer}:${find.key}` : `${find.kind}:${find.key}`;
+}
+
+export function findLayers(find: Find): LayerName[] {
+  if (find.kind === 'name') return [find.layer];
+  if (find.kind === 'item') return ['resources', 'fishing'];
+  return find.kind === 'creature' ? ['spawns'] : ['lore'];
+}
+
+export function matchesFind(layer: LayerName, group: LayerGroup, find: Find): boolean {
+  if (!findLayers(find).includes(layer)) return false;
+  switch (find.kind) {
+    case 'item':
+      return group.items.includes(find.key);
+    case 'creature':
+      return group.id === find.key;
+    case 'lore':
+      return group.ref === find.key;
+    case 'name':
+      return (group.name ?? '') === find.key;
+  }
+}
+
+export function dotPath(points: Point[]): string {
+  return points.map((point) => `M${point.x.toFixed(1)} ${point.y.toFixed(1)}h0`).join('');
+}
+
+export function nameLabel(name: string): string {
+  return name
+    .replace(/_/g, ' ')
+    .replace(/([a-z])([A-Z0-9])/g, '$1 $2')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+export function groupLabel(layer: LayerName, group: Pick<LayerGroup, 'name' | 'kind'>): string {
+  if (group.name) return nameLabel(group.name);
+  if (layer === 'dungeons' && group.kind) return group.kind.split('.').slice(2).join(' ');
+  return layerStyles[layer].label;
+}
+
+export function searchableNames(
+  layers: Iterable<[LayerName, { groups: LayerGroup[] }]>
+): { layer: LayerName; name: string; spots: number }[] {
+  const names = new Map<string, { layer: LayerName; name: string; spots: number }>();
+  for (const [layer, data] of layers) {
+    if (layer === 'vents') continue;
+    for (const group of data.groups) {
+      if (!group.name) continue;
+      const key = `${layer}:${group.name}`;
+      const known = names.get(key);
+      if (known) known.spots += group.points.length;
+      else names.set(key, { layer, name: group.name, spots: group.points.length });
+    }
+  }
+  return [...names.values()];
+}

@@ -36,10 +36,10 @@
     "players": 6,
     "sessions": 26,
     "playtime_s": 130779,
-    "deaths": 17,
-    "level_ups": 112,
-    "journal_entries": 228,
-    "quests_completed": 13
+    "deaths": 31,
+    "level_ups": 109,
+    "journal_entries": 222,
+    "quests_completed": 9
   },
   "tracking_since": "2026-09-21T20:30:00.000Z"
 }

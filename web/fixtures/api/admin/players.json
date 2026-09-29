@@ -1,21 +1,6 @@
 {
   "items": [
     {
-      "id": 5,
-      "name": "Wren",
-      "game_name": "Wren",
-      "name_override": null,
-      "user_id": "4c7b6abf06b39e2cc09b9dff9f211a21",
-      "character_guid": "5EA5DDC5039306DBB836C1171DAD240B",
-      "platform": "pc",
-      "hidden": false,
-      "online": true,
-      "first_seen": "2026-09-23T15:02:15.000Z",
-      "last_seen": "2026-09-28T20:29:31.000Z",
-      "playtime_s": 31645,
-      "sessions": 5
-    },
-    {
       "id": 1,
       "name": "Orrin",
       "game_name": "Orrin",
@@ -26,8 +11,38 @@
       "hidden": false,
       "online": true,
       "first_seen": "2026-09-22T15:25:33.000Z",
-      "last_seen": "2026-09-28T20:29:31.000Z",
+      "last_seen": "2026-09-28T20:29:46.001Z",
       "playtime_s": 23121,
+      "sessions": 5
+    },
+    {
+      "id": 2,
+      "name": "Tamsin",
+      "game_name": "Tamsin",
+      "name_override": null,
+      "user_id": "3166894b10215b06de7b8d7e076ef361",
+      "character_guid": "88168772303551B69281DD000C475927",
+      "platform": "pc",
+      "hidden": false,
+      "online": true,
+      "first_seen": "2026-09-22T16:15:17.000Z",
+      "last_seen": "2026-09-28T20:29:31.000Z",
+      "playtime_s": 35216,
+      "sessions": 6
+    },
+    {
+      "id": 5,
+      "name": "Wren",
+      "game_name": "Wren",
+      "name_override": null,
+      "user_id": "4c7b6abf06b39e2cc09b9dff9f211a21",
+      "character_guid": "5EA5DDC5039306DBB836C1171DAD240B",
+      "platform": "pc",
+      "hidden": false,
+      "online": true,
+      "first_seen": "2026-09-23T15:02:15.000Z",
+      "last_seen": "2026-09-28T20:28:46.000Z",
+      "playtime_s": 31645,
       "sessions": 5
     },
     {
@@ -41,24 +56,9 @@
       "hidden": false,
       "online": true,
       "first_seen": "2026-09-23T12:04:10.000Z",
-      "last_seen": "2026-09-28T20:29:16.000Z",
+      "last_seen": "2026-09-28T20:28:31.000Z",
       "playtime_s": 31800,
       "sessions": 4
-    },
-    {
-      "id": 2,
-      "name": "Tamsin",
-      "game_name": "Tamsin",
-      "name_override": null,
-      "user_id": "3166894b10215b06de7b8d7e076ef361",
-      "character_guid": "88168772303551B69281DD000C475927",
-      "platform": "pc",
-      "hidden": false,
-      "online": true,
-      "first_seen": "2026-09-22T16:15:17.000Z",
-      "last_seen": "2026-09-28T20:28:46.000Z",
-      "playtime_s": 35216,
-      "sessions": 6
     },
     {
       "id": 6,

@@ -11,9 +11,12 @@ export interface NavigationEntry {
 export const navigation: NavigationEntry[] = [
   { label: t.nav.today, href: '/', group: 'site' },
   { label: t.nav.players, href: '/players', group: 'site' },
+  { label: t.nav.progression, href: '/progression', group: 'site' },
+  { label: t.nav.journal, href: '/journal', group: 'site' },
+  { label: t.nav.ledger, href: '/ledger', group: 'site' },
+  { label: t.nav.map, href: '/map', group: 'site' },
   { label: t.nav.activity, href: '/activity', group: 'site' },
   { label: t.nav.chat, href: '/chat', group: 'site', needs: (features) => features.chat },
-  { label: 'Map', href: '/map', group: 'site' },
   { label: t.nav.world, href: '/world', group: 'site' },
   { label: t.nav.admin, href: '/admin', group: 'admin' }
 ];

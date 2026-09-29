@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { catalog } from '../../../src/lib/server/read/catalog';
+import { catalog, recipeKind, stationName } from '../../../src/lib/server/read/catalog';
 import { isLayerName, layerNames, mapLayer } from '../../../src/lib/server/read/layers';
 import { itemAsset, slotCount } from '../../../src/lib/server/read/ledger';
 import {
@@ -29,6 +29,61 @@ describe('the catalog', () => {
     expect(catalog.buildings.some((piece) => piece.xp.length > 0)).toBe(true);
     expect(catalog.buildings.some((piece) => piece.requirements.length > 0)).toBe(true);
     expect(catalog.skills.length).toBe(12);
+    expect(catalog.xp_for_level[0]).toBe(0);
+    expect(catalog.xp_for_level.length).toBeGreaterThan(90);
+  });
+
+  it('marks trades, test recipes and journal pages apart from crafting', () => {
+    expect(
+      recipeKind({ asset: 'DA_Recipe_Vendor_Mount', creates: [{ item: 'x', count: 1 }] })
+    ).toBe('vendor');
+    expect(
+      recipeKind({ asset: 'RECIPE_Vendor_Fellhollow_Cape', creates: [{ item: 'x', count: 1 }] })
+    ).toBe('vendor');
+    expect(
+      recipeKind({ asset: 'RECIPE_TEST_Process_OnlyFuel', creates: [{ item: 'x', count: 1 }] })
+    ).toBe('test');
+    expect(
+      recipeKind({ asset: 'RECIPE_Journal_Food_Redberry', creates: [{ item: null, count: 0 }] })
+    ).toBe('journal');
+    expect(
+      recipeKind({ asset: 'RECIPE_Process_BronzeBar', creates: [{ item: 'x', count: 2 }] })
+    ).toBe('craft');
+    const kinds = new Set(catalog.recipes.map((recipe) => recipe.kind));
+    expect([...kinds].sort()).toEqual(['craft', 'journal', 'test', 'vendor']);
+  });
+
+  it('names stations after their building piece, else their own id', () => {
+    expect(
+      stationName({
+        id: 'ToolsMeleeBench',
+        name: null,
+        building: 'BUILDPIECE_CraftingStation_ToolsMeleeWeapons'
+      })
+    ).toBe("Blacksmith's Bench");
+    expect(stationName({ id: 'GarouMasonsBench', name: null, building: null })).toBe(
+      'Garou Masons Bench'
+    );
+    expect(stationName({ id: 'FletchingBenchv2', name: null, building: null })).toBe(
+      'Fletching Bench'
+    );
+    expect(catalog.stations.every((station) => station.name.length > 0)).toBe(true);
+  });
+
+  it('spells out how the game unlocks recipes and pieces', () => {
+    const unlocks = [...catalog.recipes, ...catalog.buildings].flatMap((entry) =>
+      entry.unlock ? [entry.unlock] : []
+    );
+    expect(unlocks.length).toBeGreaterThan(100);
+    const steps = unlocks.flatMap((unlock) => unlock.steps);
+    expect(steps.some((step) => step.kind === 'pick_up' && step.items[0]?.name)).toBe(true);
+    expect(steps.some((step) => step.kind === 'interact' && step.actors[0]?.name)).toBe(true);
+    expect(
+      steps.some((step) => step.kind === 'skill_level' && step.level && step.skill?.name)
+    ).toBe(true);
+    expect(
+      unlocks.filter((unlock) => unlock.steps.length > 1).every((unlock) => unlock.operator)
+    ).toBe(true);
   });
 });
 
@@ -68,6 +123,7 @@ describe('saved slots and unlocks', () => {
       slot: 3,
       item: item.asset,
       name: item.name,
+      category: item.category,
       count: 12,
       at_least: false,
       durability: null
@@ -76,6 +132,7 @@ describe('saved slots and unlocks', () => {
       slot: 0,
       item: null,
       name: null,
+      category: null,
       count: 1,
       at_least: true,
       durability: 40

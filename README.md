@@ -16,42 +16,68 @@ Magpie gives a RuneScape: Dragonwilds dedicated server its own website: who is o
 
 **In development.** The journal works today; the project is still being built. The screenshots below use sample data. [Explore the demo tour](https://oddessentials.github.io/magpie/demo.html), or run `npm run dev:mock` after the development setup to browse the working app without a game server or running database. The admin area has no server actions in this version.
 
-## A look inside the journal
+<p align="center">
+  <img src="site/assets/today.jpg" alt="The Today page with the woodland panorama, four sample adventurers online, recent activity and the last world save" width="100%">
+</p>
 
-<img src="site/assets/today.jpg" alt="The Today page with the woodland panorama, four sample adventurers online, recent activity and the last world save" width="100%">
+## Only in Magpie
 
-**The day at a glance.** Who is exploring, what just happened, and when the server last saved. Live observations and saved progress carry their source and freshness. Original woodland artwork sets the scene; the Scenery button switches it off and remembers your preference.
+Everything here comes from the world save, the server's log and the game's own files, so it works on a rented server where the collector reads the save and the log over FTP, FTPS or SFTP. None of it needs the server mod.
 
-<img src="site/assets/player.jpg" alt="Juniper's sample profile: twelve skill levels and experience rings, playtime, sessions and recent deaths" width="100%">
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="site/assets/ledger.jpg" alt="The Ledger planning two bronze pickaxes and a furnace: copper and tin ore to gather, the crafting steps with their stations, and who already knows each recipe">
+      <h3>The Ledger</h3>
+      Pick items and building pieces, and the ledger works back to raw materials with the game's own recipes. It takes what the group already carries, lists the crafting steps in order with their stations and the experience they give, shows who has learned each recipe and how the rest unlock it, and adds up what the base's unfinished pieces still need. Plans share by link.
+    </td>
+    <td width="50%" valign="top">
+      <img src="site/assets/journal.jpg" alt="The Journal page: the group's progress through the game's journal and entries by category, each with who found it and how a missing one unlocks">
+      <h3>The journal, for the whole group</h3>
+      Every entry in the game's journal, who has written up each one and who was first, and how every missing entry unlocks: the creature to defeat, the item to pick up, the recipe to learn and what teaches it. A link shows where the map places it.
+    </td>
+  </tr>
+</table>
 
-**Every adventurer's progress.** Twelve skills, sessions, quests and journal discoveries, drawn from the server's own records. The skill rings show progress toward the next level.
+<img src="site/assets/map.jpg" alt="Magpie's original map with creature spawns, dungeons and shrines from the game build, and the players' last saved positions and bases" width="100%">
 
-<img src="site/assets/world.jpg" alt="The World page with saved conditions, weather by region, community totals and server details" width="100%">
+### The wilds, mapped
 
-**The world beyond your last visit.** See regional weather, world events and the day from the last save, alongside server history and the sources the collector can read.
+An original map of the 31 regions with their names and coastline, and layers read from the game build: resource nodes, fishing spots, creature spawns, chests, lore books, quest places, dungeons, shrines, teleporters and anima vents. Find where any item, creature or lore book lies, from the map itself or straight from the Ledger and the Journal. With **Player positions** turned on, the map also marks each character's last saved position, the bases and the day's deaths. The map is original vector cartography, with no extracted game artwork.
 
-<img src="site/assets/map.jpg" alt="Magpie's original interactive world map with named regions, fixed lodestones, boss spawn markers and a saved discovery highlighted in gold" width="100%">
+<img src="site/assets/progression.jpg" alt="The Progression page with a card for each adventurer, their skills in a table, quests by area and the bosses they have beaten" width="100%">
 
-**Find your way back.** Explore 31 regions, focus a named area, and zoom or pan between the main world and outer regions. Fixed landmarks come from the verified game build; gold rings show discoveries recorded in the last save. The map is original vector cartography, with no extracted game artwork.
+### The progression board
+
+Everyone's total level and twelve skills side by side, quests by area, and the journal entries, recipes and building pieces each has unlocked out of the game's totals. It also shows the bosses each has beaten and their latest unlock.
+
+<img src="site/assets/player.jpg" alt="Juniper's sample profile: skills, level history, this week's experience, a skill planner and the gear and inventory from the last save" width="100%">
+
+### Player pages
+
+Twelve skills levelled by the game's own experience curve, the level history of the last 30 days, and each skill's experience this week. The skill planner starts from the character's real experience and works out a target level: what it needs, how long at this week's pace, and which recipes and building pieces give that experience. Gear and inventory come from the last save, by name and category.
 
 <details>
-<summary>Explore the map on a phone</summary>
+<summary>On a phone</summary>
 
-<img src="site/assets/map-mobile.jpg" alt="The world map on a phone, with touch navigation, region selection, map layers and saved-discovery freshness" width="390">
+<img src="site/assets/map-mobile.jpg" alt="The world map on a phone, with touch navigation, region selection and map layers" width="390">
 
 </details>
 
 ## What the site shows
 
 - **Today.** The server's state, who is in the wilds and since when, the last save, the latest events, and the last day as a chart of players over time. Every live figure says where it came from and how old it is.
-- **Players.** Everyone who has joined since the site began keeping the log, with playtime, sessions and deaths. A player's page carries the twelve skills from the cached character state in the world save, levelled by the game's own experience curve, with total level, sessions, deaths, quests, journal entries and what the log has counted.
+- **Players.** Everyone who has joined since the site began keeping the log, with playtime, sessions and deaths. A player's page carries the twelve skills from the cached character state in the world save, levelled by the game's own experience curve, with total level, level history, this week's experience, a skill planner, gear and inventory, sessions, deaths, quests, journal entries and what the log has counted.
+- **Progression.** Every adventurer's skills, quests by area, journal, recipes, building pieces and bosses, side by side.
+- **Journal.** Every journal entry, who has found it and who was first, how the missing ones unlock and where the map places them.
+- **Ledger.** Crafting and building plans from the game's recipes, the group's saved stock and each character's unlocks, with the materials the base still needs.
 - **Activity.** Deaths, discoveries, level-ups, quests, crafts, builds, boss summons, base raids and dragon events, filtered by kind.
 - **Chat.** The server's chat, when the admin turns it on and the server mod is installed. Off by default.
-- **Map.** An interactive atlas with region boundaries and names, fixed lodestones and boss spawn locations, keyboard and touch navigation, and discoveries from the last save. Distant regions and spawns remain reachable through the view selector.
+- **Map.** An interactive atlas with region boundaries, names and the coastline, fixed lodestones and boss spawn locations, ten layers of places from the game build, a search, keyboard and touch navigation, and discoveries from the last save. Saved positions, bases and the day's deaths appear when the admin turns on Player positions. Distant regions and spawns remain reachable through the view selector.
 - **World.** The world as the server last saved it: day and time, difficulty, hardcore and friendly fire, regional weather, world events, building counts, discovered places, triggered world hooks and defeated bosses. A separate guide lists build-stamped region, lodestone and boss names. Discoveries show how many saved characters found each place; missing save fields stay unknown.
 - **Admin.** Settings, the collector's secret and health, the raw event stream, backups, jobs. No server actions in this version.
 
-Facts come from three places, and the site keeps them apart: the server's log (joins and leaves to the second, deaths, discoveries), the world save (skills, quests, journal, weather and the day, never live, always marked with the time of the save), and the optional [server mod](mod/README.md) (chat, level-ups, quests, crafting, building, the world's events, and a stop that saves the world first). Names of skills, quests, journal entries and items come from the game's own files, read from the dedicated server build and stamped with the Steam build they were read from.
+Facts come from three places, and the site keeps them apart: the server's log (joins and leaves to the second, deaths, discoveries), the world save (skills, quests, journal, weather and the day, never live, always marked with the time of the save), and the optional [server mod](mod/README.md) (chat, level-ups, quests, crafting, building, the world's events, and a stop that saves the world first). Names of skills, quests, journal entries and items, recipes, building pieces, stations, creatures and the places on the map come from the game's own files, read from the dedicated server build and stamped with the Steam build they were read from.
 
 **Automated validation.** On dedicated-server build 25501739 (1.0.0.6), the rig verifies all 51 hook registrations, captures their parameter names, types and enums, and checks save-and-quit. The production Lua runs against those schemas in CI. An isolated server also supplies real engine quest structs and typed objects to the Lua callbacks. Checked fixtures follow death, XP, quest, building and crafting events through the collector, signed ingest, duplicate replay and projection rebuilding. Requests and failed crafting attempts stay out of completion totals. These fixtures contain synthetic inputs, not recorded player actions; unknown shapes retain their fallbacks and unknown identifiers remain usable. [Validation evidence](https://github.com/oddessentials/magpie/issues/12) is stamped to this build.
 

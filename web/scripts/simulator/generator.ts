@@ -15,7 +15,31 @@ const xpCurve = readWorld<{ xpForLevel: number[] }>('xp').xpForLevel;
 const clockFacts = readWorld<{ realMinutesPerGameDay: number }>('clock');
 const buildFacts = readWorld<{ version: string; mappings: string }>('build');
 const changelist = buildFacts.mappings.match(/-(\d+)\+\+\+/)?.[1];
-const mapFacts = readWorld<{ lodestones: { id: string; position: number[] }[] }>('geography');
+const mapFacts = readWorld<{
+  lodestones: { id: string; position: number[] }[];
+  mapBounds: { min: number[]; max: number[]; priority: number }[];
+}>('geography');
+const mainBounds = mapFacts.mapBounds.find((entry) => entry.priority === 0)!;
+const layerFacts = readWorld<{
+  quests: { point: number[] }[];
+  spawns: { points: number[][] }[];
+}>('layers');
+const inMain = (point: number[]) =>
+  point[0]! > mainBounds.min[0]! + 40_000 &&
+  point[0]! < mainBounds.max[0]! - 40_000 &&
+  point[1]! > mainBounds.min[1]! + 40_000 &&
+  point[1]! < mainBounds.max[1]! - 40_000;
+const bySpot = (a: number[], b: number[]) => a[0]! - b[0]! || a[1]! - b[1]!;
+const questSpots = layerFacts.quests
+  .map((entry) => entry.point)
+  .filter(inMain)
+  .sort(bySpot);
+const dangerSpots = layerFacts.spawns
+  .flatMap((group) => group.points)
+  .filter(inMain)
+  .sort(bySpot);
+const spotOf = (index: number) =>
+  questSpots[Math.floor((((index * 37) % 100) / 100) * questSpots.length)]!;
 const journalFacts = readWorld<{
   entries: { id: string | null; asset: string; deleted: boolean; category: string }[];
 }>('journal').entries.filter((entry) => !entry.deleted);
@@ -29,7 +53,12 @@ const itemFacts = readWorld<{
   }[];
 }>('items').items.filter((item) => !item.deleted && item.id);
 const recipeFacts = readWorld<{
-  recipes: { id: string | null; asset: string; deleted: boolean }[];
+  recipes: {
+    id: string | null;
+    asset: string;
+    deleted: boolean;
+    creates: { item: string | null; count: number | null }[];
+  }[];
 }>('recipes').recipes.filter((recipe) => !recipe.deleted && recipe.id);
 const buildingFacts = readWorld<{
   buildings: {
@@ -42,9 +71,18 @@ const buildingFacts = readWorld<{
 const creatureFacts = readWorld<{ creatures: { id: string; boss: boolean; deleted: boolean }[] }>(
   'creatures'
 ).creatures.filter((creature) => !creature.deleted);
-const questFacts = readWorld<{ quests: { asset: string; deleted: boolean; hidden: boolean }[] }>(
-  'quests'
-).quests.filter((quest) => !quest.deleted && !quest.hidden);
+const questFacts = readWorld<{
+  quests: {
+    id: string | null;
+    asset: string;
+    deleted: boolean;
+    hidden: boolean;
+    main: boolean;
+    task: boolean;
+    region: string | null;
+  }[];
+}>('quests').quests.filter((quest) => !quest.deleted && !quest.hidden);
+const questIds = new Map(questFacts.map((quest) => [quest.asset, quest.id ?? quest.asset]));
 
 export interface SimulatedPlayer {
   userId: string;
@@ -133,11 +171,39 @@ const gearPool = every(
   11,
   12
 );
-const unlockedRecipePool = every(
-  [...recipeFacts].sort((a, b) => a.asset.localeCompare(b.asset)),
-  7,
-  120
-);
+const byAsset = <T extends { asset: string }>(a: T, b: T) => a.asset.localeCompare(b.asset);
+const everyday = recipeFacts
+  .filter(
+    (recipe) =>
+      /^RECIPE_/.test(recipe.asset) &&
+      !/Vendor|TEST|Journal/i.test(recipe.asset) &&
+      /Bronze|Copper|Tin|Iron|Plank|Leather|Thread|Cloth|Stone|Clay|Charcoal|Ash/.test(
+        recipe.asset
+      ) &&
+      recipe.creates.some((entry) => entry.item && (entry.count ?? 0) > 0)
+  )
+  .sort(byAsset);
+const basics = [
+  'RECIPE_Process_BronzeBar',
+  'RECIPE_Resources_Plank_Ash',
+  'RECIPE_Process_Leather_From_Hide',
+  'RECIPE_Process_Charcoal_From_Wood_Ash',
+  'RECIPE_Pickaxe_Bronze',
+  'RECIPE_Process_Ground_Stone',
+  'RECIPE_Process_Ground_Clay',
+  'RECIPE_Resources_Plank_Oak',
+  'RECIPE_Process_Cloth_Linen',
+  'RECIPE_Process_IronBar',
+  'RECIPE_Process_Altar_Air_Rune',
+  'RECIPE_Process_Altar_Fire_Rune'
+].flatMap((asset) => recipeFacts.filter((recipe) => recipe.asset === asset));
+const unlockedRecipePool = [
+  ...new Set([
+    ...basics,
+    ...every(everyday, 2, 70),
+    ...every([...recipeFacts].sort(byAsset), 7, 80)
+  ])
+];
 const piecePool = every(
   buildingFacts
     .filter((b) => b.requirements.length > 0)
@@ -172,10 +238,19 @@ const loginFlood = journalFacts
   .sort()
   .slice(0, 3);
 
-const questPool = questFacts
-  .map((quest) => quest.asset)
-  .sort()
-  .slice(0, 6);
+const questPool = [
+  ...questFacts
+    .filter((quest) => quest.main && quest.asset.startsWith('Quest_FTUE_Q'))
+    .map((quest) => quest.asset)
+    .sort()
+    .slice(0, 3),
+  ...questFacts
+    .filter((quest) => !quest.main && !quest.task && quest.region)
+    .map((quest) => quest.asset)
+    .sort()
+    .filter((_, index) => index % 4 === 0)
+    .slice(0, 5)
+];
 
 const buildingPool = [
   'BP_Building_Wall_Wood',
@@ -463,14 +538,15 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
       durability: 200 + Math.floor(unit(`${name}:gear:${slot}`) * 300)
     }));
     const drift = (axis: string) =>
-      (unit(`${name}:${axis}:${Math.floor(minute / 30)}`) - 0.5) * 16_000;
+      (unit(`${name}:${axis}:${Math.floor(minute / 30)}`) - 0.5) * 6_000;
+    const spot = spotOf(index);
     return {
       inventory,
       loadout,
       position: {
-        x: Math.round(home[0]! + (index - 2.5) * 5_000 + drift('x')),
-        y: Math.round(home[1]! + (index % 3) * 4_000 + drift('y')),
-        z: Math.round(home[2]!)
+        x: Math.round(spot[0]! + drift('x')),
+        y: Math.round(spot[1]! + drift('y')),
+        z: Math.round(spot[2]!)
       }
     };
   };
@@ -521,7 +597,13 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
       },
       bases: [
         { x: home[0]! + 2400, y: home[1]! - 1800, z: home[2]!, pieces: 36, unfinished: 2 },
-        { x: home[0]! - 9100, y: home[1]! + 6400, z: home[2]!, pieces: 2, unfinished: 0 }
+        {
+          x: spotOf(4)[0]! - 9100,
+          y: spotOf(4)[1]! + 6400,
+          z: spotOf(4)[2]!,
+          pieces: 2,
+          unfinished: 0
+        }
       ],
       requirements: (unfinishedPiece?.requirements ?? [])
         .filter((requirement) => requirement.item && itemIds.has(requirement.item))
@@ -558,8 +640,8 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
         playtime_s: Math.round(state.playtimeS),
         health: { current: state.dead ? 0 : 60 + Math.round(random() * 40), max: 100 },
         skills: skillIds.map((id, index) => ({ id, xp: state.xp[index] })),
-        quests: [...state.quests].map(([id, questState]) => ({
-          id,
+        quests: [...state.quests].map(([asset, questState]) => ({
+          id: questIds.get(asset) ?? asset,
           state: questState,
           objective: questState === 'Completed' ? null : 'Objective_1'
         })),
@@ -724,8 +806,9 @@ export function generateHistory(options: GeneratorOptions = {}): SimulatedHistor
       if (!tail && random() < deathChance) {
         state.dead = true;
         state.respawnAt = ms + 20_000;
-        const x = -120_000 + random() * 240_000;
-        const y = 100_000 + random() * 200_000;
+        const danger = dangerSpots[Math.floor(random() * dangerSpots.length)]!;
+        const x = danger[0]! + (random() - 0.5) * 1_500;
+        const y = danger[1]! + (random() - 0.5) * 1_500;
         push(ms, 'player.died', {
           ...identity(state),
           x: Math.round(x * 100) / 100,

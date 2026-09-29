@@ -2,16 +2,16 @@
   "collector": {
     "state": "active",
     "run": {
-      "run_id": "b135eb76-e936-4a8c-aeda-60c22306a1db",
+      "run_id": "60c22306-a1db-4095-a48a-f3f496129bab",
       "name": "magpie-collector",
       "version": "0.1.0",
       "os": "windows",
       "arch": "amd64",
       "started_at": "2026-09-25T10:47:20.000Z",
-      "last_seen_at": "2026-09-28T20:29:32.501Z",
+      "last_seen_at": "2026-09-28T20:29:47.501Z",
       "stopped_at": null,
       "lost_at": null,
-      "last_seq": 5335,
+      "last_seq": 5375,
       "layers": {
         "mod": true,
         "logs": true,
@@ -41,14 +41,14 @@
     "mod": "ok"
   },
   "ingest": {
-    "last_batch_at": "2026-09-28T20:29:32.501Z",
+    "last_batch_at": "2026-09-28T20:29:47.501Z",
     "batches_24h": 5,
-    "events_24h": 1873,
+    "events_24h": 1927,
     "duplicates_24h": 0,
     "invalid_24h": 0,
     "rejected_24h": 0
   },
-  "db": { "events_total": 7807, "size_mb": 31.5 },
+  "db": { "events_total": 7876, "size_mb": 31.5 },
   "backup": { "last_at": "2026-09-28T18:30:10.000Z", "size_mb": 2.7, "kept": 2 },
   "jobs": [
     {

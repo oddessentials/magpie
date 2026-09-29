@@ -51,6 +51,7 @@ export function totalLevelOf(skills: PlayerSkill[]): number | null {
 export interface CharacterExtras {
   unlocks: Schemas['PlayerUnlocks'] | null;
   history: PlayerCharacter['level_history'];
+  gains: PlayerCharacter['xp_gains'];
 }
 
 export function slotOf(slot: SavedSlot): Schemas['PlayerSlot'] {
@@ -59,6 +60,7 @@ export function slotOf(slot: SavedSlot): Schemas['PlayerSlot'] {
     slot: slot.slot,
     item: item?.asset ?? null,
     name: item?.name ?? null,
+    category: item?.category ?? null,
     count: slot.count ?? 1,
     at_least: slot.count === null,
     durability: slot.durability
@@ -67,7 +69,7 @@ export function slotOf(slot: SavedSlot): Schemas['PlayerSlot'] {
 
 export function characterOf(
   row: CharacterSaveRow | null | undefined,
-  extras: CharacterExtras = { unlocks: null, history: [] }
+  extras: CharacterExtras = { unlocks: null, history: [], gains: [] }
 ): PlayerCharacter | null {
   if (!row || row.goneAt) return null;
   const completed = row.quests.filter((quest) => isQuestComplete(quest.state)).length;
@@ -88,7 +90,8 @@ export function characterOf(
     inventory: row.inventory ? row.inventory.map(slotOf) : null,
     loadout: row.loadout ? row.loadout.map(slotOf) : null,
     unlocks: extras.unlocks,
-    level_history: extras.history
+    level_history: extras.history,
+    xp_gains: extras.gains
   };
 }
 

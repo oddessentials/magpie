@@ -129,6 +129,19 @@ function groups(layer: LayerName): Group[] {
   }
 }
 
+export const findable = {
+  item: new Set([
+    ...layerFacts.resources.flatMap((group) =>
+      group.items.map((entry) => entry.item).filter((item): item is string => Boolean(item))
+    ),
+    ...layerFacts.fishing.flatMap((group) => group.catches)
+  ]),
+  creature: new Set(layerFacts.spawns.map((group) => group.creature)),
+  lore: new Set(
+    layerFacts.lore.map((entry) => entry.journal).filter((asset): asset is string => Boolean(asset))
+  )
+};
+
 const cache = new Map<LayerName, MapLayer>();
 
 export function isLayerName(value: string): value is LayerName {

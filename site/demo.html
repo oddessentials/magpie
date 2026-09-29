@@ -6,13 +6,13 @@
     <title>Explore Magpie — demo tour</title>
     <meta
       name="description"
-      content="Explore the working Magpie journal through screenshots of Today, player progress, activity and the world, captured with sample data."
+      content="Explore the working Magpie journal through screenshots of Today, player pages, the Ledger, the Journal, Progression, the map, activity and the world, captured with sample data."
     />
     <link rel="canonical" href="https://oddessentials.github.io/magpie/demo.html" />
     <meta property="og:title" content="Explore Magpie — demo tour" />
     <meta
       property="og:description"
-      content="Explore the working Magpie journal through screenshots of Today, player progress, activity and the world, captured with sample data."
+      content="Explore the working Magpie journal through screenshots of Today, player pages, the Ledger, the Journal, Progression, the map, activity and the world, captured with sample data."
     />
     <meta property="og:url" content="https://oddessentials.github.io/magpie/demo.html" />
     <meta property="og:image" content="https://oddessentials.github.io/magpie/assets/social.jpg" />
@@ -62,16 +62,19 @@
         <p class="eyebrow">Inside the journal / In development</p>
         <h1>A glimpse into the wilds.</h1>
         <p class="lead">
-          Tour the working app through five views. These are screenshots from the demo with sample
+          Tour the working app through eight views. These are screenshots from the demo with sample
           data; run it locally to explore the live interface.
         </p>
       </header>
       <nav class="tour-controls" aria-label="Demo views">
         <a href="#today" data-view="today">Today</a>
         <a href="#player" data-view="player">Player</a>
+        <a href="#ledger" data-view="ledger">Ledger</a>
+        <a href="#journal" data-view="journal">Journal</a>
+        <a href="#progression" data-view="progression">Progression</a>
+        <a href="#map" data-view="map">Map</a>
         <a href="#activity" data-view="activity">Activity</a>
         <a href="#world" data-view="world">World</a>
-        <a href="#map" data-view="map">Map</a>
       </nav>
       <section id="today" class="tour-panel" aria-labelledby="today-title">
         <div class="panel-heading">
@@ -132,8 +135,147 @@
             />
           </picture>
           <figcaption>
-            A character's twelve skills and experience, sessions, deaths, quests and journal
-            entries. Save-derived progress is labelled with the time it was read.
+            A character's twelve skills and experience, level history, this week's experience, a
+            skill planner, gear and inventory, sessions and deaths. Save-derived progress is
+            labelled with the time it was read.
+          </figcaption>
+        </figure>
+      </section>
+      <section id="ledger" class="tour-panel" aria-labelledby="ledger-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Only in Magpie</p>
+            <h2 id="ledger-title">Plan the next build</h2>
+          </div>
+          <a class="desktop-image" href="assets/ledger.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/ledger-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <figure class="screenshot">
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/ledger-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/ledger.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="The Ledger planning two bronze pickaxes and a furnace: raw materials to gather, crafting steps with stations, and who already knows each recipe"
+            />
+          </picture>
+          <figcaption>
+            Pick items and building pieces. The ledger works back to raw materials with the game's
+            own recipes, uses what the group carries, shows who can craft each step and how the
+            others learn it, and adds up what the base still needs. Plans can be shared by link.
+          </figcaption>
+        </figure>
+      </section>
+      <section id="journal" class="tour-panel" aria-labelledby="journal-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Only in Magpie</p>
+            <h2 id="journal-title">Every page of the wilds</h2>
+          </div>
+          <a class="desktop-image" href="assets/journal.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/journal-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <figure class="screenshot">
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/journal-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/journal.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="The Journal page with the group's progress through the game's journal and entries grouped by category, with how the missing ones unlock"
+            />
+          </picture>
+          <figcaption>
+            Every entry of the game's journal, who has written it up and who was first, and how the
+            missing ones unlock, with a link to where the map places them.
+          </figcaption>
+        </figure>
+      </section>
+      <section id="progression" class="tour-panel" aria-labelledby="progression-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Only in Magpie</p>
+            <h2 id="progression-title">Everyone, side by side</h2>
+          </div>
+          <a class="desktop-image" href="assets/progression.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/progression-mobile.jpg"
+            >Open full-size image <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <figure class="screenshot">
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/progression-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/progression.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="The Progression page with a card for each adventurer, their skills in a table, quests by area and the bosses they have beaten"
+            />
+          </picture>
+          <figcaption>
+            Total level and skills, quests by area, journal, recipes and building pieces unlocked
+            out of the game's totals, the bosses each adventurer has beaten and their latest unlock.
+          </figcaption>
+        </figure>
+      </section>
+      <section class="tour-panel" id="map" aria-labelledby="map-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">The wilds, charted</p>
+            <h2 id="map-title">World map</h2>
+          </div>
+          <a href="assets/map.jpg">Open full-size map ↗</a>
+        </div>
+        <figure class="screenshot">
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcset="assets/map-mobile.jpg"
+              width="390"
+              height="1440"
+            />
+            <img
+              src="assets/map.jpg"
+              width="1440"
+              height="1080"
+              loading="lazy"
+              alt="An original map of Dragonwilds with creature spawns, dungeons and shrines from the game build, and the players' last saved positions and bases"
+            />
+          </picture>
+          <figcaption>
+            Region boundaries, landmarks and layers from the game build: resources, creatures,
+            chests, lore, quests, dungeons, shrines, teleporters and vents. Find where an item or
+            creature lies. With Player positions on, the last saved positions, bases and the day's
+            deaths.
           </figcaption>
         </figure>
       </section>
@@ -198,36 +340,6 @@
           <figcaption>
             The day and conditions from the last save, weather by region, historical totals and the
             sources available to the collector.
-          </figcaption>
-        </figure>
-      </section>
-      <section class="tour-panel" id="map" aria-labelledby="map-title">
-        <div class="panel-heading">
-          <div>
-            <p class="eyebrow">The wilds, charted</p>
-            <h2 id="map-title">World map</h2>
-          </div>
-          <a href="assets/map.jpg">Open full-size map ↗</a>
-        </div>
-        <figure class="screenshot">
-          <picture>
-            <source
-              media="(max-width: 600px)"
-              srcset="assets/map-mobile.jpg"
-              width="390"
-              height="1440"
-            />
-            <img
-              src="assets/map.jpg"
-              width="1440"
-              height="1080"
-              loading="lazy"
-              alt="An original map of Dragonwilds regions, lodestones and boss locations, with saved discoveries highlighted in gold"
-            />
-          </picture>
-          <figcaption>
-            Explore region boundaries and fixed landmarks. Saved discoveries keep the timestamp of
-            the save. Run the interactive demo to zoom, pan and select regions.
           </figcaption>
         </figure>
       </section>
