@@ -1,5 +1,37 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/atkinson-hyperlegible-next-variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Mono';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/atkinson-hyperlegible-mono-variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Grenze';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/grenze-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/kalam-400.woff2') format('woff2');
+}
+
 :root {
   color-scheme: dark;
   --color-surface: #101522;
@@ -176,7 +208,7 @@
 
   .wordmark {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 600;
     font-size: clamp(1.15rem, 0.8rem + 1.3vw, 1.5rem);
     letter-spacing: 0.02em;
     line-height: 1;
@@ -201,7 +233,7 @@
 
   .hero-title {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 600;
     font-size: clamp(2rem, 1rem + 4.4vw, 3.8rem);
     line-height: 1.02;
     color: var(--color-ink);
@@ -210,7 +242,7 @@
 
   .page-title {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 600;
     font-size: clamp(1.6rem, 1rem + 2.4vw, 2.5rem);
     line-height: 1.08;
     overflow-wrap: anywhere;
@@ -652,7 +684,7 @@
 
   .stat-value-lg {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 2rem;
     line-height: 1.05;
     color: var(--color-accent-bright);
@@ -812,7 +844,7 @@
     border-radius: 999px;
     background: var(--color-accent);
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 1.15rem;
     color: var(--color-accent-contrast);
   }
