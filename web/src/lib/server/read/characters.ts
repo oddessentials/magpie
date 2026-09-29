@@ -3,6 +3,7 @@ import type { Database } from '../db/client';
 import {
   characterSaves,
   characterUnlocks,
+  journalEntries,
   players,
   type CharacterSaveRow,
   type CharacterUnlockRow,
@@ -10,6 +11,7 @@ import {
 } from '../db/schema';
 import type { UnlockKind } from '../ingest/saves';
 import { displayName } from './common';
+import { journalById, journalOf } from './lookup';
 
 export interface SavedCharacter {
   player: PlayerRow;
@@ -60,4 +62,50 @@ export async function unlocksOf(
         inArray(characterUnlocks.kind, kinds)
       )
     );
+}
+
+export type JournalFinds = Map<string, Map<number, Date>>;
+
+export async function journalFinds(
+  db: Database,
+  characters: SavedCharacter[]
+): Promise<JournalFinds> {
+  const owners = new Map(characters.map(({ player, save }) => [save.characterGuid, player.id]));
+  const [saved, logged] = await Promise.all([
+    unlocksOf(db, [...owners.keys()], ['journal']),
+    db
+      .select({
+        playerId: journalEntries.playerId,
+        entry: journalEntries.entry,
+        at: journalEntries.at
+      })
+      .from(journalEntries)
+      .innerJoin(players, eq(players.id, journalEntries.playerId))
+      .where(eq(players.hidden, false))
+  ]);
+  const finds: JournalFinds = new Map();
+  const note = (asset: string, player: number, at: Date) => {
+    const byPlayer = finds.get(asset) ?? new Map<number, Date>();
+    const known = byPlayer.get(player);
+    if (!known || at < known) byPlayer.set(player, at);
+    finds.set(asset, byPlayer);
+  };
+  for (const row of saved) {
+    const player = owners.get(row.characterGuid);
+    const asset = journalById.get(row.id)?.asset;
+    if (player !== undefined && asset) note(asset, player, row.firstSeenAt);
+  }
+  for (const row of logged) {
+    const asset = journalOf(row.entry)?.asset;
+    if (asset) note(asset, row.playerId, row.at);
+  }
+  return finds;
+}
+
+export function journalCounts(finds: JournalFinds): Map<number, number> {
+  const counts = new Map<number, number>();
+  for (const byPlayer of finds.values()) {
+    for (const player of byPlayer.keys()) counts.set(player, (counts.get(player) ?? 0) + 1);
+  }
+  return counts;
 }

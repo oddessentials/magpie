@@ -9699,7 +9699,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 1, "at": "2026-09-22T15:30:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T15:25:34.000Z" }
     },
     {
       "id": "EXmy6kxv6b4PhbuyDEsycw",
@@ -9716,7 +9716,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 1, "at": "2026-09-22T15:30:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T15:25:34.100Z" }
     },
     {
       "id": "Pp5z8kUaUiKh_7OVbOeKUg",
@@ -9733,7 +9733,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 1, "at": "2026-09-22T15:30:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T15:25:34.200Z" }
     },
     {
       "id": "8m4ubUpm9L6QKGyHUoohSA",
@@ -11467,7 +11467,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5],
-      "first_found": { "player": 1, "at": "2026-09-22T15:48:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T15:48:01.000Z" }
     },
     {
       "id": "8Q1T507ZhfRic1GiVFw1Mg",
@@ -11858,7 +11858,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 4, "at": "2026-09-23T13:13:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T13:11:01.000Z" }
     },
     {
       "id": "D9k9XUH0KQ7LrS2OtNLyFg",
@@ -12249,7 +12249,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 5, "at": "2026-09-24T15:06:01.005Z" }
+      "first_found": { "player": 5, "at": "2026-09-24T15:04:01.000Z" }
     },
     {
       "id": "l3ijuEGM8fodjr-QqWmX_g",
@@ -12640,7 +12640,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 2, "at": "2026-09-23T16:55:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-23T16:53:01.000Z" }
     },
     {
       "id": "ofcqGEycceS6R_mpicNlDg",
@@ -13031,7 +13031,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5, 6],
-      "first_found": { "player": 4, "at": "2026-09-23T14:25:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T14:23:01.000Z" }
     },
     {
       "id": "lCMvdE0fkMakPV6x9nGSrQ",
@@ -13422,7 +13422,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 2, "at": "2026-09-22T16:24:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-22T16:24:01.000Z" }
     },
     {
       "id": "vf3j9kLcThAPlM2N4t9z2g",
@@ -13813,7 +13813,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5, 6],
-      "first_found": { "player": 4, "at": "2026-09-23T15:13:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T15:13:01.000Z" }
     },
     {
       "id": "Ih5d9UhWe1lmHrOP0cZEgA",
@@ -14204,7 +14204,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 1, "at": "2026-09-22T16:12:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T16:08:01.000Z" }
     },
     {
       "id": "QyatqEOEjRQrzPuLW1LQpA",
@@ -14595,7 +14595,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5, 6],
-      "first_found": { "player": 2, "at": "2026-09-22T17:24:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-22T17:24:01.000Z" }
     },
     {
       "id": "GjrZbEJ3Drv1tmewEwxsjw",
@@ -14986,7 +14986,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5, 6],
-      "first_found": { "player": 2, "at": "2026-09-22T16:42:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-22T16:42:01.000Z" }
     },
     {
       "id": "isGI60eH9tjdysiRmq6SpQ",
@@ -15377,7 +15377,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 5, "at": "2026-09-23T15:43:01.005Z" }
+      "first_found": { "player": 5, "at": "2026-09-23T15:39:01.000Z" }
     },
     {
       "id": "3GNfrEVR0OquWv6eZfhErg",
@@ -15768,7 +15768,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 4, "at": "2026-09-23T14:31:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T14:31:01.000Z" }
     },
     {
       "id": "qvg9d09ezaDWHIO93UUbvA",
@@ -16159,7 +16159,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5, 6],
-      "first_found": { "player": 4, "at": "2026-09-23T12:37:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T12:35:01.000Z" }
     },
     {
       "id": "pmRBnUBET_rf3lCc964f0A",
@@ -16550,7 +16550,7 @@
       "find": "item:ITEM_Resources_Flax",
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 2, "at": "2026-09-22T16:36:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-22T16:36:01.000Z" }
     },
     {
       "id": "BUNPTUYg-btEDH6k-WHUtg",
@@ -16941,7 +16941,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5, 6],
-      "first_found": { "player": 1, "at": "2026-09-22T15:42:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T15:42:01.000Z" }
     },
     {
       "id": "SVpljkr9gz2UQeCHBVr99A",
@@ -17332,7 +17332,7 @@
       "find": "item:ITEM_Resources_TinOre",
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 2, "at": "2026-09-22T17:12:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-22T17:10:01.000Z" }
     },
     {
       "id": "YVmLUUFH1N_gO-2F3tN-LQ",
@@ -17723,7 +17723,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 2, "at": "2026-09-22T17:00:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-22T17:00:01.000Z" }
     },
     {
       "id": "JViOrU8jUOvRc_q6jxM66g",
@@ -18114,7 +18114,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5],
-      "first_found": { "player": 4, "at": "2026-09-23T12:49:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T12:49:01.000Z" }
     },
     {
       "id": "4gi3rkSXgjGtlSOsmedsWA",
@@ -18505,7 +18505,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5],
-      "first_found": { "player": 2, "at": "2026-09-23T16:07:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-23T16:03:01.000Z" }
     },
     {
       "id": "KQlLJEOh12eDNxC2-s89Qw",
@@ -18896,7 +18896,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 1, "at": "2026-09-22T15:54:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T15:52:01.000Z" }
     },
     {
       "id": "uma-dEenjumqXi-xU_DLiw",
@@ -19287,7 +19287,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 2, "at": "2026-09-23T16:43:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-23T16:39:01.000Z" }
     },
     {
       "id": "kQhrFEXIVcMxpkaC3TS0-A",
@@ -19678,7 +19678,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 2, "at": "2026-09-22T16:48:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-22T16:46:01.000Z" }
     },
     {
       "id": "nkv6Kk6hnOy3tjGh1WdX-Q",
@@ -20069,7 +20069,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5],
-      "first_found": { "player": 2, "at": "2026-09-22T16:18:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-22T16:16:01.000Z" }
     },
     {
       "id": "ARYCWU55sUEG9kC-Rt4T_w",
@@ -20460,7 +20460,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 2, "at": "2026-09-24T15:54:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-24T15:54:01.000Z" }
     },
     {
       "id": "PuTxJUsFaC2_BRqqIwYyMg",
@@ -20851,7 +20851,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5, 6],
-      "first_found": { "player": 2, "at": "2026-09-24T15:24:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-24T15:20:01.000Z" }
     },
     {
       "id": "8eoPLEqN96Kk6-624KJDnQ",
@@ -21242,7 +21242,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 1, "at": "2026-09-22T16:18:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T16:18:01.000Z" }
     },
     {
       "id": "gUHn_03gYYn4F6ujuzdbJw",
@@ -21633,7 +21633,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 4, "at": "2026-09-23T13:43:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T13:39:01.000Z" }
     },
     {
       "id": "i0ptOk39YmAQsVWtWl8ZBQ",
@@ -22024,7 +22024,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5],
-      "first_found": { "player": 4, "at": "2026-09-23T12:31:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T12:31:01.000Z" }
     },
     {
       "id": "JBUJ6Ua17SNJiWC9xWtx4A",
@@ -22415,7 +22415,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 1, "at": "2026-09-22T16:24:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T16:24:01.000Z" }
     },
     {
       "id": "CzwdnEf_xUsMxg6kOQiPpA",
@@ -22806,7 +22806,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5],
-      "first_found": { "player": 1, "at": "2026-09-22T16:42:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T16:42:01.000Z" }
     },
     {
       "id": "JBoQQEtTnL8PcWCS_0Yx6Q",
@@ -23197,7 +23197,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 1, "at": "2026-09-22T15:36:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T15:34:01.000Z" }
     },
     {
       "id": "KGp7jEaHPxCEN5SLb733eg",
@@ -23588,7 +23588,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 4, "at": "2026-09-23T13:49:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T13:47:01.000Z" }
     },
     {
       "id": "jUT9kU62fTIvnC2F4VMkPA",
@@ -23979,7 +23979,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 1, "at": "2026-09-22T16:48:01.005Z" }
+      "first_found": { "player": 1, "at": "2026-09-22T16:44:01.000Z" }
     },
     {
       "id": "yOaaVEUfu3GSlj6JMd6vww",
@@ -24370,7 +24370,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5, 6],
-      "first_found": { "player": 4, "at": "2026-09-23T13:19:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T13:19:01.000Z" }
     },
     {
       "id": "IUh4QknJ6-SHJqO-57RY4g",
@@ -24761,7 +24761,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5],
-      "first_found": { "player": 4, "at": "2026-09-23T14:31:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T14:27:01.000Z" }
     },
     {
       "id": "b1L4I0j2RwX2dkmwWhtDNw",
@@ -25152,7 +25152,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 4, "at": "2026-09-23T14:49:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T14:45:01.000Z" }
     },
     {
       "id": "eo8S504vNKbD5IGKLLchDw",
@@ -25543,7 +25543,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 4, 5],
-      "first_found": { "player": 2, "at": "2026-09-23T15:49:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-23T15:49:01.000Z" }
     },
     {
       "id": "378cYUFBAM7KXnKjPFRbig",
@@ -25934,7 +25934,7 @@
       "find": null,
       "regions": [],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 2, "at": "2026-09-22T16:24:01.005Z" }
+      "first_found": { "player": 2, "at": "2026-09-22T16:20:01.000Z" }
     },
     {
       "id": "NB8lZUFWmV5WUPeC4R0--w",
@@ -26325,7 +26325,7 @@
       "find": "creature:BP_AI_SpectralSkeletalHoplite_Data",
       "regions": ["Fellhollow"],
       "found_by": [1, 2, 3, 4, 5],
-      "first_found": { "player": 4, "at": "2026-09-23T12:55:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T12:55:01.000Z" }
     },
     {
       "id": "MZGkM0r5w76ASWeMYscFng",
@@ -26716,7 +26716,7 @@
       "find": "creature:BP_AI_TokXil_Data",
       "regions": [],
       "found_by": [1, 2, 3, 4, 5, 6],
-      "first_found": { "player": 4, "at": "2026-09-23T13:07:01.005Z" }
+      "first_found": { "player": 4, "at": "2026-09-23T13:07:01.000Z" }
     },
     {
       "id": "S8rj5URPii4LqhqreAS0rA",

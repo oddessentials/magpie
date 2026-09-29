@@ -1054,7 +1054,7 @@ paths:
 components:
   headers:
     CacheControl:
-      description: public, max-age=15 on public GET responses.
+      description: public, max-age=15 on public GET responses, and public, max-age=3600 on the game facts that only change with the site's build (catalog, map and map layers).
       schema:
         type: string
     ETag:

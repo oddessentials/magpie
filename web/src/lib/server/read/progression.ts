@@ -1,6 +1,6 @@
 import { isQuestComplete } from '$lib/quests';
 import type { Database } from '../db/client';
-import { savedCharacters, unlocksOf } from './characters';
+import { journalCounts, journalFinds, savedCharacters, unlocksOf } from './characters';
 import { playerRef, type Schemas } from './common';
 import { skillFacts } from './facts';
 import {
@@ -54,6 +54,7 @@ export async function getProgression(db: Database): Promise<Progression> {
       countedKinds
     )
   ).filter(isKnownUnlock);
+  const journal = journalCounts(await journalFinds(db, characters));
   const byCharacter = new Map<string, typeof rows>();
   for (const row of rows) {
     const list = byCharacter.get(row.characterGuid);
@@ -125,7 +126,7 @@ export async function getProgression(db: Database): Promise<Progression> {
           main_completed: completed.filter((quest) => questOf(quest.id)?.main === true).length,
           areas: areas.map((area) => ({ area, completed: doneByArea.get(area) ?? 0 }))
         },
-        journal: count('journal'),
+        journal: journal.get(player.id) ?? 0,
         recipes: count('recipe'),
         buildings: count('building'),
         creatures: count('creature'),

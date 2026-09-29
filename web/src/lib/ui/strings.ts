@@ -263,7 +263,6 @@ export const t = {
     levelsGained: (n: number) =>
       n === 1 ? '1 level gained in this window.' : `${n} levels gained in this window.`,
     gainsTitle: 'Experience this week',
-    gainsNote: 'what each skill gained in the last 7 days, and today, from the saves.',
     gainsEmpty: 'No experience gained this week.',
     today: (xp: string) => `${xp} today`,
     plannerTitle: 'Skill planner',
@@ -298,8 +297,7 @@ export const t = {
     creatureKinds: 'Creatures slain',
     deathsTitle: 'Recent deaths',
     deathsEmpty: 'never died. yet.',
-    deathSource: { log: 'from the log', mod: 'from the server mod' },
-    unit: 'sessions'
+    deathSource: { log: 'from the log', mod: 'from the server mod' }
   },
   progression: {
     title: 'Progression',
@@ -344,7 +342,6 @@ export const t = {
     search: 'Add to the plan',
     searchPlaceholder: 'Bronze bar, oak wall, runes…',
     results: 'Matches',
-    add: 'Add',
     item: 'Item',
     piece: 'Building piece',
     remove: (name: string) => `Remove ${name}`,
@@ -415,7 +412,6 @@ export const t = {
     searchPlaceholder: 'Ash logs, Imaru, lore…',
     other: 'Other',
     firstFound: (name: string) => `first found by ${name}`,
-    notFound: 'Not found yet',
     notFoundBy: (name: string) => `${name} has not found it`,
     hints: {
       RecipeUnlocked: 'Learn its recipe',
@@ -426,7 +422,6 @@ export const t = {
       lore: 'Read it where it lies in the wilds',
       unknown: 'The game does not say how this one unlocks'
     },
-    either: 'either',
     also: 'and',
     orElse: 'or',
     done: 'done',
@@ -713,7 +708,7 @@ export const t = {
         }
       },
       retentionNote:
-        'Players, sessions, deaths, discoveries, level-ups and chat stay whatever you pick.',
+        'Players, sessions, deaths, discoveries, level-ups and chat stay whatever you pick. Each character’s skill history keeps 90 days.',
       retentionRange: (label: string, unit: string, max: number) =>
         `${label}: a whole number of ${unit} from 1 to ${max}.`,
       nameLength: 'The site name must be 1 to 60 characters.',

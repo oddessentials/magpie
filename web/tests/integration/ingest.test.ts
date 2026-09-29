@@ -407,13 +407,62 @@ describe('POST /api/ingest', () => {
     for (const [index, entry] of progression.players.entries()) {
       expect(entry.recipes).toBe(ledger.players[index]!.recipes.length);
       expect(entry.skills).toHaveLength(12);
-      expect(entry.journal).toBe(journal.players[index]!.found);
+      expect(entry.journal).toBe(
+        journal.players.find((candidate) => candidate.player.id === entry.player.id)!.found
+      );
     }
     expect(progression.players.some((entry) => entry.bosses.length > 0)).toBe(true);
     expect(progression.players.some((entry) => entry.latest !== null)).toBe(true);
     for (const body of [ledger, journal, progression]) {
       expect(JSON.stringify(body)).not.toMatch(/[0-9a-f]{32}/i);
     }
+  });
+
+  it('counts journal entries the log recorded, for players with and without a save', async () => {
+    const db = getDb();
+    const before = await getJournal(db);
+    const unfound = before.entries.find((entry) => entry.found_by.length === 0)!;
+    const saved = before.players[0]!;
+    const [row] = await db.select().from(players).where(eq(players.id, saved.player.id));
+    const at = new Date(Date.now() - 5 * 60_000);
+    const logged = (userId: string | null, name: string, seq: number) =>
+      envelope(
+        history,
+        'journal.unlocked',
+        { user_id: userId, character_guid: null, name, entry: unfound.asset.toLowerCase() },
+        at,
+        seq
+      );
+    expect((await send(logged(row!.userId, row!.name, 905_000))).invalid).toBe(0);
+    await send(
+      envelope(
+        history,
+        'player.joined',
+        {
+          user_id: 'magpie-newcomer',
+          character_guid: null,
+          name: 'Rook',
+          platform: 'PC',
+          source: 'log'
+        },
+        at,
+        905_001
+      )
+    );
+    await send(logged('magpie-newcomer', 'Rook', 905_002));
+    const after = await getJournal(db);
+    const rook = after.players.find((entry) => entry.player.name === 'Rook')!;
+    expect(rook.found).toBe(1);
+    const entry = after.entries.find((candidate) => candidate.asset === unfound.asset)!;
+    expect(entry.found_by).toEqual([saved.player.id, rook.player.id].sort((a, b) => a - b));
+    expect(entry.first_found?.at).toBe(at.toISOString());
+    const now = after.players.find((candidate) => candidate.player.id === saved.player.id)!;
+    expect(now.found).toBe(saved.found + 1);
+    const progression = await getProgression(db);
+    expect(
+      progression.players.find((candidate) => candidate.player.id === saved.player.id)!.journal
+    ).toBe(saved.found + 1);
+    expect(progression.players.some((candidate) => candidate.player.name === 'Rook')).toBe(false);
   });
 
   it('shows positions, bases and deaths only when the site allows it', async () => {

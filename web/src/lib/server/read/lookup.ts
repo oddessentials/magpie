@@ -95,6 +95,12 @@ export function actorName(actor: string): string {
   );
 }
 
+const journalByAsset = new Map(liveJournal.map((entry) => [entry.asset.toLowerCase(), entry]));
+
+export function journalOf(asset: string) {
+  return journalByAsset.get(asset.trim().toLowerCase()) ?? null;
+}
+
 export function questOf(key: string) {
   return questsById.get(key) ?? questsByAsset.get(key) ?? null;
 }
