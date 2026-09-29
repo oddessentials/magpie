@@ -8,8 +8,6 @@ import subprocess
 import sys
 import time
 
-import launch
-
 ROOT = os.environ.get('MAGPIE_RIG', r'D:\dragonwilds-rig')
 SERVER = os.path.join(ROOT, 'server')
 EXE = os.path.join(SERVER, 'RSDragonwilds', 'Binaries', 'Win64', 'RSDragonwildsServer-Win64-Shipping.exe')
@@ -74,15 +72,47 @@ def wait_exit(handle, seconds):
     return None
 
 
-def main():
+def arguments(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--minutes', type=float, default=2)
+    duration = parser.add_mutually_exclusive_group()
+    duration.add_argument('--minutes', type=float, default=2)
+    duration.add_argument('--untimed', action='store_true')
     parser.add_argument('--name', default=None)
     parser.add_argument('--stop-wait', type=int, default=90)
-    parser.add_argument('--stop', default='ctrlc', choices=['ctrlc', 'ctrlbreak', 'close', 'kill', 'save'])
+    parser.add_argument('--stop', default=None, choices=['ctrlc', 'ctrlbreak', 'close', 'kill', 'save'])
     parser.add_argument('--ue4ss', default=None)
+    parser.add_argument('--preflight', action='store_true')
+    parser.add_argument('--request-stop', metavar='SESSION')
     parser.add_argument('args', nargs='*')
-    opts = parser.parse_args()
+    opts = parser.parse_args(argv)
+    if opts.request_stop and (opts.untimed or opts.preflight or opts.name or opts.ue4ss or opts.stop or opts.args):
+        parser.error('--request-stop is a separate operation')
+    if opts.preflight and not opts.untimed:
+        parser.error('--preflight requires --untimed')
+    if opts.untimed and (not opts.ue4ss or opts.stop not in (None, 'save')):
+        parser.error('--untimed requires --ue4ss and uses only save and quit')
+    return opts
+
+
+def main(argv=None):
+    global launch
+    opts = arguments(argv)
+    if opts.request_stop or opts.untimed:
+        import json
+        from pathlib import Path
+        import recording
+        if opts.request_stop:
+            recording.request_stop(ROOT, opts.request_stop)
+            print('Save and quit requested; recording continues until the server exits.', flush=True)
+            return 0
+        repo = Path(__file__).resolve().parents[2]
+        if opts.preflight:
+            print(json.dumps(recording.preflight(ROOT, opts.ue4ss, repo), indent=2))
+            return 0
+        name = opts.name or datetime.datetime.now().strftime('%Y-%m-%d-%H%M%S')
+        return recording.run(ROOT, opts.ue4ss, name, opts.args, repo)
+    import launch
+    opts.stop = opts.stop or 'ctrlc'
     stamp = datetime.datetime.now().strftime('%Y-%m-%d-%H%M%S')
     session = os.path.join(ROOT, 'sessions', opts.name or stamp)
     os.makedirs(session, exist_ok=True)
@@ -168,4 +198,5 @@ def main():
     print('session recorded in', session, flush=True)
 
 
-main()
+if __name__ == '__main__':
+    sys.exit(main())
