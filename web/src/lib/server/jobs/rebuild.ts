@@ -56,8 +56,7 @@ export async function rebuildProjections(
       offlineSince: null,
       stoppingAt: null,
       presenceAt: null,
-      saveAt: null,
-      saveDay: null
+      saveAt: null
     });
     await tx.update(events).set({ playerId: null, quiet: false });
     const ctx = createContext(tx, new Date(), true);

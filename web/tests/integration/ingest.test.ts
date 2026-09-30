@@ -691,6 +691,30 @@ describe('saved clock and discoveries', () => {
       discoveries: null
     });
   });
+
+  it('keeps the day and clock of a decoded save that the log reported a moment later', async () => {
+    const written = new Date(Date.now() + 120_000);
+    const logged = new Date(written.getTime() + 1);
+    await send(
+      envelope(history, 'server.saved', { slot: 'magpie-test', ok: true }, logged, 902_010)
+    );
+    const data = {
+      saved_at: written.toISOString(),
+      world_guid: history.server.world_guid,
+      clock_seconds: 2671.59
+    };
+    expect((await send(envelope(history, 'save.world', data, written, 902_011))).invalid).toBe(0);
+    const { save } = await computeStatus(getDb());
+    expect(save.saved_at).toBe(logged.toISOString());
+    expect(save.day).toBe(1);
+    expect(save.clock).toMatchObject({
+      seconds: 2671.59,
+      observed_at: written.toISOString(),
+      stale_after_s: 600
+    });
+    expect(save.clock!.rate).toBeGreaterThanOrEqual(0.9);
+    expect(save.clock!.rate).toBeLessThanOrEqual(1);
+  });
 });
 
 describe('rebuilding from the event log', () => {

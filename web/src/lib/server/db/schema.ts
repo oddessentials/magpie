@@ -101,7 +101,6 @@ export const serverState = pgTable('server_state', {
   cpuPercent: doublePrecision('cpu_percent'),
   metricsAt: utc('metrics_at'),
   saveAt: utc('save_at'),
-  saveDay: integer('save_day'),
   updatedAt: utc('updated_at').notNull().defaultNow()
 });
 
@@ -355,6 +354,7 @@ export const worldSaves = pgTable('world_saves', {
   worldName: text('world_name'),
   day: integer('day'),
   timeOfDay: doublePrecision('time_of_day'),
+  clockSeconds: doublePrecision('clock_seconds'),
   weather: jsonb('weather').$type<SavedWeather[]>().notNull(),
   events: jsonb('events').$type<SavedWorldEvent[]>().notNull(),
   hardcore: boolean('hardcore'),

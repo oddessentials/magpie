@@ -1,6 +1,6 @@
-import { and, asc, desc, eq, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, isNotNull, sql } from 'drizzle-orm';
 import type { Database } from '../db/client';
-import { collectorRuns, players, sessions, type CollectorRunRow } from '../db/schema';
+import { collectorRuns, players, sessions, worldSaves, type CollectorRunRow } from '../db/schema';
 import { displayName, iso, platformName, readServerState, type Schemas } from './common';
 
 export type Status = Schemas['Status'];
@@ -9,6 +9,84 @@ export type OnlinePlayer = Schemas['OnlinePlayer'];
 export type CollectorState = Schemas['StatusCollector']['state'];
 
 export const collectorLostAfterSeconds = 180;
+export const staleFloorSeconds = 600;
+export const staleCeilingSeconds = 3600;
+export const rateWindowSeconds = 3600;
+export const rateBaselineSeconds = 600;
+
+export interface ClockSave {
+  savedAt: Date;
+  worldGuid: string;
+  day: number | null;
+  clockSeconds: number | null;
+}
+
+const clockColumns = {
+  savedAt: worldSaves.savedAt,
+  worldGuid: worldSaves.worldGuid,
+  day: worldSaves.day,
+  clockSeconds: worldSaves.clockSeconds
+};
+
+async function latestSaves(db: Database): Promise<ClockSave[]> {
+  return db.select(clockColumns).from(worldSaves).orderBy(desc(worldSaves.savedAt)).limit(3);
+}
+
+async function baselineSave(
+  db: Database,
+  newest: ClockSave,
+  from: Date
+): Promise<ClockSave | null> {
+  const rows = await db
+    .select(clockColumns)
+    .from(worldSaves)
+    .where(
+      and(
+        eq(worldSaves.worldGuid, newest.worldGuid),
+        gte(worldSaves.savedAt, from),
+        isNotNull(worldSaves.clockSeconds)
+      )
+    )
+    .orderBy(asc(worldSaves.savedAt))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+export function staleAfterOf(saves: ClockSave[]): number {
+  const same = saves.filter((save) => save.worldGuid === saves[0]?.worldGuid);
+  const gaps = same
+    .slice(1)
+    .map((save, index) => (same[index]!.savedAt.getTime() - save.savedAt.getTime()) / 1000);
+  const doubled = Math.round(2 * Math.max(0, ...gaps));
+  return Math.min(staleCeilingSeconds, Math.max(staleFloorSeconds, doubled));
+}
+
+export function rateOf(newest: ClockSave, baseline: ClockSave | null): number {
+  if (!baseline || newest.clockSeconds === null || baseline.clockSeconds === null) return 1;
+  const elapsed = (newest.savedAt.getTime() - baseline.savedAt.getTime()) / 1000;
+  if (elapsed < rateBaselineSeconds) return 1;
+  const rate = Math.round(((newest.clockSeconds - baseline.clockSeconds) / elapsed) * 1e6) / 1e6;
+  return rate >= 0.9 && rate <= 1 ? rate : 1;
+}
+
+async function clockOf(
+  db: Database,
+  saves: ClockSave[],
+  onlineSince: Date | null
+): Promise<Schemas['StatusClock'] | null> {
+  const newest = saves[0];
+  if (!newest || newest.clockSeconds === null) return null;
+  const earliest = newest.savedAt.getTime() - rateWindowSeconds * 1000;
+  const baseline = onlineSince
+    ? await baselineSave(db, newest, new Date(Math.max(onlineSince.getTime(), earliest)))
+    : null;
+  return {
+    seconds: newest.clockSeconds,
+    observed_at: newest.savedAt.toISOString(),
+    rate: rateOf(newest, baseline),
+    stale_after_s: staleAfterOf(saves)
+  };
+}
 
 export function remoteObservationOf(value: unknown): Schemas['RemoteObservation'] | null {
   if (!value || typeof value !== 'object') return null;
@@ -66,10 +144,11 @@ export async function onlineCount(db: Database): Promise<number> {
 }
 
 export async function computeStatus(db: Database, now = new Date()): Promise<Status> {
-  const [state, run, online] = await Promise.all([
+  const [state, run, online, saves] = await Promise.all([
     readServerState(db),
     latestRun(db),
-    onlineCount(db)
+    onlineCount(db),
+    latestSaves(db)
   ]);
   const collector = collectorStateOf(run, now);
   let current: Status['state'] = 'unknown';
@@ -88,6 +167,7 @@ export async function computeStatus(db: Database, now = new Date()): Promise<Sta
     }
   }
   const live = current === 'online';
+  const clock = await clockOf(db, saves, live ? (state?.onlineSince ?? null) : null);
   return {
     state: current,
     since: iso(since),
@@ -107,7 +187,7 @@ export async function computeStatus(db: Database, now = new Date()): Promise<Sta
       cpu_percent: live ? (state?.cpuPercent ?? null) : null,
       measured_at: live ? iso(state?.metricsAt) : null
     },
-    save: { saved_at: iso(state?.saveAt), day: state?.saveDay ?? null },
+    save: { saved_at: iso(state?.saveAt), day: saves[0]?.day ?? null, clock },
     collector: {
       remote: remoteObservationOf(run?.heartbeat?.remote ?? run?.layers?.remote),
       state: collector,

@@ -1780,6 +1780,12 @@ export interface components {
       stopping: boolean;
       updated_at: string;
     };
+    StatusClock: {
+      observed_at: string;
+      rate: number;
+      seconds: number;
+      stale_after_s: number;
+    };
     StatusCollector: {
       last_seen_at: string | null;
       layers: components['schemas']['CollectorLayersSummary'] | null;
@@ -1811,6 +1817,7 @@ export interface components {
       uptime_s: number | null;
     };
     StatusSave: {
+      clock: components['schemas']['StatusClock'] | null;
       day: number | null;
       saved_at: string | null;
     };
@@ -2124,6 +2131,7 @@ export type SiteFeatures = components['schemas']['SiteFeatures'];
 export type SkillLevelUpData = components['schemas']['SkillLevelUpData'];
 export type SkillLevelUpEvent = components['schemas']['SkillLevelUpEvent'];
 export type Status = components['schemas']['Status'];
+export type StatusClock = components['schemas']['StatusClock'];
 export type StatusCollector = components['schemas']['StatusCollector'];
 export type StatusHistory = components['schemas']['StatusHistory'];
 export type StatusHistoryPoint = components['schemas']['StatusHistoryPoint'];

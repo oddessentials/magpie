@@ -55,6 +55,7 @@ export async function applySaveWorld(
       discoveries: data.discoveries ?? null,
       day,
       timeOfDay: data.time_of_day ?? null,
+      clockSeconds: data.clock_seconds ?? null,
       weather: (data.weather ?? []).map((entry) => ({
         region: entry.region,
         type: entry.type,
@@ -76,12 +77,11 @@ export async function applySaveWorld(
   if (!state.saveAt || savedAt >= state.saveAt) {
     await updateServerState(ctx, {
       saveAt: savedAt,
-      saveDay: day,
       worldGuid: data.world_guid,
       worldName: text(data.world_name) ?? state.worldName
     });
-    ctx.effects.statusChanged = true;
   }
+  ctx.effects.statusChanged = true;
   return { playerId: null, quiet: true };
 }
 

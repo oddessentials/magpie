@@ -1381,14 +1381,49 @@ components:
             - string
             - 'null'
           format: date-time
+          description: When the server last saved the world, from its log or from the save file, whichever is newer.
         day:
           type:
             - integer
             - 'null'
           minimum: 0
+          description: The in-game day of the newest save the collector read, counted from 0 as the game counts it.
+        clock:
+          anyOf:
+            - $ref: '#/components/schemas/StatusClock'
+            - type: 'null'
       required:
         - saved_at
         - day
+        - clock
+      additionalProperties: false
+    StatusClock:
+      type: object
+      description: The in-game clock recorded by the newest world save the collector read. One real second is one in-game minute. The clock runs whenever the world is loaded, with or without players, and resumes from the saved value when the server starts again.
+      properties:
+        seconds:
+          type: number
+          minimum: 0
+          description: The saved clock, StoredTime, in real seconds since the world began.
+        observed_at:
+          type: string
+          format: date-time
+          description: When that save was written.
+        rate:
+          type: number
+          minimum: 0.9
+          maximum: 1
+          description: In-game seconds per real second between the two newest saves while the server stayed up, or 1 until there are two. The clock stops while the server stalls, so it runs a little slower than real time.
+        stale_after_s:
+          type: integer
+          minimum: 600
+          maximum: 3600
+          description: How long the clock can go without a newer save while the server is up before it counts as out of date. Twice the longest gap between the newest saves, from 600 to 3600 seconds.
+      required:
+        - seconds
+        - observed_at
+        - rate
+        - stale_after_s
       additionalProperties: false
     StatusCollector:
       type: object
