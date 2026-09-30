@@ -62,7 +62,7 @@ var (
 	leaveLine    = regexp.MustCompile(`^ClientRequestDisconnect : DisconnectMe : PlayerStateSave result\[(true|false)\] - state saved for Account\[XP:([^\]]*)\] Character Name\[([^\]]*)\] Guid\[DCG:([0-9A-Fa-f]{32})\]`)
 	removedLine  = regexp.MustCompile(`^Player Removed from session \[([^\]]*)\]-\[([^\]]*)\]$`)
 	journalLine  = regexp.MustCompile(`UnlockJournalEntriesByPredicate\(\) : Unlocking Journal Entry "([^"]+)"`)
-	saveStart    = regexp.MustCompile(`SaveGame\(\) : Starting save \(Guid\[([0-9A-Fa-f]{32})\] WorldName\[([^\]]*)\] SlotName\[([^\]]*)\]`)
+	saveStart    = regexp.MustCompile(`SaveGame(?:Internal)?\(\) : Starting save \(Guid\[([0-9A-Fa-f]{32})\] WorldName\[([^\]]*)\] SlotName\[([^\]]*)\]`)
 	saveResult   = regexp.MustCompile(`^Save to slot (.+?): (.+)$`)
 	loadingLine  = regexp.MustCompile(`^Loading configured world \[([^\]]*)\] from save slot \[([^\]]*)\]$`)
 	creatingLine = regexp.MustCompile(`^No save found for configured world \[([^\]]*)\]; creating it`)
