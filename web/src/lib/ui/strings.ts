@@ -179,7 +179,9 @@ export const t = {
       'skill.level_up': 'Level up',
       'quest.updated': 'Quest',
       'chat.message': 'Chat',
-      'player.kicked': 'Kicked'
+      'player.kicked': 'Kicked',
+      'world.dusk_approaching': 'Dusk',
+      'world.dawn_approaching': 'Dawn'
     },
     filters: {
       presence: 'Comings and goings',
@@ -187,7 +189,8 @@ export const t = {
       discoveries: 'Discoveries',
       progress: 'Progress',
       chat: 'Chat',
-      server: 'Server'
+      server: 'Server',
+      clock: 'Day and night'
     },
     phrases: {
       serverOnline: 'The server came online',
@@ -200,6 +203,8 @@ export const t = {
       serverUnreachable: 'The server stopped answering',
       collectorStopping: 'The collector stopped watching',
       collectorLost: 'Lost contact with the collector',
+      nightfall: (when: string) => `Nightfall in ${when}`,
+      dawn: (when: string) => `Dawn in ${when}`,
       joined: ' entered the wilds',
       left: ' left the wilds',
       leftAfter: (duration: string) => ` left after ${duration}`,

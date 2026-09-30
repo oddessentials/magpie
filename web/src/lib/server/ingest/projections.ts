@@ -48,7 +48,11 @@ export const deathMergeWindowMs = 60_000;
 
 export const journalQuietAfterJoinMs = 60_000;
 
-export const siteEventTypes = ['collector.lost'] as const;
+export const siteEventTypes = [
+  'collector.lost',
+  'world.dusk_approaching',
+  'world.dawn_approaching'
+] as const;
 
 export type SiteEventType = (typeof siteEventTypes)[number];
 
@@ -545,6 +549,9 @@ export async function applyEvent(
       return playerKicked(ctx, event, ts);
     case 'collector.lost':
       return collectorLost(ctx, event, ts);
+    case 'world.dusk_approaching':
+    case 'world.dawn_approaching':
+      return plain;
     case 'save.world':
       return applySaveWorld(ctx, event);
     case 'save.player':

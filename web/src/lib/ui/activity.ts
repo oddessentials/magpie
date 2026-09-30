@@ -2,6 +2,7 @@ import type { ActivityDetails, ActivityItem, ActivityType, PlayerRef } from '$li
 import { isQuestComplete } from '$lib/quests';
 import { formatDuration } from './format';
 import { humanize, journalName, t } from './strings';
+import { compactDuration } from './sunclock';
 
 export type ActivityTone = 'neutral' | 'good' | 'bad' | 'warn' | 'info';
 
@@ -27,7 +28,8 @@ export const activityFilters: { label: string; types: ActivityType[] }[] = [
   {
     label: t.activity.filters.server,
     types: ['server.online', 'server.stopping', 'server.offline', 'collector.lost', 'player.kicked']
-  }
+  },
+  { label: t.activity.filters.clock, types: ['world.dusk_approaching', 'world.dawn_approaching'] }
 ];
 
 const text = (value: string): ActivityPart => ({ kind: 'text', text: value });
@@ -86,6 +88,12 @@ export function describeActivity(item: ActivityItem): ActivityView {
       return view('bad', [text(offlinePhrase(details.reason))]);
     case 'collector.lost':
       return view('warn', [text(t.activity.phrases.collectorLost)]);
+    case 'world.dusk_approaching':
+      return view('warn', [
+        text(t.activity.phrases.nightfall(compactDuration(details.turn_in_s ?? 0)))
+      ]);
+    case 'world.dawn_approaching':
+      return view('good', [text(t.activity.phrases.dawn(compactDuration(details.turn_in_s ?? 0)))]);
     case 'player.joined':
       return view('good', [who(item.player), text(t.activity.phrases.joined)]);
     case 'player.left':

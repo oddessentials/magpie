@@ -1,4 +1,5 @@
 import { nightlyBackupDue, runBackup } from './backup';
+import { clockHeralds } from './heralds';
 import { runPrune } from './prune';
 import { isRunning } from './runner';
 import { sampleStatus } from './sampler';
@@ -12,7 +13,8 @@ export const jobNames = {
   statusSampler: 'status_sampler',
   retentionPrune: 'retention_prune',
   nightlyBackup: 'nightly_backup',
-  streamBroadcaster: 'stream_broadcaster'
+  streamBroadcaster: 'stream_broadcaster',
+  clockHeralds: 'clock_heralds'
 } as const;
 
 const unlessMock = (run: () => Promise<void>) => async (): Promise<void> => {
@@ -33,6 +35,18 @@ export const jobs: JobDefinition[] = [
           statusChanged: true,
           onlineChanged: true
         });
+      }
+    })
+  },
+  {
+    name: jobNames.clockHeralds,
+    intervalMs: 5_000,
+    runOnStart: false,
+    run: unlessMock(async () => {
+      if (isRunning('projections_rebuild')) return;
+      const siteEvents = await clockHeralds().tick();
+      if (siteEvents.length > 0) {
+        await publishAfterIngest(siteEvents, { statusChanged: false, onlineChanged: false });
       }
     })
   },

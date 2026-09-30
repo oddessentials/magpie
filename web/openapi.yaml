@@ -1601,6 +1601,8 @@ components:
         - quest.updated
         - chat.message
         - player.kicked
+        - world.dusk_approaching
+        - world.dawn_approaching
     ChatChannel:
       type: string
       description: global when the message went to everyone, direct when the sender named receivers, other otherwise.
@@ -1676,6 +1678,14 @@ components:
         last_seen_at:
           type: string
           format: date-time
+        turn_at:
+          type: string
+          format: date-time
+          description: When nightfall or dawn follows a warning, projected from the saved clock.
+        turn_in_s:
+          type: integer
+          minimum: 0
+          description: Real seconds from the warning to nightfall or dawn.
       additionalProperties: false
     ActivityItem:
       type: object

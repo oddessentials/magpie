@@ -598,6 +598,8 @@ export interface components {
       skill_name?: string | null;
       state?: string;
       text?: string;
+      turn_at?: string;
+      turn_in_s?: number;
       version?: string | null;
     };
     ActivityItem: {
@@ -623,7 +625,9 @@ export interface components {
       | 'skill.level_up'
       | 'quest.updated'
       | 'chat.message'
-      | 'player.kicked';
+      | 'player.kicked'
+      | 'world.dusk_approaching'
+      | 'world.dawn_approaching';
     AdminActionData: {
       action: string;
       character_guid: components['schemas']['CharacterGuid'];
