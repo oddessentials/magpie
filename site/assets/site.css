@@ -500,6 +500,11 @@ footer p {
 .tour-panel .panel-heading a {
   font-size: 0.85rem;
 }
+.clock-shots {
+  display: grid;
+  grid-template-columns: minmax(0, 9fr) minmax(0, 16fr);
+  gap: 1.5rem;
+}
 .mobile-image {
   display: none;
 }
@@ -565,6 +570,13 @@ code {
   }
   .dial-feature {
     grid-template-columns: 1fr;
+  }
+  .clock-shots {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .clock-shots > :first-child {
+    width: min(100%, 420px);
+    justify-self: center;
   }
 }
 @media (max-width: 600px) {

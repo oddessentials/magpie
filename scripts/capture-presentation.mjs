@@ -225,6 +225,50 @@ try {
     680,
     680
   );
+  async function streamFrame(size, deviceScaleFactor, region, width, height) {
+    const page = await createPage({ width: 1440, height: 810 }, deviceScaleFactor);
+    const response = await page.goto(`${appUrl}/watch?size=${size}`);
+    assert.ok(response?.ok(), 'Failed to open the stream overlay');
+    await page.locator('.watch .sun-dial[data-state="live"]').waitFor();
+    await page.getByText('4 adventurers in the wilds').waitFor();
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+      await Promise.all([...document.images].map((image) => image.decode()));
+    });
+    const inset = 24;
+    const layer = await page.screenshot({
+      omitBackground: true,
+      animations: 'disabled',
+      clip: {
+        x: 0,
+        y: 0,
+        width: width / deviceScaleFactor - inset,
+        height: height / deviceScaleFactor - inset
+      }
+    });
+    const scene = await sharp(file('art/source/wilds.png'))
+      .extract(region)
+      .resize({ width, height })
+      .toBuffer();
+    return sharp(scene)
+      .composite([
+        { input: layer, left: inset * deviceScaleFactor, top: inset * deviceScaleFactor }
+      ])
+      .jpeg({ quality: 88, mozjpeg: true })
+      .toBuffer();
+  }
+  await stage(
+    'watch.jpg',
+    await streamFrame(320, 1, { left: 0, top: 0, width: 1672, height: 941 }, 1440, 810),
+    1440,
+    810
+  );
+  await stage(
+    'watch-mobile.jpg',
+    await streamFrame(260, 2, { left: 240, top: 0, width: 627, height: 941 }, 780, 1170),
+    780,
+    1170
+  );
   const mobile = await createPage({ width: 390, height: 1440 }, 2);
   for (const [name, path] of views) {
     await open(mobile, `${appUrl}${path}`, true);
@@ -241,9 +285,9 @@ try {
       2880
     );
   }
-  for (const [page, suffix] of [
-    [desktop, 'map.jpg'],
-    [mobile, 'map-mobile.jpg']
+  for (const [page, suffix, overlay] of [
+    [desktop, 'map.jpg', 'watch.jpg'],
+    [mobile, 'map-mobile.jpg', 'watch-mobile.jpg']
   ]) {
     await open(page, `${siteUrl}/demo.html#map`);
     await page.locator('#map:not([hidden])').waitFor();
@@ -257,13 +301,35 @@ try {
       await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
       false
     );
+    await page.locator('[data-view="clock"]').click();
+    await page.locator('#clock:not([hidden])').waitFor();
+    assert.equal(await page.locator('.tour-panel:not([hidden])').count(), 1);
+    const shown = await page.locator('#clock img').evaluateAll((images) =>
+      Promise.all(
+        images.map(async (img) => {
+          await img.decode();
+          return new URL(img.currentSrc).pathname.split('/').pop();
+        })
+      )
+    );
+    assert.match(shown[0], /^clock-680\.(avif|webp)$/);
+    assert.equal(shown[1], overlay);
+    assert.equal(
+      await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+      false
+    );
   }
   const noScript = await browser.newPage({
     javaScriptEnabled: false,
     viewport: { width: 390, height: 844 }
   });
   await open(noScript, `${siteUrl}/demo.html`);
-  assert.equal(await noScript.locator('.tour-panel:not([hidden])').count(), views.length);
+  assert.deepEqual(
+    await noScript
+      .locator('.tour-panel:not([hidden])')
+      .evaluateAll((panels) => panels.map((panel) => panel.id).sort()),
+    [...views.map(([name]) => name), 'clock'].sort()
+  );
   assert.equal(await noScript.locator('#map').isVisible(), true);
   await noScript.close();
   await desktop.setViewportSize({ width: 1600, height: 800 });
@@ -294,7 +360,7 @@ try {
   app.assertRunning();
   site.assertRunning();
   assert.deepEqual(errors, [], 'Capture pages must have no browser or asset errors.');
-  assert.equal(captures.length, views.length * 2 + 3);
+  assert.equal(captures.length, views.length * 2 + 5);
   for (const name of previewNames) {
     for (const variant of await previewVariants(join(staging, `${name}.jpg`), name)) {
       await stage(variant.name, variant.data, variant.width, variant.height);

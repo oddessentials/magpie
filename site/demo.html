@@ -6,13 +6,13 @@
     <title>Explore Magpie — demo tour</title>
     <meta
       name="description"
-      content="Explore the working Magpie journal through screenshots of Today, player pages, the Ledger, the Journal, Progression, the map, activity and the world, captured with sample data."
+      content="Explore the working Magpie journal through screenshots of Today, player pages, the Ledger, the Journal, Progression, the map, the in-game clock, activity and the world, captured with sample data."
     />
     <link rel="canonical" href="https://oddessentials.github.io/magpie/demo.html" />
     <meta property="og:title" content="Explore Magpie — demo tour" />
     <meta
       property="og:description"
-      content="Explore the working Magpie journal through screenshots of Today, player pages, the Ledger, the Journal, Progression, the map, activity and the world, captured with sample data."
+      content="Explore the working Magpie journal through screenshots of Today, player pages, the Ledger, the Journal, Progression, the map, the in-game clock, activity and the world, captured with sample data."
     />
     <meta property="og:url" content="https://oddessentials.github.io/magpie/demo.html" />
     <meta property="og:image" content="https://oddessentials.github.io/magpie/assets/social.jpg" />
@@ -62,7 +62,7 @@
         <p class="eyebrow">Inside the journal / In development</p>
         <h1>A glimpse into the wilds.</h1>
         <p class="lead">
-          Tour the working app through eight views. These are screenshots from the demo with sample
+          Tour the working app through nine views. These are screenshots from the demo with sample
           data; run it locally to explore the live interface.
         </p>
       </header>
@@ -73,6 +73,7 @@
         <a href="#journal" data-view="journal">Journal</a>
         <a href="#progression" data-view="progression">Progression</a>
         <a href="#map" data-view="map">Map</a>
+        <a href="#clock" data-view="clock">Clock</a>
         <a href="#activity" data-view="activity">Activity</a>
         <a href="#world" data-view="world">World</a>
       </nav>
@@ -279,6 +280,71 @@
             deaths.
           </figcaption>
         </figure>
+      </section>
+      <section id="clock" class="tour-panel" aria-labelledby="clock-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Only in Magpie</p>
+            <h2 id="clock-title">The hour in the wilds</h2>
+          </div>
+          <a class="desktop-image" href="assets/watch.jpg"
+            >Open the overlay at full size <span aria-hidden="true">↗</span></a
+          >
+          <a class="mobile-image" href="assets/watch-mobile.jpg"
+            >Open the overlay at full size <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="clock-shots">
+          <figure class="screenshot">
+            <picture>
+              <source
+                type="image/avif"
+                srcset="assets/clock-340.avif 340w, assets/clock-680.avif 680w"
+                sizes="(max-width: 850px) min(calc(100vw - 2rem), 420px), 420px"
+              />
+              <source
+                type="image/webp"
+                srcset="assets/clock-340.webp 340w, assets/clock-680.webp 680w"
+                sizes="(max-width: 850px) min(calc(100vw - 2rem), 420px), 420px"
+              />
+              <img
+                src="assets/clock.jpg"
+                width="680"
+                height="680"
+                loading="lazy"
+                decoding="async"
+                alt="The in-game clock at 00:05 on day 600: a bronze and slate dial with the magpie medallion at noon, the moon just past midnight and four minutes to dawn"
+              />
+            </picture>
+            <figcaption>
+              The day and hour on a dial rendered in Blender, at 00:05 on day 600 with four minutes
+              to dawn. It counts on from the world save at the game's own rate, so it keeps time on
+              a rented server too.
+            </figcaption>
+          </figure>
+          <figure class="screenshot">
+            <picture>
+              <source
+                media="(max-width: 600px)"
+                srcset="assets/watch-mobile.jpg"
+                width="390"
+                height="585"
+              />
+              <img
+                src="assets/watch.jpg"
+                width="1440"
+                height="810"
+                loading="lazy"
+                decoding="async"
+                alt="The stream overlay over Magpie's woodland art: the dial at 00:05 on day 600 and a card listing four adventurers in the wilds"
+              />
+            </picture>
+            <figcaption>
+              <code>/watch</code> puts the dial and who is on over a transparent background for OBS
+              or any browser source. Here it sits over Magpie's woodland art in place of a game.
+            </figcaption>
+          </figure>
+        </div>
       </section>
       <section id="activity" class="tour-panel" aria-labelledby="activity-title">
         <div class="panel-heading">
