@@ -18,13 +18,15 @@ const jobs = [
     ['png', 'webp', 'avif']
   ],
   [
-    'dial-plate.svg',
+    'raster/dial-plate-render.png',
     [
       ['dial-plate-1024', 1024],
       ['dial-plate-512', 512]
     ],
-    ['png', 'webp', 'avif']
+    ['webp', 'avif']
   ],
+  ['raster/sun-render.png', [['sun-192', 192]], ['webp']],
+  ['raster/moon-render.png', [['moon-192', 192]], ['webp']],
   [
     'favicon.svg',
     [
@@ -53,6 +55,8 @@ const icons = {
   'maskable-512': 'icon-maskable-512.png'
 };
 
+const dial = new Set(['dial-plate-render', 'sun-render', 'moon-render']);
+
 const wanted = new Set(process.argv.slice(2));
 for (const [source, sizes, formats] of jobs) {
   const name = source
@@ -72,6 +76,7 @@ for (const [source, sizes, formats] of jobs) {
         copyFileSync(target, join(art, '../site/assets', `${stem}.${format}`));
         copyFileSync(target, join(art, '../web/static/art', `${stem}.${format}`));
       }
+      if (dial.has(name)) copyFileSync(target, join(art, '../web/static/art', `${stem}.${format}`));
       if (icons[stem]) copyFileSync(target, join(art, '../web/static', icons[stem]));
     }
   }
