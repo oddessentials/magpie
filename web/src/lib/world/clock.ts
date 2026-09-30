@@ -88,6 +88,18 @@ export function clockStateOf(status: Status, at: number): ClockState {
   return 'live';
 }
 
+export function readingOf(state: ClockState, seconds: number, rate = 1): ClockReading {
+  const point = clockAt(seconds);
+  return {
+    state,
+    seconds,
+    ...point,
+    clock: formatClock(point.minute),
+    phase: phaseOf(point.minute),
+    turn: nextTurn(point.minute, rate)
+  };
+}
+
 export function readClock(status: Status, at: number): ClockReading | null {
   const clock = status.save.clock;
   if (!clock) return null;
@@ -99,13 +111,5 @@ export function readClock(status: Status, at: number): ClockReading | null {
       : state === 'stale'
         ? projectedSeconds(clock, status.since, staleAt)
         : clock.seconds;
-  const point = clockAt(seconds);
-  return {
-    state,
-    seconds,
-    ...point,
-    clock: formatClock(point.minute),
-    phase: phaseOf(point.minute),
-    turn: nextTurn(point.minute, clock.rate)
-  };
+  return readingOf(state, seconds, clock.rate);
 }

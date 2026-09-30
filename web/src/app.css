@@ -964,6 +964,173 @@
     color: var(--color-accent-contrast);
   }
 
+  .sun-dial {
+    position: relative;
+    width: min(72vw, 320px);
+    aspect-ratio: 1;
+    container-type: inline-size;
+    user-select: none;
+  }
+
+  @media (min-width: 1024px) {
+    .sun-dial {
+      width: clamp(240px, 26vw, 340px);
+    }
+  }
+
+  .sun-dial-plate {
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.6));
+  }
+
+  .sun-dial-plate img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    clip-path: circle(49.7% at 50% 50%);
+  }
+
+  .sun-dial-face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .sun-dial-sky-day {
+    fill: var(--color-gold);
+  }
+
+  .sun-dial-sky-night {
+    fill: var(--color-dusk);
+  }
+
+  .sun-dial-horizon {
+    stroke: color-mix(in srgb, var(--color-ink) 22%, transparent);
+    stroke-width: 2;
+    stroke-dasharray: 5 11;
+  }
+
+  .sun-dial-arc-day,
+  .sun-dial-arc-night {
+    fill: none;
+    stroke-width: 7;
+    stroke-linecap: round;
+    opacity: 0.4;
+  }
+
+  .sun-dial-arc-day {
+    stroke: url(#sun-dial-day);
+  }
+
+  .sun-dial-arc-night {
+    stroke: url(#sun-dial-night);
+  }
+
+  .sun-dial-remaining {
+    fill: none;
+    stroke: #f4d58c;
+    stroke-width: 9;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px rgba(244, 213, 140, 0.55));
+  }
+
+  .sun-dial-remaining[data-night] {
+    stroke: #c9bdf0;
+    filter: drop-shadow(0 0 6px rgba(167, 123, 216, 0.55));
+  }
+
+  .sun-dial:not([data-state='live']) .sun-dial-remaining {
+    opacity: 0.45;
+    filter: none;
+  }
+
+  .sun-dial-tick {
+    stroke: color-mix(in srgb, var(--color-ink) 48%, transparent);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  .sun-dial-tick[data-major] {
+    stroke: var(--color-gold);
+    stroke-width: 5;
+  }
+
+  .sun-dial-numeral {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 32px;
+    fill: var(--color-ink-muted);
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+
+  .sun-dial-numeral[data-cardinal] {
+    font-family: var(--font-display);
+    font-size: 46px;
+    fill: var(--color-gold);
+  }
+
+  .sun-dial-readout {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6cqw;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .sun-dial-day {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: max(4.8cqw, 0.62rem);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .sun-dial-time {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 14.5cqw;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-ink);
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.85);
+  }
+
+  .sun-dial-phase {
+    font-size: max(3.4cqw, 0.6rem);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  .sun-dial-note {
+    max-width: 42cqw;
+    font-size: max(3.1cqw, 0.6rem);
+    line-height: 1.25;
+    color: var(--color-ink-muted);
+  }
+
+  .sun-dial:not([data-state='live']) .sun-dial-marker {
+    filter: saturate(0.35) brightness(0.75);
+  }
+
+  .sun-dial[data-state='lost'] .sun-dial-time,
+  .sun-dial[data-state='stale'] .sun-dial-time,
+  .sun-dial[data-state='unknown'] .sun-dial-time {
+    color: var(--color-ink-muted);
+  }
+
   .rise {
     animation: rise 0.7s var(--ease-out) both;
   }
@@ -1011,4 +1178,82 @@
       transform: none;
     }
   }
+}
+
+html[data-watch],
+html[data-watch] body {
+  background: transparent;
+  scrollbar-width: none;
+}
+
+.watch {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+}
+
+.watch[data-row='true'] {
+  flex-direction: row;
+  align-items: center;
+}
+
+.watch .sun-dial {
+  width: var(--watch-dial);
+}
+
+.watch-dial[data-compact] .sun-dial-note {
+  display: none;
+}
+
+.watch-card {
+  min-width: 13rem;
+  max-width: 22rem;
+  border: 1px solid color-mix(in srgb, var(--color-line) 70%, transparent);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-surface-raised) 86%, transparent);
+  padding: 0.7rem 0.9rem;
+  box-shadow: 0 12px 28px -18px rgba(0, 0, 0, 0.7);
+}
+
+.watch[data-solid='true'] .watch-card {
+  background: var(--color-surface-raised);
+}
+
+.watch-headline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  color: var(--color-ink);
+}
+
+.watch-players {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.watch-players li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.85rem;
+}
+
+.watch-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.watch-more {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--color-ink-muted);
 }

@@ -4,7 +4,9 @@
   import type { LiveStreamState } from './live.svelte';
   import type { LoadFailure } from './load';
   import { t } from './strings';
+  import { stripClock } from './sunclock';
   import Time from './Time.svelte';
+  import { worldClock } from './worldclock.svelte';
 
   let {
     status,
@@ -37,6 +39,8 @@
           ? t.status.collectorNone
           : null
   );
+  const reading = $derived(worldClock.reading(status));
+  const clockClass = $derived(reading?.state === 'live' ? 'text-ink' : 'text-ink-muted');
   const remote = $derived(status?.collector.remote);
   const streamLabel = $derived(remote && stream === 'open' ? 'Polled' : t.status.stream[stream]);
 </script>
@@ -57,6 +61,15 @@
             ><Freshness source="log" at={status.players.observed_at} /></span
           >
         </span>
+      {/if}
+      {#if reading}
+        <a
+          href="/#clock"
+          class="flex min-h-6 items-center tabular-nums hover:text-accent-bright {clockClass}"
+          title={t.clock.stripTitle}
+          aria-live="off"
+          data-clock>{stripClock(reading)}</a
+        >
       {/if}
       {#if collectorNote}
         <span class="text-warning">

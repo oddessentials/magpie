@@ -2,7 +2,7 @@
   import { page } from '$app/state';
   import Card from '$lib/ui/Card.svelte';
   import ErrorNote from '$lib/ui/ErrorNote.svelte';
-  import { formatBytes, formatHour, formatHours, formatNumber } from '$lib/ui/format';
+  import { formatBytes, formatHours, formatNumber } from '$lib/ui/format';
   import Freshness from '$lib/ui/Freshness.svelte';
   import { useLive } from '$lib/ui/live.svelte';
   import Meta from '$lib/ui/Meta.svelte';
@@ -10,6 +10,7 @@
   import PlayerCountChart from '$lib/ui/PlayerCountChart.svelte';
   import { withParams } from '$lib/ui/query';
   import { humanize, t } from '$lib/ui/strings';
+  import SunDial from '$lib/ui/SunDial.svelte';
   import Time from '$lib/ui/Time.svelte';
 
   let { data } = $props();
@@ -101,10 +102,6 @@
       {/snippet}
       {#if save}
         <dl class="charfile">
-          <dt>{t.world.day}</dt>
-          <dd>{save.day === null ? '—' : formatNumber(save.day)}</dd>
-          <dt>{t.world.timeOfDay}</dt>
-          <dd>{formatHour(save.time_of_day) || '—'}</dd>
           <dt>{t.world.difficulty}</dt>
           <dd>{save.difficulty ? humanize(save.difficulty) : '—'}</dd>
           <dt>{t.world.hardcore}</dt>
@@ -201,6 +198,15 @@
     </Card>
 
     <div class="flex flex-col gap-6">
+      <Card title={t.clock.title} id="clock">
+        {#snippet actions()}
+          <Freshness source="save" at={status?.save.clock?.observed_at} />
+        {/snippet}
+        <div class="flex justify-center">
+          <SunDial {status} />
+        </div>
+      </Card>
+
       <Card title={t.world.serverTitle}>
         {#if world}
           <dl class="charfile">

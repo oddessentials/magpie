@@ -4,6 +4,7 @@ import { loadEnv } from '$lib/server/env';
 import { apiNotFound, apiRateLimit } from '$lib/server/hooks/api';
 import { compress } from '$lib/server/hooks/compress';
 import { mock } from '$lib/server/hooks/mock';
+import { watchPage } from '$lib/server/hooks/watch';
 import { jobs } from '$lib/server/jobs/registry';
 import { startScheduler, type Scheduler } from '$lib/server/jobs/scheduler';
 
@@ -21,4 +22,4 @@ export const init: ServerInit = async () => {
   );
 };
 
-export const handle: Handle = sequence(compress, mock, apiRateLimit, apiNotFound);
+export const handle: Handle = sequence(compress, mock, watchPage, apiRateLimit, apiNotFound);

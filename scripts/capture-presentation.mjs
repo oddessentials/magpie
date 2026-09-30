@@ -14,7 +14,7 @@ import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
-import { previewNames, previewVariants } from '../art/presentation.mjs';
+import { dialPreview, previewNames, previewVariants } from '../art/presentation.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const file = (path) => fileURLToPath(new URL(`../${path}`, import.meta.url));
@@ -130,6 +130,10 @@ try {
       locale: 'en-US'
     });
     await page.clock.setFixedTime(captureTime);
+    await page.addInitScript(() => {
+      const frozen = performance.now();
+      performance.now = () => frozen;
+    });
     page.on('pageerror', (error) => errors.push(error.message));
     page.on('console', (message) => {
       if (message.type() === 'error' || /hydration/i.test(message.text()))
@@ -205,6 +209,22 @@ try {
       1080
     );
   }
+  const closeup = await createPage({ width: 1440, height: 1080 }, 2);
+  await open(closeup, `${appUrl}/`, true);
+  await settle(closeup, 'today');
+  const dial = await closeup.locator('#clock .sun-dial').boundingBox();
+  assert.ok(dial && dial.width === 340, 'The dial must render at 340 px on a desktop.');
+  await stage(
+    'clock.jpg',
+    await closeup.screenshot({
+      type: 'jpeg',
+      quality: 90,
+      animations: 'disabled',
+      clip: { x: Math.round(dial.x), y: Math.round(dial.y), width: 340, height: 340 }
+    }),
+    680,
+    680
+  );
   const mobile = await createPage({ width: 390, height: 1440 }, 2);
   for (const [name, path] of views) {
     await open(mobile, `${appUrl}${path}`, true);
@@ -274,11 +294,18 @@ try {
   app.assertRunning();
   site.assertRunning();
   assert.deepEqual(errors, [], 'Capture pages must have no browser or asset errors.');
-  assert.equal(captures.length, views.length * 2 + 2);
+  assert.equal(captures.length, views.length * 2 + 3);
   for (const name of previewNames) {
     for (const variant of await previewVariants(join(staging, `${name}.jpg`), name)) {
       await stage(variant.name, variant.data, variant.width, variant.height);
     }
+  }
+  for (const variant of await previewVariants(
+    join(staging, `${dialPreview.name}.jpg`),
+    dialPreview.name,
+    dialPreview.widths
+  )) {
+    await stage(variant.name, variant.data, variant.width, variant.height);
   }
   const outputs = captures.flatMap(({ source, destinations }) =>
     destinations.map((destination) => ({ source, target: file(destination) }))

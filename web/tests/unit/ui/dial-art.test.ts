@@ -2,6 +2,7 @@ import { readFileSync, statSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const root = new URL('../../../', import.meta.url);
+const component = readFileSync(new URL('src/lib/ui/SunDial.svelte', root), 'utf8');
 
 const art: [string, number][] = [
   ['dial-plate-1024.avif', 100_000],
@@ -19,7 +20,8 @@ function magic(name: string): string {
 }
 
 describe('the dial art', () => {
-  it.each(art)('%s stays under %i bytes', (name, budget) => {
+  it.each(art)('%s is referenced by the dial and stays under %i bytes', (name, budget) => {
+    expect(component).toContain(`/art/${name}`);
     expect(statSync(new URL(`static/art/${name}`, root)).size).toBeLessThan(budget);
   });
 
