@@ -1,0 +1,6 @@
+LogInit: Build: ++dominion+hotfix-CL-245400
+[2026.09.30-02.01.52:135][  0]LogDomServerGameMode: No save found for configured world [magpie-new-world]; creating it
+[2026.09.30-02.01.57:064][119]LogWorld: Bringing World /Game/Maps/World/L_World.L_World up for play (max tick rate 30) at 2026.09.29-22.01.57
+[2026.09.30-02.01.57:871][119]LogPersistence: [DedicatedServer] SaveGameInternal() : Starting save (Guid[8CDC4E3841960872B680ADA93155C500] WorldName[magpie-new-world] SlotName[magpie-new-world] MapName[L_World] - OwnerGuid[] OwnerName[])
+[2026.09.30-02.01.57:888][119]LogSpudSubsystem: Save to slot magpie-new-world: Success
+[2026.09.30-02.01.57:894][119]LogPersistence: [DedicatedServer] operator ()() : Save completed SUCCESSFULLY (slot: magpie-new-world)

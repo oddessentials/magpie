@@ -139,6 +139,24 @@ func TestSessionLogBecomesEvents(t *testing.T) {
 	}
 }
 
+func TestNewWorldComesOnlineAtItsFirstSave(t *testing.T) {
+	mapper := NewMapper()
+	items := mapFile(t, mapper, filepath.Join("testdata", "new-world-25501739.txt"))
+	if got := types(items); got != "world.loaded server.saved" {
+		t.Fatalf("got %s", got)
+	}
+	loaded := items[0].Data.(WorldLoaded)
+	if loaded.GUID != "8CDC4E3841960872B680ADA93155C500" || loaded.Name != "magpie-new-world" || loaded.Slot != "magpie-new-world" {
+		t.Fatalf("loaded %+v", loaded)
+	}
+	if !items[0].At.Equal(time.Date(2026, 9, 30, 2, 1, 57, 871000000, time.UTC)) {
+		t.Fatalf("at %v", items[0].At)
+	}
+	if state := mapper.Server(); state.Build != "++dominion+hotfix-CL-245400" || !state.Online {
+		t.Fatalf("state %+v", state)
+	}
+}
+
 func TestDeathsNeedOnePlayerOnline(t *testing.T) {
 	mapper := NewMapper()
 	at := time.Date(2026, 9, 28, 22, 0, 0, 0, time.UTC)
