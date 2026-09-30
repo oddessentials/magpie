@@ -51,7 +51,7 @@ test('existing releases, either published image and uncertain checks refuse publ
   );
 });
 
-test('merges cannot trigger publication or Pages deployment', () => {
+test('merges cannot trigger publication, and site changes on main deploy Pages', () => {
   const release = parse(
     readFileSync(new URL('../.github/workflows/release.yml', import.meta.url), 'utf8')
   );
@@ -60,7 +60,11 @@ test('merges cannot trigger publication or Pages deployment', () => {
   );
   assert.deepEqual(release.on.push, { tags: ['v*'] });
   assert.ok('pull_request' in release.on && 'workflow_dispatch' in release.on);
-  assert.deepEqual(Object.keys(pages.on), ['workflow_dispatch']);
+  assert.deepEqual(pages.on.push, {
+    branches: ['main'],
+    paths: ['site/**', '.github/workflows/pages.yml']
+  });
+  assert.deepEqual(Object.keys(pages.on), ['push', 'workflow_dispatch']);
   assert.equal(release.jobs.version.steps.at(-1).run, 'node scripts/release-gate.mjs');
   assert.ok(release.jobs.release.steps.at(-1).run.includes('--verify-tag'));
   assert.ok(!release.jobs.release.steps.at(-1).run.includes('--target'));

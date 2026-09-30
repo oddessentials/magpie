@@ -237,7 +237,7 @@ The artwork is original to Magpie. The woodland master is in `art/source/wilds.p
 
 Pushing a tag `v<version>` that matches the `package.json` version publishes `ghcr.io/oddessentials/magpie` and `ghcr.io/oddessentials/magpie-collector` for amd64 and arm64, and a GitHub release with the collector and save reader binaries, the mod as a zip, and their checksums.
 
-Ordinary source merges and manually requested release builds do not publish. Publication requires an explicitly authorized version tag matching `package.json`; the gate refuses an existing GitHub release, either existing versioned container image, or an inconclusive registry check. Pages deployment is a separate manual workflow. Merging source changes makes no release or production-hosting decision.
+Ordinary source merges and manually requested release builds do not publish. Publication requires an explicitly authorized version tag matching `package.json`; the gate refuses an existing GitHub release, either existing versioned container image, or an inconclusive registry check. A merge to `main` that changes `site/` deploys the landing page and demo tour to GitHub Pages, and the Pages workflow can also be run by hand. Merging source changes makes no release decision.
 
 </details>
 
