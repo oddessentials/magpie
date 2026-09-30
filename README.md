@@ -17,7 +17,7 @@ Magpie gives a RuneScape: Dragonwilds dedicated server its own website: who is o
 **In development.** The journal works today; the project is still being built. The screenshots below use sample data. [Explore the demo tour](https://oddessentials.github.io/magpie/demo.html), or run `npm run dev:mock` after the development setup to browse the working app without a game server or running database. The admin area has no server actions in this version.
 
 <p align="center">
-  <img src="site/assets/today.jpg" alt="The Today page with the woodland panorama, four sample adventurers online, recent activity and the last world save" width="100%">
+  <img src="site/assets/today.jpg" alt="The Today page with the woodland panorama, four sample adventurers online, the in-game clock, recent activity and the last world save" width="100%">
 </p>
 
 ## Only in Magpie

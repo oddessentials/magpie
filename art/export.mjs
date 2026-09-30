@@ -2,7 +2,7 @@ import { copyFileSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
-import { previewNames, previewVariants } from './presentation.mjs';
+import { dialPreview, previewNames, previewVariants } from './presentation.mjs';
 
 const art = fileURLToPath(new URL('.', import.meta.url));
 const out = join(art, 'raster');
@@ -88,8 +88,13 @@ for (const [source, sizes, formats] of jobs) {
 }
 
 if (wanted.size === 0 || wanted.has('previews')) {
-  for (const name of previewNames) {
-    for (const variant of await previewVariants(join(art, '../site/assets', `${name}.jpg`), name)) {
+  const sources = [
+    ...previewNames.map((name) => [name, undefined]),
+    [dialPreview.name, dialPreview.widths]
+  ];
+  for (const [name, widths] of sources) {
+    const source = join(art, '../site/assets', `${name}.jpg`);
+    for (const variant of await previewVariants(source, name, widths)) {
       writeFileSync(join(art, '../site/assets', variant.name), variant.data);
       console.log(`site/assets/${variant.name} ${Math.round(variant.size / 1024)} KB`);
     }

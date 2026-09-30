@@ -14,7 +14,7 @@ import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
-import { previewNames, previewVariants } from '../art/presentation.mjs';
+import { dialPreview, previewNames, previewVariants } from '../art/presentation.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const file = (path) => fileURLToPath(new URL(`../${path}`, import.meta.url));
@@ -299,6 +299,13 @@ try {
     for (const variant of await previewVariants(join(staging, `${name}.jpg`), name)) {
       await stage(variant.name, variant.data, variant.width, variant.height);
     }
+  }
+  for (const variant of await previewVariants(
+    join(staging, `${dialPreview.name}.jpg`),
+    dialPreview.name,
+    dialPreview.widths
+  )) {
+    await stage(variant.name, variant.data, variant.width, variant.height);
   }
   const outputs = captures.flatMap(({ source, destinations }) =>
     destinations.map((destination) => ({ source, target: file(destination) }))
