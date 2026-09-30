@@ -46,7 +46,7 @@ Everything here comes from the world save, the server's log and the game's own f
 An original map of the 31 regions with their names and coastline, and layers read from the game build: resource nodes, fishing spots, creature spawns, chests, lore books, quest places, dungeons, shrines, teleporters and anima vents. Find where any item, creature or lore book lies, from the map itself or straight from the Ledger and the Journal. With **Player positions** turned on, the map also marks each character's last saved position, the bases and the day's deaths. The map is original vector cartography, with no extracted game artwork.
 
 <p align="center">
-  <img src="site/assets/clock.jpg" alt="The in-game clock at 00:05 on day 600: a bronze and slate dial with the magpie crest at noon, the moon just past midnight and four minutes to dawn" width="340">
+  <img src="site/assets/clock.jpg" alt="The in-game clock at 00:05 on day 600: a bronze and slate dial with the magpie medallion at noon, the moon just past midnight and four minutes to dawn" width="340">
 </p>
 
 ### The hour in the wilds

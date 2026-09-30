@@ -14,6 +14,9 @@ R_PLATE = 508.0 / UNIT
 R_BEZEL = 470.0 / UNIT
 R_FACE = 353.0 / UNIT
 R_BEAD = 360.0 / UNIT
+C_CROWN = 431.0 / UNIT
+R_CROWN = 76.0 / UNIT
+R_FIELD = 64.5 / UNIT
 
 
 def use_gpu(scene):
@@ -99,7 +102,35 @@ def node(tree, kind, **inputs):
     return n
 
 
-def worn_metal(name, base, edge, cavity, roughness, hammer_scale, hammer_strength):
+def swell(tree, radius, height):
+    coord = tree.nodes.new('ShaderNodeTexCoord')
+    split = tree.nodes.new('ShaderNodeSeparateXYZ')
+    flat = tree.nodes.new('ShaderNodeCombineXYZ')
+    reach = tree.nodes.new('ShaderNodeVectorMath')
+    reach.operation = 'LENGTH'
+    fall = node(tree, 'ShaderNodeMapRange', **{'From Min': 0.0, 'From Max': radius, 'To Min': 0.0, 'To Max': 0.97})
+    square = tree.nodes.new('ShaderNodeMath')
+    square.operation = 'MULTIPLY'
+    rest = tree.nodes.new('ShaderNodeMath')
+    rest.operation = 'SUBTRACT'
+    rest.inputs[0].default_value = 1.0
+    root = tree.nodes.new('ShaderNodeMath')
+    root.operation = 'SQRT'
+    bump = node(tree, 'ShaderNodeBump', Strength=1.0, Distance=height)
+    tree.links.new(coord.outputs['Object'], split.inputs['Vector'])
+    tree.links.new(split.outputs['X'], flat.inputs['X'])
+    tree.links.new(split.outputs['Y'], flat.inputs['Y'])
+    tree.links.new(flat.outputs['Vector'], reach.inputs[0])
+    tree.links.new(reach.outputs['Value'], fall.inputs['Value'])
+    tree.links.new(fall.outputs['Result'], square.inputs[0])
+    tree.links.new(fall.outputs['Result'], square.inputs[1])
+    tree.links.new(square.outputs['Value'], rest.inputs[1])
+    tree.links.new(rest.outputs['Value'], root.inputs[0])
+    tree.links.new(root.outputs['Value'], bump.inputs['Height'])
+    return bump
+
+
+def worn_metal(name, base, edge, cavity, roughness, hammer_scale, hammer_strength, dome=None):
     mat, bsdf = principled(name, base, 1.0, roughness)
     tree = mat.node_tree
     coord = tree.nodes.new('ShaderNodeTexCoord')
@@ -135,6 +166,8 @@ def worn_metal(name, base, edge, cavity, roughness, hammer_scale, hammer_strengt
     tree.links.new(voronoi.outputs['Distance'], bump.inputs['Height'])
     tree.links.new(bump_small.outputs['Normal'], bump.inputs['Normal'])
     tree.links.new(bump.outputs['Normal'], bsdf.inputs['Normal'])
+    if dome:
+        tree.links.new(swell(tree, *dome).outputs['Normal'], bump_small.inputs['Normal'])
     return mat
 
 
@@ -205,8 +238,9 @@ def materials():
         'face': stone('face', (0.008, 0.010, 0.018), (0.020, 0.024, 0.036), 0.72, 220.0),
         'teal': principled('teal', (0.006, 0.20, 0.155), 0.0, 0.12, coat=1.0)[0],
         'plume': plume(),
-        'ink': principled('ink', (0.006, 0.008, 0.014), 0.0, 0.3, coat=1.0)[0],
-        'silver': worn_metal('silver', (0.62, 0.66, 0.72), (0.95, 0.97, 1.0), (0.16, 0.18, 0.22), 0.24, 130.0, 0.1)
+        'jet': principled('jet', (0.020, 0.022, 0.028), 1.0, 0.32)[0],
+        'pearl': principled('pearl', (0.80, 0.82, 0.84), 0.0, 0.3, coat=1.0)[0],
+        'medal': worn_metal('medal', (0.70, 0.43, 0.10), (0.95, 0.74, 0.36), (0.22, 0.12, 0.03), 0.3, 160.0, 0.06, dome=(R_FIELD, 0.3 * R_FIELD))
     }
 
 
@@ -300,12 +334,13 @@ def poly_curve(name, points, depth, mat):
     return link(obj, mat)
 
 
-def feather(name, r, centre_degrees, span_degrees, z, mats, width=0.044):
+def feather(name, r, centre_degrees, span_degrees, z, mats, width=0.044, flip=False):
     steps = 64
     rows = []
+    turn = -1.0 if flip else 1.0
     for i in range(steps + 1):
         s = i / steps
-        degrees = centre_degrees - span_degrees / 2 + span_degrees * s
+        degrees = centre_degrees + turn * (span_degrees * s - span_degrees / 2)
         bow = 0.012 * math.sin(math.pi * s)
         profile = 0.0 if s < 0.08 else min(1.0, 1.6 * math.sin(math.pi * (s - 0.08) / 0.92) ** 0.8) * (1.0 - 0.35 * s)
         up = width * profile
@@ -319,7 +354,7 @@ def feather(name, r, centre_degrees, span_degrees, z, mats, width=0.044):
     for i in range(steps):
         for k in range(2):
             a = i * 3 + k
-            faces.append((a, a + 1, a + 4, a + 3))
+            faces.append((a + 3, a + 4, a + 1, a) if flip else (a, a + 1, a + 4, a + 3))
     mesh = bpy.data.meshes.new(name)
     mesh.from_pydata(verts, [], faces)
     layer = mesh.uv_layers.new(name='UVMap')
@@ -341,7 +376,7 @@ def feather(name, r, centre_degrees, span_degrees, z, mats, width=0.044):
     poly_curve(name + '_shaft', shaft, 0.0038, mats['gold'])
 
 
-def import_mark(scale_to, at, z, mats):
+def import_mark(scale_to, at, z, roles, mats, edge=0.0012):
     before = set(bpy.data.objects)
     bpy.ops.import_curve.svg(filepath=os.path.join(ART, 'mark.svg'))
     parts = [o for o in bpy.data.objects if o not in before and o.type == 'CURVE']
@@ -350,24 +385,30 @@ def import_mark(scale_to, at, z, mats):
         for col in list(o.users_collection):
             col.objects.unlink(o)
         bpy.context.scene.collection.objects.link(o)
-    roles = ['gold', 'gold', 'gold', 'gold', 'silver', 'ink', 'gold']
     bpy.context.view_layer.update()
     points = [o.matrix_world @ Vector(c) for o in parts for c in o.bound_box]
     xs = [p.x for p in points]
     ys = [p.y for p in points]
-    span = max(max(xs) - min(xs), max(ys) - min(ys))
-    k = scale_to / span
-    cx = (max(xs) + min(xs)) / 2
-    cy = (max(ys) + min(ys)) / 2
-    for index, o in enumerate(parts):
+    k = scale_to / max(max(xs) - min(xs), max(ys) - min(ys))
+    depsgraph = bpy.context.evaluated_depsgraph_get()
+    area, centre = 0.0, Vector((0.0, 0.0, 0.0))
+    for o in parts[:4]:
+        evaluated = o.evaluated_get(depsgraph)
+        for poly in evaluated.to_mesh().polygons:
+            area += poly.area
+            centre += (o.matrix_world @ poly.center) * poly.area
+        evaluated.to_mesh_clear()
+    centre /= area
+    for o, (role, extrude, lift) in zip(parts, roles):
         o.data.dimensions = '2D'
-        role = roles[index] if index < len(roles) else 'gold'
-        o.data.extrude = 0.0028 if role == 'gold' else 0.0016
-        o.data.bevel_depth = 0.0012 if role == 'gold' else 0.0
+        o.data.extrude = extrude / k
+        o.data.bevel_depth = edge / k
+        o.data.bevel_resolution = 3
+        o.data.offset = -edge / k
         o.data.materials.clear()
         o.data.materials.append(mats[role])
-        o.scale = (k, k, 1.0)
-        o.location = ((o.location.x - cx) * k + at.x, (o.location.y - cy) * k + at.y, z + (0.004 if role != 'gold' else 0.0))
+        o.scale = (k, k, k)
+        o.location = ((o.location.x - centre.x) * k + at.x, (o.location.y - centre.y) * k + at.y, z + lift)
     return parts
 
 
@@ -426,17 +467,17 @@ def plate():
         diamond('diamond_%d' % k, (R_BEAD + R_BEZEL) / 2, degrees, 0.105, 0.046, 0.052, 0.024, m['gold'])
     for k in range(8):
         centre = 22.5 + k * 45.0
-        if abs(centre - 180.0) < 30.0:
-            continue
-        feather('feather_%d' % k, (R_BEAD + R_BEZEL) / 2 - 0.004, centre, 36.0, 0.052, m)
-    for side in (-1, 1):
-        feather('feather_crest_%d' % side, (R_BEAD + R_BEZEL) / 2 - 0.004, 180.0 + side * 36.5, 13.0, 0.052, m, width=0.03)
-    crest_in = R_BEAD + 0.030
-    annulus('crest', crest_in, R_PLATE - 0.006, 0.090, 0.040, m['bronze'], bevel=0.010, segments=96, a0=180.0 - 26.0, a1=180.0 + 26.0)
-    annulus('crest_rim', crest_in + 0.010, R_PLATE - 0.018, 0.093, 0.004, m['gold'], bevel=0.002, segments=96, a0=180.0 - 23.5, a1=180.0 + 23.5)
-    annulus('crest_field', crest_in + 0.016, R_PLATE - 0.024, 0.095, 0.004, m['teal'], bevel=0.002, segments=96, a0=180.0 - 22.5, a1=180.0 + 22.5)
-    at = polar((crest_in + R_PLATE) / 2 - 0.004, 180.0)
-    import_mark(0.19, at + Vector((0.0, -0.006, 0.0)), 0.097, m)
+        feather('feather_%d' % k, (R_BEAD + R_BEZEL) / 2 - 0.004, centre, 36.0, 0.052, m, flip=centre == 157.5)
+    crown = polar(C_CROWN, 180.0)
+    for name, r_in, r_out, z, thickness, mat, bevel in (
+        ('crown', 0.0005, R_CROWN, 0.092, 0.044, 'bronze', 0.010),
+        ('crown_rim', R_FIELD + 0.006, R_CROWN - 0.006, 0.097, 0.008, 'gold', 0.003),
+        ('crown_band', R_FIELD - 0.002, R_FIELD + 0.007, 0.095, 0.006, 'teal', 0.002),
+        ('crown_field', 0.0005, R_FIELD, 0.096, 0.006, 'medal', 0.002)
+    ):
+        annulus(name, r_in, r_out, z, thickness, m[mat], bevel=bevel, segments=192).location = crown
+    bird = ('jet', 0.0025, 0.0)
+    import_mark(0.186, crown, 0.099, [bird] * 4 + [('pearl', 0.0012, 0.0035), ('medal', 0.0012, 0.0035), bird], m)
     lights()
     camera(2.0)
     render(scene, 'dial-plate-render.png')
