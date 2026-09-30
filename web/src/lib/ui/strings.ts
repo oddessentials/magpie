@@ -125,6 +125,37 @@ export const t = {
       openAdmin: 'Open admin'
     }
   },
+  clock: {
+    title: 'In-game clock',
+    day: (day: string) => `Day ${day}`,
+    strip: (day: string, time: string) => `Day ${day} · ${time}`,
+    phases: {
+      night: 'Night',
+      morning: 'Morning',
+      afternoon: 'Afternoon',
+      evening: 'Evening'
+    },
+    turn: {
+      nightfall: (when: string) => `Nightfall in ${when}`,
+      dawn: (when: string) => `Dawn in ${when}`
+    },
+    notes: {
+      stopped: 'Server down, the world waits here',
+      lost: 'Last known, the collector is silent',
+      stale: 'Last known, no newer save'
+    },
+    none: 'No clock',
+    noSave: 'No world save read yet',
+    noReader: 'The collector does not read the world save',
+    label: (text: string) => `In-game clock: ${text}`,
+    stripTitle: 'The in-game day and hour, from the last world save'
+  },
+  watch: {
+    title: 'Watch',
+    description: 'The in-game clock and who is in the wilds, for a stream overlay.',
+    players: 'In the wilds',
+    more: (count: string) => `and ${count} more`
+  },
   activity: {
     title: 'Activity',
     eyebrow: 'The log',
@@ -461,7 +492,6 @@ export const t = {
     saveNote: 'the world as the server last wrote it; nothing here is live.',
     noSave: 'the collector has not read a world save yet.',
     day: 'Day',
-    timeOfDay: 'Time of day',
     difficulty: 'Difficulty',
     hardcore: 'Hardcore',
     friendlyFire: 'Friendly fire',

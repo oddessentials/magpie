@@ -118,10 +118,3 @@ export function formatPercent(fraction: number | null | undefined): string {
   if (fraction === null || fraction === undefined) return '';
   return `${Math.round(fraction * 100)}%`;
 }
-
-export function formatHour(hour: number | null | undefined): string {
-  if (hour === null || hour === undefined || !Number.isFinite(hour)) return '';
-  const whole = Math.floor(hour) % 24;
-  const minutes = Math.round((hour - Math.floor(hour)) * 60) % 60;
-  return `${String(whole).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-}

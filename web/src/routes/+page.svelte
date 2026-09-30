@@ -12,7 +12,9 @@
   import PlayerLink from '$lib/ui/PlayerLink.svelte';
   import SetupSteps from '$lib/ui/SetupSteps.svelte';
   import { t } from '$lib/ui/strings';
+  import SunDial from '$lib/ui/SunDial.svelte';
   import Time from '$lib/ui/Time.svelte';
+  import { worldClock } from '$lib/ui/worldclock.svelte';
 
   let { data } = $props();
 
@@ -24,6 +26,8 @@
   );
   const players = $derived(online?.players ?? []);
   const fresh = $derived(status?.collector.state === 'none');
+  const reading = $derived(worldClock.reading(status));
+  const day = $derived(reading?.day ?? status?.save.day ?? null);
 
   const headline = $derived.by(() => {
     if (!status || status.state === 'unknown') return t.today.headline.unknown;
@@ -56,10 +60,7 @@
     </picture>
     <div class="today-copy">
       <p class="eyebrow">
-        {status?.server.name ?? data.siteName}{status?.save.day !== null &&
-        status?.save.day !== undefined
-          ? ` · ${t.today.day(status.save.day)}`
-          : ''}
+        {status?.server.name ?? data.siteName}{day !== null ? ` · ${t.today.day(day)}` : ''}
       </p>
       <h1 class="hero-title">{headline}</h1>
       {#if status?.server.world_name}
@@ -127,6 +128,15 @@
     </div>
 
     <div class="flex flex-col gap-6">
+      <Card title={t.clock.title} id="clock">
+        {#snippet actions()}
+          <Freshness source="save" at={status?.save.clock?.observed_at} />
+        {/snippet}
+        <div class="flex justify-center">
+          <SunDial {status} />
+        </div>
+      </Card>
+
       <div class="live-card">
         <Card title={t.today.latestTitle}>
           {#snippet actions()}

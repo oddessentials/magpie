@@ -45,6 +45,14 @@ Everything here comes from the world save, the server's log and the game's own f
 
 An original map of the 31 regions with their names and coastline, and layers read from the game build: resource nodes, fishing spots, creature spawns, chests, lore books, quest places, dungeons, shrines, teleporters and anima vents. Find where any item, creature or lore book lies, from the map itself or straight from the Ledger and the Journal. With **Player positions** turned on, the map also marks each character's last saved position, the bases and the day's deaths. The map is original vector cartography, with no extracted game artwork.
 
+<p align="center">
+  <img src="site/assets/clock.jpg" alt="The in-game clock at 00:05 on day 600: a bronze and slate dial with the magpie crest at noon, the moon just past midnight and four minutes to dawn" width="340">
+</p>
+
+### The hour in the wilds
+
+The in-game day and hour on a dial rendered in Blender, with the sun by day, the moon by night and the time left until nightfall or dawn at the hours the game uses. It needs only the world save, so it works on a rented server. The site counts on from the last save at the game's own rate, holds the saved hour while the server is down, and says so when a save is overdue. The day and hour also sit in the status strip on every page, and `/watch` shows the dial and who is on over a transparent background for a stream overlay.
+
 <img src="site/assets/progression.jpg" alt="The Progression page with a card for each adventurer, their skills in a table, quests by area and the bosses they have beaten" width="100%">
 
 ### The progression board
@@ -66,7 +74,7 @@ Twelve skills levelled by the game's own experience curve, the level history of 
 
 ## What the site shows
 
-- **Today.** The server's state, who is in the wilds and since when, the last save, the latest events, and the last day as a chart of players over time. Every live figure says where it came from and how old it is.
+- **Today.** The server's state, who is in the wilds and since when, the in-game clock, the last save, the latest events, and the last day as a chart of players over time. Every live figure says where it came from and how old it is.
 - **Players.** Everyone who has joined since the site began keeping the log, with playtime, sessions and deaths. A player's page carries the twelve skills from the cached character state in the world save, levelled by the game's own experience curve, with total level, level history, this week's experience, a skill planner, gear and inventory, sessions, deaths, quests, journal entries and what the log has counted.
 - **Progression.** Every adventurer's skills, quests by area, journal, recipes, building pieces and bosses, side by side.
 - **Journal.** Every journal entry, who has found it and who was first, how the missing ones unlock and where the map places them.
@@ -74,10 +82,11 @@ Twelve skills levelled by the game's own experience curve, the level history of 
 - **Activity.** Deaths, discoveries, level-ups, quests, crafts, builds, boss summons, base raids and dragon events, filtered by kind.
 - **Chat.** The server's chat, when the admin turns it on and the server mod is installed. Off by default.
 - **Map.** An interactive atlas with region boundaries, names and the coastline, fixed lodestones and boss spawn locations, ten layers of places from the game build, a search, keyboard and touch navigation, and discoveries from the last save. Saved positions, bases and the day's deaths appear when the admin turns on Player positions. Distant regions and spawns remain reachable through the view selector.
-- **World.** The world as the server last saved it: day and time, difficulty, hardcore and friendly fire, regional weather, world events, building counts, discovered places, triggered world hooks and defeated bosses. A separate guide lists build-stamped region, lodestone and boss names. Discoveries show how many saved characters found each place; missing save fields stay unknown.
+- **World.** The in-game clock, and the world as the server last saved it: difficulty, hardcore and friendly fire, regional weather, world events, building counts, discovered places, triggered world hooks and defeated bosses. A separate guide lists build-stamped region, lodestone and boss names. Discoveries show how many saved characters found each place; missing save fields stay unknown.
 - **Admin.** Settings, the collector's secret and health, the raw event stream, backups, jobs. No server actions in this version.
+- **Watch.** `/watch` is an overlay for OBS or any browser source: the dial and who is on, over a transparent background. `?show=clock` or `?show=players` shows one of them, `?size=` sets the dial from 120 to 480 px (the countdown shows from 250), `?limit=` caps the list, `?layout=row` puts them side by side and `?solid` makes the list opaque.
 
-Facts come from three places, and the site keeps them apart: the server's log (joins and leaves to the second, deaths, discoveries), the world save (skills, quests, journal, weather and the day, never live, always marked with the time of the save), and the optional [server mod](mod/README.md) (chat, level-ups, quests, crafting, building, the world's events, and a stop that saves the world first). Names of skills, quests, journal entries and items, recipes, building pieces, stations, creatures and the places on the map come from the game's own files, read from the dedicated server build and stamped with the Steam build they were read from.
+Facts come from three places, and the site keeps them apart: the server's log (joins and leaves to the second, deaths, discoveries), the world save (skills, quests, journal, weather and the day, never live, always marked with the time of the save; the in-game clock counts on from it at the game's own rate), and the optional [server mod](mod/README.md) (chat, level-ups, quests, crafting, building, the world's events, and a stop that saves the world first). Names of skills, quests, journal entries and items, recipes, building pieces, stations, creatures and the places on the map come from the game's own files, read from the dedicated server build and stamped with the Steam build they were read from.
 
 **Automated validation.** On dedicated-server build 25501739 (1.0.0.6), the rig verifies all 51 hook registrations, captures their parameter names, types and enums, and checks save-and-quit. The production Lua runs against those schemas in CI. An isolated server also supplies real engine quest structs and typed objects to the Lua callbacks. Checked fixtures follow death, XP, quest, building and crafting events through the collector, signed ingest, duplicate replay and projection rebuilding. Requests and failed crafting attempts stay out of completion totals. These fixtures contain synthetic inputs, not recorded player actions; unknown shapes retain their fallbacks and unknown identifiers remain usable. [Validation evidence](https://github.com/oddessentials/magpie/issues/12) is stamped to this build.
 

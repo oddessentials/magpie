@@ -29,7 +29,9 @@ test('today shows who is in the wilds, the last save and the latest lines', asyn
   }
   await expect(roster.getByText('from the log')).toBeVisible();
   await expect(
-    page.locator('section', { hasText: 'Last save' }).getByText('from the last save')
+    page
+      .locator('section', { has: page.getByRole('heading', { name: 'Last save' }) })
+      .getByText('from the last save')
   ).toBeVisible();
   await expect(page.locator('main li[data-type]').first()).toBeVisible();
   await expect(page.getByRole('list', { name: 'Activity feed' })).toHaveAttribute(
@@ -38,6 +40,31 @@ test('today shows who is in the wilds, the last save and the latest lines', asyn
   );
   await expect(page.getByText('live', { exact: true })).toBeVisible({ timeout: 15_000 });
   await expect(page.getByRole('link', { name: 'Skip to the page' })).toHaveCount(1);
+  expect(problems).toEqual([]);
+});
+
+test('the in-game clock runs on today, in the strip, on the world page and in the overlay', async ({
+  page
+}) => {
+  const problems = await open(page, '/', '4 adventurers in the wilds');
+  const timer = page.locator('#clock').getByRole('timer');
+  await expect(timer).toHaveAttribute(
+    'aria-label',
+    /^In-game clock: Day \d+, \d\d:\d\d, (Night|Morning|Afternoon|Evening), (Dawn|Nightfall) in \d+ (s|min)$/
+  );
+  const strip = page.locator('[data-clock]');
+  await expect(strip).toHaveText(/^Day \d+ · \d\d:\d\d$/);
+  await expect(strip).toHaveAttribute('aria-live', 'off');
+  const first = await timer.getAttribute('aria-label');
+  await expect.poll(() => timer.getAttribute('aria-label'), { timeout: 5_000 }).not.toBe(first);
+  await page.goto('/world');
+  await expect(page.locator('#clock').getByRole('timer')).toBeVisible();
+  await expect(page.getByText('Time of day')).toHaveCount(0);
+  await page.goto('/watch?size=300');
+  await expect(page.locator('html')).toHaveAttribute('data-watch', '');
+  await expect(page.getByRole('timer')).toBeVisible();
+  await expect(page.getByLabel('In the wilds').getByText('Juniper')).toBeVisible();
+  await expect(page.locator('header')).toHaveCount(0);
   expect(problems).toEqual([]);
 });
 
