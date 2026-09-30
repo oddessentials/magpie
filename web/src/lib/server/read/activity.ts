@@ -23,7 +23,9 @@ export const activityTypes: readonly ActivityType[] = [
   'skill.level_up',
   'quest.updated',
   'chat.message',
-  'player.kicked'
+  'player.kicked',
+  'world.dusk_approaching',
+  'world.dawn_approaching'
 ];
 
 export function visibleTypes(features: Features, requested: readonly ActivityType[] | null) {
@@ -133,6 +135,11 @@ export async function buildActivityItems(db: Database, rows: EventRow[]): Promis
         break;
       case 'collector.lost':
         details.last_seen_at = stringOf(data.last_seen_at) ?? row.ts.toISOString();
+        break;
+      case 'world.dusk_approaching':
+      case 'world.dawn_approaching':
+        details.turn_at = stringOf(data.turn_at) ?? row.ts.toISOString();
+        details.turn_in_s = numberOf(data.turn_in_s) ?? 0;
         break;
     }
     return {

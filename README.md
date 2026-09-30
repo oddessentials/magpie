@@ -51,7 +51,7 @@ An original map of the 31 regions with their names and coastline, and layers rea
 
 ### The hour in the wilds
 
-The in-game day and hour on a dial rendered in Blender, with the sun by day, the moon by night and the time left until nightfall or dawn at the hours the game uses. It needs only the world save, so it works on a rented server. The site counts on from the last save at the game's own rate, holds the saved hour while the server is down, and says so when a save is overdue. The day and hour also sit in the status strip on every page, and `/watch` shows the dial and who is on over a transparent background for a stream overlay.
+The in-game day and hour on a dial rendered in Blender, with the sun by day, the moon by night and the time left until nightfall or dawn at the hours the game uses. It needs only the world save, so it works on a rented server. The site counts on from the last save at the game's own rate, holds the saved hour while the server is down, and says so when a save is overdue. The activity feed warns at 20:00 in the game, two minutes before nightfall, and at 04:00, half a minute before dawn. The day and hour also sit in the status strip on every page, and `/watch` shows the dial and who is on over a transparent background for a stream overlay.
 
 <img src="site/assets/progression.jpg" alt="The Progression page with a card for each adventurer, their skills in a table, quests by area and the bosses they have beaten" width="100%">
 
@@ -79,7 +79,7 @@ Twelve skills levelled by the game's own experience curve, the level history of 
 - **Progression.** Every adventurer's skills, quests by area, journal, recipes, building pieces and bosses, side by side.
 - **Journal.** Every journal entry, who has found it and who was first, how the missing ones unlock and where the map places them.
 - **Ledger.** Crafting and building plans from the game's recipes, the group's saved stock and each character's unlocks, with the materials the base still needs.
-- **Activity.** Deaths, discoveries, level-ups, quests, crafts, builds, boss summons, base raids and dragon events, filtered by kind.
+- **Activity.** Deaths, discoveries, level-ups, quests, crafts, builds, boss summons, base raids and dragon events, and warnings before nightfall and dawn, filtered by kind.
 - **Chat.** The server's chat, when the admin turns it on and the server mod is installed. Off by default.
 - **Map.** An interactive atlas with region boundaries, names and the coastline, fixed lodestones and boss spawn locations, ten layers of places from the game build, a search, keyboard and touch navigation, and discoveries from the last save. Saved positions, bases and the day's deaths appear when the admin turns on Player positions. Distant regions and spawns remain reachable through the view selector.
 - **World.** The in-game clock, and the world as the server last saved it: difficulty, hardcore and friendly fire, regional weather, world events, building counts, discovered places, triggered world hooks and defeated bosses. A separate guide lists build-stamped region, lodestone and boss names. Discoveries show how many saved characters found each place; missing save fields stay unknown.
