@@ -1,5 +1,6 @@
 import { eq, sql } from 'drizzle-orm';
 import type { components } from '$lib/api/types';
+import { savedClock } from '$lib/world/clock';
 import { getDb } from '../db/client';
 import { collectorRuns, events, ingestBatches } from '../db/schema';
 import {
@@ -14,7 +15,6 @@ import {
 } from './context';
 import { applyEvent, applyHeartbeat, applyMetrics, markEvent } from './projections';
 import type { CheckedEvent, IncomingBatch } from './validate';
-import { savedClock } from '../read/clock';
 
 export type CollectorAction = components['schemas']['CollectorAction'];
 

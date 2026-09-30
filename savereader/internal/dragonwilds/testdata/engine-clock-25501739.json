@@ -1,0 +1,40 @@
+{
+  "source": {
+    "server_app": 4019830,
+    "server_build": 25501739,
+    "version": "1.0.0.6",
+    "method": "Unmodified dedicated server with nobody connected: file times and saved clocks of two consecutive autosaves, and the debug world page's day count read from RSDragonwildsServer-Win64-Shipping.exe"
+  },
+  "empty_world_autosaves": [
+    {
+      "saved_at": "2026-09-30T01:25:37.665Z",
+      "stored_seconds": 4063.544921875
+    },
+    {
+      "saved_at": "2026-09-30T01:30:37.691Z",
+      "stored_seconds": 4363.56884765625
+    }
+  ],
+  "day_count": {
+    "class": "/Script/Dominion.DebugMenuWorldPage",
+    "property": "InGameTimeDayCountText",
+    "update_rva": "0x5e82ba6",
+    "format": "%i",
+    "divisor_ticks": 864000000000
+  },
+  "stall": {
+    "server_build": 25465077,
+    "version": "1.0.0.5",
+    "frame_seconds": 1.897,
+    "autosaves": [
+      {
+        "saved_at": "2026-09-28T22:51:31.742Z",
+        "stored_seconds": 3156.536376953125
+      },
+      {
+        "saved_at": "2026-09-28T22:56:33.296Z",
+        "stored_seconds": 3456.56689453125
+      }
+    ]
+  }
+}
